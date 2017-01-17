@@ -155,18 +155,18 @@ chromecast:
 
 ###############
 ### IoT Devices  ###
-nodemcu_kitchen:
+esp8266_kitchen:
   hide_if_away: false
-  mac: A0:20:A6:0A:20:ED
-  name: "NodeMCU - Kitchen Sensors"
+  mac: A0:20:A6:0A:24:76
+  name: "ESP8266 - Kitchen Sensors"
   picture:
   track: true
   vendor: Espressif Inc.
 
-nodemcu_test:
+esp8266_office:
   hide_if_away: false
   mac: A0:20:A6:0B:3F:60
-  name: "NodeMCU - Test"
+  name: "ESP8266 - Office"
   picture:
   track: true
   vendor: Espressif Inc.

@@ -7,8 +7,8 @@
     - device_tracker.dans_iphone6
     - device_tracker.echo_dot
     - device_tracker.chromecast
-    - device_tracker.nodemcu_kitchen
-    - device_tracker.nodemcu_test
+    - device_tracker.esp8266_kitchen
+    - device_tracker.esp8266_test
 
   batteries:
     name: "Batteries"

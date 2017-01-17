@@ -37,8 +37,8 @@
     entities:
     - sensor.iot_echo_dot
     - sensor.iot_chromecast
-    - sensor.iot_nodemcu_kitchen
-    # - sensor.iot_nodemcu_test
+    - sensor.iot_esp8266_kitchen
+    - sensor.iot_esp8266_office
 
   connection_speed:
     name: "Connection Speed"
