@@ -1,3 +1,51 @@
+##########################################
+########## DAY LE or DAY SCENE ###########
+##########################################
+  - alias: 'Weather based - Day LE'
+    trigger:
+    - platform: state
+      entity_id: sensor.dark_sky_icon
+    condition:
+    - condition: state
+      entity_id: input_boolean.var_mike_home
+      state: 'on'
+    - condition: state
+      entity_id: input_select.var_last_known_scene
+      state: 'Day'
+    - condition: template
+      value_template: >
+        {% if "clear" in states.sensor.dark_sky_icon.state  %}
+          true
+        {% else %}
+          false
+        {% endif %}
+    action:
+    - service: scene.turn_on
+      entity_id: scene.10m_day_le
+
+  - alias: 'Weather based - Day'
+    trigger:
+    - platform: state
+      entity_id: sensor.dark_sky_icon
+    condition:
+    - condition: state
+      entity_id: input_boolean.var_mike_home
+      state: 'on'
+    - condition: state
+      entity_id: input_select.var_last_known_scene
+      state: 'Day Le'
+    - condition: template
+      value_template: >
+        {% if "cloudy" in states.sensor.dark_sky_icon.state or "snow" in states.sensor.dark_sky_icon.state  or "sleet" in states.sensor.dark_sky_icon.state  or "rain" in states.sensor.dark_sky_icon.state  or "hail" in states.sensor.dark_sky_icon.state or "tornado" in states.sensor.dark_sky_icon.state or "fog" in states.sensor.dark_sky_icon.state or "thunderstorm" in states.sensor.dark_sky_icon.state %}
+          true
+        {% else %}
+          false
+        {% endif %}
+    action:
+    - service: scene.turn_on
+      entity_id: scene.10m_day
+# Clear; Partly Cloudy; Mostly Cloudy; Light Snow; Snow; Heavy Snow; Drizzle; Light Rain; Rain; Heavy Rain; Overcast; Foggy; Windy and Overcast
+
   - alias: 'Rain_Start'
     trigger:
     - platform: state
