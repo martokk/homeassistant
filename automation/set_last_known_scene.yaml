@@ -12,6 +12,13 @@
       service: turn_on
       domain: scene
   action:
+  - condition: template
+    value_template: >
+      {% if trigger.event.data.service_data.entity_id[0][6:] | replace("10m_", "") | replace("0s_", "") | replace("_", " ") | title != "" %}
+        true
+      {% else %}
+        false
+      {% endif %}
   - service: input_select.select_option
     data_template:
       entity_id: input_select.var_last_known_scene
