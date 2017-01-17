@@ -5,7 +5,7 @@
     trigger:
     - platform: time
       minutes: 59
-      seconds: 59
+      seconds: 56
     condition:
     - condition: state
       entity_id: input_boolean.var_mike_home
@@ -150,7 +150,7 @@
   - alias: flood_8am
     trigger:
       - platform: time
-        after: "07:59:59"
+        after: "07:59:56"
     condition:
       - condition: state
         entity_id: input_boolean.var_mike_home
@@ -166,7 +166,7 @@
   - alias: flood_12pm
     trigger:
       - platform: time
-        after: "11:59:59"
+        after: "11:59:56"
     condition:
       - condition: state
         entity_id: input_boolean.var_mike_home
@@ -182,7 +182,7 @@
   - alias: flood_5pm
     trigger:
       - platform: time
-        after: "16:59:59"
+        after: "16:59:56"
     condition:
       - condition: state
         entity_id: input_boolean.var_mike_home
@@ -198,7 +198,7 @@
   - alias: flood_9pm
     trigger:
       - platform: time
-        after: "20:59:59"
+        after: "20:59:56"
     condition:
       - condition: state
         entity_id: input_boolean.var_mike_home
@@ -214,7 +214,7 @@
   - alias: flood_12am
     trigger:
       - platform: time
-        after: "23:59:59"
+        after: "23:59:56"
     condition:
       - condition: state
         entity_id: input_boolean.var_mike_home
