@@ -3,7 +3,14 @@
     sequence:
     - service: shell_command.scenegen
 
-#### TEST
+#********** Last Known Scene ***************************************#
+  call_last_known_scene:
+    sequence:
+    - service: scene.turn_on
+      data_template:
+        entity_id: 'scene.{{ states("input_select.var_last_known_scene") | replace(" ", "_") | lower }}'
+
+#********** Teest ***************************************#
   flood_light_test:
     sequence:
     - service: script.flood_light
@@ -67,9 +74,7 @@
         brightness: '{% if is_state("input_select.var_last_known_scene", "Off") %}80{%else%}255{%endif%}'
         transition: 1
     - delay: '{{ delay }}'
-    - service: scene.turn_on
-      data_template:
-        entity_id: ['scene.{{ states("input_select.var_last_known_scene") | replace(" ", "_") | lower }}']
+    - service: script.call_last_known_scene
     - condition: template
       value_template: >
         {% if is_state("input_boolean.var_kitchen_on", "on") %}
@@ -91,9 +96,7 @@
         brightness: '{% if is_state("input_select.var_last_known_scene", "Off") %}80{%else%}255{%endif%}'
         transition: 1
     - delay: "00:00:00"
-    - service: scene.turn_on
-      data_template:
-        entity_id: ['scene.{{ states("input_select.var_last_known_scene") | replace(" ", "_") | lower }}']
+    - service: script.call_last_known_scene
     - condition: template
       value_template: >
         {% if is_state("input_boolean.var_kitchen_on", "on") %}
@@ -115,9 +118,7 @@
         brightness: '{% if is_state("input_select.var_last_known_scene", "Off") %}80{%else%}255{%endif%}'
         transition: 0
     - delay: "00:00:00"
-    - service: scene.turn_on
-      data_template:
-        entity_id: ['scene.0s_{{ states("input_select.var_last_known_scene") | replace(" ", "_") | lower }}']
+    - service: script.call_last_known_scene
     - delay: "00:00:00"
     - service: light.turn_on
       data_template:
@@ -126,9 +127,7 @@
         brightness: '{% if is_state("input_select.var_last_known_scene", "Off") %}80{%else%}255{%endif%}'
         transition: 0
     - delay: "00:00:00"
-    - service: scene.turn_on
-      data_template:
-        entity_id: ['scene.0s_{{ states("input_select.var_last_known_scene") | replace(" ", "_") | lower }}']
+    - service: script.call_last_known_scene
     - delay: "00:00:00"
     - service: light.turn_on
       data_template:
@@ -137,9 +136,7 @@
         brightness: '{% if is_state("input_select.var_last_known_scene", "Off") %}80{%else%}255{%endif%}'
         transition: 0
     - delay: "00:00:00"
-    - service: scene.turn_on
-      data_template:
-        entity_id: ['scene.0s_{{ states("input_select.var_last_known_scene") | replace(" ", "_") | lower }}']
+    - service: script.call_last_known_scene
     - delay: "00:00:00"
     - service: light.turn_on
       data_template:
@@ -148,9 +145,7 @@
         brightness: '{% if is_state("input_select.var_last_known_scene", "Off") %}80{%else%}255{%endif%}'
         transition: 0
     - delay: "00:00:00"
-    - service: scene.turn_on
-      data_template:
-        entity_id: ['scene.0s_{{ states("input_select.var_last_known_scene") | replace(" ", "_") | lower }}']
+    - service: script.call_last_known_scene
     - condition: template
       value_template: >
         {% if is_state("input_boolean.var_kitchen_on", "on") %}
@@ -207,9 +202,7 @@
         brightness: '{% if is_state("input_select.var_last_known_scene", "Off") %}80{%else%}255{%endif%}'
         transition: 0
     - delay: "00:00:00"
-    - service: scene.turn_on
-      data_template:
-        entity_id: ['scene.0s_{{ states("input_select.var_last_known_scene") | replace(" ", "_") | lower }}']
+    - service: script.call_last_known_scene
     - condition: template
       value_template: >
         {% if is_state("input_boolean.var_kitchen_on", "on") %}
@@ -310,9 +303,7 @@
         transition: 0
     - delay: "00:00:00"
     #*--------- Back to Last Know Scene --------------*#
-    - service: scene.turn_on
-      data_template:
-        entity_id: ['scene.{{ states("input_select.var_last_known_scene") | replace(" ", "_") | lower }}']
+    - service: script.call_last_known_scene
     - condition: template
       value_template: >
         {% if is_state("input_boolean.var_kitchen_on", "on") %}
@@ -390,9 +381,7 @@
         entity_id: group.ambient_lights
         transition: 0
     - delay: "00:00:00"
-    - service: scene.turn_on
-      data_template:
-        entity_id: ['scene.{{ states("input_select.var_last_known_scene") | replace(" ", "_") | lower }}']
+    - service: script.call_last_known_scene
     - condition: template
       value_template: >
         {% if is_state("input_boolean.var_kitchen_on", "on") %}
@@ -438,9 +427,7 @@
         brightness: '{% if is_state("input_select.var_last_known_scene", "Off") %}80{%else%}255{%endif%}'
         transition: 1
     - delay: "00:00:01"
-    - service: scene.turn_on
-      data_template:
-        entity_id: ['scene.{{ states("input_select.var_last_known_scene") | replace(" ", "_") | lower }}']
+    - service: script.call_last_known_scene
     - condition: template
       value_template: >
         {% if is_state("input_boolean.var_kitchen_on", "on") %}

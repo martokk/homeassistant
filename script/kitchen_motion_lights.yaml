@@ -74,9 +74,7 @@
     - service: input_boolean.turn_off
       data:
         entity_id: input_boolean.var_kitchen_on
-    - service: scene.turn_on
-      data_template:
-        entity_id: 'scene.{{ states("input_select.var_last_known_scene") | replace(" ", "_") | lower }}'
+    - service: script.call_last_known_scene
     - service: mqtt.publish
       data_template:
         topic: "ledstrip/kitchen/seteffect"

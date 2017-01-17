@@ -57,6 +57,7 @@
     name: "Scenes"
     entities:
     - script.timebased_scene
+    - script.call_last_known_scene
     - scene.chill
     - scene.day
     - scene.day_le
