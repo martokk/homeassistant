@@ -11,5 +11,8 @@
   var_kitchen_on:
     initial: off
 
-  var_start_notifcations:
+  var_start_notifcations_1m:
+    initial: off
+
+  var_start_notifcations_5m:
     initial: off

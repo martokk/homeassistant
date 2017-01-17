@@ -160,7 +160,7 @@
           state: 'on'
     action:
       - condition: state
-        entity_id: input_boolean.var_start_notifcations
+        entity_id: input_boolean.var_start_notifcations_1m
         state: 'on'
       - condition: template
         value_template: >
@@ -202,7 +202,7 @@
           state: 'on'
     action:
       - condition: state
-        entity_id: input_boolean.var_start_notifcations
+        entity_id: input_boolean.var_start_notifcations_1m
         state: 'on'
       - service: script.flood_and_blink2
         data:
