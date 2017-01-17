@@ -1,5 +1,4 @@
 
-
   kitchen_lights_timer_on:
     alias: "Turn on kitchen lights."
     sequence:

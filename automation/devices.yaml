@@ -1,5 +1,8 @@
-### DEVICE TRACKING
+##########################################
+########## DEVICE TRACKING ###############
+##########################################
 
+#********** Mike  ***************************************#
   - alias: 'Mike Away'
     trigger:
       - platform: state
@@ -34,6 +37,7 @@
       - service: homeassistant.turn_on
         entity_id: input_boolean.var_mike_home
 
+#********** Dan ***************************************#
   - alias: 'Dan Away'
     trigger:
       - platform: state
@@ -62,7 +66,10 @@
       - service: homeassistant.turn_on
         entity_id: input_boolean.var_dan_home
 
-#********** MQTT Device Connected (Call Last Known Scene) ***************************************#
+##########################################
+########## MQTT DEVICE CONNECTED #########
+##########################################
+
   - alias: 'MQTT Device Connected - Call LKS'
     trigger:
       - platform: mqtt

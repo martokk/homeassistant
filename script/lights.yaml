@@ -1,16 +1,23 @@
+##########################################
+##########  SCENEGEN #####################
+##########################################
   scenegen:
     alias: "SceneGen: Save Scene"
     sequence:
     - service: shell_command.scenegen
 
-#********** Last Known Scene ***************************************#
+##########################################
+########## LAST KNOW SCENE ###############
+##########################################
   call_last_known_scene:
     sequence:
     - service: scene.turn_on
       data_template:
         entity_id: 'scene.{{ states("input_select.var_last_known_scene") | replace(" ", "_") | lower }}'
 
-#********** Teest ***************************************#
+##########################################
+########## TEST SCRIPTS ##################
+##########################################
   flood_light_test:
     sequence:
     - service: script.flood_light
@@ -63,7 +70,9 @@
         blink_color2: "yellow"
         entity_id: group.ambient_lights
 
-##LIGHT EFFECTS
+##########################################
+########## FLOOD LIGHTS ##################
+##########################################
   flood_light:
     alias: Flood Lights [entity_id; flood_color; delay]
     sequence:
@@ -85,6 +94,9 @@
     - delay: "00:00:01"
     - service: script.kitchen_lights_on
 
+##########################################
+########## BREATHE LIGHTS ################
+##########################################
   breathe_light:
     alias: Breathe Lights [entity_id; breathe_color]
     sequence:
@@ -107,6 +119,9 @@
     - delay: "00:00:01"
     - service: script.kitchen_lights_on
 
+##########################################
+########## BLINK LIGHTS ##################
+##########################################
   blink_light:
     alias: Blink Lights [entity_id; blink_color]
     sequence:
@@ -156,6 +171,9 @@
     - delay: "00:00:01"
     - service: script.kitchen_lights_on
 
+##########################################
+########## BLINK 2 LIGHTS ################
+##########################################
   blink2_light:
     alias: Blink Lights [entity_id; blink_color; blink_color2]
     sequence:
@@ -213,8 +231,9 @@
     - delay: "00:00:01"
     - service: script.kitchen_lights_on
 
-  #*****************************************************************#
-  #*--------- FLOOD & BLINK ***************************************#
+##########################################
+########## FLOOD & BLINK #################
+##########################################
   flood_and_blink:
     alias: Flood and Blink Lights [flood_color; blink_color]
     sequence:
@@ -314,6 +333,9 @@
     - delay: "00:00:01"
     - service: script.kitchen_lights_on
 
+##########################################
+########## FLOOD & BLINK 2 ###############
+##########################################
   flood_and_blink2:
     alias: Flood and Blink Lights [flood_color; blink_color, blink_color2]
     sequence:
@@ -392,6 +414,9 @@
     - delay: "00:00:01"
     - service: script.kitchen_lights_on
 
+##########################################
+########## FLOOD & BREATHE ###############
+##########################################
   flood_and_breathe:
     alias: Flood and Breathe Lights [flood_color; breathe_color]
     sequence:

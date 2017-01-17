@@ -65,6 +65,7 @@
     - scene.night_blue
     - scene.night_cyan
     - scene.night_red
+    - scene.off
 
   light_scripts:
     name: "Light Scripts"

@@ -46,6 +46,9 @@
       entity_id: scene.10m_day
 # Clear; Partly Cloudy; Mostly Cloudy; Light Snow; Snow; Heavy Snow; Drizzle; Light Rain; Rain; Heavy Rain; Overcast; Foggy; Windy and Overcast
 
+##########################################
+########## RAIN ##########################
+##########################################
   - alias: 'Rain_Start'
     trigger:
     - platform: state
@@ -123,6 +126,9 @@
           {{ states("sensor.dark_sky_minutely_summary") }}
           {{ states("sensor.dark_sky_hourly_summary") }}
 
+##########################################
+########## SNOW ##########################
+##########################################
   - alias: 'Snow_Start'
     trigger:
     - platform: state
@@ -200,9 +206,10 @@
           {{ states("sensor.dark_sky_minutely_summary") }}
           {{ states("sensor.dark_sky_hourly_summary") }}
 
+##########################################
+########## WEATHER ALERTS ################
+##########################################
 
-
-#### WEATHER ALERTS ###########
   - alias: "Weather Alert"
     trigger:
       - platform: template

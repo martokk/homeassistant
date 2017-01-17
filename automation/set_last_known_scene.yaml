@@ -3,7 +3,6 @@
 ############### SCENE CHANGE ###############
 ##########################################
 
-
 - alias: set_var_last_known_scene
   trigger:
   - platform: event
@@ -34,7 +33,6 @@
     data_template:
       entity_id: input_slider.var_kitchen_color_temp
       value: '{{ states.light.kitchen_left.attributes.color_temp }}'
-
 
 # - alias: onSceneChange_check_kitchen
 #   trigger:
@@ -67,8 +65,6 @@
 #   - service: input_boolean.turn_on
 #     data:
 #       entity_id: input_boolean.var_kitchen_on
-
-
 
 ##########################################
 ############### SCENE OFF ###############

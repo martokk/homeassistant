@@ -1,6 +1,7 @@
 ##########################################
 ########## GENERAL NOTIFICATIONS #########
 ##########################################
+
   - alias: Update notifications
     trigger:
       - platform: state
@@ -69,7 +70,6 @@
 ############## INDOOR TEMP ######## ######
 ##########################################
 
-
   - alias: Indoor Temp (Hot)
     trigger:
       - platform: numeric_state
@@ -101,7 +101,6 @@
         data:
           blink_color: "red"
           entity_id: group.ambient_lights
-
 
   - alias: Indoor Temp (Cold)
     trigger:

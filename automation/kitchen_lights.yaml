@@ -1,3 +1,6 @@
+##########################################
+########## KITCHEN MOTION ################
+##########################################
   - alias: Turn ON kitch lights (movement)
     trigger:
     - platform: state
@@ -21,7 +24,9 @@
     - service: homeassistant.turn_on
       entity_id: script.kitchen_lights_timer_off
 
-
+##########################################
+########## SET VARIABLES #################
+##########################################
   - alias: setMin_var_kitchen_delay
     trigger:
     - platform: state

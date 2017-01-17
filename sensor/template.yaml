@@ -1,6 +1,8 @@
   - platform: template
     sensors:
-      ### DEVICES
+      ##########################################
+      ########## DEVICES #######################
+      ##########################################
       iphone6s_battery:
         friendly_name: "iPhone6s"
         unit_of_measurement: '%'
@@ -31,7 +33,9 @@
                 {{ states.sensor.battery_watch.state }}
             {%- endif %}
 
-      ### SERVER
+      ##########################################
+      ########## SERVER ########################
+      ##########################################
       pihole_queries_blocked_today:
         friendly_name: "DNS Queries Blocked Today"
         value_template: >-
@@ -70,7 +74,9 @@
             {%- endif %}
 
 
-      ### UPCOMING EVENTS
+      ##########################################
+      ########## UPCOMING EVENTS ###############
+      ##########################################
       upcoming_packers_event:
         friendly_name: 'Packers Game'
         value_template: >-
@@ -126,7 +132,9 @@
             {%- endif %}
 
 
-      ### BITCOIN
+      ##########################################
+      ########## BITCOIN #######################
+      ##########################################
       bitcoin_percent_change_24h:
         friendly_name: 'Percent Change 24h'
         value_template: >-
@@ -164,16 +172,16 @@
             {%endif%}
           {%- endfor -%}
 
-###############################
-#### MEDIA PLAYER ######
-###############################
+      ##########################################
+      ########## MEDIA PLAYER ##################
+      ##########################################
       chromecast_playing_app:
         friendly_name: "Chromecast Playing App"
         value_template: '{% if states("media_player.vtv_chromecast") %}{{ states.media_player.vtv_chromecast.attributes.app_name }}{% else %}=== OFFLINE ==={% endif %}'
 
-###############################
-###### SERVER TEMPLATES #######
-###############################
+      ##########################################
+      ########## SERVER TEMPLATES ##############
+      ##########################################
 
       server_plex:
         friendly_name: "Plex Media Server"
@@ -211,9 +219,9 @@
         friendly_name: "MQTT Server"
         value_template: '{% if is_state("binary_sensor.mqtt_server", "on") %}online{% else %}=== OFFLINE ==={% endif %}'
 
-###############################
-###### CLOUD TEMPLATES ########
-###############################
+      ##################################
+      ######### CLOUD TEMPLATES ########
+      ##################################
 
       cloud_ifttt:
         friendly_name: "IFTTT Cloud"
@@ -223,9 +231,9 @@
         friendly_name: "Lifx Cloud"
         value_template: '{% if "Operational" in states("sensor.lifx_status") %}online{% else %}{{states.sensor.lifx_status.state}}{% endif %}'
 
-###############################
-######## IOT TEMPLATES ########
-###############################
+      ##################################
+      ########### IOT TEMPLATES ########
+      ##################################
 
       iot_echo_dot:
         friendly_name: "Echo Dot"
@@ -244,9 +252,9 @@
       #   value_template: '{% is_state("device_tracker.nodemcu_test", "home") %}online{% else %}=== OFFLINE ==={% endif %}'
 
 
-###############################
-#### VHOME STATUS ALERTS ######
-###############################
+      ###############################
+      #### VHOME STATUS ALERTS ######
+      ###############################
 
       server_status_alert:
         friendly_name: 'Server Status'

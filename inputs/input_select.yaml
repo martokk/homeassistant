@@ -1,3 +1,6 @@
+##########################################
+########## STORED VARIABLES ##############
+##########################################
   var_last_known_scene:
     name: Last Known Light Scene
     options:
@@ -10,6 +13,9 @@
       - "Night"
       - "Off"
 
+##########################################
+########## LED EFFECTS ###################
+##########################################
   office_led_effect:
     name: Office LED Effect
     options:
