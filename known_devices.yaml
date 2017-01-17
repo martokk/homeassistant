@@ -226,18 +226,10 @@ pihole:
 
 ### UNKNOWN
 
-a020a60a2476:
-  hide_if_away: false
-  mac: A0:20:A6:0A:24:76
-  name: a020a60a2476
-  picture:
-  track: true
-  vendor: Espressif Inc.
-
 a020a60ae9e7:
   hide_if_away: false
   mac: A0:20:A6:0A:E9:E7
   name: a020a60ae9e7
   picture:
-  track: true
+  track: false #NOTE: change to true to track
   vendor: Espressif Inc.

@@ -246,7 +246,7 @@
 
       iot_esp8266_office:
         friendly_name: "ESP8266 - Office"
-        value_template: '{% is_state("device_tracker.esp8266_office", "home") %}online{% else %}=== OFFLINE ==={% endif %}'
+        value_template: '{% if is_state("device_tracker.esp8266_office", "home") %}online{% else %}=== OFFLINE ==={% endif %}'
 
       ###############################
       #### VHOME STATUS ALERTS ######
