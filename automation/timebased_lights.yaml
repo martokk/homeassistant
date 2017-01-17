@@ -36,7 +36,7 @@
     trigger:
       - platform: sun
         event: sunrise
-        offset: "-00:15:00"
+        offset: "-00:25:00"
     condition:
       - condition: state
         entity_id: input_boolean.var_mike_home
