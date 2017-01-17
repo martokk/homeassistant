@@ -81,3 +81,5 @@ entities:
       brightness: 100
       rgb_color: [255, 175, 125]
       transition: 1
+  input_select.kitchen_led_effect:
+    option: 'Static'

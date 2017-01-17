@@ -87,3 +87,5 @@ entities:
     brightness: 45
     rgb_color: [72, 6, 153]
     transition: 1
+  input_select.kitchen_led_effect:
+    option: 'Breathe vHome'

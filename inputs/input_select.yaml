@@ -67,6 +67,7 @@
       - "Color Wipe To White"
       - "Fire Flicker"
       - "Fire Flicker (soft)"
+      - "Breathe vHome"
     initial: "Static"
 
   kitchen_led_effect:
@@ -120,4 +121,5 @@
       - "Color Wipe To White"
       - "Fire Flicker"
       - "Fire Flicker (soft)"
+      - "Breathe vHome"
     initial: "Static"
