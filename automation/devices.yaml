@@ -61,3 +61,23 @@
     action:
       - service: homeassistant.turn_on
         entity_id: input_boolean.var_dan_home
+
+#********** MQTT Device Connected (Call Last Known Scene) ***************************************#
+  - alias: 'MQTT Device Connected - Call LKS'
+    trigger:
+      - platform: mqtt
+        topic: device/kitchen
+        payload: 'connected'
+      - platform: mqtt
+        topic: device/office
+        payload: 'connected'
+    condition:
+      - condition: state
+        entity_id: input_boolean.var_mike_home
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.var_start_notifcations_5m
+        state: 'on'
+      # TODO: condition: script.call_last_known_scene not triggered in past 5 minutes
+    action:
+      - service: script.call_last_known_scene
