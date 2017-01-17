@@ -28,7 +28,7 @@
     - service: script.turn_on
       data_template:
         entity_id: >-
-          {% if is_state('input_select.var_last_known_scene', 'Day') %}
+          {% if is_state('input_select.var_last_known_scene', 'Day') or is_state('input_select.var_last_known_scene', 'Day Le') %}
             script.kitchen_lights_timer_day
           {%else%}
             {% if states.automation.turn_off_kitch_lights_no_movement_7sec.attributes.last_triggered %}
