@@ -2,7 +2,7 @@ name: Day Le
 entities:
   light.living_room_overhead:
       state: on
-      brightness: 255
+      brightness: 225
       rgb_color: [255, 255, 255]
       color_temp: 313
       transition: 1
@@ -15,13 +15,13 @@ entities:
 
   light.tv_overhead_right:
       state: on
-      brightness: 255
+      brightness: 180
       rgb_color: [255, 255, 255]
       color_temp: 313
       transition: 1
   light.tv_overhead_left:
       state: on
-      brightness: 255
+      brightness: 180
       rgb_color: [255, 255, 255]
       color_temp: 313
       transition: 1
@@ -34,19 +34,19 @@ entities:
 
   light.office_right:
       state: on
-      brightness: 255
+      brightness: 225
       rgb_color: [255, 255, 255]
       color_temp: 313
       transition: 1
   light.office_center:
       state: on
-      brightness: 255
+      brightness: 180
       rgb_color: [255, 255, 255]
       color_temp: 313
       transition: 1
   light.office_left:
       state: on
-      brightness: 255
+      brightness: 180
       rgb_color: [255, 255, 255]
       color_temp: 313
       transition: 1
