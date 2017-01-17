@@ -1,0 +1,65 @@
+name: 0s_Day Le
+entities:
+  light.living_room_overhead:
+      state: on
+      brightness: 255
+      rgb_color: [255, 255, 255]
+      color_temp: 313
+      transition: 0
+  light.end_table_left:
+      transition: 0
+      state: off
+  light.end_table_right:
+      transition: 0
+      state: off
+
+  light.tv_overhead_right:
+      state: on
+      brightness: 255
+      rgb_color: [255, 255, 255]
+      color_temp: 313
+      transition: 0
+  light.tv_overhead_left:
+      state: on
+      brightness: 255
+      rgb_color: [255, 255, 255]
+      color_temp: 313
+      transition: 0
+  light.tv_floor_left:
+      transition: 0
+      state: off
+  light.tv_floor_right:
+      transition: 0
+      state: off
+
+  light.office_right:
+      state: on
+      brightness: 255
+      rgb_color: [255, 255, 255]
+      color_temp: 313
+      transition: 0
+  light.office_center:
+      state: on
+      brightness: 255
+      rgb_color: [255, 255, 255]
+      color_temp: 313
+      transition: 0
+  light.office_left:
+      state: on
+      brightness: 255
+      rgb_color: [255, 255, 255]
+      color_temp: 313
+      transition: 0
+  light.office_leds:
+      transition: 0
+      state: off
+
+  light.kitchen_right:
+      transition: 0
+      state: off
+  light.kitchen_left:
+      transition: 0
+      state: off
+  light.kitchen_leds:
+    transition: 0
+    state: off

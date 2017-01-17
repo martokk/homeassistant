@@ -1,0 +1,47 @@
+name: 0s_Off
+entities:
+  light.living_room_overhead:
+    transition: 0
+    state: off
+  light.end_table_left:
+    transition: 0
+    state: off
+  light.end_table_right:
+    transition: 0
+    state: off
+
+  light.tv_overhead_right:
+    transition: 0
+    state: off
+  light.tv_floor_right:
+    transition: 0
+    state: off
+  light.tv_overhead_left:
+    transition: 0
+    state: off
+  light.tv_floor_left:
+    transition: 0
+    state: off
+
+  light.office_right:
+    transition: 0
+    state: off
+  light.office_center:
+    transition: 0
+    state: off
+  light.office_left:
+    transition: 0
+    state: off
+  light.office_leds:
+    transition: 0
+    state: off
+
+  light.kitchen_right:
+    transition: 0
+    state: off
+  light.kitchen_left:
+    transition: 0
+    state: off
+  light.kitchen_leds:
+    transition: 0
+    state: off

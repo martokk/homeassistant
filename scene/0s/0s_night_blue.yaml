@@ -1,0 +1,91 @@
+name: 0s_Night Blue
+entities:
+  light.living_room_overhead:
+    state: on
+    brightness: 199
+    rgb_color: [199, 199, 199]
+    color_temp: 207
+    transition: 0
+  light.end_table_left:
+    state: on
+    brightness: 106
+    rgb_color: [0, 117, 207]
+    color_temp: 207
+    transition: 0
+  light.end_table_right:
+    state: on
+    brightness: 106
+    rgb_color: [0, 117, 207]
+    color_temp: 207
+    transition: 0
+
+  light.tv_overhead_right:
+    state: on
+    brightness: 130
+    rgb_color: [129, 129, 129]
+    color_temp: 207
+    transition: 0
+  light.tv_overhead_left:
+    state: on
+    brightness: 130
+    rgb_color: [129, 129, 129]
+    color_temp: 207
+    transition: 0
+  light.tv_floor_left:
+    state: on
+    brightness: 208
+    rgb_color: [0, 117, 207]
+    color_temp: 207
+    transition: 0
+  light.tv_floor_right:
+    state: on
+    brightness: 208
+    rgb_color: [0, 117, 207]
+    color_temp: 207
+    transition: 0
+
+  light.office_right:
+    state: on
+    brightness: 102
+    rgb_color: [101, 101, 101]
+    color_temp: 191
+    transition: 0
+  light.office_center:
+    state: on
+    brightness: 119
+    rgb_color: [0, 67, 118]
+    color_temp: 207
+    transition: 0
+  light.office_left:
+    state: on
+    brightness: 119
+    rgb_color: [0, 67, 118]
+    color_temp: 207
+    transition: 0
+  light.office_leds:
+    state: on
+    brightness: 75
+    rgb_color: [0, 50, 85]
+    transition: 0
+  # input_select.office_led_effect:
+  #     option: 'Static'
+  # input_slider.office_animation_speed:
+  #     value: 145
+
+  light.kitchen_right:
+    state: on
+    brightness: 100
+    rgb_color: [0, 65, 105]
+    color_temp: 207
+    transition: 0
+  light.kitchen_left:
+    state: on
+    brightness: 100
+    rgb_color: [0, 65, 105]
+    color_temp: 207
+    transition: 0
+  light.kitchen_leds:
+    state: on
+    brightness: 75
+    rgb_color: [0, 50, 85]
+    transition: 0

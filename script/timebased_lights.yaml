@@ -1,0 +1,88 @@
+
+#Find all
+  timebased_scene:
+    alias: "Time-based Scene"
+    sequence:
+      - service: script.timebased_day_le
+      - service: script.timebased_day
+      - service: script.timebased_night_cyan
+      - service: script.timebased_night_blue
+      - service: script.timebased_night_red
+      - service: script.timebased_off
+
+# Sunrise to Pre-Sunset
+  timebased_day_le:
+    sequence:
+      - condition: time
+        after: '05:00:00'
+        before: '21:00:00'
+      - condition: sun
+        before: sunset
+        before_offset: "-03:15:00"
+      - service: scene.turn_on
+        entity_id: 'scene.day_le'
+      - service: script.turn_off
+        entity_id: script.timebased_scene
+
+# Sunrise to Pre-Sunset
+  timebased_day:
+    sequence:
+      - condition: time
+        after: '05:00:00'
+        before: '21:00:00'
+      - condition: sun
+        before: sunset
+      - condition: sun
+        after: sunset
+        after_offset: "-03:15:00"
+      - service: scene.turn_on
+        entity_id: 'scene.day'
+      - service: script.turn_off
+        entity_id: script.timebased_scene
+
+# Sunset
+  timebased_night_cyan:
+    sequence:
+      - condition: time
+        after: '15:00:00'
+        before: '20:59:59'
+      - condition: sun
+        after: sunset
+      - service: scene.turn_on
+        entity_id: scene.night_cyan
+      - service: script.turn_off
+        entity_id: script.timebased_scene
+
+# 9:00 PM to 12:00 AM
+  timebased_night_blue:
+    sequence:
+      - condition: time
+        after: '21:00:00'
+        before: '23:59:59'
+      - service: scene.turn_on
+        entity_id: scene.night_blue
+      - service: script.turn_off
+        entity_id: script.timebased_scene
+
+
+# 00:00 PM to 0:30 AM
+  timebased_night_red:
+    sequence:
+      - condition: time
+        after: '00:00:00'
+        before: '00:30:00'
+      - service: scene.turn_on
+        entity_id: scene.night_red
+      - service: script.turn_off
+        entity_id: script.timebased_scene
+
+# 00:30 PM to 5:00 AM
+  timebased_off:
+    sequence:
+      - condition: time
+        after: '00:30:00'
+        before: '05:00:00'
+      - service: scene.turn_on
+        entity_id: scene.off
+      - service: script.turn_off
+        entity_id: script.timebased_scene

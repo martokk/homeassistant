@@ -1,0 +1,22 @@
+  motion_sensors:
+    name: "Motion"
+    entities:
+    - binary_sensor.kitchen_motion_sensor
+
+  humidity_sensors:
+    name: "Humidity"
+    entities:
+    - sensor.dark_sky_humidity
+    - sensor.kitchen_humidity
+
+  temperature_sensors:
+    name: "Temperature"
+    entities:
+    - sensor.dark_sky_temperature
+    - sensor.kitchen_temperature
+
+  motion_scripts:
+    name: "Motion Scripts"
+    entities:
+    - script.kitchen_lights_timer_on
+    - script.kitchen_lights_timer_off

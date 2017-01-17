@@ -1,0 +1,9 @@
+  - platform: sonarr
+    api_key: !secret sonarr_api_key
+    host: 192.168.1.82
+    port: 8989
+    monitored_conditions:
+      - upcoming     #   The number of upcoming episodes.
+      - diskspace    #   Available disk space.
+    days: 1          #   How many days to look ahead for the upcoming sensor, 1 means today only (Default: 1).
+    unit: TB           #    (Optional): The unit to display disk space in (Default: GB).

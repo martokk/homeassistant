@@ -1,0 +1,21 @@
+  - alias: 'HASS Startup'
+    trigger:
+      platform: event
+      event_type: homeassistant_start
+    action:
+      - delay: "00:00:06"
+      - service: script.timebased_scene
+      - delay: "00:00:00"
+      - service: script.breathe_light
+        data:
+          breathe_color: "green"
+          entity_id: group.all_lights
+
+  - alias: 'Allow Notificaitons (after 1 min)'
+    trigger:
+      platform: event
+      event_type: homeassistant_start
+    action:
+      - delay: "00:01:00"
+      - service: homeassistant.turn_on
+        entity_id: input_boolean.var_start_notifcations

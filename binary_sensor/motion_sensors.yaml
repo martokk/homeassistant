@@ -1,0 +1,6 @@
+  - platform: mqtt
+    name: "Kitchen Motion Sensor"
+    state_topic: "binary_sensor/kitchen_motion"
+    sensor_class: motion
+    payload_on: "1"
+    payload_off: "0"

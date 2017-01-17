@@ -1,0 +1,30 @@
+  restart_eventghost:
+    alias: "Restart EventGhost"
+    sequence:
+    - service: shell_command.kill_eventghost
+    - service: shell_command.start_eventghost
+
+  tv_power:
+    alias: "TV"
+    sequence:
+    - service: shell_command.tv_power
+
+  av_power:
+    alias: "A/V Reciever"
+    sequence:
+    - service: shell_command.av_power
+
+  led_standby:
+    alias: "Standby"
+    sequence:
+    - service: shell_command.led_standby
+
+  led_mode:
+    alias: "Mode"
+    sequence:
+    - service: shell_command.led_mode
+
+  led_submode:
+    alias: "Sub-mode"
+    sequence:
+    - service: shell_command.led_submode

@@ -1,0 +1,362 @@
+##########################################
+########## GENERAL NOTIFICATIONS #########
+##########################################
+  - alias: Update notifications
+    trigger:
+      - platform: state
+        entity_id: updater.updater
+    action:
+      - service: notify.gmail
+        data:
+          message: 'There is a new Home Assistant release available.'
+      - condition: state
+        entity_id: input_boolean.var_mike_home
+        state: 'on'
+      - service: script.flood_and_blink
+        data:
+          flood_color: "cyan"
+          blink_color: "orange"
+
+##########################################
+############### BITCOIN  #################
+##########################################
+
+  - alias: Bitcoin Up
+    trigger:
+      - platform: numeric_state
+        entity_id: sensor.bitcoin_percent_change_24h
+        above: 2
+    action:
+      - service: notify.gmail
+        data_template:
+          message: |
+            Bitcoin {{ states.sensor.bitcoin_percent_change_24h.state | round(1) }}% in 24h;
+
+            Now:  ${{ states.sensor.bitcoin.state | round(2) }};
+            7-Day: {{ states.sensor.bitcoin_percent_change_7d.state | round(1) }}%
+      - condition: state
+        entity_id: input_boolean.var_mike_home
+        state: 'on'
+      - service: script.flood_and_blink2
+        data:
+          flood_color: "blue"
+          blink_color: "gold"
+          blink_color2: "green"
+
+  - alias: Bitcoin Down
+    trigger:
+      - platform: numeric_state
+        entity_id: sensor.bitcoin_percent_change_24h
+        below: -2
+    action:
+      - service: notify.gmail
+        data_template:
+          message: |
+            Bitcoin {{ states.sensor.bitcoin_percent_change_24h.state | round(1) }}% in 24h;
+
+            Now:  ${{ states.sensor.bitcoin.state | round(2) }};
+            7-Day: {{ states.sensor.bitcoin_percent_change_7d.state | round(1) }}%
+      - condition: state
+        entity_id: input_boolean.var_mike_home
+        state: 'on'
+      - service: script.flood_and_blink2
+        data:
+          flood_color: "blue"
+          blink_color: "gold"
+          blink_color2: "red"
+
+##########################################
+############## INDOOR TEMP ######## ######
+##########################################
+
+
+  - alias: Indoor Temp (Hot)
+    trigger:
+      - platform: numeric_state
+        entity_id: sensor.kitchen_temperature
+        above: 83
+
+    action:
+      - condition: template
+        value_template: >
+          {% if states.automation.indoor_temp_hot.attributes.last_triggered %}
+            {% if (as_timestamp(now())-as_timestamp(states.automation.indoor_temp_hot.attributes.last_triggered)) > (2 * 60 * 60)  %}
+              true
+            {% else %}
+              false
+            {% endif %}
+          {%else%}
+            true
+          {%endif%}
+      - service: notify.gmail
+        data_template:
+          message: |
+            It's HOT in here! -
+
+            Indoor Temp: {{ states.sensor.kitchen_temperature.state | round(1) }}°F.
+      - condition: state
+        entity_id: input_boolean.var_mike_home
+        state: 'on'
+      - service: script.blink_light
+        data:
+          blink_color: "red"
+          entity_id: group.ambient_lights
+
+
+  - alias: Indoor Temp (Cold)
+    trigger:
+      - platform: numeric_state
+        entity_id: sensor.kitchen_temperature
+        below: 73
+    action:
+      - condition: template
+        value_template: >
+          {% if states.automation.indoor_temp_cold.attributes.last_triggered %}
+            {% if (as_timestamp(now())-as_timestamp(states.automation.indoor_temp_cold.attributes.last_triggered)) > (2 * 60 * 60)  %}
+              true
+            {% else %}
+              false
+            {% endif %}
+          {%else%}
+            true
+          {%endif%}
+      - service: notify.gmail
+        data_template:
+          message: |
+            It's COLD in here! -
+
+            Indoor Temp: {{ states.sensor.kitchen_temperature.state | round(1) }}°F.
+      - condition: state
+        entity_id: input_boolean.var_mike_home
+        state: 'on'
+      - service: script.blink_light
+        data:
+          blink_color: "deepskyblue"
+          entity_id: group.ambient_lights
+
+##########################################
+############# BATTERY ####################
+##########################################
+
+  - alias: 'Battery Low Notification'
+    trigger:
+      # - platform: numeric_state
+      #   entity_id:
+      #     - sensor.iphone6s_battery
+      #     - sensor.ipad_battery
+      #     - sensor.watch_battery
+      #   below: 35
+      - platform: numeric_state
+        entity_id:
+          - sensor.iphone6s_battery
+          - sensor.ipad_battery
+          - sensor.watch_battery
+        below: 20
+    condition:
+      condition: and
+      conditions:
+        - condition: state
+          entity_id: input_boolean.var_mike_home
+          state: 'on'
+    action:
+      - condition: state
+        entity_id: input_boolean.var_start_notifcations
+        state: 'on'
+      - condition: template
+        value_template: >
+          {% if states.automation.battery_low_notification.attributes.last_triggered %}
+            {% if (as_timestamp(now())-as_timestamp(states.automation.battery_low_notification.attributes.last_triggered)) > (2 * 60 * 60)  %}
+              true
+            {% else %}
+              false
+            {% endif %}
+          {%else%}
+            true
+          {%endif%}
+      - service: script.flood_and_blink2
+        data:
+          flood_color: "cyan"
+          blink_color: "blueviolet"
+          blink_color2: "red"
+      - service: notify.gmail
+        data_template:
+          message: |
+            Battery Low!
+
+            iPhone: {{ states("sensor.iphone6s_battery") }}%;
+            Watch: {{ states("sensor.watch_battery") }}%;
+            iPad: {{ states("sensor.ipad_battery") }}%;
+
+  - alias: 'Battery Fully Charged Notificaiton'
+    trigger:
+      - platform: numeric_state
+        entity_id:
+          - sensor.iphone6s_battery
+          - sensor.watch_battery
+        above: 99
+    condition:
+      condition: and
+      conditions:
+        - condition: state
+          entity_id: input_boolean.var_mike_home
+          state: 'on'
+    action:
+      - condition: state
+        entity_id: input_boolean.var_start_notifcations
+        state: 'on'
+      - service: script.flood_and_blink2
+        data:
+          flood_color: "cyan"
+          blink_color: "blueviolet"
+          blink_color2: "green"
+      - service: notify.gmail
+        data_template:
+          message: |
+            Battery Fully Charged!
+
+            iPhone: {{ states("sensor.iphone6s_battery") }}%;
+            Watch: {{ states("sensor.watch_battery") }}%;
+            iPad: {{ states("sensor.ipad_battery") }}%;
+
+
+##########################################
+############# VHOME NETWORK ##############
+##########################################
+
+  - alias: "Server Service Down"
+    trigger:
+      - platform: template
+        value_template: >
+          {% if states.sensor.server_status_alert.state != "" %}
+            true
+          {%else%}
+            false
+          {%endif%}
+    action:
+      - service: notify.gmail
+        data_template:
+          message: |
+            Server Service Down! -
+
+            {{ states.sensor.server_status_alert.state }}
+      - condition: state
+        entity_id: input_boolean.var_mike_home
+        state: 'on'
+      - service: script.flood_and_blink
+        data:
+          flood_color: "red"
+          blink_color: "yellow"
+
+
+  - alias: "Cloud Service Down"
+    trigger:
+      - platform: template
+        value_template: >
+          {% if states.sensor.cloud_status_alert.state != "" %}
+            true
+          {%else%}
+            false
+          {%endif%}
+    action:
+      - service: notify.gmail
+        data_template:
+          message: |
+            Cloud Service Down! -
+
+            {{ states.sensor.cloud_status_alert.state }}
+      - condition: state
+        entity_id: input_boolean.var_mike_home
+        state: 'on'
+      - service: script.flood_and_blink
+        data:
+          flood_color: "red"
+          blink_color: "orange"
+
+
+  - alias: "IoT Device Down"
+    trigger:
+      - platform: template
+        value_template: >
+          {% if states.sensor.iot_status_alert.state != "" %}
+            true
+          {%else%}
+            false
+          {%endif%}
+    action:
+      - service: notify.gmail
+        data_template:
+          message: |
+            IoT Device Down! -
+
+            {{ states.sensor.iot_status_alert.state }}
+      - condition: state
+        entity_id: input_boolean.var_mike_home
+        state: 'on'
+      - service: script.flood_and_blink
+        data:
+          flood_color: "red"
+          blink_color: "blueviolet"
+
+
+  - alias: "Disk Space Low"
+    trigger:
+      - platform: numeric_state
+        entity_id: sensor.sabnzbd_disk_free
+        below: 8
+    action:
+      - condition: template
+        value_template: >
+          {% if states.automation.disk_space_low.attributes.last_triggered %}
+            {% if (as_timestamp(now())-as_timestamp(states.automation.disk_space_low.attributes.last_triggered)) > (2 * 60 * 60)  %}
+              true
+            {% else %}
+              false
+            {% endif %}
+          {%else%}
+            true
+          {%endif%}
+      - service: notify.gmail
+        data_template:
+          message: |
+            V: Disk Space Low! -
+
+            {{ states.sensor.sabnzbd_disk_free.state }}GB Free
+      - condition: state
+        entity_id: input_boolean.var_mike_home
+        state: 'on'
+      - service: script.flood_and_blink
+        data:
+          flood_color: "red"
+          blink_color: "magenta"
+
+
+  - alias: "SpeedTest Speed Low"
+    trigger:
+      - platform: numeric_state
+        entity_id: sensor.speedtest_download
+        below: 15
+    action:
+      - condition: template
+        value_template: >
+          {% if states.automation.speedtest_speed_low.attributes.last_triggered %}
+            {% if (as_timestamp(now())-as_timestamp(states.automation.speedtest_speed_low.attributes.last_triggered)) > (2 * 60 * 60)  %}
+              true
+            {% else %}
+              false
+            {% endif %}
+          {%else%}
+            true
+          {%endif%}
+      - service: notify.gmail
+        data_template:
+          message: |
+            Speed Test LOW! -
+
+            {{ states.sensor.speedtest_download.state }}Mbit/s
+      - condition: state
+        entity_id: input_boolean.var_mike_home
+        state: 'on'
+      - service: script.flood_and_blink
+        data:
+          flood_color: "red"
+          blink_color: "cyan"

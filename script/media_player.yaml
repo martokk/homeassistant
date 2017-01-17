@@ -1,0 +1,8 @@
+  media_scene_fireplace:
+    alias: "Fireplace"
+    sequence:
+      - service: media_player.play_media
+        data:
+          entity_id: media_player.vtv_chromecast
+          media_content_type: video/mp4
+          media_content_id: http://192.168.1.82:8123/local/videos/fireplace.mp4

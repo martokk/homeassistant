@@ -1,0 +1,7 @@
+  today:
+    name: "Today"
+    entities:
+    - sensor.date
+    - sensor.time
+    - sensor.dark_sky_temperature
+    - sensor.dark_sky_summary

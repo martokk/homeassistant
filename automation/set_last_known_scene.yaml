@@ -1,0 +1,93 @@
+
+##########################################
+############### SCENE CHANGE ###############
+##########################################
+
+
+- alias: set_var_last_known_scene
+  trigger:
+  - platform: event
+    event_type: 'call_service'
+    event_data:
+      service: turn_on
+      domain: scene
+  action:
+  - service: input_select.select_option
+    data_template:
+      entity_id: input_select.var_last_known_scene
+      option: '{{ trigger.event.data.service_data.entity_id[0][6:] | replace("10m_", "") | replace("0s_", "") | replace("_", " ") | title }}'
+  - condition: state
+    entity_id: input_select.var_kitchen_on
+    state: 'on'
+  - service: input_slider.select_value
+    data_template:
+      entity_id: input_slider.var_kitchen_brightness
+      value: '{{ states.light.kitchen_left.attributes.brightness }}'
+  - service: input_slider.select_value
+    data_template:
+      entity_id: input_slider.var_kitchen_color_temp
+      value: '{{ states.light.kitchen_left.attributes.color_temp }}'
+
+
+# - alias: onSceneChange_check_kitchen
+#   trigger:
+#   - platform: event
+#     event_type: 'call_service'
+#     event_data:
+#       service: turn_on
+#       domain: scene
+#   action:
+#   - condition: state
+#     entity_id: input_boolean.var_kitchen_on
+#     state: 'on'
+#   - condition: state
+#     entity_id: group.kitchen_lights
+#     state: 'off'
+#   - service: homeassistant.turn_on
+#     entity_id: script.kitchen_lights_timer_on
+#
+# - alias: onStateChange_check_kitchen
+#   trigger:
+#   - platform: state
+#     entity_id: group.kitchen_lights
+#     state: 'on'
+#   action:
+#   - condition: state
+#     entity_id: input_boolean.var_kitchen_on
+#     state: 'off'
+#   - service: homeassistant.turn_on
+#     entity_id: script.kitchen_lights_on
+#   - service: input_boolean.turn_on
+#     data:
+#       entity_id: input_boolean.var_kitchen_on
+
+
+
+##########################################
+############### SCENE OFF ###############
+##########################################
+
+- alias: set_var_last_known_scene_to_off
+  trigger:
+  - platform: state
+    entity_id: group.all_lights
+    state: 'off'
+  action:
+  - service: input_select.select_option
+    data:
+      entity_id: input_select.var_last_known_scene
+      option: 'Off'
+
+# - alias: set_var_last_known_scene_from_off
+#   trigger:
+#     - platform: state
+#       entity_id: group.all_lights
+#       from: 'off'
+#       to: 'on'
+#       for:
+#         seconds: 1
+#   action:
+#     - condition: state
+#       entity_id: input_select.var_last_known_scene
+#       state: 'Off'
+#     - service: script.timebased_scene

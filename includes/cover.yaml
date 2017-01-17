@@ -1,0 +1,6 @@
+- platform: command_line
+  covers:
+    volume:
+      command_open: '"C:/Program Files (x86)/EventGhost/EventGhost.exe" -e av_vol_up'
+      command_close: '"C:/Program Files (x86)/EventGhost/EventGhost.exe" -e av_vol_down'
+      command_stop: '"C:/Program Files (x86)/EventGhost/EventGhost.exe" -e av_mute'

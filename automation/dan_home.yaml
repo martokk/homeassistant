@@ -1,0 +1,39 @@
+  - alias: 'Dan Home Notification'
+    trigger:
+    - platform: state
+      entity_id: input_boolean.var_dan_home
+      from: "off"
+      to: "on"
+    action:
+    - service: notify.gmail
+      data_template:
+        message: |
+          Dan's Here!
+    - service: script.flood_and_blink
+      data:
+        flood_color: "green"
+        blink_color: "yellow"
+    - delay: "00:00:10"
+    # TODO: set to AV Volume: 9
+    - service: media_player.play_media
+      data:
+        entity_id: media_player.vtv_chromecast
+        media_content_type: video/mp4
+        media_content_id: http://192.168.1.82:8123/local/videos/bushes_of_love.mp4
+
+
+  # - alias: 'Dan Home Notification Play Video whats_up_bitches'
+  #   trigger:
+  #   - platform: state
+  #     entity_id: input_boolean.var_dan_home
+  #     from: "off"
+  #     to: "on"
+  #   condition:
+  #     condition: time
+  #     after: '21:00:00'
+  #   action:
+  #   - service: media_player.play_media
+  #     data:
+  #       entity_id: media_player.vtv_chromecast
+  #       media_content_type: video/mp4
+  #       media_content_id: http://192.168.1.82:8123/local/videos/whats_up_bitches.mp4

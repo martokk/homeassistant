@@ -1,0 +1,25 @@
+# https://home-assistant.io/components/calendar.google/
+
+- cal_id: techv76@gmail.com
+  entities:
+  - device_id: default
+    name: Google calendar (Default)
+    track: true
+
+- cal_id: nfl_3_%43hicago+%42ears#sports@group.v.calendar.google.com
+  entities:
+  - device_id: chicago_bears
+    name: Chicago Bears
+    track: true
+
+- cal_id: nfl_9_%47reen+%42ay+%50ackers#sports@group.v.calendar.google.com
+  entities:
+  - device_id: green_bay_packers
+    name: Green Bay Packers
+    track: true
+
+- cal_id: mg877fp19824mj30g497frm74o@group.calendar.google.com
+  entities:
+  - device_id: twit_live_schedule
+    name: TWiT Live Schedule
+    track: true

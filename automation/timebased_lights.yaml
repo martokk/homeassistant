@@ -1,0 +1,227 @@
+####################################
+##### HOURLY BREATHE ######
+####################################
+  - alias: hourly_breathe_lights
+    trigger:
+    - platform: time
+      minutes: 59
+      seconds: 59
+    condition:
+    - condition: state
+      entity_id: input_boolean.var_mike_home
+      state: 'on'
+    action:
+    - condition: template
+    # NOTE: flood_hours uses hour 24 instead of 0 (midnight) since alert is at 59 sec, we subtract 1 hour
+      value_template: >
+        {% set hour = states.sensor.time.state[:2] | int %}
+        {% set flood_hours = [8,12,17,21,24]%}
+        {% if ( hour + 1) in flood_hours %}
+          false
+        {% else %}
+          true
+        {% endif %}
+    - service: script.breathe_light
+      data:
+        breathe_color: "magenta"
+        entity_id: group.all_lights
+
+
+####################################
+##### TIME-BASED SCENE CHANGE ######
+####################################
+
+### SUNRISE
+  - alias: Timebased_Sunrise
+    trigger:
+      - platform: sun
+        event: sunrise
+        offset: "-00:15:00"
+    condition:
+      - condition: state
+        entity_id: input_boolean.var_mike_home
+        state: 'on'
+    action:
+      service: scene.turn_on
+      entity_id: scene.10m_day_le
+
+### SUNSET (-3hr offset)
+  - alias: Timebased_Day
+    trigger:
+      - platform: sun
+        event: sunset
+        offset: "-03:15:00"
+    condition:
+      - condition: state
+        entity_id: input_boolean.var_mike_home
+        state: 'on'
+    action:
+      service: scene.turn_on
+      entity_id: scene.10m_day
+
+
+### SUNSET
+  - alias: Timebased_Sunset
+    trigger:
+      - platform: sun
+        event: sunset
+        offset: "-00:15:00"
+    condition:
+      - condition: state
+        entity_id: input_boolean.var_mike_home
+        state: 'on'
+    action:
+      service: scene.turn_on
+      entity_id: scene.10m_night_cyan
+
+### 9pm
+  - alias: Timebased_9pm
+    trigger:
+      - platform: time
+        after: "20:45:00"
+    condition:
+      - condition: state
+        entity_id: input_boolean.var_mike_home
+        state: 'on'
+    action:
+      service: scene.turn_on
+      entity_id: scene.10m_night_blue
+
+### 12am
+  - alias: Timebased_12am
+    trigger:
+      - platform: time
+        after: "23:45:00"
+    condition:
+      - condition: state
+        entity_id: input_boolean.var_mike_home
+        state: 'on'
+    action:
+      service: scene.turn_on
+      entity_id: scene.10m_night_red
+
+### 12:15am
+  - alias: Timebased_12_15am
+    trigger:
+      - platform: time
+        after: "00:01:00"
+    condition:
+      - condition: state
+        entity_id: input_boolean.var_mike_home
+        state: 'on'
+    action:
+    - service: light.turn_off
+      data:
+        entity_id:
+          - group.ambient_lights
+        transition: 780
+
+### 12:30am
+  - alias: Timebased_12_30am
+    trigger:
+      - platform: time
+        after: "00:15:00"
+    condition:
+      - condition: state
+        entity_id: input_boolean.var_mike_home
+        state: 'on'
+    action:
+      service: scene.turn_on
+      entity_id: scene.10m_off
+
+### 2:30am
+  - alias: Timebased_2_30am
+    trigger:
+      - platform: time
+        after: "02:15:00"
+    condition:
+      - condition: state
+        entity_id: input_boolean.var_mike_home
+        state: 'on'
+    action:
+      service: scene.turn_on
+      entity_id: scene.10m_off
+
+######################
+#### FLOOD LIGHTS ####
+######################
+
+### 8am
+  - alias: flood_8am
+    trigger:
+      - platform: time
+        after: "07:59:59"
+    condition:
+      - condition: state
+        entity_id: input_boolean.var_mike_home
+        state: 'on'
+    action:
+      - service: script.flood_light
+        data:
+          flood_color: "magenta"
+          delay: "00:00:10"
+          entity_id: "group.all_lights"
+
+### 12pm
+  - alias: flood_12pm
+    trigger:
+      - platform: time
+        after: "11:59:59"
+    condition:
+      - condition: state
+        entity_id: input_boolean.var_mike_home
+        state: 'on'
+    action:
+      - service: script.flood_light
+        data:
+          flood_color: "magenta"
+          delay: "00:00:10"
+          entity_id: "group.all_lights"
+
+### 5pm
+  - alias: flood_5pm
+    trigger:
+      - platform: time
+        after: "16:59:59"
+    condition:
+      - condition: state
+        entity_id: input_boolean.var_mike_home
+        state: 'on'
+    action:
+      - service: script.flood_light
+        data:
+          flood_color: "magenta"
+          delay: "00:00:10"
+          entity_id: "group.all_lights"
+
+### 9pm
+  - alias: flood_9pm
+    trigger:
+      - platform: time
+        after: "20:59:59"
+    condition:
+      - condition: state
+        entity_id: input_boolean.var_mike_home
+        state: 'on'
+    action:
+      - service: script.flood_light
+        data:
+          flood_color: "magenta"
+          delay: "00:00:10"
+          entity_id: "group.all_lights"
+
+### 12pm
+  - alias: flood_12am
+    trigger:
+      - platform: time
+        after: "23:59:59"
+    condition:
+      - condition: state
+        entity_id: input_boolean.var_mike_home
+        state: 'on'
+    action:
+      - service: script.flood_light
+        data:
+          flood_color: "red"
+          delay: "00:00:10"
+          entity_id: "group.all_lights"

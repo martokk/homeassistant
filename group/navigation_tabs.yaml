@@ -1,0 +1,64 @@
+  dashboard:
+    name: "Dashboard"
+    view: yes
+    entities:
+    - group.today
+    - group.scenes
+    - group.devices
+    - group.batteries
+    - group.upcoming_events
+    - group.bitcoin
+    - group.mike_status
+
+  lights_view:
+    name: "Lights"
+    view: yes
+    entities:
+    - group.living_room_lights
+    - group.office_lights
+    - group.kitchen_lights
+    - group.scenes
+    - group.light_scripts
+    - group.led_lights
+
+  enviroment:
+    name: "Enviroment"
+    view: yes
+    entities:
+    - group.motion_sensors
+    - group.humidity_sensors
+    - group.temperature_sensors
+    - group.weather_current
+    - group.weather_summary
+    - group.weather_details
+
+  media:
+    name: "Media"
+    view: yes
+    entities:
+    - group.vtv
+    - group.entertainment_center
+    - group.media_scenes
+    - group.ambivision
+
+  network:
+    name: "Network"
+    view: yes
+    entities:
+    - group.server_status
+    - group.downloads
+    - group.connection_speed
+    - group.cloud_status
+    - group.pihole
+    - group.iot_status
+
+  hass:
+    name: "Home Assistant"
+    view: yes
+    entities:
+    - group.light_scripts
+    - group.motion_scripts
+    - group.restart
+    - group.all_automations
+    - group.all_scripts
+    - group.stored_variables

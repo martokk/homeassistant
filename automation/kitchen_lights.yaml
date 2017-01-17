@@ -1,0 +1,63 @@
+  - alias: Turn ON kitch lights (movement)
+    trigger:
+    - platform: state
+      entity_id: binary_sensor.kitchen_motion_sensor
+      from: 'off'
+      to: 'on'
+    action:
+    - service: homeassistant.turn_on
+      entity_id: script.kitchen_lights_timer_on
+    - service: input_boolean.turn_on
+      data:
+        entity_id: input_boolean.var_kitchen_on
+
+  - alias: Turn OFF kitch lights (no movement 7sec)
+    trigger:
+    - platform: state
+      entity_id: binary_sensor.kitchen_motion_sensor
+      from: 'on'
+      to: 'off'
+    action:
+    - service: homeassistant.turn_on
+      entity_id: script.kitchen_lights_timer_off
+
+
+  - alias: setMin_var_kitchen_delay
+    trigger:
+    - platform: state
+      entity_id: input_boolean.var_kitchen_on
+      from: "off"
+      to: "on"
+      for:
+        seconds: 8
+    action:
+    - service: input_slider.select_value
+      data_template:
+        entity_id: input_slider.var_kitchen_delay
+        value: 6
+
+  - alias: setMid_var_kitchen_delay
+    trigger:
+    - platform: state
+      entity_id: input_boolean.var_kitchen_on
+      state: "on"
+      for:
+        seconds: 30
+    action:
+    - service: input_slider.select_value
+      data_template:
+        entity_id: input_slider.var_kitchen_delay
+        value: 15
+
+  - alias: setMax_var_kitchen_delay
+    trigger:
+    - platform: state
+      entity_id: input_boolean.var_kitchen_on
+      state: "on"
+      for:
+        seconds: 90
+    action:
+    - service: input_slider.select_value
+      data_template:
+        entity_id: input_slider.var_kitchen_delay
+        value: 60

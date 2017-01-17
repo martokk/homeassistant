@@ -1,0 +1,11 @@
+  - alias: "Play Fireplace after 10m"
+    trigger:
+    - platform: state
+      entity_id: media_player.vtv_chromecast
+      state: 'idle'
+      for:
+        minutes: 5
+    action:
+    - condition: time
+      before: "22:00:00"
+    - service: script.media_scene_fireplace

@@ -1,0 +1,23 @@
+  devices:
+    name: "Devices"
+    entities:
+    - device_tracker.iphone6s
+    - device_tracker.ipad
+    - device_tracker.watch
+    - device_tracker.dans_iphone6
+    - device_tracker.echo_dot
+    - device_tracker.chromecast
+    - device_tracker.nodemcu_kitchen
+    - device_tracker.nodemcu_test
+
+  batteries:
+    name: "Batteries"
+    entities:
+    - sensor.iphone6s_battery
+    - sensor.watch_battery
+    - sensor.ipad_battery
+
+  mike_status:
+    name: "Mike Status"
+    entities:
+    - input_boolean.var_mike_home

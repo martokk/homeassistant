@@ -1,0 +1,63 @@
+### DEVICE TRACKING
+
+  - alias: 'Mike Away'
+    trigger:
+      - platform: state
+        entity_id: device_tracker.iphone6s
+        state: 'not_home'
+        for:
+          minutes: 10
+    condition:
+      - condition: state
+        entity_id: input_boolean.var_mike_home
+        state: 'on'
+    action:
+      - service: homeassistant.turn_off
+        entity_id: input_boolean.var_mike_home
+
+  - alias: 'Mike Home'
+    trigger:
+      - platform: state
+        entity_id: device_tracker.iphone6s
+        state: 'home'
+      - platform: state
+        entity_id: device_tracker.watch
+        state: 'home'
+      - platform: state
+        entity_id: device_tracker.dans_iphone6
+        state: 'home'
+    condition:
+      - condition: state
+        entity_id: input_boolean.var_mike_home
+        state: 'off'
+    action:
+      - service: homeassistant.turn_on
+        entity_id: input_boolean.var_mike_home
+
+  - alias: 'Dan Away'
+    trigger:
+      - platform: state
+        entity_id: device_tracker.dans_iphone6
+        state: 'not_home'
+        for:
+          minutes: 30
+    condition:
+      - condition: state
+        entity_id: input_boolean.var_dan_home
+        state: 'on'
+    action:
+      - service: homeassistant.turn_off
+        entity_id: input_boolean.var_dan_home
+
+  - alias: 'Dan Home'
+    trigger:
+      - platform: state
+        entity_id: device_tracker.dans_iphone6
+        state: 'home'
+    condition:
+      - condition: state
+        entity_id: input_boolean.var_dan_home
+        state: 'off'
+    action:
+      - service: homeassistant.turn_on
+        entity_id: input_boolean.var_dan_home

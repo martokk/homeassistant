@@ -1,0 +1,87 @@
+name: 10m_Night Cyan
+entities:
+  light.living_room_overhead:
+    state: on
+    brightness: 248
+    rgb_color: [227, 227, 227]
+    color_temp: 235
+    transition: 780
+  light.end_table_right:
+    state: on
+    brightness: 180
+    rgb_color: [0, 176, 143]
+    color_temp: 207
+    transition: 780
+  light.end_table_left:
+    state: on
+    brightness: 180
+    rgb_color: [0, 176, 143]
+    color_temp: 207
+    transition: 780
+
+  light.tv_overhead_right:
+    state: on
+    brightness: 150
+    rgb_color: [150, 150, 150]
+    color_temp: 235
+    transition: 780
+  light.tv_overhead_left:
+    state: on
+    brightness: 150
+    rgb_color: [150, 150, 150]
+    color_temp: 235
+    transition: 780
+  light.tv_floor_left:
+    state: on
+    brightness: 230
+    rgb_color: [0, 229, 191]
+    color_temp: 207
+    transition: 780
+  light.tv_floor_right:
+    state: on
+    brightness: 230
+    rgb_color: [0, 229, 191]
+    color_temp: 207
+    transition: 780
+
+  light.office_right:
+    state: on
+    brightness: 200
+    rgb_color: [140, 140, 140]
+    color_temp: 235
+    transition: 780
+  light.office_center:
+    state: on
+    brightness: 140
+    rgb_color: [140, 140, 140]
+    color_temp: 235
+    transition: 780
+  light.office_left:
+    state: on
+    brightness: 140
+    rgb_color: [140, 140, 140]
+    color_temp: 235
+    transition: 780
+  light.office_leds:
+    state: on
+    brightness: 50
+    rgb_color: [91, 0, 221]
+    transition: 780
+
+  light.kitchen_right:
+    state: on
+    brightness: 132
+    rgb_color: [0, 176, 143]
+    color_temp: 207
+    transition: 60
+  light.kitchen_left:
+    state: on
+    brightness: 132
+    rgb_color: [0, 176, 143]
+    color_temp: 207
+    transition: 60
+  light.kitchen_leds:
+    state: on
+    brightness: 75
+    rgb_color: [91, 0, 221]
+    transition: 60

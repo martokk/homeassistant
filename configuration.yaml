@@ -1,0 +1,67 @@
+homeassistant:
+  name: vHome
+  latitude: !secret homeassistant_latitude
+  longitude: !secret homeassistant_longitude
+  elevation: !secret homeassistant_elevation
+  unit_system: !secret homeassistant_unit_system
+  time_zone: !secret homeassistant_time_zone
+  customize: !include includes\customize.yaml
+frontend:
+updater:
+discovery:
+conversation:
+history:
+logbook: !include includes\logbook.yaml
+recorder:
+  purge_days: 14
+panel_iframe: !include includes\panel_iframe.yaml
+
+mqtt:
+  broker: 192.168.1.3
+  port: 1883
+  client_id: home-assistant-1
+  username: username
+  password: 42157406
+
+http:
+  api_password: !secret http_api_password
+ifttt:
+  key: !secret ifttt_key
+
+light: !include includes\light.yaml
+input_boolean: !include inputs\input_boolean.yaml
+input_select: !include inputs\input_select.yaml
+input_slider: !include inputs\input_slider.yaml
+switch: !include includes\switch.yaml
+binary_sensor: !include_dir_merge_list binary_sensor
+
+cover: !include includes\cover.yaml
+sun:
+media_player: !include includes\media_player.yaml
+device_tracker: !include includes\device_tracker.yaml
+
+scene: !include_dir_list scene
+group: !include_dir_merge_named group
+
+shell_command: !include includes\shell_command.yaml
+notify: !include includes\notify.yaml
+
+sensor: !include_dir_merge_list sensor
+
+script: !include_dir_merge_named script
+automation: !include_dir_merge_list automation
+
+google:
+  client_id: !secret google_client_id
+  client_secret: !secret google_client_secret
+
+# emulated_hue:
+#   type: alexa
+#   host_ip: 192.168.1.82
+#   expose_by_default: false
+
+tts:
+  - platform: google
+    cache: true
+    cache_dir: V:\hass\tmp\tts
+    time_memory: 900

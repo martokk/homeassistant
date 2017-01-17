@@ -1,0 +1,14 @@
+  scenegen: 'python v:/hass/scenegen/scenegen.py http://localhost:8123 -k 42157406 > v:/hass/scene/scenegen.yaml'
+
+  turn_off_monitors: psexec \\Desktop-PC C:\Windows\System32\scrnsave.scr /s
+
+  # Event Ghost Command Line Events
+  av_mute: '"C:/Program Files (x86)/EventGhost/EventGhost.exe" -e av_mute'
+  av_vol_up: '"C:/Program Files (x86)/EventGhost/EventGhost.exe" -e av_vol_up'
+  av_vol_down: '"C:/Program Files (x86)/EventGhost/EventGhost.exe" -e av_vol_down'
+  led_standby: '"C:/Program Files (x86)/EventGhost/EventGhost.exe" -e led_standby'
+  led_mode: '"C:/Program Files (x86)/EventGhost/EventGhost.exe" -e led_mode'
+  led_submode: '"C:/Program Files (x86)/EventGhost/EventGhost.exe" -e led_submode'
+
+  kill_eventghost: 'taskkill /F /T /IM EventGhost.exe'
+  start_eventghost: '"C:/Program Files (x86)/EventGhost/EventGhost.exe"'

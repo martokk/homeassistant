@@ -1,0 +1,73 @@
+  server_sensors:
+    name: "Server Sensors/Trackers"
+    entities:
+    - device_tracker.pihole
+    - binary_sensor.sabnzbd
+    - binary_sensor.qbittorrent
+    - binary_sensor.sonarr
+    - binary_sensor.couchpotato
+
+  server_status:
+    name: "Server Status"
+    entities:
+    - sensor.server_modem
+    - sensor.server_router
+    - sensor.server_pihole
+    - sensor.server_mqtt
+    # - sensor.server_plex
+    - sensor.server_sabnzbd
+    - sensor.server_qbittorrent
+    - sensor.server_sonarr
+    - sensor.server_couchpotato
+
+  cloud_status:
+    name: "Cloud Status"
+    entities:
+    - sensor.cloud_ifttt
+    - sensor.cloud_lifx
+
+  cloud_sensors:
+    name: "Cloud Sensors"
+    entities:
+    - sensor.ifttt_status
+    - sensor.lifx_status
+
+  iot_status:
+    name: "IoT Status"
+    entities:
+    - sensor.iot_echo_dot
+    - sensor.iot_chromecast
+    - sensor.iot_nodemcu_kitchen
+    # - sensor.iot_nodemcu_test
+
+  connection_speed:
+    name: "Connection Speed"
+    entities:
+    - sensor.speedtest_ping
+    - sensor.speedtest_download
+    - sensor.speedtest_upload
+
+  downloads:
+    name: "Downloads"
+    entities:
+    - sensor.sabnzbd_status
+    - sensor.sabnzbd_speed
+    - sensor.sabnzbd_queue
+    - sensor.sabnzbd_left
+    - sensor.sabnzbd_disk
+    - sensor.sabnzbd_disk_free
+    - sensor.sonarr_disk_space
+
+  pihole:
+    name: "Pi-Hole"
+    entities:
+    - sensor.pihole_queries_blocked_today
+    - sensor.pihole_queries_today
+    - sensor.pihole_percentage_today
+    - sensor.pihole_domains_blocked
+
+  restart:
+    name: "Restart"
+    entities:
+    - script.restart_hass
+    - script.restart_eventghost

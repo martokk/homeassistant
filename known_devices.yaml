@@ -1,0 +1,243 @@
+###############
+### lights  ###
+d073d512c3bf:
+  hide_if_away: false
+  mac: D0:73:D5:12:C3:BF
+  name: d073d512c3bf
+  picture:
+  track: false
+  vendor: LIFI LABS MANAGEMENT PTY LTD
+
+d073d5131afc:
+  hide_if_away: false
+  mac: D0:73:D5:13:1A:FC
+  name: d073d5131afc
+  picture:
+  track: false
+  vendor: LIFI LABS MANAGEMENT PTY LTD
+
+d073d512df86:
+  hide_if_away: false
+  mac: D0:73:D5:12:DF:86
+  name: d073d512df86
+  picture:
+  track: false
+  vendor: LIFI LABS MANAGEMENT PTY LTD
+
+d073d5131d59:
+  hide_if_away: false
+  mac: D0:73:D5:13:1D:59
+  name: d073d5131d59
+  picture:
+  track: false
+  vendor: LIFI LABS MANAGEMENT PTY LTD
+
+d073d512c387:
+  hide_if_away: false
+  mac: D0:73:D5:12:C3:87
+  name: d073d512c387
+  picture:
+  track: false
+  vendor: LIFI LABS MANAGEMENT PTY LTD
+
+d073d512bd55:
+  hide_if_away: false
+  mac: D0:73:D5:12:BD:55
+  name: d073d512bd55
+  picture:
+  track: false
+  vendor: LIFI LABS MANAGEMENT PTY LTD
+
+d073d5140b98:
+  hide_if_away: false
+  mac: D0:73:D5:14:0B:98
+  name: d073d5140b98
+  picture:
+  track: false
+  vendor: LIFI LABS MANAGEMENT PTY LTD
+
+d073d512d06a:
+  hide_if_away: false
+  mac: D0:73:D5:12:D0:6A
+  name: d073d512d06a
+  picture:
+  track: false
+  vendor: LIFI LABS MANAGEMENT PTY LTD
+
+d073d5144c09:
+  hide_if_away: false
+  mac: D0:73:D5:14:4C:09
+  name: d073d5144c09
+  picture:
+  track: false
+  vendor: LIFI LABS MANAGEMENT PTY LTD
+
+d073d5147176:
+  hide_if_away: false
+  mac: D0:73:D5:14:71:76
+  name: d073d5147176
+  picture:
+  track: false
+  vendor: LIFI LABS MANAGEMENT PTY LTD
+
+d073d512b5f9:
+  hide_if_away: false
+  mac: D0:73:D5:12:B5:F9
+  name: d073d512b5f9
+  picture:
+  track: false
+  vendor: LIFI LABS MANAGEMENT PTY LTD
+
+d073d5132186:
+  hide_if_away: false
+  mac: D0:73:D5:13:21:86
+  name: d073d5132186
+  picture:
+  track: false
+  vendor: LIFI LABS MANAGEMENT PTY LTD
+
+
+
+
+###############
+### Hidden  ###
+roku_player:
+  hide_if_away: false
+  mac: BT_CC:6D:A0:AE:95:D0
+  name: Roku Player
+  picture:
+  track: false
+  vendor:
+echo_dot3ur:
+  hide_if_away: false
+  mac: BT_88:71:E5:BD:17:01
+  name: Echo Dot-3UR
+  picture:
+  track: false
+  vendor: Amazon Technologies Inc.
+bose_mini_ii_soundlink:
+  hide_if_away: false
+  mac: BT_08:DF:1F:A1:21:9A
+  name: Bose Mini II SoundLink
+  picture:
+  track: false
+  vendor: Bose Corporation
+vizio_sb2920:
+  hide_if_away: false
+  mac: BT_40:EF:4C:90:35:2C
+  name: VIZIO SB2920
+  picture:
+  track: false
+  vendor: Fihonest communication co.,Ltd
+
+
+
+###############
+### IoT Devices  ###
+echo_dot:
+  hide_if_away: false
+  mac: AC:63:BE:56:D6:57
+  name: Echo Dot
+  picture:
+  track: true
+  vendor:
+
+chromecast:
+  hide_if_away: false
+  mac: A4:77:33:24:50:E9
+  name: Chromecast
+  picture:
+  track: true
+  vendor: Google, Inc.
+
+
+
+
+###############
+### IoT Devices  ###
+nodemcu_kitchen:
+  hide_if_away: false
+  mac: A0:20:A6:0A:20:ED
+  name: "NodeMCU - Kitchen Sensors"
+  picture:
+  track: true
+  vendor: Espressif Inc.
+
+nodemcu_test:
+  hide_if_away: false
+  mac: A0:20:A6:0B:3F:60
+  name: "NodeMCU - Test"
+  picture:
+  track: true
+  vendor: Espressif Inc.
+
+
+###############
+### Personal Devices  ###
+iphone6s:
+  hide_if_away: false
+  mac: 30:63:6B:AC:B7:43
+  name: iPhone
+  picture:
+  track: true
+  vendor:
+
+watch:
+  hide_if_away: false
+  mac: 30:63:6B:09:14:C9
+  name: Apple Watch
+  picture:
+  track: true
+  vendor:
+
+ipad:
+  hide_if_away: false
+  mac: C0:F2:FB:6F:80:C3
+  name: iPad
+  picture:
+  track: true
+  vendor:
+
+dans_iphone6:
+  hide_if_away: false
+  mac: 64:9A:BE:C7:AB:9C
+  name: Dan
+  picture:
+  track: true
+  vendor: Apple, Inc.
+
+
+###############
+### Servers  ###
+pihole:
+  hide_if_away: false
+  mac: 08:00:27:54:05:36
+  name: Pihole
+  picture:
+  track: true
+  vendor:
+
+
+
+
+###############
+### Servers  ###
+
+
+### UNKNOWN
+
+a020a60a2476:
+  hide_if_away: false
+  mac: A0:20:A6:0A:24:76
+  name: a020a60a2476
+  picture:
+  track: true
+  vendor: Espressif Inc.
+
+a020a60ae9e7:
+  hide_if_away: false
+  mac: A0:20:A6:0A:E9:E7
+  name: a020a60ae9e7
+  picture:
+  track: true
+  vendor: Espressif Inc.

@@ -1,0 +1,31 @@
+  office_animation_speed:
+    name: Office Animation Speed
+    initial: 230
+    min: 0
+    max: 255
+    step: 5
+
+  kitchen_animation_speed:
+    name: Kitchen Animation Speed
+    initial: 230
+    min: 0
+    max: 255
+    step: 5
+
+  var_kitchen_delay: #in Seconds
+    initial: 7
+    min: 1
+    max: 60
+    step: 1
+
+  var_kitchen_brightness: #in Seconds
+    initial: 118
+    min: 1
+    max: 255
+    step: 1
+
+  var_kitchen_color_temp: #in Seconds
+    initial: 240
+    min: 100
+    max: 500
+    step: 1

@@ -1,0 +1,28 @@
+  entertainment_center:
+    name: "Entertainment Center"
+    control: hidden
+    entities:
+    - switch.tv_power_switch
+    - switch.av_power_switch
+    - cover.volume
+
+  ambivision:
+    name: "AmbiVision LEDs"
+    control: hidden
+    entities:
+    - script.led_standby
+    - script.led_mode
+    - script.led_submode
+
+  vtv:
+    name: "vTV"
+    entities:
+    - media_player.vtv_chromecast
+    - sensor.sonarr_upcoming
+    - media_player.plex
+    - sensor.chromecast_playing_app
+
+  media_scenes:
+    name: "Media Scenes"
+    entities:
+    - script.media_scene_fireplace

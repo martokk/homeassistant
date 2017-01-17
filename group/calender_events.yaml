@@ -1,0 +1,9 @@
+upcoming_events:
+  name: "Upcoming Events"
+  entities:
+    - sensor.upcoming_packers_event
+    - sensor.upcoming_packers_start_time
+    - sensor.upcoming_bears_event
+    - sensor.upcoming_bears_start_time
+    - sensor.upcoming_twit_event
+    - sensor.upcoming_twit_start_time

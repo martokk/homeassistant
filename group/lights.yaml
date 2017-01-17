@@ -1,0 +1,84 @@
+  living_room_lights:
+    name: "Living Room"
+    entities:
+    - light.end_table_left
+    - light.end_table_right
+    - light.tv_floor_left
+    - light.tv_floor_right
+    - light.living_room_overhead
+    - light.tv_overhead_left
+    - light.tv_overhead_right
+
+  ambient_lights:
+    name: "Ambient"
+    entities:
+    - light.end_table_left
+    - light.end_table_right
+    - light.tv_floor_left
+    - light.tv_floor_right
+    - light.office_leds
+    - light.kitchen_leds
+
+  living_room_overhead_lights:
+    name: "Living Room Overhead"
+    entities:
+    - light.living_room_overhead
+    - light.tv_overhead_left
+    - light.tv_overhead_right
+
+  overhead_lights:
+    name: "Overhead"
+    entities:
+    - light.living_room_overhead
+    - light.tv_overhead_left
+    - light.tv_overhead_right
+    - light.office_left
+    - light.office_center
+    - light.office_right
+    - light.kitchen_left
+    - light.kitchen_right
+
+  office_lights:
+    name: "Office"
+    entities:
+    - light.office_left
+    - light.office_center
+    - light.office_right
+    - light.office_leds
+
+  kitchen_lights:
+    name: "Kitchen"
+    entities:
+    - light.kitchen_left
+    - light.kitchen_right
+    - light.kitchen_leds
+
+  scenes:
+    name: "Scenes"
+    entities:
+    - script.timebased_scene
+    - scene.chill
+    - scene.day
+    - scene.day_le
+    - scene.night
+    - scene.night_blue
+    - scene.night_cyan
+    - scene.night_red
+
+  light_scripts:
+    name: "Light Scripts"
+    entities:
+      - script.timebased_scene
+      - script.scenegen
+      - script.blink_light_test
+      - script.blink2_light_test
+      - script.flood_light_test
+      - script.breathe_light_test
+
+  led_lights:
+    - light.office_leds
+    - input_slider.office_animation_speed
+    - input_select.office_led_effect
+    - light.kitchen_leds
+    - input_slider.kitchen_animation_speed
+    - input_select.kitchen_led_effect

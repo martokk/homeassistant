@@ -1,0 +1,57 @@
+  - alias: "Office LEDs Input Effect"
+    initial_state: True
+    hide_entity: False
+    trigger:
+      - platform: state
+        entity_id: input_select.office_led_effect
+    action:
+      - service: mqtt.publish
+        data_template:
+          topic: "ledstrip/office/seteffect"
+          payload: >
+            {% for opt in states.input_select.office_led_effect.attributes.options -%}
+              {% if trigger.to_state.state | string == opt %}
+                {{loop.index - 1}}
+              {%endif%}
+            {%- endfor -%}
+
+  - alias: "Office LEDs Animation Speed"
+    initial_state: True
+    hide_entity: False
+    trigger:
+      - platform: state
+        entity_id: input_slider.office_animation_speed
+    action:
+      - service: mqtt.publish
+        data_template:
+          topic: "ledstrip/office/setanimationspeed"
+          payload: '{{ trigger.to_state.state | int }}'
+
+  - alias: "Kitchen LEDs Input Effect"
+    initial_state: True
+    hide_entity: False
+    trigger:
+      - platform: state
+        entity_id: input_select.kitchen_led_effect
+    action:
+      - service: mqtt.publish
+        data_template:
+          topic: "ledstrip/kitchen/seteffect"
+          payload: >
+            {% for opt in states.input_select.kitchen_led_effect.attributes.options -%}
+              {% if trigger.to_state.state | string == opt %}
+                {{loop.index - 1}}
+              {%endif%}
+            {%- endfor -%}
+
+  - alias: "Kitchen LEDs Animation Speed"
+    initial_state: True
+    hide_entity: False
+    trigger:
+      - platform: state
+        entity_id: input_slider.kitchen_animation_speed
+    action:
+      - service: mqtt.publish
+        data_template:
+          topic: "ledstrip/kitchen/setanimationspeed"
+          payload: '{{ trigger.to_state.state | int }}'

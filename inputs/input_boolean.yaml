@@ -1,0 +1,15 @@
+  var_mike_home:
+    name: Mike Home
+    initial: on
+    icon: mdi:cellphone-iphone
+
+  var_dan_home:
+    name: Dan Home
+    initial: off
+    icon: mdi:cellphone-iphone
+
+  var_kitchen_on:
+    initial: off
+
+  var_start_notifcations:
+    initial: off

@@ -1,0 +1,22 @@
+  - platform: ddwrt
+    host: !secret ddwrt_host
+    username: !secret ddwrt_username
+    password: !secret ddwrt_password
+    interval_seconds: 4
+    consider_home: 900
+    track_new_devices: yes
+
+  - platform: nmap_tracker
+    hosts:
+      - 192.168.1.3
+    interval_seconds: 30
+
+  - platform: icloud
+    username: !secret ic_username
+    password: !secret ic_password
+    account_name: !secret ic_account_name
+
+  - platform: bluetooth_tracker
+    track_new_devices: yes
+    interval_seconds: 10
+    consider_home: 900
