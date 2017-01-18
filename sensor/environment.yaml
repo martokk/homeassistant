@@ -1,11 +1,11 @@
   - platform: mqtt
     name: "Kitchen Temperature"
-    state_topic: "sensor/kitchen_temperature"
+    state_topic: "device/kitchen/temperature"
     qos: 0
     unit_of_measurement: "ºF"
 
   - platform: mqtt
     name: "Kitchen Humidity"
-    state_topic: "sensor/kitchen_humidity"
+    state_topic: "device/kitchen/humidity"
     qos: 0
     unit_of_measurement: "%"

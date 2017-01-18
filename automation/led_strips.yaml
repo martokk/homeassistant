@@ -11,7 +11,7 @@
     action:
       - service: mqtt.publish
         data_template:
-          topic: "ledstrip/office/seteffect"
+          topic: "device/office/seteffect"
           payload: >
             {% for opt in states.input_select.office_led_effect.attributes.options -%}
               {% if trigger.to_state.state | string == opt %}
@@ -28,7 +28,7 @@
     action:
       - service: mqtt.publish
         data_template:
-          topic: "ledstrip/office/setanimationspeed"
+          topic: "device/office/setanimationspeed"
           payload: '{{ trigger.to_state.state | int }}'
 
 ##########################################
@@ -44,7 +44,7 @@
     action:
       - service: mqtt.publish
         data_template:
-          topic: "ledstrip/kitchen/seteffect"
+          topic: "device/kitchen/seteffect"
           payload: >
             {% for opt in states.input_select.kitchen_led_effect.attributes.options -%}
               {% if trigger.to_state.state | string == opt %}
@@ -61,5 +61,5 @@
     action:
       - service: mqtt.publish
         data_template:
-          topic: "ledstrip/kitchen/setanimationspeed"
+          topic: "device/kitchen/setanimationspeed"
           payload: '{{ trigger.to_state.state | int }}'

@@ -76,7 +76,7 @@
     - service: script.call_last_known_scene
     - service: mqtt.publish
       data_template:
-        topic: "ledstrip/kitchen/seteffect"
+        topic: "device/kitchen/seteffect"
         payload: >
           {% for opt in states.input_select.kitchen_led_effect.attributes.options -%}
             {% if states("input_select.kitchen_led_effect") == opt %}
