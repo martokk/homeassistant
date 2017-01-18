@@ -19,6 +19,19 @@
           blink_color: "orange"
 
 ##########################################
+########## RESET BLIND NOTIFICATIONS #####
+##########################################
+  - alias: Reset Blind Notifications
+    trigger:
+      - platform: time
+        hours: 3
+    action:
+    - service: input_boolean.turn_off
+      data:
+        entity_id: input_boolean.option_blind_notifications
+
+
+##########################################
 ############### BITCOIN  #################
 ##########################################
 

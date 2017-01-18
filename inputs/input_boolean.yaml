@@ -20,3 +20,7 @@
 
   var_start_notifcations_5m:
     initial: off
+
+  option_blind_notifications:
+    name: "Blind Notfications (No Lights)"
+    initial: off

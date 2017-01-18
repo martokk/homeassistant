@@ -95,6 +95,9 @@
   flood_light:
     alias: Flood Lights [entity_id; flood_color; delay]
     sequence:
+    - condition: state
+      entity_id: input_boolean.option_blind_notifications
+      state: 'off'
     - service: light.turn_on
       data_template:
         color_name: '{{ flood_color }}'
@@ -119,6 +122,9 @@
   breathe_light:
     alias: Breathe Lights [entity_id; breathe_color]
     sequence:
+    - condition: state
+      entity_id: input_boolean.option_blind_notifications
+      state: 'off'
     - delay: "00:00:00"
     - service: light.turn_on
       data_template:
@@ -144,6 +150,9 @@
   blink_light:
     alias: Blink Lights [entity_id; blink_color]
     sequence:
+    - condition: state
+      entity_id: input_boolean.option_blind_notifications
+      state: 'off'
     - delay: "00:00:00"
     - service: light.turn_on
       data_template:
@@ -196,6 +205,9 @@
   blink2_light:
     alias: Blink Lights [entity_id; blink_color; blink_color2]
     sequence:
+    - condition: state
+      entity_id: input_boolean.option_blind_notifications
+      state: 'off'
     - delay: "00:00:00"
     - service: light.turn_on
       data_template:
@@ -256,6 +268,9 @@
   flood_and_blink:
     alias: Flood and Blink Lights [flood_color; blink_color]
     sequence:
+    - condition: state
+      entity_id: input_boolean.option_blind_notifications
+      state: 'off'
     #*--------- Turn on Floods --------------*#
     - service: light.turn_on
       data_template:
@@ -358,6 +373,9 @@
   flood_and_blink2:
     alias: Flood and Blink Lights [flood_color; blink_color, blink_color2]
     sequence:
+    - condition: state
+      entity_id: input_boolean.option_blind_notifications
+      state: 'off'
     - service: light.turn_on
       data_template:
         entity_id: group.overhead_lights
@@ -439,6 +457,9 @@
   flood_and_breathe:
     alias: Flood and Breathe Lights [flood_color; breathe_color]
     sequence:
+    - condition: state
+      entity_id: input_boolean.option_blind_notifications
+      state: 'off'
     - service: light.turn_on
       data_template:
         color_name: '{{ flood_color }}'
