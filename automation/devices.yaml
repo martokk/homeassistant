@@ -36,6 +36,10 @@
     action:
       - service: homeassistant.turn_on
         entity_id: input_boolean.var_mike_home
+      - service: scene.turn_on
+        entity_id: scene.day
+      - delay: "00:05:00"
+      - service: script.timebased_scene
 
 #********** Dan ***************************************#
   - alias: 'Dan Away'
