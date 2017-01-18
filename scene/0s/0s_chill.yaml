@@ -2,81 +2,90 @@ name: 0s_Chill
 entities:
   light.living_room_overhead:
     state: on
-    brightness: 154
+    brightness: 174
     rgb_color: [72, 6, 153]
     color_temp: 208
     transition: 0
   light.end_table_left:
     state: on
-    brightness: 112
+    brightness: 132
     rgb_color: [2, 111, 7]
     color_temp: 209
     transition: 0
   light.end_table_right:
     state: on
-    brightness: 109
-    rgb_color: [0, 109, 5]
-    color_temp: 207
+    brightness: 132
+    rgb_color: [2, 111, 7]
+    color_temp: 209
     transition: 0
 
   light.tv_overhead_right:
     state: on
-    brightness: 176
+    brightness: 196
     rgb_color: [98, 2, 176]
     color_temp: 208
     transition: 0
   light.tv_overhead_left:
     state: on
-    brightness: 177
-    rgb_color: [99, 4, 177]
-    color_temp: 210
+    brightness: 196
+    rgb_color: [98, 2, 176]
+    color_temp: 208
     transition: 0
   light.tv_floor_left:
     state: on
-    brightness: 242
+    brightness: 252
     rgb_color: [5, 241, 52]
     color_temp: 209
     transition: 0
   light.tv_floor_right:
     state: on
-    brightness: 242
-    rgb_color: [2, 241, 50]
-    color_temp: 208
+    brightness: 252
+    rgb_color: [5, 241, 52]
+    color_temp: 209
     transition: 0
 
   light.office_center:
     state: on
-    brightness: 113
+    brightness: 133
     rgb_color: [4, 113, 17]
     color_temp: 211
     transition: 0
   light.office_right:
     state: on
-    brightness: 155
-    rgb_color: [74, 8, 155]
-    color_temp: 209
+    brightness: 174
+    rgb_color: [72, 6, 153]
+    color_temp: 208
     transition: 0
   light.office_left:
     state: on
-    brightness: 113
+    brightness: 133
     rgb_color: [4, 113, 17]
     color_temp: 211
     transition: 0
   light.office_leds:
     state: on
-    brightness: 100
-    rgb_color: [4, 113, 17]
+    brightness: 45
+    rgb_color: [72, 6, 153]
     transition: 0
+  input_select.office_led_effect:
+    option: 'Breathe vHome'
 
   light.kitchen_right:
     state: on
-    brightness: 132
+    brightness: 152
     rgb_color: [3, 132, 12]
     color_temp: 209
     transition: 0
   light.kitchen_left:
     state: on
-    brightness: 106
+    brightness: 126
     rgb_color: [43, 0, 106]
     color_temp: 207
     transition: 0
+  light.kitchen_leds:
+    state: on
+    brightness: 45
+    rgb_color: [72, 6, 153]
+    transition: 0
+  input_select.kitchen_led_effect:
+    option: 'Breathe vHome'

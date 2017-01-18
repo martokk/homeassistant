@@ -92,7 +92,7 @@
         entity_id:
           - light.kitchen_left
           - light.kitchen_right
-        brightness: 120
+        brightness: 135
         rgb_color: [140, 140, 140]
         color_temp: 235
         transition: 0
@@ -103,7 +103,7 @@
     - service: input_slider.select_value
       data:
         entity_id: input_slider.var_kitchen_brightness
-        value: 120
+        value: 135
     - service: input_slider.select_value
       data:
         entity_id: input_slider.var_kitchen_color_temp

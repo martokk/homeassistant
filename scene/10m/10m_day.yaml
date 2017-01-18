@@ -67,6 +67,8 @@ entities:
       brightness: 100
       rgb_color: [255, 175, 125]
       transition: 780
+  input_select.office_led_effect:
+    option: 'Static'
 
   light.kitchen_right:
       transition: 60

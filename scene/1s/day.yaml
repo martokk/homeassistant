@@ -43,6 +43,8 @@ entities:
       rgb_color: [255, 255, 255]
       color_temp: 313
       transition: 1
+  input_select.office_led_effect:
+    option: 'Static'
 
   light.office_right:
       state: on

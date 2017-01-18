@@ -64,9 +64,11 @@ entities:
     transition: 0
   light.office_leds:
     state: on
-    brightness: 60
+    brightness: 45
     rgb_color: [105, 1, 0]
     transition: 0
+  input_select.office_led_effect:
+    option: 'Breathe vHome'
 
   light.kitchen_right:
     state: on
@@ -76,7 +78,7 @@ entities:
     transition: 0
   light.kitchen_left:
     state: on
-    brightness: 60
+    brightness: 45
     rgb_color: [105, 1, 0]
     color_temp: 207
     transition: 0

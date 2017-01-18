@@ -14,6 +14,25 @@
     - service: scene.turn_on
       data_template:
         entity_id: 'scene.{{ states("input_select.var_last_known_scene") | replace(" ", "_") | lower }}'
+    - delay: "00:00:00"
+    - service: mqtt.publish
+      data_template:
+        topic: "device/office/seteffect"
+        payload: >
+          {% for opt in states.input_select.office_led_effect.attributes.options -%}
+            {% if states.input_select.office_led_effect.state | string == opt %}
+              {{loop.index - 1}}
+            {%endif%}
+          {%- endfor -%}
+    - service: mqtt.publish
+      data_template:
+        topic: "device/kitchen/seteffect"
+        payload: >
+          {% for opt in states.input_select.kitchen_led_effect.attributes.options -%}
+            {% if states.input_select.kitchen_led_effect.state | string == opt %}
+              {{loop.index - 1}}
+            {%endif%}
+          {%- endfor -%}
 
 ##########################################
 ########## TEST SCRIPTS ##################

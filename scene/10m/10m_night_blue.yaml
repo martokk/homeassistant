@@ -64,13 +64,12 @@ entities:
     transition: 780
   light.office_leds:
     state: on
-    brightness: 75
+    brightness: 45
     rgb_color: [0, 50, 85]
     transition: 780
-  # input_select.office_led_effect:
-  #     option: 'Static'
-  # input_slider.office_animation_speed:
-  #     value: 145
+  input_select.office_led_effect:
+    option: 'Breathe vHome'
+
 
   light.kitchen_right:
     state: on
@@ -86,6 +85,6 @@ entities:
     transition: 30
   light.kitchen_leds:
     state: on
-    brightness: 75
+    brightness: 45
     rgb_color: [0, 50, 85]
     transition: 30
