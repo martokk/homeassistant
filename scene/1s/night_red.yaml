@@ -2,7 +2,7 @@ name: Night Red
 entities:
   light.living_room_overhead:
     state: on
-    brightness: 67
+    brightness: 125
     rgb_color: [67, 67, 67]
     color_temp: 207
     transition: 1
@@ -21,13 +21,13 @@ entities:
 
   light.tv_overhead_right:
     state: on
-    brightness: 31
+    brightness: 125
     rgb_color: [31, 31, 31]
     color_temp: 207
     transition: 1
   light.tv_overhead_left:
     state: on
-    brightness: 29
+    brightness: 125
     rgb_color: [29, 29, 29]
     color_temp: 207
     transition: 1
@@ -46,7 +46,7 @@ entities:
 
   light.office_right:
     state: on
-    brightness: 67
+    brightness: 125
     rgb_color: [67, 67, 67]
     color_temp: 207
     transition: 1

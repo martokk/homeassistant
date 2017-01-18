@@ -89,6 +89,3 @@ entities:
     transition: 60
   input_select.kitchen_led_effect:
     option: 'Breathe vHome'
-    transition: 780
-  input_select.kitchen_led_effect:
-    option: 'Breathe vHome'
