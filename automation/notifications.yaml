@@ -77,6 +77,9 @@
         above: 83
 
     action:
+      - condition: state
+        entity_id: input_boolean.var_start_notifcations_1m
+        state: 'on'
       - condition: template
         value_template: >
           {% if states.automation.indoor_temp_hot.attributes.last_triggered %}
@@ -108,6 +111,9 @@
         entity_id: sensor.kitchen_temperature
         below: 73
     action:
+      - condition: state
+        entity_id: input_boolean.var_start_notifcations_1m
+        state: 'on'
       - condition: template
         value_template: >
           {% if states.automation.indoor_temp_cold.attributes.last_triggered %}
