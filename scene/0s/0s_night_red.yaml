@@ -68,7 +68,7 @@ entities:
     rgb_color: [105, 1, 0]
     transition: 0
   input_select.office_led_effect:
-    option: 'Breathe vHome'
+    option: 'vHome Breathe'
 
   light.kitchen_right:
     state: on
@@ -83,4 +83,4 @@ entities:
     color_temp: 207
     transition: 0
   input_select.kitchen_led_effect:
-    option: 'Breathe vHome'
+    option: 'vHome Breathe'
