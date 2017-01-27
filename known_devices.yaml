@@ -1,5 +1,6 @@
-###############
-### lights  ###
+##########################################
+########## LIGHTS ########################
+##########################################
 d073d512c3bf:
   hide_if_away: false
   mac: D0:73:D5:12:C3:BF
@@ -99,8 +100,9 @@ d073d5132186:
 
 
 
-###############
-### Hidden  ###
+##########################################
+########## HIDDEN ########################
+##########################################
 roku_player:
   hide_if_away: false
   mac: BT_CC:6D:A0:AE:95:D0
@@ -129,11 +131,18 @@ vizio_sb2920:
   picture:
   track: false
   vendor: Fihonest communication co.,Ltd
+michael_brown:
+  hide_if_away: false
+  mac: BT_2C:8A:72:F8:4F:67
+  name: Michael Brown
+  picture:
+  track: false
+  vendor: HTC Corporation
 
 
-
-###############
-### IoT Devices  ###
+##########################################
+########## IOT DEVICES ##############
+##########################################
 echo_dot:
   hide_if_away: false
   mac: AC:63:BE:56:D6:57
@@ -153,12 +162,13 @@ chromecast:
 
 
 
-###############
-### IoT Devices  ###
+##########################################
+########## ESP8266 DEVICES ###############
+##########################################
 esp8266_kitchen:
   hide_if_away: false
   mac: A0:20:A6:0A:24:76
-  name: "ESP8266 - Kitchen Sensors"
+  name: "ESP8266 - Kitchen"
   picture:
   track: true
   vendor: Espressif Inc.
@@ -179,8 +189,9 @@ esp8266_tables:
   track: true
   vendor: Espressif Inc.
 
-###############
-### Personal Devices  ###
+##########################################
+########## PERSONAL DEVICES ##############
+##########################################
 iphone6s:
   hide_if_away: false
   mac: 30:63:6B:AC:B7:43
@@ -214,8 +225,9 @@ dans_iphone6:
   vendor: Apple, Inc.
 
 
-###############
-### Servers  ###
+##########################################
+########## SERVER ########################
+##########################################
 pihole:
   hide_if_away: false
   mac: 08:00:27:54:05:36
@@ -226,17 +238,14 @@ pihole:
 
 
 
+##########################################
+########## UNKNOWN #######################
+##########################################
 
-###############
-### Servers  ###
-
-
-### UNKNOWN
-
-a020a60ae9e7:
+esp8266_test:
   hide_if_away: false
-  mac: A0:20:A6:0A:E9:E7
-  name: a020a60ae9e7
+  mac: 5C:CF:7F:D5:20:C3
+  name: "ESP8266 - Test"
   picture:
-  track: false #NOTE: change to true to track
+  track: true
   vendor: Espressif Inc.
