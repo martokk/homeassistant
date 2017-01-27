@@ -1,0 +1,21 @@
+##########################################
+########## Eventghost MQTT Subs ##########
+##########################################
+
+  - alias: 'Toggle av_power'
+    trigger:
+      - platform: mqtt
+        topic: device/eventghost/av_power
+        payload: "toggle"
+    action:
+      - service: switch.toggle
+        entity_id: switch.av_power_switch
+
+  - alias: 'Toggle tv_power'
+    trigger:
+      - platform: mqtt
+        topic: device/eventghost/tv_power
+        payload: "toggle"
+    action:
+      - service: switch.toggle
+        entity_id: switch.tv_power_switch
