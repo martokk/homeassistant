@@ -8,7 +8,8 @@
     - device_tracker.echo_dot
     - device_tracker.chromecast
     - device_tracker.esp8266_kitchen
-    - device_tracker.esp8266_test
+    - device_tracker.esp8266_office
+    - device_tracker.esp8266_tables
 
   batteries:
     name: "Batteries"

@@ -1,7 +1,29 @@
 ##########################################
+########## ALL LEDS ######################
+##########################################
+  - alias: "All LEDs Input Effect"
+    initial_state: True
+    hide_entity: False
+    trigger:
+      - platform: state
+        entity_id: input_select.all_led_effect
+    action:
+      - service: input_select.select_option
+        data_template:
+          entity_id: input_select.kitchen_led_effect
+          option: "{{ trigger.to_state.state }}"
+      - service: input_select.select_option
+        data_template:
+          entity_id: input_select.office_led_effect
+          option: "{{ trigger.to_state.state }}"
+      - service: input_select.select_option
+        data_template:
+          entity_id: input_select.tables_led_effect
+          option: "{{ trigger.to_state.state }}"
+
+##########################################
 ########## OFFICE LEDS ###################
 ##########################################
-
   - alias: "Office LEDs Input Effect"
     initial_state: True
     hide_entity: False
@@ -62,4 +84,37 @@
       - service: mqtt.publish
         data_template:
           topic: "device/kitchen/setanimationspeed"
+          payload: '{{ trigger.to_state.state | int }}'
+
+##########################################
+########## TABLES LEDS ###################
+##########################################
+
+  - alias: "Tables LEDs Input Effect"
+    initial_state: True
+    hide_entity: False
+    trigger:
+      - platform: state
+        entity_id: input_select.tables_led_effect
+    action:
+      - service: mqtt.publish
+        data_template:
+          topic: "device/tables/led1/effect"
+          payload: >
+            {% for opt in states.input_select.tables_led_effect.attributes.options -%}
+              {% if trigger.to_state.state | string == opt %}
+                {{loop.index - 1}}
+              {%endif%}
+            {%- endfor -%}
+
+  - alias: "Tables LEDs Animation Speed"
+    initial_state: True
+    hide_entity: False
+    trigger:
+      - platform: state
+        entity_id: input_slider.tables_animation_speed
+    action:
+      - service: mqtt.publish
+        data_template:
+          topic: "device/tables/led1/speed"
           payload: '{{ trigger.to_state.state | int }}'

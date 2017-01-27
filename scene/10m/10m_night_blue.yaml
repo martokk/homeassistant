@@ -18,6 +18,13 @@ entities:
     rgb_color: [0, 117, 207]
     color_temp: 207
     transition: 780
+  light.tables_leds:
+    state: on
+    brightness: 45
+    rgb_color: [0, 50, 85]
+    transition: 780
+  input_select.tables_led_effect:
+    option: 'vHome Breathe'
 
   light.tv_overhead_right:
     state: on

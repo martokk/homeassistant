@@ -171,6 +171,13 @@ esp8266_office:
   track: true
   vendor: Espressif Inc.
 
+esp8266_tables:
+  hide_if_away: false
+  mac: A0:20:A6:0A:20:ED
+  name: "ESP8266 - Tables"
+  picture:
+  track: true
+  vendor: Espressif Inc.
 
 ###############
 ### Personal Devices  ###

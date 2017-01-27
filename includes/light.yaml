@@ -21,3 +21,13 @@
     brightness_command_topic: "device/kitchen/setbrightness"
     brightness_state_topic: "device/kitchen/setbrightnesspub"
     optimistic: false
+
+  - platform: mqtt
+    name: "tables LEDs"
+    command_topic: "device/tables/led1/power"
+    state_topic: "device/tables/led1/power/pub"
+    rgb_command_topic: "device/tables/led1/color"
+    rgb_state_topic: "device/tables/led1/color/pub"
+    brightness_command_topic: "device/tables/led1/brightness"
+    brightness_state_topic: "device/tables/led1/brightness/pub"
+    optimistic: false

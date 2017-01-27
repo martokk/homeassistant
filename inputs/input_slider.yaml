@@ -16,6 +16,13 @@
     max: 255
     step: 5
 
+  tables_animation_speed:
+    name: Tables Animation Speed
+    initial: 230
+    min: 0
+    max: 255
+    step: 5
+
 ##########################################
 ########## STORED VARIABLES ##############
 ##########################################

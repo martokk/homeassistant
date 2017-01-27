@@ -18,6 +18,7 @@
     - light.tv_floor_right
     - light.office_leds
     - light.kitchen_leds
+    - light.tables_leds
 
   living_room_overhead_lights:
     name: "Living Room Overhead"
@@ -59,6 +60,7 @@
     - script.timebased_scene
     - script.call_last_known_scene
     - scene.chill
+    - scene.chill_2
     - scene.day
     - scene.day_le
     - scene.night
@@ -78,9 +80,13 @@
       - script.breathe_light_test
 
   led_lights:
+    - input_select.all_led_effect
     - light.office_leds
     - input_slider.office_animation_speed
     - input_select.office_led_effect
     - light.kitchen_leds
     - input_slider.kitchen_animation_speed
     - input_select.kitchen_led_effect
+    - light.tables_leds
+    - input_slider.tables_animation_speed
+    - input_select.tables_led_effect

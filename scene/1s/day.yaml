@@ -18,6 +18,13 @@ entities:
       rgb_color: [255, 255, 255]
       color_temp: 313
       transition: 1
+  light.tables_leds:
+      state: on
+      brightness: 100
+      rgb_color: [255, 175, 125]
+      transition: 1
+  input_select.tables_led_effect:
+    option: 'Static'
 
   light.tv_overhead_right:
       state: on

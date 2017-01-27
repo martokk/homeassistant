@@ -82,6 +82,9 @@
       - platform: mqtt
         topic: device/office
         payload: 'connected'
+      - platform: mqtt
+        topic: device/tables/device
+        payload: 'connected'
     condition:
       - condition: state
         entity_id: input_boolean.var_mike_home
