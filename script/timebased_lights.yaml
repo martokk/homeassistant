@@ -17,6 +17,9 @@
         after: '05:00:00'
         before: '21:00:00'
       - condition: sun
+        after: sunrise
+        after_offset: "-00:25:00"
+      - condition: sun
         before: sunset
         before_offset: "-03:15:00"
       - service: scene.turn_on

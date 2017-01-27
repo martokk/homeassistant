@@ -169,7 +169,7 @@
           - sensor.iphone6s_battery
           - sensor.ipad_battery
           - sensor.watch_battery
-        below: 20
+        below: 15
     condition:
       condition: and
       conditions:
@@ -183,7 +183,7 @@
       - condition: template
         value_template: >
           {% if states.automation.battery_low_notification.attributes.last_triggered %}
-            {% if (as_timestamp(now())-as_timestamp(states.automation.battery_low_notification.attributes.last_triggered)) > (2 * 60 * 60)  %}
+            {% if (as_timestamp(now())-as_timestamp(states.automation.battery_low_notification.attributes.last_triggered)) > (3 * 60 * 60)  %}
               true
             {% else %}
               false
@@ -351,13 +351,13 @@
   - alias: "SpeedTest Speed Low"
     trigger:
       - platform: numeric_state
-        entity_id: sensor.speedtest_download
+        entity_id: sensor.speedtables_download
         below: 15
     action:
       - condition: template
         value_template: >
-          {% if states.automation.speedtest_speed_low.attributes.last_triggered %}
-            {% if (as_timestamp(now())-as_timestamp(states.automation.speedtest_speed_low.attributes.last_triggered)) > (2 * 60 * 60)  %}
+          {% if states.automation.speedtables_speed_low.attributes.last_triggered %}
+            {% if (as_timestamp(now())-as_timestamp(states.automation.speedtables_speed_low.attributes.last_triggered)) > (2 * 60 * 60)  %}
               true
             {% else %}
               false
@@ -370,7 +370,7 @@
           message: |
             Speed Test LOW! -
 
-            {{ states.sensor.speedtest_download.state }}Mbit/s
+            {{ states.sensor.speedtables_download.state }}Mbit/s
       - condition: state
         entity_id: input_boolean.var_mike_home
         state: 'on'
