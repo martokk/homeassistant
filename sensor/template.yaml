@@ -143,42 +143,42 @@
       ########## SERVER ########################
       ##########################################
 
-      pihole_queries_blocked_today:
-        friendly_name: "DNS Queries Blocked Today"
-        value_template: >-
-            {%- if states.sensor.pihole.state %}
-                {{ states.sensor.pihole.state }}
-            {% else %}
-                0
-            {%- endif %}
-
-      pihole_queries_today:
-        friendly_name: "DNS Queries Today"
-        value_template: >-
-            {%- if states.sensor.pihole.attributes.queries_today  %}
-                {{ states.sensor.pihole.attributes.queries_today }}
-            {% else %}
-                0
-            {%- endif %}
-
-      pihole_percentage_today:
-        friendly_name: "Today's Percentaged Blocked"
-        unit_of_measurement: '%'
-        value_template: >-
-            {%- if states.sensor.pihole.attributes.percentage_today %}
-                {{ states.sensor.pihole.attributes.percentage_today }}
-            {% else %}
-                0
-            {%- endif %}
-
-      pihole_domains_blocked:
-        friendly_name: "Domains Being Blocked"
-        value_template: >-
-            {%- if states.sensor.pihole.attributes.domains_blocked %}
-                {{ states.sensor.pihole.attributes.domains_blocked }}
-            {% else %}
-                0
-            {%- endif %}
+      # pihole_queries_blocked_today:
+      #   friendly_name: "DNS Queries Blocked Today"
+      #   value_template: >-
+      #       {%- if states.sensor.pihole.state %}
+      #           {{ states.sensor.pihole.state }}
+      #       {% else %}
+      #           0
+      #       {%- endif %}
+      #
+      # pihole_queries_today:
+      #   friendly_name: "DNS Queries Today"
+      #   value_template: >-
+      #       {%- if states.sensor.pihole.attributes.queries_today  %}
+      #           {{ states.sensor.pihole.attributes.queries_today }}
+      #       {% else %}
+      #           0
+      #       {%- endif %}
+      #
+      # pihole_percentage_today:
+      #   friendly_name: "Today's Percentaged Blocked"
+      #   unit_of_measurement: '%'
+      #   value_template: >-
+      #       {%- if states.sensor.pihole.attributes.percentage_today %}
+      #           {{ states.sensor.pihole.attributes.percentage_today }}
+      #       {% else %}
+      #           0
+      #       {%- endif %}
+      #
+      # pihole_domains_blocked:
+      #   friendly_name: "Domains Being Blocked"
+      #   value_template: >-
+      #       {%- if states.sensor.pihole.attributes.domains_blocked %}
+      #           {{ states.sensor.pihole.attributes.domains_blocked }}
+      #       {% else %}
+      #           0
+      #       {%- endif %}
 
       server_plex:
         friendly_name: "Plex Media Server"
@@ -200,9 +200,9 @@
         friendly_name: "CouchPotato"
         value_template: '{% if is_state("binary_sensor.couchpotato", "on") %}online{% else %}=== OFFLINE ==={% endif %}'
 
-      server_pihole:
-        friendly_name: "Pi-Hole"
-        value_template: '{% if is_state("device_tracker.pihole", "home") %}online{% else %}=== OFFLINE ==={% endif %}'
+      # server_pihole:
+      #   friendly_name: "Pi-Hole"
+      #   value_template: '{% if is_state("device_tracker.pihole", "home") %}online{% else %}=== OFFLINE ==={% endif %}'
 
       server_modem:
         friendly_name: "ARRIS Modem"

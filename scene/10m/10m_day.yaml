@@ -13,18 +13,14 @@ entities:
       color_temp: 313
       transition: 780
   light.end_table_right:
-      state: on
       brightness: 255
       rgb_color: [255, 255, 255]
       color_temp: 313
+      state: on
       transition: 780
   light.tables_leds:
-      state: on
-      brightness: 100
-      rgb_color: [255, 175, 125]
-      transition: 780
-  input_select.tables_led_effect:
-    option: 'Static'
+    transition: 0
+    state: off
 
   light.tv_overhead_right:
       state: on
@@ -70,12 +66,8 @@ entities:
       color_temp: 313
       transition: 780
   light.office_leds:
-      state: on
-      brightness: 100
-      rgb_color: [255, 175, 125]
-      transition: 780
-  input_select.office_led_effect:
-    option: 'Static'
+    transition: 0
+    state: off
 
   light.kitchen_right:
       transition: 60
@@ -84,9 +76,5 @@ entities:
       transition: 60
       state: off
   light.kitchen_leds:
-      state: on
-      brightness: 100
-      rgb_color: [255, 175, 125]
-      transition: 60
-  input_select.kitchen_led_effect:
-    option: 'Static'
+    transition: 0
+    state: off

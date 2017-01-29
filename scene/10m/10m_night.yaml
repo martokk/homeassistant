@@ -18,6 +18,9 @@ entities:
     rgb_color: [80, 80, 80]
     color_temp: 191
     transition: 780
+  light.tables_leds:
+    transition: 780
+    state: off
 
   light.tv_overhead_right:
     state: on
@@ -63,14 +66,15 @@ entities:
     color_temp: 191
     transition: 780
   light.office_leds:
-    state: on
-    brightness: 80
-    rgb_color: [80, 80, 80]
-    transition: 780
+    transition: 1
+    state: off
 
   light.kitchen_right:
     transition: 780
     state: off
   light.kitchen_left:
     transition: 780
+    state: off
+  light.kitchen_leds:
+    transition: 1
     state: off

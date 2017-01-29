@@ -1,10 +1,10 @@
   exclude:
     entities:
       - group.ambient_lights
-      - sensor.pihole_domains_blocked
-      - sensor.pihole_percentage_today
-      - sensor.pihole_queries_blocked_today
-      - sensor.pihole_queries_today
+      # - sensor.pihole_domains_blocked
+      # - sensor.pihole_percentage_today
+      # - sensor.pihole_queries_blocked_today
+      # - sensor.pihole_queries_today
 
     domains:
       - light

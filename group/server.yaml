@@ -1,7 +1,7 @@
   server_sensors:
     name: "Server Sensors/Trackers"
     entities:
-    - device_tracker.pihole
+    # - device_tracker.pihole
     - binary_sensor.sabnzbd
     - binary_sensor.qbittorrent
     - binary_sensor.sonarr
@@ -12,9 +12,9 @@
     entities:
     - sensor.server_modem
     - sensor.server_router
-    - sensor.server_pihole
+    # - sensor.server_pihole
     - sensor.server_mqtt
-    # - sensor.server_plex
+    - sensor.server_plex
     - sensor.server_sabnzbd
     - sensor.server_qbittorrent
     - sensor.server_sonarr
@@ -58,13 +58,13 @@
     - sensor.sabnzbd_disk_free
     - sensor.sonarr_disk_space
 
-  pihole:
-    name: "Pi-Hole"
-    entities:
-    - sensor.pihole_queries_blocked_today
-    - sensor.pihole_queries_today
-    - sensor.pihole_percentage_today
-    - sensor.pihole_domains_blocked
+  # pihole:
+  #   name: "Pi-Hole"
+  #   entities:
+  #   - sensor.pihole_queries_blocked_today
+  #   - sensor.pihole_queries_today
+  #   - sensor.pihole_percentage_today
+  #   - sensor.pihole_domains_blocked
 
   restart:
     name: "Restart"

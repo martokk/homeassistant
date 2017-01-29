@@ -2,7 +2,7 @@ name: 0s_Day Le
 entities:
   light.living_room_overhead:
       state: on
-      brightness: 225
+      brightness: 185
       rgb_color: [255, 255, 255]
       color_temp: 313
       transition: 0
@@ -18,13 +18,13 @@ entities:
 
   light.tv_overhead_right:
       state: on
-      brightness: 180
+      brightness: 140
       rgb_color: [255, 255, 255]
       color_temp: 313
       transition: 0
   light.tv_overhead_left:
       state: on
-      brightness: 180
+      brightness: 140
       rgb_color: [255, 255, 255]
       color_temp: 313
       transition: 0
@@ -37,19 +37,19 @@ entities:
 
   light.office_right:
       state: on
-      brightness: 225
+      brightness: 185
       rgb_color: [255, 255, 255]
       color_temp: 313
       transition: 0
   light.office_center:
       state: on
-      brightness: 180
+      brightness: 140
       rgb_color: [255, 255, 255]
       color_temp: 313
       transition: 0
   light.office_left:
       state: on
-      brightness: 180
+      brightness: 140
       rgb_color: [255, 255, 255]
       color_temp: 313
       transition: 0

@@ -12,7 +12,7 @@ entities:
   light.tables_leds:
     transition: 1
     state: off
-    
+
   light.tv_overhead_right:
     transition: 0
     state: off
