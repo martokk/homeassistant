@@ -14,12 +14,28 @@
     #     flood_color: "green"
     #     blink_color: "yellow"
     # - delay: "00:00:10"
-    # # TODO: set to AV Volume: 9
-    # - service: media_player.play_media
-    #   data:
-    #     entity_id: media_player.vtv_chromecast
-    #     media_content_type: video/mp4
-    #     media_content_id: http://192.168.1.82:8123/local/videos/bushes_of_love.mp4
+    # TODO: set to AV Volume: 9
+    - condition: template
+      value_template: >
+        {% if states.automation.dan_home_notification.attributes.last_triggered %}
+          {% if (as_timestamp(now())-as_timestamp(states.automation.dan_home_notification.attributes.last_triggered)) > (8 * 60 * 60)  %}
+            true
+          {% endif %}
+        {%else%}
+          true
+        {%endif%}
+    - condition: template
+      value_template: >
+        {% if states.media_player.vtv_chromecast.state | string == "playing" %}
+          false
+        {%else%}
+          true
+        {%endif%}
+    - service: media_player.play_media
+      data:
+        entity_id: media_player.vtv_chromecast
+        media_content_type: video/mp4
+        media_content_id: http://192.168.1.82:8123/local/videos/bushes_of_love.mp4
 
 
   # - alias: 'Dan Home Notification Play Video whats_up_bitches'
