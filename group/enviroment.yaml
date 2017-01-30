@@ -1,16 +1,20 @@
-  motion_sensors:
-    name: "Motion"
+  temperature_sensors:
+    name: "Temperature"
     entities:
-    - binary_sensor.kitchen_motion_sensor
+    - sensor.dark_sky_temperature
+    - sensor.indoor_temperature
+    - sensor.kitchen_temperature
+    - sensor.tables_temperature
 
   humidity_sensors:
     name: "Humidity"
     entities:
     - sensor.dark_sky_humidity
+    - sensor.indoor_humidity
     - sensor.kitchen_humidity
+    - sensor.tables_humidity
 
-  temperature_sensors:
-    name: "Temperature"
+  motion_sensors:
+    name: "Motion"
     entities:
-    - sensor.dark_sky_temperature
-    - sensor.kitchen_temperature
+    - binary_sensor.kitchen_motion_sensor

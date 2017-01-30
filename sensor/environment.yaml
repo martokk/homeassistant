@@ -9,3 +9,15 @@
     state_topic: "device/kitchen/humidity"
     qos: 0
     unit_of_measurement: "%"
+
+  - platform: mqtt
+    name: "Tables Temperature"
+    state_topic: "device/tables/temperature"
+    qos: 0
+    unit_of_measurement: "ºF"
+
+  - platform: mqtt
+    name: "Tables Humidity"
+    state_topic: "device/tables/humidity"
+    qos: 0
+    unit_of_measurement: "%"

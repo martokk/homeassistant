@@ -1,5 +1,44 @@
   - platform: template
     sensors:
+
+      ##########################################
+      ########## INDOOR WEATHER ################
+      ##########################################
+      indoor_temperature:
+        friendly_name: "Indoor Temperature"
+        unit_of_measurement: 'ºF'
+        value_template: >-
+            {% if states.sensor.kitchen_temperature.state %}
+              {% if states.sensor.tables_temperature.state %}
+                {{ (states.sensor.kitchen_temperature.state | float + states.sensor.tables_temperature.state | float ) / 2  | round (2)}}
+              {% else %}
+                {{ states.sensor.kitchen_temperature.state | float | round (2) }}
+              {% endif %}
+            {% else %}
+              {% if states("sensor.tables_temperature") %}
+                {{ states.sensor.tables_temperature.state | float | round (2) }}
+              {% endif %}
+            {% endif %}
+      indoor_humidity:
+        friendly_name: "Indoor Humidity"
+        unit_of_measurement: '%'
+        value_template: >-
+            {% if states.sensor.kitchen_humidity.state %}
+              {% if states.sensor.tables_humidity.state %}
+                {{ (states.sensor.kitchen_humidity.state | float + states.sensor.tables_humidity.state | float ) / 2  | round (2)}}
+              {% else %}
+                {{ states.sensor.kitchen_humidity.state | float | round (2) }}
+              {% endif %}
+            {% else %}
+              {% if states("sensor.tables_humidity") %}
+                {{ states.sensor.tables_humidity.state | float | round (2) }}
+              {% endif %}
+            {% endif %}
+
+
+
+
+
       ##########################################
       ########## DEVICES #######################
       ##########################################
