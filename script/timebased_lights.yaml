@@ -61,7 +61,7 @@
     sequence:
       - condition: time
         after: '21:00:00'
-        before: '23:59:59'
+        before: '22:59:59'
       - service: scene.turn_on
         entity_id: scene.night_blue
       - service: script.turn_off
@@ -72,8 +72,8 @@
   timebased_night_red:
     sequence:
       - condition: time
-        after: '00:00:00'
-        before: '00:30:00'
+        after: '23:00:00'
+        before: '01:30:00'
       - service: scene.turn_on
         entity_id: scene.night_red
       - service: script.turn_off
@@ -83,7 +83,7 @@
   timebased_off:
     sequence:
       - condition: time
-        after: '00:30:00'
+        after: '01:30:00'
         before: '09:00:00'
       - condition: sun
         before: sunrise

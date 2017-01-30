@@ -87,10 +87,10 @@
       entity_id: scene.10m_night_blue
 
 ### 12am
-  - alias: Timebased_12am
+  - alias: Timebased_11pm
     trigger:
       - platform: time
-        after: "23:45:00"
+        after: "22:45:00"
     condition:
       - condition: state
         entity_id: input_boolean.var_mike_home
@@ -116,10 +116,10 @@
         transition: 780
 
 ### 12:30am
-  - alias: Timebased_12_30am
+  - alias: Timebased_1_30am
     trigger:
       - platform: time
-        after: "00:15:00"
+        after: "01:15:00"
     condition:
       - condition: state
         entity_id: input_boolean.var_mike_home
