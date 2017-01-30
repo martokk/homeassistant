@@ -172,7 +172,7 @@
           - sensor.iphone6s_battery
           - sensor.ipad_battery
           - sensor.watch_battery
-        below: 15
+        below: 10
     condition:
       condition: and
       conditions:

@@ -157,7 +157,7 @@
       weather_alert:
         friendly_name: 'Weather Alerts'
         value_template: >-
-          {% set criteria = ["Tornado Warning", "Tornado Watch", "Severe Thunderstorm Warning", "Flood Warning", "Severe Weather Statement", "Severe Thunderstorm Watch", "HUR", "TOR", "TOW", "WRN", "SEW", "WIN", "Winter Weather Advisory", "FLO", "WAT", "SVR"] %}
+          {% set criteria = ["Tornado Warning", "Tornado Watch", "Severe Thunderstorm Warning", "Flood Warning", "Severe Weather Statement", "Severe Thunderstorm Watch", "HUR", "TOR", "TOW", "WRN", "SEW", "FLO", "WAT", "SVR"] %}
           {% for state in states.sensor.pws_alerts.attributes -%}
             {% if "Description" in state | string %}
               {% set description = states.sensor.pws_alerts.attributes[state] | string %}

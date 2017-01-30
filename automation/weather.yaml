@@ -65,7 +65,7 @@
     - condition: template
       value_template: >
         {% if states.automation.rain_start.attributes.last_triggered %}
-          {% if (as_timestamp(now())-as_timestamp(states.automation.rain_start.attributes.last_triggered)) > (1 * 60 * 60)  %}
+          {% if (as_timestamp(now())-as_timestamp(states.automation.rain_start.attributes.last_triggered)) > (2 * 60 * 60)  %}
             true
           {% else %}
             false
@@ -105,7 +105,7 @@
     - condition: template
       value_template: >
         {% if states.automation.rain_stop.attributes.last_triggered %}
-          {% if (as_timestamp(now())-as_timestamp(states.automation.rain_stop.attributes.last_triggered)) > (1 * 60 * 60)  %}
+          {% if (as_timestamp(now())-as_timestamp(states.automation.rain_stop.attributes.last_triggered)) > (2 * 60 * 60)  %}
             true
           {% else %}
             false
@@ -145,7 +145,7 @@
     - condition: template
       value_template: >
         {% if states.automation.snow_start.attributes.last_triggered %}
-          {% if (as_timestamp(now())-as_timestamp(states.automation.snow_start.attributes.last_triggered)) > (1 * 60 * 60)  %}
+          {% if (as_timestamp(now())-as_timestamp(states.automation.snow_start.attributes.last_triggered)) > (2 * 60 * 60)  %}
             true
           {% else %}
             false
@@ -185,7 +185,7 @@
     - condition: template
       value_template: >
         {% if states.automation.snow_stop.attributes.last_triggered %}
-          {% if (as_timestamp(now())-as_timestamp(states.automation.snow_stop.attributes.last_triggered)) > (1 * 60 * 60)  %}
+          {% if (as_timestamp(now())-as_timestamp(states.automation.snow_stop.attributes.last_triggered)) > (2 * 60 * 60)  %}
             true
           {% else %}
             false
@@ -226,7 +226,7 @@
       - condition: template
         value_template: >
           {% if states.automation.weather_alert.attributes.last_triggered %}
-            {% if (as_timestamp(now())-as_timestamp(states.automation.weather_alert.attributes.last_triggered)) > (2 * 60 * 60)  %}
+            {% if (as_timestamp(now())-as_timestamp(states.automation.weather_alert.attributes.last_triggered)) > (8 * 60 * 60)  %}
               true
             {% else %}
               false
