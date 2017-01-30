@@ -3,7 +3,7 @@
     broadcast: 192.168.1.255
 
   - platform: mqtt
-    name: "Office LEDs"
+    name: "Office LED Strip"
     command_topic: "device/office/setpower"
     state_topic: "device/office/setpowerpub"
     rgb_command_topic: "device/office/setcolor"
@@ -13,7 +13,7 @@
     optimistic: false
 
   - platform: mqtt
-    name: "Kitchen LEDs"
+    name: "Kitchen LED Strip"
     command_topic: "device/kitchen/setpower"
     state_topic: "device/kitchen/setpowerpub"
     rgb_command_topic: "device/kitchen/setcolor"
@@ -23,7 +23,7 @@
     optimistic: false
 
   - platform: mqtt
-    name: "tables LEDs"
+    name: "Tables LED Strips"
     command_topic: "device/tables/led1/power"
     state_topic: "device/tables/led1/power/pub"
     rgb_command_topic: "device/tables/led1/color"

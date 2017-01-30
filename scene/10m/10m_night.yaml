@@ -18,7 +18,7 @@ entities:
     rgb_color: [80, 80, 80]
     color_temp: 191
     transition: 780
-  light.tables_leds:
+  light.tables_led_strips:
     transition: 780
     state: off
 
@@ -65,7 +65,7 @@ entities:
     rgb_color: [101, 101, 101]
     color_temp: 191
     transition: 780
-  light.office_leds:
+  light.office_led_strip:
     transition: 1
     state: off
 
@@ -75,6 +75,6 @@ entities:
   light.kitchen_left:
     transition: 780
     state: off
-  light.kitchen_leds:
+  light.kitchen_led_strip:
     transition: 1
     state: off

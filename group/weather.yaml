@@ -7,6 +7,8 @@
     - sensor.dark_sky_temperature
     - sensor.dark_sky_apparent_temperature
     - sensor.dark_sky_humidity
+    - sensor.pws_alerts
+    - sensor.weather_alert
 
   weather_summary:
     name: "Weather Summary"

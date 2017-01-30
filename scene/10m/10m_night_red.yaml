@@ -18,7 +18,7 @@ entities:
     rgb_color: [105, 1, 0]
     color_temp: 207
     transition: 780
-  light.tables_leds:
+  light.tables_led_strips:
     state: on
     brightness: 45
     rgb_color: [105, 1, 0]
@@ -69,7 +69,7 @@ entities:
     rgb_color: [105, 1, 0]
     color_temp: 207
     transition: 780
-  light.office_leds:
+  light.office_led_strip:
     state: on
     brightness: 45
     rgb_color: [105, 1, 0]
@@ -89,7 +89,7 @@ entities:
     rgb_color: [105, 1, 0]
     color_temp: 207
     transition: 60
-  light.kitchen_leds:
+  light.kitchen_led_strip:
     state: on
     brightness: 45
     rgb_color: [105, 1, 0]

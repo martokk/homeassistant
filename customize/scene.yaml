@@ -1,0 +1,38 @@
+
+  scene.0s_chill:
+    hidden: true
+  scene.0s_chill_2:
+    hidden: true
+  scene.0s_day:
+    hidden: true
+  scene.0s_day_le:
+    hidden: true
+  scene.0s_night_cyan:
+    hidden: true
+  scene.0s_night_blue:
+    hidden: true
+  scene.0s_night_red:
+    hidden: true
+  scene.0s_night:
+    hidden: true
+  scene.0s_off:
+    hidden: true
+
+  scene.10m_chill:
+    hidden: true
+  scene.10m_chill_2:
+    hidden: true
+  scene.10m_day:
+    hidden: true
+  scene.10m_day_le:
+    hidden: true
+  scene.10m_night_cyan:
+    hidden: true
+  scene.10m_night_blue:
+    hidden: true
+  scene.10m_night_red:
+    hidden: true
+  scene.10m_night:
+    hidden: true
+  scene.10m_off:
+    hidden: true

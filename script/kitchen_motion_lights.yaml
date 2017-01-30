@@ -1,6 +1,5 @@
 
   kitchen_lights_timer_on:
-    alias: "Turn on kitchen lights."
     sequence:
     - service: script.turn_off
       entity_id: script.kitchen_lights_timer_off
@@ -19,7 +18,6 @@
 
 
   kitchen_lights_on: #### NOTE: CALLED FROM ABOVE FUNCTION (Note the name differences)
-    alias: "Turn on kitchen lights."
     sequence:
     # - service: input_select.select_option
     #   data:
@@ -44,7 +42,6 @@
 
 
   kitchen_lights_timer_off:
-    alias: "Turn off kitchen lights"
     sequence:
     - delay: '00:00:{{ states("input_slider.var_kitchen_delay") | int }}'
     - service: input_slider.select_value
@@ -85,7 +82,6 @@
           {%- endfor -%}
 
   kitchen_lights_timer_warm:
-    alias: "Turn lights to warm"
     sequence:
     - service: light.turn_on
       data:
@@ -113,14 +109,13 @@
       entity_id: script.kitchen_lights_timer_bright_long
 
   kitchen_lights_timer_day:
-    alias: "Turn lights to cool in day"
     sequence:
     - service: light.turn_on
       data:
         entity_id:
           - light.kitchen_left
           - light.kitchen_right
-          # - light.office_leds
+          # - light.office_led_strip
         brightness: 255
         rgb_color: [255, 255, 255]
         color_temp: 313
@@ -135,14 +130,13 @@
         value: 255
 
   kitchen_lights_timer_bright_dynamic:
-    alias: "Turn lights to cool white"
     sequence:
     - service: light.turn_on
       data:
         entity_id:
           - light.kitchen_left
           - light.kitchen_right
-          # - light.office_leds
+          # - light.office_led_strip
         rgb_color: [255, 255, 255]
         transition: 0
       data_template:
@@ -172,14 +166,13 @@
 
 
   kitchen_lights_timer_bright_long:
-    alias: "Turn lights to cool white"
     sequence:
     - service: light.turn_on
       data:
         entity_id:
           - light.kitchen_left
           - light.kitchen_right
-          # - light.office_leds
+          # - light.office_led_strip
         brightness: 255
         rgb_color: [255, 255, 255]
         color_temp: 313

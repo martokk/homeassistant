@@ -233,7 +233,7 @@ pihole:
   mac: 08:00:27:54:05:36
   name: Pihole
   picture:
-  track: true
+  track: false
   vendor:
 
 
@@ -247,5 +247,13 @@ esp8266_test:
   mac: 5C:CF:7F:D5:20:C3
   name: "ESP8266 - Test"
   picture:
-  track: true
+  track: false
   vendor: Espressif Inc.
+
+z813:
+  hide_if_away: false
+  mac: BT_4C:16:F1:F1:55:B9
+  name: Z813
+  picture:
+  track: true
+  vendor: zte corporation

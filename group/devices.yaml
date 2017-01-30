@@ -2,9 +2,7 @@
     name: "Devices"
     entities:
     - device_tracker.iphone6s
-    - device_tracker.ipad
     - device_tracker.watch
-    - device_tracker.dans_iphone6
     - device_tracker.echo_dot
     - device_tracker.chromecast
     - device_tracker.esp8266_kitchen
@@ -18,7 +16,8 @@
     - sensor.watch_battery
     - sensor.ipad_battery
 
-  mike_status:
-    name: "Mike Status"
+  user_presence:
+    name: "User Presence"
     entities:
     - input_boolean.var_mike_home
+    - input_boolean.var_dan_home

@@ -1,13 +1,17 @@
   living_room_lights:
     name: "Living Room"
     entities:
+    - light.living_room_overhead
     - light.end_table_left
     - light.end_table_right
-    - light.tv_floor_left
-    - light.tv_floor_right
-    - light.living_room_overhead
     - light.tv_overhead_left
     - light.tv_overhead_right
+    - light.tv_floor_left
+    - light.tv_floor_right
+    - light.tables_led_strips
+    - input_select.tables_led_effect
+    - input_slider.tables_animation_speed
+
 
   ambient_lights:
     name: "Ambient"
@@ -16,9 +20,9 @@
     - light.end_table_right
     - light.tv_floor_left
     - light.tv_floor_right
-    - light.office_leds
-    - light.kitchen_leds
-    - light.tables_leds
+    - light.office_led_strip
+    - light.kitchen_led_strip
+    - light.tables_led_strips
 
   living_room_overhead_lights:
     name: "Living Room Overhead"
@@ -45,14 +49,18 @@
     - light.office_left
     - light.office_center
     - light.office_right
-    - light.office_leds
+    - light.office_led_strip
+    - input_select.office_led_effect
+    - input_slider.office_animation_speed
 
   kitchen_lights:
     name: "Kitchen"
     entities:
     - light.kitchen_left
     - light.kitchen_right
-    - light.kitchen_leds
+    - light.kitchen_led_strip
+    - input_select.kitchen_led_effect
+    - input_slider.kitchen_animation_speed
 
   scenes:
     name: "Scenes"
@@ -74,19 +82,22 @@
     entities:
       - script.timebased_scene
       - script.scenegen
+
+  light_tests:
+    name: "Light Effects Tests"
+    entities:
+      - script.breathe_light_test
       - script.blink_light_test
       - script.blink2_light_test
       - script.flood_light_test
-      - script.breathe_light_test
+      - script.flood_and_breathe_test
+      - script.flood_and_blink_test
+      - script.flood_and_blink2_test
 
   led_lights:
+    name: "All LED Lights"
+    entities:
     - input_select.all_led_effect
-    - light.office_leds
-    - input_slider.office_animation_speed
-    - input_select.office_led_effect
-    - light.kitchen_leds
-    - input_slider.kitchen_animation_speed
-    - input_select.kitchen_led_effect
-    - light.tables_leds
-    - input_slider.tables_animation_speed
-    - input_select.tables_led_effect
+    - light.kitchen_led_strip
+    - light.office_led_strip
+    - light.tables_led_strips

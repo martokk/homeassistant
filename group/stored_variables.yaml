@@ -1,5 +1,0 @@
-  stored_variables:
-    name: "Stored Variables"
-    entities:
-      - input_select.var_last_known_scene
-      - input_boolean.var_mike_home

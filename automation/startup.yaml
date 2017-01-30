@@ -26,7 +26,7 @@
     action:
       - delay: "00:01:00"
       - service: homeassistant.turn_on
-        entity_id: input_boolean.var_start_notifcations_1m
+        entity_id: input_boolean.var_start_notifications_1m
 
   - alias: 'Allow Notificaitons (after 5 min)'
     trigger:
@@ -35,4 +35,4 @@
     action:
       - delay: "00:05:00"
       - service: homeassistant.turn_on
-        entity_id: input_boolean.var_start_notifcations_5m
+        entity_id: input_boolean.var_start_notifications_5m

@@ -1,3 +1,11 @@
+google_calandars:
+  name: "Google Calendars"
+  entities:
+    - calendar.default
+    - calendar.twit_live_schedule
+    - calendar.green_bay_packers
+    - calendar.chicago_bears
+
 upcoming_events:
   name: "Upcoming Events"
   entities:

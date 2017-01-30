@@ -14,9 +14,3 @@
     entities:
     - sensor.dark_sky_temperature
     - sensor.kitchen_temperature
-
-  motion_scripts:
-    name: "Motion Scripts"
-    entities:
-    - script.kitchen_lights_timer_on
-    - script.kitchen_lights_timer_off

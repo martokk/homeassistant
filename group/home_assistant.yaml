@@ -1,0 +1,27 @@
+
+  options:
+    name: "Options"
+    entities:
+      - input_boolean.option_blind_notifications
+
+  tools:
+    name: "Tools"
+    entities:
+      - script.restart_hass
+      - script.update_hass
+      - script.find_my_phone
+      - script.restart_eventghost
+
+  stored_variables:
+    name: "Stored Variables"
+    entities:
+      - input_select.var_last_known_scene
+      - input_boolean.var_mike_home
+      - input_boolean.var_dan_home
+      - input_boolean.var_kitchen_on
+      - input_boolean.var_start_notifications_1m
+      - input_boolean.var_start_notifications_5m
+      - input_boolean.var_kitchen_on
+      - input_slider.var_kitchen_brightness
+      - input_slider.var_kitchen_color_temp
+      - input_slider.var_kitchen_delay

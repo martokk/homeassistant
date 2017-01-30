@@ -9,7 +9,7 @@ entities:
   light.end_table_right:
     transition: 780
     state: off
-  light.tables_leds:
+  light.tables_led_strips:
     transition: 780
     state: off
 
@@ -35,7 +35,7 @@ entities:
   light.office_left:
     transition: 780
     state: off
-  light.office_leds:
+  light.office_led_strip:
     transition: 780
     state: off
 
@@ -45,6 +45,6 @@ entities:
   light.kitchen_left:
     transition: 60
     state: off
-  light.kitchen_leds:
+  light.kitchen_led_strip:
     transition: 60
     state: off

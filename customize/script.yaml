@@ -1,0 +1,53 @@
+### KITCHEN LIGHTS
+  script.kitchen_lights_on:
+    hidden: true
+  script.kitchen_lights_timer_on:
+    hidden: true
+  script.kitchen_lights_timer_off:
+    hidden: true
+  script.kitchen_lights_timer_warm:
+    hidden: true
+  script.kitchen_lights_timer_bright:
+    hidden: true
+  script.kitchen_lights_timer_bright_dynamic:
+    hidden: true
+  script.kitchen_lights_timer_bright_long:
+    hidden: true
+  script.kitchen_lights_timer_day:
+    hidden: true
+
+### LIGHT EFFECTS/ACTIONS
+  script.breathe_light:
+    hidden: true
+  script.blink_light:
+    hidden: true
+  script.blink2_light:
+    hidden: true
+  script.flood_light:
+    hidden: true
+  script.flood_and_breathe:
+    hidden: true
+  script.flood_and_blink:
+    hidden: true
+  script.flood_and_blink2:
+    hidden: true
+
+### TIME-BASED LIGHTS
+  script.timebased_day:
+    hidden: true
+  script.timebased_day_le:
+    hidden: true
+  script.timebased_night_cyan:
+    hidden: true
+  script.timebased_night_blue:
+    hidden: true
+  script.timebased_night_red:
+    hidden: true
+  script.timebased_off:
+    hidden: true
+
+
+  script.tv_power:
+    hidden: true
+  script.av_power:
+    hidden: true

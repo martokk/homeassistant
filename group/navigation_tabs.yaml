@@ -8,7 +8,8 @@
     - group.batteries
     - group.upcoming_events
     - group.bitcoin
-    - group.mike_status
+    - group.user_presence
+    - group.google_calandars
 
   lights_view:
     name: "Lights"
@@ -20,6 +21,9 @@
     - group.scenes
     - group.light_scripts
     - group.led_lights
+    - group.ambient_lights
+    - group.living_room_overhead_lights
+    - group.overhead_lights
 
   enviroment:
     name: "Enviroment"
@@ -45,6 +49,7 @@
     name: "Network"
     view: yes
     entities:
+    - group.status_alert
     - group.server_status
     - group.downloads
     - group.connection_speed
@@ -56,9 +61,19 @@
     name: "Home Assistant"
     view: yes
     entities:
+    - group.tools
+    - group.options
     - group.light_scripts
-    - group.motion_scripts
-    - group.restart
-    - group.all_automations
-    - group.all_scripts
+    - group.light_tests
     - group.stored_variables
+
+  all:
+    name: "All"
+    view: yes
+    entities:
+    - group.all_automations
+    - group.all_covers
+    - group.all_devices
+    - group.all_lights
+    - group.all_scripts
+    - group.all_switches

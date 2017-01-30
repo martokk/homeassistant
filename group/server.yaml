@@ -1,11 +1,9 @@
-  server_sensors:
-    name: "Server Sensors/Trackers"
+  status_alert:
+    name: "Status Alert"
     entities:
-    # - device_tracker.pihole
-    - binary_sensor.sabnzbd
-    - binary_sensor.qbittorrent
-    - binary_sensor.sonarr
-    - binary_sensor.couchpotato
+    - sensor.cloud_status_alert
+    - sensor.server_status_alert
+    - sensor.iot_status_alert
 
   server_status:
     name: "Server Status"
@@ -26,12 +24,6 @@
     - sensor.cloud_ifttt
     - sensor.cloud_lifx
 
-  cloud_sensors:
-    name: "Cloud Sensors"
-    entities:
-    - sensor.ifttt_status
-    - sensor.lifx_status
-
   iot_status:
     name: "IoT Status"
     entities:
@@ -39,6 +31,7 @@
     - sensor.iot_chromecast
     - sensor.iot_esp8266_kitchen
     - sensor.iot_esp8266_office
+    - sensor.iot_esp8266_tables
 
   connection_speed:
     name: "Connection Speed"
@@ -65,9 +58,3 @@
   #   - sensor.pihole_queries_today
   #   - sensor.pihole_percentage_today
   #   - sensor.pihole_domains_blocked
-
-  restart:
-    name: "Restart"
-    entities:
-    - script.restart_hass
-    - script.restart_eventghost

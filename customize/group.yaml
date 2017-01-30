@@ -1,0 +1,14 @@
+  group.default:
+    hidden: true
+  group.all_automations:
+    hidden: false
+  group.all_covers:
+    hidden: false
+  group.all_devices:
+    hidden: false
+  group.all_lights:
+    hidden: false
+  group.all_scripts:
+    hidden: false
+  group.all_switches:
+    hidden: false
