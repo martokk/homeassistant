@@ -24,6 +24,15 @@
     - service: homeassistant.turn_on
       entity_id: script.kitchen_lights_timer_off
 
+  - alias: Turn ON kitch lights (sink movement)
+    trigger:
+    - platform: state
+      entity_id: binary_sensor.sink_motion_sensor
+      from: 'off'
+      to: 'on'
+    action:
+    - service: script.kitchen_lights_timer_day
+
 ##########################################
 ########## SET VARIABLES #################
 ##########################################

@@ -17,7 +17,7 @@
     - delay: "00:00:00"
     - service: mqtt.publish
       data_template:
-        topic: "device/office/seteffect"
+        topic: "device/office/led1/effect"
         payload: >
           {% for opt in states.input_select.office_led_effect.attributes.options -%}
             {% if states.input_select.office_led_effect.state | string == opt %}
@@ -26,7 +26,7 @@
           {%- endfor -%}
     - service: mqtt.publish
       data_template:
-        topic: "device/kitchen/seteffect"
+        topic: "device/kitchen/led1/effect"
         payload: >
           {% for opt in states.input_select.kitchen_led_effect.attributes.options -%}
             {% if states.input_select.kitchen_led_effect.state | string == opt %}

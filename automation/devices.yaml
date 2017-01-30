@@ -77,10 +77,10 @@
   - alias: 'MQTT Device Connected - Call LKS'
     trigger:
       - platform: mqtt
-        topic: device/kitchen
+        topic: device/kitchen/device
         payload: 'connected'
       - platform: mqtt
-        topic: device/office
+        topic: device/office/device
         payload: 'connected'
       - platform: mqtt
         topic: device/tables/device

@@ -33,7 +33,7 @@
     action:
       - service: mqtt.publish
         data_template:
-          topic: "device/office/seteffect"
+          topic: "device/office/led1/effect"
           payload: >
             {% for opt in states.input_select.office_led_effect.attributes.options -%}
               {% if trigger.to_state.state | string == opt %}
@@ -41,7 +41,7 @@
               {%endif%}
             {%- endfor -%}
 
-  - alias: "Office LEDs Animation Speed"
+  - alias: "office LEDs Animation Speed"
     initial_state: True
     hide_entity: False
     trigger:
@@ -50,7 +50,7 @@
     action:
       - service: mqtt.publish
         data_template:
-          topic: "device/office/setanimationspeed"
+          topic: "device/office/led1/speed"
           payload: '{{ trigger.to_state.state | int }}'
 
 ##########################################
@@ -66,7 +66,7 @@
     action:
       - service: mqtt.publish
         data_template:
-          topic: "device/kitchen/seteffect"
+          topic: "device/kitchen/led1/effect"
           payload: >
             {% for opt in states.input_select.kitchen_led_effect.attributes.options -%}
               {% if trigger.to_state.state | string == opt %}
@@ -74,7 +74,7 @@
               {%endif%}
             {%- endfor -%}
 
-  - alias: "Kitchen LEDs Animation Speed"
+  - alias: "kitchen LEDs Animation Speed"
     initial_state: True
     hide_entity: False
     trigger:
@@ -83,7 +83,7 @@
     action:
       - service: mqtt.publish
         data_template:
-          topic: "device/kitchen/setanimationspeed"
+          topic: "device/kitchen/led1/speed"
           payload: '{{ trigger.to_state.state | int }}'
 
 ##########################################

@@ -8,14 +8,14 @@
         friendly_name: "Indoor Temperature"
         unit_of_measurement: 'ºF'
         value_template: >-
-            {% if states.sensor.kitchen_temperature.state %}
-              {% if states.sensor.tables_temperature.state %}
+            {% if states.sensor.kitchen_temperature.state | float> 0 %}
+              {% if states.sensor.tables_temperature.state | float > 0 %}
                 {{ (states.sensor.kitchen_temperature.state | float + states.sensor.tables_temperature.state | float ) / 2  | round(1)}}
               {% else %}
                 {{ states.sensor.kitchen_temperature.state | float | round(1) }}
               {% endif %}
             {% else %}
-              {% if states("sensor.tables_temperature") %}
+              {% if states.sensor.tables_temperature.state | float > 0 %}
                 {{ states.sensor.tables_temperature.state | float | round(1) }}
               {% endif %}
             {% endif %}

@@ -4,22 +4,22 @@
 
   - platform: mqtt
     name: "Office LED Strip"
-    command_topic: "device/office/setpower"
-    state_topic: "device/office/setpowerpub"
-    rgb_command_topic: "device/office/setcolor"
-    rgb_state_topic: "device/office/setcolorpub"
-    brightness_command_topic: "device/office/setbrightness"
-    brightness_state_topic: "device/office/setbrightnesspub"
+    command_topic: "device/office/led1/power"
+    state_topic: "device/office/led1/power/pub"
+    rgb_command_topic: "device/office/led1/color"
+    rgb_state_topic: "device/office/led1/color/pub"
+    brightness_command_topic: "device/office/led1/brightness"
+    brightness_state_topic: "device/office/led1/brightness/pub"
     optimistic: false
 
   - platform: mqtt
     name: "Kitchen LED Strip"
-    command_topic: "device/kitchen/setpower"
-    state_topic: "device/kitchen/setpowerpub"
-    rgb_command_topic: "device/kitchen/setcolor"
-    rgb_state_topic: "device/kitchen/setcolorpub"
-    brightness_command_topic: "device/kitchen/setbrightness"
-    brightness_state_topic: "device/kitchen/setbrightnesspub"
+    command_topic: "device/kitchen/led1/power"
+    state_topic: "device/kitchen/led1/power/pub"
+    rgb_command_topic: "device/kitchen/led1/color"
+    rgb_state_topic: "device/kitchen/led1/color/pub"
+    brightness_command_topic: "device/kitchen/led1/brightness"
+    brightness_state_topic: "device/kitchen/led1/brightness/pub"
     optimistic: false
 
   - platform: mqtt
