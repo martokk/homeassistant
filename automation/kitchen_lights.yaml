@@ -34,7 +34,7 @@
       from: "off"
       to: "on"
       for:
-        seconds: 8
+        seconds: 4
     action:
     - service: input_slider.select_value
       data_template:

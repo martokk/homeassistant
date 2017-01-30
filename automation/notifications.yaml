@@ -25,6 +25,8 @@
     trigger:
       - platform: time
         hours: 3
+        minutes: 0
+        seconds: 0
     action:
     - service: input_boolean.turn_off
       data:

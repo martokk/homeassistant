@@ -10,13 +10,13 @@
         value_template: >-
             {% if states.sensor.kitchen_temperature.state %}
               {% if states.sensor.tables_temperature.state %}
-                {{ (states.sensor.kitchen_temperature.state | float + states.sensor.tables_temperature.state | float ) / 2  | round (2)}}
+                {{ (states.sensor.kitchen_temperature.state | float + states.sensor.tables_temperature.state | float ) / 2  | round(1)}}
               {% else %}
-                {{ states.sensor.kitchen_temperature.state | float | round (2) }}
+                {{ states.sensor.kitchen_temperature.state | float | round(1) }}
               {% endif %}
             {% else %}
               {% if states("sensor.tables_temperature") %}
-                {{ states.sensor.tables_temperature.state | float | round (2) }}
+                {{ states.sensor.tables_temperature.state | float | round(1) }}
               {% endif %}
             {% endif %}
       indoor_humidity:
@@ -25,13 +25,13 @@
         value_template: >-
             {% if states.sensor.kitchen_humidity.state %}
               {% if states.sensor.tables_humidity.state %}
-                {{ (states.sensor.kitchen_humidity.state | float + states.sensor.tables_humidity.state | float ) / 2  | round (2)}}
+                {{ (states.sensor.kitchen_humidity.state | float + states.sensor.tables_humidity.state | float ) / 2  | round(1)}}
               {% else %}
-                {{ states.sensor.kitchen_humidity.state | float | round (2) }}
+                {{ states.sensor.kitchen_humidity.state | float | round(1) }}
               {% endif %}
             {% else %}
               {% if states("sensor.tables_humidity") %}
-                {{ states.sensor.tables_humidity.state | float | round (2) }}
+                {{ states.sensor.tables_humidity.state | float | round(1) }}
               {% endif %}
             {% endif %}
 
