@@ -12,3 +12,6 @@
 
   kill_eventghost: 'taskkill /F /T /IM EventGhost.exe'
   start_eventghost: '"C:/Program Files (x86)/EventGhost/EventGhost.exe"'
+
+  restart_hass: 'V:/hass/_shellscripts/hass_restart.bat'
+  update_hass: 'V:/hass/_shellscripts/hass_restart.bat'
