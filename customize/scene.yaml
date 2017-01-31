@@ -18,6 +18,26 @@
   scene.0s_off:
     hidden: true
 
+  scene.chill:
+    entity_picture: http://192.168.1.82:8123/local/icons/chill.png
+  scene.chill_2:
+    entity_picture: http://192.168.1.82:8123/local/icons/chill_2.png
+  scene.day:
+    entity_picture: http://192.168.1.82:8123/local/icons/day.png
+  scene.day_le:
+    entity_picture: http://192.168.1.82:8123/local/icons/day_le.png
+  scene.night_cyan:
+    entity_picture: http://192.168.1.82:8123/local/icons/night_cyan.png
+  scene.night_blue:
+    entity_picture: http://192.168.1.82:8123/local/icons/night_blue.png
+  scene.night_red:
+    entity_picture: http://192.168.1.82:8123/local/icons/night_red.png
+  scene.night:
+    entity_picture: http://192.168.1.82:8123/local/icons/night.png
+  scene.off:
+    entity_picture: http://192.168.1.82:8123/local/icons/off.png
+
+
   scene.10m_chill:
     hidden: true
   scene.10m_chill_2:
