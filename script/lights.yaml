@@ -54,6 +54,13 @@
         entity_id: group.ambient_lights
         delay: "00:00:05"
 
+  flood_scene_test:
+    sequence:
+    - service: script.flood_scene
+      data:
+        entity_id: scene.chill
+        delay: "00:00:05"
+
   flood_and_blink_test:
     sequence:
     - service: script.flood_and_blink
@@ -113,6 +120,30 @@
         entity_id: '{{ entity_id }}'
         brightness: '{% if is_state("input_select.var_last_known_scene", "Off") %}80{%else%}255{%endif%}'
         transition: 1
+    - delay: '{{ delay }}'
+    - service: script.call_last_known_scene
+    - condition: template
+      value_template: >
+        {% if is_state("input_boolean.var_kitchen_on", "on") %}
+          true
+        {%else%}
+          false
+        {% endif %}
+    - delay: "00:00:01"
+    - service: script.kitchen_lights_on
+
+##########################################
+########## FLOOD SCENE ##################
+##########################################
+  flood_scene:
+    alias: Flood Scene [entity_id; delay]
+    sequence:
+    - condition: state
+      entity_id: input_boolean.option_blind_notifications
+      state: 'off'
+    - service: scene.turn_on
+      data_template:
+        entity_id: '{{ entity_id }}'
     - delay: '{{ delay }}'
     - service: script.call_last_known_scene
     - condition: template

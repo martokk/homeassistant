@@ -92,6 +92,7 @@
       - script.breathe_light_test
       - script.blink_light_test
       - script.blink2_light_test
+      - script.flood_scene_test
       - script.flood_light_test
       - script.flood_and_breathe_test
       - script.flood_and_blink_test
