@@ -8,14 +8,14 @@
         friendly_name: "Indoor Temperature"
         unit_of_measurement: 'ºF'
         value_template: >-
-            {% if states.sensor.kitchen_temperature.state | float> 0 %}
-              {% if states.sensor.tables_temperature.state | float > 0 %}
-                {{ (states.sensor.kitchen_temperature.state | float + states.sensor.tables_temperature.state | float ) / 2  | round(1)}}
+            {% if states.sensor.kitchen_temperature.state | float> 1 %}
+              {% if states.sensor.tables_temperature.state | float > 1 %}
+                {{ ( states.sensor.kitchen_temperature.state | float * 0.25 ) + ( states.sensor.tables_temperature.state | float * 0.75 ) | round(1)}}
               {% else %}
                 {{ states.sensor.kitchen_temperature.state | float | round(1) }}
               {% endif %}
             {% else %}
-              {% if states.sensor.tables_temperature.state | float > 0 %}
+              {% if states.sensor.tables_temperature.state | float > 1 %}
                 {{ states.sensor.tables_temperature.state | float | round(1) }}
               {% endif %}
             {% endif %}
@@ -23,14 +23,14 @@
         friendly_name: "Indoor Humidity"
         unit_of_measurement: '%'
         value_template: >-
-            {% if states.sensor.kitchen_humidity.state %}
-              {% if states.sensor.tables_humidity.state %}
-                {{ (states.sensor.kitchen_humidity.state | float + states.sensor.tables_humidity.state | float ) / 2  | round(1)}}
+            {% if states.sensor.kitchen_humidity.state | float> 1 %}
+              {% if states.sensor.tables_humidity.state | float > 1 %}
+                {{ ( states.sensor.kitchen_humidity.state | float * 0.25 ) + ( states.sensor.tables_humidity.state | float * 0.75 ) | round(1)}}
               {% else %}
                 {{ states.sensor.kitchen_humidity.state | float | round(1) }}
               {% endif %}
             {% else %}
-              {% if states("sensor.tables_humidity") %}
+              {% if states.sensor.tables_humidity.state | float > 1 %}
                 {{ states.sensor.tables_humidity.state | float | round(1) }}
               {% endif %}
             {% endif %}
