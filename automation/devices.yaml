@@ -40,36 +40,6 @@
       - service: homeassistant.turn_on
         entity_id: input_boolean.var_mike_home
 
-  - alias: 'Mike Home - Automations'
-    trigger:
-      - platform: state
-        entity_id: input_boolean.var_mike_home
-        state: 'on'
-    action:
-    - condition: state
-      entity_id: input_boolean.var_start_notifications_1m
-      state: 'on'
-    - service: scene.turn_on
-      entity_id: scene.day
-    - delay: "00:05:00"
-    - service: script.timebased_scene
-    - condition: template
-      value_template: >
-        {% if states.media_player.vtv_chromecast.state | string == "playing" and "192.168" not in states.media_player.vtv_chromecast.attributes.media_content_id  %}
-          false
-        {%else%}
-          true
-        {%endif%}
-    - service: media_player.play_media
-      data:
-        entity_id: media_player.vtv_chromecast
-        media_content_type: video/mp4
-        media_content_id: http://192.168.1.82:8123/local/battlestar_galactica_intro.mp4
-
-
-
-
-
 #********** Dan ***************************************#
   - alias: 'Dan Away'
     trigger:
@@ -102,7 +72,6 @@
 ##########################################
 ########## MQTT DEVICE CONNECTED #########
 ##########################################
-
   - alias: 'MQTT Device Connected - Call LKS'
     trigger:
       - platform: mqtt
