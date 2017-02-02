@@ -1,3 +1,21 @@
+#********** SCENES ***************************************#
+  scenes:
+    name: "Scenes"
+    entities:
+    - script.timebased_scene
+    - script.call_last_known_scene
+    - scene.chill
+    - scene.chill_2
+    - scene.day
+    - scene.day_le
+    - scene.night
+    - scene.night_cyan
+    - scene.night_blue
+    - scene.night_red
+    - scene.night_computer
+    - scene.off
+
+#********** LIGHTS ***************************************#
   living_room_lights:
     name: "Living Room"
     entities:
@@ -61,21 +79,6 @@
     - light.kitchen_led_strip
     - input_select.kitchen_led_effect
     - input_slider.kitchen_animation_speed
-
-  scenes:
-    name: "Scenes"
-    entities:
-    - script.timebased_scene
-    - script.call_last_known_scene
-    - scene.chill
-    - scene.chill_2
-    - scene.day
-    - scene.day_le
-    - scene.night
-    - scene.night_blue
-    - scene.night_cyan
-    - scene.night_red
-    - scene.off
 
   light_scripts:
     name: "Light Scripts"
