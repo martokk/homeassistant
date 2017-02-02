@@ -26,7 +26,7 @@
         {%endif%}
     - condition: template
       value_template: >
-        {% if states.media_player.vtv_chromecast.state | string == "playing" %}
+        {% if states.media_player.vtv_chromecast.state | string == "playing" and "192.168" not in states.media_player.vtv_chromecast.attributes.media_content_id  %}
           false
         {%else%}
           true
@@ -35,7 +35,7 @@
       data:
         entity_id: media_player.vtv_chromecast
         media_content_type: video/mp4
-        media_content_id: http://192.168.1.82:8123/local/videos/bushes_of_love.mp4
+        media_content_id: http://192.168.1.82:8123/local/bushes_of_love.mp4
 
 
   # - alias: 'Dan Home Notification Play Video whats_up_bitches'
@@ -52,4 +52,4 @@
   #     data:
   #       entity_id: media_player.vtv_chromecast
   #       media_content_type: video/mp4
-  #       media_content_id: http://192.168.1.82:8123/local/videos/whats_up_bitches.mp4
+  #       media_content_id: http://192.168.1.82:8123/local/whats_up_bitches.mp4

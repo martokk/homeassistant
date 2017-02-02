@@ -1,14 +1,34 @@
 ##########################################
 ########## SCREENSAVERS ##################
 ##########################################
-  - alias: "Play Fireplace after 10m"
+  - alias: "Chromecast Screen Saver"
     trigger:
-    - platform: state
-      entity_id: media_player.vtv_chromecast
-      state: 'idle'
-      for:
-        minutes: 5
+      - platform: state
+        entity_id: media_player.vtv_chromecast
+        state: 'idle'
+        for:
+          minutes: 5
+      - platform: state
+        entity_id: media_player.vtv_chromecast
+        state: 'off'
+        for:
+          minutes: 5
+    condition:
+      - condition: time
+        before: "23:00:00"
+      - condition: sun
+        after: sunset
+      - condition: state
+        entity_id: input_boolean.var_mike_home
+        state: 'on'
     action:
-    - condition: time
-      before: "22:00:00"
-    - service: script.media_scene_fireplace
+      - condition: template
+        value_template: >
+          {% if states.media_player.vtv_chromecast.state | string == "playing" and "192.168" not in states.media_player.vtv_chromecast.attributes.media_content_id  %}
+            false
+          {%else%}
+            true
+          {%endif%}
+      - condition: time
+        before: "22:00:00"
+      - service: script.media_scene_magenta_blue_orbs_long
