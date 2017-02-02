@@ -1,6 +1,6 @@
   entertainment_center:
     name: "Entertainment Center"
-    control: hidden
+    # control: hidden
     entities:
     - switch.tv_power_switch
     - switch.av_power_switch
@@ -8,7 +8,7 @@
 
   ambivision:
     name: "AmbiVision LEDs"
-    control: hidden
+    # control: hidden
     entities:
     - script.led_standby
     - script.led_mode
