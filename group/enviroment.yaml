@@ -18,3 +18,4 @@
     name: "Motion"
     entities:
     - binary_sensor.kitchen_motion_sensor
+    - binary_sensor.sink_motion_sensor
