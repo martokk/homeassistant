@@ -19,3 +19,30 @@
     action:
       - service: switch.toggle
         entity_id: switch.tv_power_switch
+
+  - alias: 'Toggle Chromecast Play/Pause'
+    trigger:
+      - platform: mqtt
+        topic: device/eventghost/play_pause
+        payload: "toggle"
+    action:
+      - service: media_player.media_play_pause
+        entity_id: media_player.vtv_chromecast
+
+  - alias: 'Toggle Chromecast Prev'
+    trigger:
+      - platform: mqtt
+        topic: device/eventghost/prev
+        payload: "1"
+    action:
+      - service: media_player.media_previous_track
+        entity_id: media_player.vtv_chromecast
+
+  - alias: 'Toggle Chromecast Next'
+    trigger:
+      - platform: mqtt
+        topic: device/eventghost/next
+        payload: "1"
+    action:
+      - service: media_player.media_next_track
+        entity_id: media_player.vtv_chromecast
