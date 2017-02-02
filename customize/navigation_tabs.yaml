@@ -1,3 +1,6 @@
+##########################################
+########## DASHBOARD ORDERING ############
+##########################################
   group.scenes:
     order: 1
   group.today:
@@ -14,4 +17,3 @@
     order: 7
   group.google_calandars:
     order: 8
-      

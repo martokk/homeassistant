@@ -1,5 +1,6 @@
-
-### Datk Sky
+##########################################
+########## DARK SKY WEATHER ##############
+##########################################
   sensor.dark_sky_apparent_temperature:
       friendly_name: "Outdoor Temperature (Apparent)"
   sensor.dark_sky_cloud_coverage:
@@ -52,7 +53,9 @@
   sensor.dark_sky_wind_speed:
       friendly_name: "Wind Speed"
 
-
+##########################################
+########## STATUS SENSORS ################
+##########################################
   sensor.ifttt_status:
     hidden: true
   sensor.lifx_status:

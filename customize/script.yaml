@@ -1,4 +1,6 @@
-### KITCHEN LIGHTS
+##########################################
+########## KITCHEN LIGHTS ################
+##########################################
   script.kitchen_lights_on:
     hidden: true
   script.kitchen_lights_timer_on:
@@ -16,7 +18,9 @@
   script.kitchen_lights_timer_day:
     hidden: true
 
-### LIGHT EFFECTS/ACTIONS
+##########################################
+########## LIGHT EFFECTS #################
+##########################################
   script.breathe_light:
     hidden: true
   script.blink_light:
@@ -32,7 +36,9 @@
   script.flood_and_blink2:
     hidden: true
 
-### TIME-BASED LIGHTS
+##########################################
+########## TIME-BASED LIGHTS #############
+##########################################
   script.timebased_day:
     hidden: true
   script.timebased_day_le:
@@ -46,7 +52,9 @@
   script.timebased_off:
     hidden: true
 
-
+##########################################
+########## ENTERTAINMENT CENTER ##########
+##########################################
   script.tv_power:
     hidden: true
   script.av_power:
