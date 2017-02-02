@@ -1,6 +1,7 @@
   media_scene_fireplace:
     alias: "fireplace"
     sequence:
+      - service: script.set_volume_9
       - service: media_player.play_media
         data:
           entity_id: media_player.vtv_chromecast

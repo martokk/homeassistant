@@ -22,6 +22,7 @@
         entity_id: input_boolean.var_mike_home
         state: 'on'
     action:
+      - service: script.set_volume_9
       - condition: template
         value_template: >
           {% if states.media_player.vtv_chromecast.state | string == "playing" and "192.168" not in states.media_player.vtv_chromecast.attributes.media_content_id  %}
