@@ -28,3 +28,11 @@
     alias: "Sub-mode"
     sequence:
     - service: shell_command.led_submode
+
+  set_volume_9:
+    alias: "Set Volume (9)"
+    sequence:
+    - service: mqtt.publish
+      data_template:
+        topic: "device/eventghost/set_vol_9"
+        payload: '1'
