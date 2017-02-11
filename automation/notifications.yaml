@@ -198,6 +198,12 @@
           - sensor.iphone6s_battery
           - sensor.ipad_battery
           - sensor.watch_battery
+        below: 25
+      - platform: numeric_state
+        entity_id:
+          - sensor.iphone6s_battery
+          - sensor.ipad_battery
+          - sensor.watch_battery
         below: 10
     condition:
       condition: and
@@ -212,7 +218,7 @@
       - condition: template
         value_template: >
           {% if states.automation.battery_low_notification.attributes.last_triggered %}
-            {% if (as_timestamp(now())-as_timestamp(states.automation.battery_low_notification.attributes.last_triggered)) > (3 * 60 * 60)  %}
+            {% if (as_timestamp(now())-as_timestamp(states.automation.battery_low_notification.attributes.last_triggered)) > (1 * 60 * 60)  %}
               true
             {% else %}
               false
@@ -220,11 +226,6 @@
           {%else%}
             true
           {%endif%}
-      - service: script.flood_and_blink2
-        data:
-          flood_color: "cyan"
-          blink_color: "blueviolet"
-          blink_color2: "red"
       - service: notify.gmail
         data_template:
           message: |
@@ -233,14 +234,25 @@
             iPhone: {{ states("sensor.iphone6s_battery") }}%;
             Watch: {{ states("sensor.watch_battery") }}%;
             iPad: {{ states("sensor.ipad_battery") }}%;
+      - condition: template
+        value_template: >
+          {% if trigger.to_state.state | int <= 10 %}
+            true
+          {% endif %}
+      - service: script.flood_and_blink2
+        data:
+          flood_color: "cyan"
+          blink_color: "blueviolet"
+          blink_color2: "red"
 
-  - alias: 'Battery Fully Charged Notificaiton'
+
+  - alias: 'Battery Fully Charged Email Only'
     trigger:
-      - platform: numeric_state
+      - platform: state
         entity_id:
           - sensor.iphone6s_battery
           - sensor.watch_battery
-        above: 99
+        state: '100'
     condition:
       condition: and
       conditions:
@@ -248,6 +260,37 @@
           entity_id: input_boolean.var_mike_home
           state: 'on'
     action:
+      - condition: state
+        entity_id: input_boolean.var_start_notifications_1m
+        state: 'on'
+      - service: notify.gmail
+        data_template:
+          message: |
+            Battery Fully Charged!
+
+            iPhone: {{ states("sensor.iphone6s_battery") }}%;
+            Watch: {{ states("sensor.watch_battery") }}%;
+            iPad: {{ states("sensor.ipad_battery") }}%;
+
+
+  - alias: 'Battery Fully Charged Notificaiton'
+    trigger:
+      - platform: state
+        entity_id:
+          - sensor.iphone6s_battery
+          - sensor.watch_battery
+        state: '100'
+        for:
+          hours: 2
+    condition:
+      condition: and
+      conditions:
+        - condition: state
+          entity_id: input_boolean.var_mike_home
+          state: 'on'
+    action:
+      - condition: time
+        before: "23:59:59"
       - condition: state
         entity_id: input_boolean.var_start_notifications_1m
         state: 'on'
@@ -264,7 +307,6 @@
             iPhone: {{ states("sensor.iphone6s_battery") }}%;
             Watch: {{ states("sensor.watch_battery") }}%;
             iPad: {{ states("sensor.ipad_battery") }}%;
-
 
 ##########################################
 ############# VHOME NETWORK ##############
