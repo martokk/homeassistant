@@ -10,6 +10,38 @@
     action:
       - service: switch.toggle
         entity_id: switch.av_power_switch
+      ## Toggles off lights if after 12pm
+      - condition: time
+        after: "00:00:00"
+      - condition: sun
+        before: sunrise
+      - service: script.breathe_light
+        data:
+          breathe_color: "red"
+          entity_id: group.all_lights
+      - delay: "00:00:02"
+      - service: light.turn_off
+        entity_id: group.ambient_lights
+      - delay: "00:00:05"
+      - service: scene.turn_on
+        entity_id: scene.10m_off
+
+  - alias: 'Toggle Lights'
+    trigger:
+      - platform: mqtt
+        topic: device/eventghost/all_lights
+        payload: "toggle"
+    action:
+      - service: script.breathe_light
+        data:
+          breathe_color: "red"
+          entity_id: group.all_lights
+      - delay: "00:00:01"
+      - service: light.turn_off
+        entity_id: group.ambient_lights
+      - delay: "00:00:05"
+      - service: scene.turn_on
+        entity_id: scene.10m_off
 
   - alias: 'Toggle tv_power'
     trigger:
