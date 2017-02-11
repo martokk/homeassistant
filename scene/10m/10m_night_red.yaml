@@ -8,13 +8,13 @@ entities:
     transition: 780
   light.end_table_left:
     state: on
-    brightness: 70
+    brightness: 100
     rgb_color: [69, 69, 69]
     color_temp: 207
     transition: 780
   light.end_table_right:
     state: on
-    brightness: 70
+    brightness: 100
     rgb_color: [69, 69, 69]
     color_temp: 207
     transition: 780
@@ -40,13 +40,13 @@ entities:
     transition: 780
   light.tv_floor_left:
     state: on
-    brightness: 100
+    brightness: 150
     rgb_color: [69, 69, 69]
     color_temp: 207
     transition: 780
   light.tv_floor_right:
     state: on
-    brightness: 100
+    brightness: 150
     rgb_color: [69, 69, 69]
     color_temp: 207
     transition: 780

@@ -41,13 +41,13 @@ entities:
   light.tv_floor_left:
     state: on
     brightness: 124
-    rgb_color: [66,0,123]
+    rgb_color: [0, 105, 104]
     color_temp: 207
     transition: 1
   light.tv_floor_right:
     state: on
     brightness: 124
-    rgb_color: [66,0,123]
+    rgb_color: [0, 105, 104]
     color_temp: 207
     transition: 1
 
@@ -60,13 +60,13 @@ entities:
   light.office_center:
     state: on
     brightness: 75
-    rgb_color: [66,0,123]
+    rgb_color: [0, 105, 104]
     color_temp: 207
     transition: 1
   light.office_left:
     state: on
     brightness: 75
-    rgb_color: [31,0,69]
+    rgb_color: [0, 105, 104]
     color_temp: 207
     transition: 1
   light.office_led_strip:

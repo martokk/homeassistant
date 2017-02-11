@@ -5,11 +5,6 @@
     trigger:
       - platform: state
         entity_id: media_player.vtv_chromecast
-        state: 'idle'
-        for:
-          minutes: 5
-      - platform: state
-        entity_id: media_player.vtv_chromecast
         state: 'off'
         for:
           minutes: 5

@@ -210,35 +210,35 @@ pihole:
 ##########################################
 ########## HIDDEN ########################
 ##########################################
-roku_player:
+roku_player: ## Neighbor
   hide_if_away: false
   mac: BT_CC:6D:A0:AE:95:D0
   name: Roku Player
   picture:
   track: false
   vendor:
-echo_dot3ur:
+echo_dot3ur: ## Amazon Echo Dot (mine)
   hide_if_away: false
   mac: BT_88:71:E5:BD:17:01
   name: Echo Dot-3UR
   picture:
   track: false
   vendor: Amazon Technologies Inc.
-bose_mini_ii_soundlink:
+bose_mini_ii_soundlink: ## Bose Soundlink (mine)
   hide_if_away: false
   mac: BT_08:DF:1F:A1:21:9A
   name: Bose Mini II SoundLink
   picture:
   track: false
   vendor: Bose Corporation
-vizio_sb2920:
+vizio_sb2920: ## Neighbor
   hide_if_away: false
   mac: BT_40:EF:4C:90:35:2C
   name: VIZIO SB2920
   picture:
   track: false
   vendor: Fihonest communication co.,Ltd
-michael_brown:
+michael_brown: ## Neighbor (owner of Apartments)
   hide_if_away: false
   mac: BT_2C:8A:72:F8:4F:67
   name: Michael Brown
@@ -252,9 +252,47 @@ z813:
   picture:
   track: false
   vendor: zte corporation
-
+c83a35cccd38: ## USB Wifi Adapter (mine) (dan is borrowing)
+  hide_if_away: false
+  mac: C8:3A:35:CC:CD:38
+  name: c83a35cccd38
+  picture:
+  track: false
+  vendor: Tenda Technology Co., Ltd.
 
 
 ##########################################
 ########## UNKNOWN #######################
 ##########################################
+
+dc2b6108f447:
+  hide_if_away: false
+  mac: DC:2B:61:08:F4:47
+  name: dc2b6108f447
+  picture:
+  track: true
+  vendor: Apple, Inc.
+
+personal:
+  hide_if_away: false
+  mac:
+  name: Personal
+  picture:
+  track: true
+  vendor:
+
+98f0ab3480e9: ## iPhone 4 mine ????
+  hide_if_away: false
+  mac: 98:F0:AB:34:80:E9
+  name: 98f0ab3480e9
+  picture:
+  track: true
+  vendor: Apple, Inc.
+
+laptopsiphone: ## iPhone 4 mine ????
+  hide_if_away: false
+  mac:
+  name: "Laptop\u2019s iPhone"
+  picture:
+  track: true
+  vendor:
