@@ -168,6 +168,22 @@ iphone6s:
   track: true
   vendor:
 
+iphone4s:
+  hide_if_away: true
+  mac: 98:F0:AB:34:80:E9
+  name: iPhone4S
+  picture:
+  track: false
+  vendor: Apple, Inc.
+
+iphone4:
+  hide_if_away: true
+  mac: DC:2B:61:08:F4:47
+  name: iPhone4
+  picture:
+  track: false
+  vendor: Apple, Inc.
+
 watch:
   hide_if_away: false
   mac: 30:63:6B:09:14:C9
@@ -191,7 +207,6 @@ dans_iphone6:
   picture:
   track: true
   vendor: Apple, Inc.
-
 
 
 ##########################################
@@ -264,35 +279,3 @@ c83a35cccd38: ## USB Wifi Adapter (mine) (dan is borrowing)
 ##########################################
 ########## UNKNOWN #######################
 ##########################################
-
-dc2b6108f447:
-  hide_if_away: false
-  mac: DC:2B:61:08:F4:47
-  name: dc2b6108f447
-  picture:
-  track: true
-  vendor: Apple, Inc.
-
-personal:
-  hide_if_away: false
-  mac:
-  name: Personal
-  picture:
-  track: true
-  vendor:
-
-98f0ab3480e9: ## iPhone 4 mine ????
-  hide_if_away: false
-  mac: 98:F0:AB:34:80:E9
-  name: 98f0ab3480e9
-  picture:
-  track: true
-  vendor: Apple, Inc.
-
-laptopsiphone: ## iPhone 4 mine ????
-  hide_if_away: false
-  mac:
-  name: "Laptop\u2019s iPhone"
-  picture:
-  track: true
-  vendor:
