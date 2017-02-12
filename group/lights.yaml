@@ -90,6 +90,7 @@
     name: "Light Effects Tests"
     entities:
       - script.breathe_light_test
+      - script.flash_light_test
       - script.blink_light_test
       - script.blink2_light_test
       - script.flood_scene_test

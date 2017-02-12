@@ -2,7 +2,7 @@
 ##### HOURLY BREATHE ###############
 ####################################
 
-  - alias: hourly_breathe_lights
+  - alias: hourly_flash_lights
     trigger:
     - platform: time
       minutes: 59
@@ -22,10 +22,10 @@
         {% else %}
           true
         {% endif %}
-    - service: script.breathe_light
+    - service: script.flash_light
       data:
-        breathe_color: "magenta"
-        entity_id: group.all_lights
+        flash_color: "magenta"
+        entity_id: group.overhead_lights
 
 ##########################################
 ######## TIME-BASED SCENE CHANGE #########
