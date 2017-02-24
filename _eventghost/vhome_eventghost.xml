@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<EventGhost Version="1722" Guid="{3CD718D5-D4F4-4AB3-BAF3-1D2411BEC356}" Time="1487816096.4">
+<EventGhost Version="1722" Guid="{84E79A84-4F33-458E-A2E5-E0367C883BFE}" Time="1487911729.6">
     <Autostart Name="Autostart" Expanded="True">
         <Plugin Identifier="USB_UIRT" Guid="{36FD4F40-653C-4626-97CC-BE363C05F933}" File="USB-UIRT">
             gAIoiYmJiHRxAC4=
@@ -201,19 +201,25 @@
                 USB_UIRT.TransmitIR(u'Z20000 006C 0000 0022 0157 00AC 0016 0015 0016 0040 0016 0015 0016 0015 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0015 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0040 0016 0040 0016 05C7', 19, 0)
             </Action>
         </Macro>
-        <Macro Name="Aux">
+        <Macro Name="Aux" Expanded="True">
             <Event Name="USB_UIRT.Unknown.15FD7DFD70" />
             <Event Name="USB_UIRT.Unknown.17F7FFF7F0" />
             <Action>
-                EventGhost.JumpIfLongPress(1.0, XmlIdLink(76))
+                EventGhost.JumpIfLongPress(1.0, XmlIdLink(85))
             </Action>
             <Action Name="av_source_cblsat">
                 USB_UIRT.TransmitIR(u'0000 006D 0022 0002 0156 00AC 0016 0015 0016 0040 0016 0015 0016 0015 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 05C2 0156 0057 0016 0E44', 1, 0)
             </Action>
+            <Action>
+                MQTTthreads.publishMQTT(u'PS3 Off', u'192.168.1.3', 1883, u'device/ps3/power', u'0', 0, False, '489120886042', True, u'username', u'42157406', False, u'')
+            </Action>
         </Macro>
-        <Macro Name="Aux_Long" id="76">
+        <Macro Name="Aux_Long" id="85" Expanded="True">
             <Action Name="av_source_game">
                 USB_UIRT.TransmitIR(u'0000 006D 0022 0002 0156 00AC 0016 0015 0016 0040 0016 0015 0016 0015 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 05C2 0156 0057 0016 0E45', 1, 200)
+            </Action>
+            <Action>
+                MQTTthreads.publishMQTT(u'PS3 On', u'192.168.1.3', 1883, u'device/ps3/power', u'1', 0, False, '489120886042', True, u'username', u'42157406', False, u'')
             </Action>
         </Macro>
         <Macro Name="Play/Pause">
@@ -237,16 +243,16 @@
                 MQTTthreads.publishMQTT(u'Prev Next', u'192.168.1.3', 1883, u'device/eventghost/next', u'1', 0, False, '915466271684', True, u'username', u'42157406', False, u'')
             </Action>
         </Macro>
-        <Macro Name="Button_1">
+        <Macro Name="Button_1" Expanded="True">
             <Event Name="USB_UIRT.Unknown.17FDFFFDF0" />
             <Action>
-                EventGhost.JumpIfLongPress(1.0, XmlIdLink(94))
+                EventGhost.JumpIfLongPress(1.0, XmlIdLink(103))
             </Action>
             <Action>
                 MQTTthreads.publishMQTT(u'Trigger button1', u'192.168.1.3', 1883, u'device/eventghost/button', u'1', 0, False, '489120886042', True, u'username', u'42157406', False, u'')
             </Action>
         </Macro>
-        <Macro Name="Button_1_Long" id="94">
+        <Macro Name="Button_1_Long" id="103">
             <Action>
                 MQTTthreads.publishMQTT(u'Trigger button1_long', u'192.168.1.3', 1883, u'device/eventghost/button_long', u'1', 0, False, '489120886042', True, u'username', u'42157406', False, u'')
             </Action>
@@ -254,13 +260,13 @@
         <Macro Name="Button_2">
             <Event Name="USB_UIRT.Unknown.17F5F7F5F8" />
             <Action>
-                EventGhost.JumpIfLongPress(1.0, XmlIdLink(100))
+                EventGhost.JumpIfLongPress(1.0, XmlIdLink(109))
             </Action>
             <Action>
                 MQTTthreads.publishMQTT(u'Trigger button2', u'192.168.1.3', 1883, u'device/eventghost/button', u'2', 0, False, '489120886042', True, u'username', u'42157406', False, u'')
             </Action>
         </Macro>
-        <Macro Name="Button_2_Long" id="100">
+        <Macro Name="Button_2_Long" id="109">
             <Action>
                 MQTTthreads.publishMQTT(u'Trigger button2_long', u'192.168.1.3', 1883, u'device/eventghost/button_long', u'2', 0, False, '489120886042', True, u'username', u'42157406', False, u'')
             </Action>
@@ -268,13 +274,13 @@
         <Macro Name="Button_3">
             <Event Name="USB_UIRT.Unknown.17F5DFF5D0" />
             <Action>
-                EventGhost.JumpIfLongPress(1.0, XmlIdLink(106))
+                EventGhost.JumpIfLongPress(1.0, XmlIdLink(115))
             </Action>
             <Action>
                 MQTTthreads.publishMQTT(u'Trigger button3', u'192.168.1.3', 1883, u'device/eventghost/button', u'3', 0, False, '489120886042', True, u'username', u'42157406', False, u'')
             </Action>
         </Macro>
-        <Macro Name="Button_3_Long" id="106">
+        <Macro Name="Button_3_Long" id="115">
             <Action>
                 MQTTthreads.publishMQTT(u'Trigger button3_long', u'192.168.1.3', 1883, u'device/eventghost/button_long', u'3', 0, False, '489120886042', True, u'username', u'42157406', False, u'')
             </Action>
@@ -282,13 +288,13 @@
         <Macro Name="Button_4">
             <Event Name="USB_UIRT.Unknown.17F557F558" />
             <Action>
-                EventGhost.JumpIfLongPress(1.0, XmlIdLink(112))
+                EventGhost.JumpIfLongPress(1.0, XmlIdLink(121))
             </Action>
             <Action>
                 MQTTthreads.publishMQTT(u'Trigger button4', u'192.168.1.3', 1883, u'device/eventghost/button', u'4', 0, False, '489120886042', True, u'username', u'42157406', False, u'')
             </Action>
         </Macro>
-        <Macro Name="Button_4_Long" id="112">
+        <Macro Name="Button_4_Long" id="121">
             <Action>
                 MQTTthreads.publishMQTT(u'Trigger button4_long', u'192.168.1.3', 1883, u'device/eventghost/button_long', u'4', 0, False, '489120886042', True, u'username', u'42157406', False, u'')
             </Action>
@@ -296,13 +302,13 @@
         <Macro Name="Button_5">
             <Event Name="USB_UIRT.Unknown.17F57FF570" />
             <Action>
-                EventGhost.JumpIfLongPress(1.0, XmlIdLink(118))
+                EventGhost.JumpIfLongPress(1.0, XmlIdLink(127))
             </Action>
             <Action>
                 MQTTthreads.publishMQTT(u'Trigger button5', u'192.168.1.3', 1883, u'device/eventghost/button', u'5', 0, False, '489120886042', True, u'username', u'42157406', False, u'')
             </Action>
         </Macro>
-        <Macro Name="Button_5_Long" id="118">
+        <Macro Name="Button_5_Long" id="127">
             <Action>
                 MQTTthreads.publishMQTT(u'Trigger button5_long', u'192.168.1.3', 1883, u'device/eventghost/button_long', u'5', 0, False, '489120886042', True, u'username', u'42157406', False, u'')
             </Action>
@@ -310,13 +316,13 @@
         <Macro Name="Button_6">
             <Event Name="USB_UIRT.Unknown.17F777F778" />
             <Action>
-                EventGhost.JumpIfLongPress(1.0, XmlIdLink(124))
+                EventGhost.JumpIfLongPress(1.0, XmlIdLink(133))
             </Action>
             <Action>
                 MQTTthreads.publishMQTT(u'Trigger button6', u'192.168.1.3', 1883, u'device/eventghost/button', u'6', 0, False, '489120886042', True, u'username', u'42157406', False, u'')
             </Action>
         </Macro>
-        <Macro Name="Button_6_Long" id="124">
+        <Macro Name="Button_6_Long" id="133">
             <Action>
                 MQTTthreads.publishMQTT(u'Trigger button6_long', u'192.168.1.3', 1883, u'device/eventghost/button_long', u'6', 0, False, '489120886042', True, u'username', u'42157406', False, u'')
             </Action>

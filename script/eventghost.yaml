@@ -32,6 +32,9 @@
   set_volume_4:
     alias: "Set Volume (4)"
     sequence:
+    - condition: state
+      entity_id: binary_sensor.ps3
+      state: 'off'
     - service: mqtt.publish
       data_template:
         topic: "device/eventghost/set_vol_4"
@@ -40,6 +43,9 @@
   set_volume_9:
     alias: "Set Volume (9)"
     sequence:
+    - condition: state
+      entity_id: binary_sensor.ps3
+      state: 'off'
     - service: mqtt.publish
       data_template:
         topic: "device/eventghost/set_vol_9"
@@ -48,6 +54,9 @@
   set_volume_14:
     alias: "Set Volume (14)"
     sequence:
+    - condition: state
+      entity_id: binary_sensor.ps3
+      state: 'off'
     - service: mqtt.publish
       data_template:
         topic: "device/eventghost/set_vol_14"
