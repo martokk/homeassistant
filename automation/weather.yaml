@@ -78,7 +78,7 @@
         flood_color: "gold"
         blink_color: "blue"
         blink_color2: "green"
-    - service: notify.gmail
+    - service: notify.sms
       data_template:
         message: |
           It's starting to rain!
@@ -118,7 +118,7 @@
         flood_color: "gold"
         blink_color: "blue"
         blink_color2: "red"
-    - service: notify.gmail
+    - service: notify.sms
       data_template:
         message: |
           Rain Stopping!
@@ -158,7 +158,7 @@
         flood_color: "gold"
         blink_color: "cyan"
         blink_color2: "green"
-    - service: notify.gmail
+    - service: notify.sms
       data_template:
         message: |
           It's starting to snow!
@@ -198,7 +198,7 @@
         flood_color: "gold"
         blink_color: "cyan"
         blink_color2: "red"
-    - service: notify.gmail
+    - service: notify.sms
       data_template:
         message: |
           Snow stopping!
@@ -239,7 +239,7 @@
         data:
           message: Warning. Wearther Alert for Kenosha, WI for the following conditions
       - delay: "00:00:01"
-      - service: notify.gmail
+      - service: notify.sms
         data_template:
           message: |
             WEATHER ALERT!

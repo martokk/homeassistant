@@ -53,7 +53,7 @@
       from: "off"
       to: "on"
     action:
-    - service: notify.gmail
+    - service: notify.sms
       data_template:
         message: |
           Dan's Here!

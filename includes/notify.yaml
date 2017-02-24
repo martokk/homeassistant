@@ -7,3 +7,13 @@
     username: vhome.notifications@gmail.com
     password: !secret gmail_password
     recipient: "vhome.notifications@gmail.com"
+
+  - name: sms
+    platform: smtp
+    server: smtp.gmail.com
+    port: 587
+    sender: "vhome.notifications@gmail.com"
+    starttls: true
+    username: vhome.notifications@gmail.com
+    password: !secret gmail_password
+    recipient: "2622206437@mms.att.net"

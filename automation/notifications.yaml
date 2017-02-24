@@ -7,7 +7,7 @@
   #     - platform: state
   #       entity_id: updater.updater
   #   action:
-  #     - service: notify.gmail
+  #     - service: notify.sms
   #       data:
   #         message: 'There is a new Home Assistant release available.'
   #     - condition: state
@@ -43,7 +43,7 @@
         entity_id: sensor.bitcoin_percent_change_24h
         above: 2
     action:
-      - service: notify.gmail
+      - service: notify.sms
         data_template:
           message: |
             Bitcoin {{ states.sensor.bitcoin_percent_change_24h.state | round(1) }}% in 24h;
@@ -77,7 +77,7 @@
         entity_id: sensor.bitcoin_percent_change_24h
         below: -2
     action:
-      - service: notify.gmail
+      - service: notify.sms
         data_template:
           message: |
             Bitcoin {{ states.sensor.bitcoin_percent_change_24h.state | round(1) }}% in 24h;
@@ -129,7 +129,7 @@
           {%else%}
             true
           {%endif%}
-      - service: notify.gmail
+      - service: notify.sms
         data_template:
           message: |
             It's HOT in here! -
@@ -165,7 +165,7 @@
           {%else%}
             true
           {%endif%}
-      - service: notify.gmail
+      - service: notify.sms
         data_template:
           message: |
             It's COLD in here! -
@@ -226,7 +226,7 @@
           {%else%}
             true
           {%endif%}
-      - service: notify.gmail
+      - service: notify.sms
         data_template:
           message: |
             Battery Low!
@@ -263,7 +263,7 @@
       - condition: state
         entity_id: input_boolean.var_start_notifications_1m
         state: 'on'
-      - service: notify.gmail
+      - service: notify.sms
         data_template:
           message: |
             Battery Fully Charged!
@@ -299,7 +299,7 @@
           flood_color: "cyan"
           blink_color: "blueviolet"
           blink_color2: "green"
-      - service: notify.gmail
+      - service: notify.sms
         data_template:
           message: |
             Battery Fully Charged!
@@ -322,7 +322,7 @@
             false
           {%endif%}
     action:
-      - service: notify.gmail
+      - service: notify.sms
         data_template:
           message: |
             Server Service Down! -
@@ -347,7 +347,7 @@
             false
           {%endif%}
     action:
-      - service: notify.gmail
+      - service: notify.sms
         data_template:
           message: |
             Cloud Service Down! -
@@ -372,7 +372,7 @@
             false
           {%endif%}
     action:
-      - service: notify.gmail
+      - service: notify.sms
         data_template:
           message: |
             IoT Device Down! -
@@ -404,7 +404,7 @@
           {%else%}
             true
           {%endif%}
-      - service: notify.gmail
+      - service: notify.sms
         data_template:
           message: |
             V: Disk Space Low! -
@@ -436,7 +436,7 @@
           {%else%}
             true
           {%endif%}
-      - service: notify.gmail
+      - service: notify.sms
         data_template:
           message: |
             Speed Test LOW! -
@@ -461,7 +461,7 @@
       - condition: time
         after: "21:00:00"
     action:
-      - service: notify.gmail
+      - service: notify.sms
         data_template:
           message: |
             Upcoming Episodes! -

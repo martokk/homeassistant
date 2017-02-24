@@ -103,7 +103,7 @@
       platform: event
       event_type: device_tracker_new_device
     action:
-      - service: notify.gmail
+      - service: notify.sms
         data_template:
           message: |
             New Device Found! Check Home Assistant's 'Known Devices'
