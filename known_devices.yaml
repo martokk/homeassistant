@@ -208,6 +208,13 @@ dans_iphone6:
   track: true
   vendor: Apple, Inc.
 
+acer_laptop:
+  hide_if_away: false
+  mac: 9C:B7:0D:31:98:3A
+  name: Acer Laptop
+  picture:
+  track: false
+  vendor: Liteon Technology Corporation
 
 ##########################################
 ########## SERVER ########################
@@ -267,7 +274,7 @@ z813:
   picture:
   track: false
   vendor: zte corporation
-c83a35cccd38: ## USB Wifi Adapter (mine) (dan is borrowing)
+wifi_adapter_tenda: ## USB Wifi Adapter (mine) (dan is borrowing)
   hide_if_away: false
   mac: C8:3A:35:CC:CD:38
   name: c83a35cccd38

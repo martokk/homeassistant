@@ -57,13 +57,17 @@ google:
   client_id: !secret google_client_id
   client_secret: !secret google_client_secret
 
-# emulated_hue:
-#   type: alexa
-#   host_ip: 192.168.1.82
-#   expose_by_default: false
-
 tts:
   - platform: google
     cache: true
     cache_dir: V:\hass\tmp\tts
-    time_memory: 900
+    time_memory: 300
+
+
+emulated_hue:
+  type: alexa
+  host_ip: 192.168.1.82
+  listen_port: 8300
+  expose_by_default: true
+  exposed_domains:
+    - light
