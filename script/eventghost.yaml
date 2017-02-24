@@ -29,6 +29,14 @@
     sequence:
     - service: shell_command.led_submode
 
+  set_volume_4:
+    alias: "Set Volume (4)"
+    sequence:
+    - service: mqtt.publish
+      data_template:
+        topic: "device/eventghost/set_vol_4"
+        payload: '1'
+
   set_volume_9:
     alias: "Set Volume (9)"
     sequence:
@@ -36,3 +44,49 @@
       data_template:
         topic: "device/eventghost/set_vol_9"
         payload: '1'
+
+  set_volume_14:
+    alias: "Set Volume (14)"
+    sequence:
+    - service: mqtt.publish
+      data_template:
+        topic: "device/eventghost/set_vol_14"
+        payload: '1'
+
+  eventghost_button:
+    sequence:
+    - service: scene.turn_on
+      data_template:
+        entity_id: >
+          {% if button | int == 1 %}
+            scene.day
+          {% elif button | int == 2  %}
+            scene.night_cyan
+          {% elif button | int == 3  %}
+            scene.night_blue
+          {% elif button | int == 4  %}
+            scene.night_red
+          {% elif button | int == 5  %}
+            scene.chill
+          {% elif button | int == 6  %}
+            scene.chill_2
+          {% endif %}
+
+  eventghost_button_long:
+    sequence:
+    - service: scene.turn_on
+      data_template:
+        entity_id: >
+          {% if button | int == 1 %}
+            scene.off
+          {% elif button | int == 2  %}
+            scene.night_computer
+          {% elif button | int == 3  %}
+            scene.off
+          {% elif button | int == 4  %}
+            scene.off
+          {% elif button | int == 5  %}
+            scene.off
+          {% elif button | int == 6  %}
+            scene.off
+          {% endif %}

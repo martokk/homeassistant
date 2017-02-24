@@ -78,3 +78,24 @@
     action:
       - service: media_player.media_next_track
         entity_id: media_player.vtv_chromecast
+
+##########################################
+########## Eventghost Buttons ############
+##########################################
+  - alias: 'Button'
+    trigger:
+    - platform: mqtt
+      topic: device/eventghost/button
+    action:
+    - service: script.eventghost_button
+      data_template:
+        button: '{{ trigger.payload }}'
+
+  - alias: 'Button_Long'
+    trigger:
+    - platform: mqtt
+      topic: device/eventghost/button_long
+    action:
+    - service: script.eventghost_button_long
+      data_template:
+        button: '{{ trigger.payload }}'

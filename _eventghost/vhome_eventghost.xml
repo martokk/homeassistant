@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<EventGhost Version="1722" Guid="{3329D8CC-8248-4E6A-B80A-2814B7A0CC07}" Time="1486851666.54">
+<EventGhost Version="1722" Guid="{3CD718D5-D4F4-4AB3-BAF3-1D2411BEC356}" Time="1487816096.4">
     <Autostart Name="Autostart" Expanded="True">
         <Plugin Identifier="USB_UIRT" Guid="{36FD4F40-653C-4626-97CC-BE363C05F933}" File="USB-UIRT">
             gAIoiYmJiHRxAC4=
@@ -127,19 +127,23 @@
         </Macro>
     </Folder>
     <Folder Name="Bose Remote" Expanded="True">
-        <Macro Name="Power" Expanded="True">
+        <Macro Name="Power">
             <Event Name="USB_UIRT.Unknown.15DDFDDDF0" />
+            <Event Name="USB_UIRT.Unknown.1577757778" />
             <Action>
                 EventGhost.Wait(0.20000000000000001)
             </Action>
             <Action>
-                EventGhost.JumpIfDoubleEvent(1.0, XmlIdLink(46))
+                EventGhost.JumpIfLongPress(1.0, XmlIdLink(53))
+            </Action>
+            <Action>
+                EventGhost.JumpIfDoubleEvent(1.0, XmlIdLink(53))
             </Action>
             <Action>
                 MQTTthreads.publishMQTT(u'Toggle AV', u'192.168.1.3', 1883, u'device/eventghost/av_power', u'toggle', 0, False, '546420787736', True, u'username', u'42157406', False, u'')
             </Action>
         </Macro>
-        <Macro Name="Power - All Lights" id="46" Expanded="True">
+        <Macro Name="Power - All Lights" id="53">
             <Action>
                 EventGhost.Wait(0.20000000000000001)
             </Action>
@@ -158,54 +162,163 @@
         </Macro>
         <Macro Name="Vol Up">
             <Event Name="USB_UIRT.Unknown.177DF77DF0" />
+            <Event Name="USB_UIRT.Unknown.17FF7FFF70" />
             <Action Name="av_vol_up">
                 USB_UIRT.TransmitIR(u'Z20000 006C 0000 0022 0157 00AC 0016 0015 0016 0040 0016 0015 0016 0015 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0015 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0040 0016 0040 0016 05C7', 1, 0)
             </Action>
         </Macro>
         <Macro Name="Vol Down">
             <Event Name="USB_UIRT.Unknown.175DFF5DF0" />
+            <Event Name="USB_UIRT.Unknown.17FF57FF58" />
             <Action Name="av_vol_down">
                 USB_UIRT.TransmitIR(u'Z20000 006C 0000 0022 0156 00AC 0016 0015 0016 0040 0016 0015 0016 0015 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0040 0016 0040 0016 05C4', 1, 0)
             </Action>
         </Macro>
-        <Macro Name="Set Vol_9">
+        <Macro Name="Set Vol_4" Expanded="True">
+            <Event Name="MQTT.device/eventghost/set_vol_4" />
             <Action Name="av_vol_down">
                 USB_UIRT.TransmitIR(u'Z20000 006C 0000 0022 0156 00AC 0016 0015 0016 0040 0016 0015 0016 0015 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0040 0016 0040 0016 05C4', 30, 0)
             </Action>
             <Action Name="av_vol_up">
-                USB_UIRT.TransmitIR(u'Z20000 006C 0000 0022 0157 00AC 0016 0015 0016 0040 0016 0015 0016 0015 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0015 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0040 0016 0040 0016 05C7', 14, 0)
+                USB_UIRT.TransmitIR(u'Z20000 006C 0000 0022 0157 00AC 0016 0015 0016 0040 0016 0015 0016 0015 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0015 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0040 0016 0040 0016 05C7', 8, 5)
             </Action>
         </Macro>
-        <Macro Name="Aux" Expanded="True">
+        <Macro Name="Set Vol_9" Expanded="True">
+            <Event Name="MQTT.device/eventghost/set_vol_9" />
+            <Action Name="av_vol_down">
+                USB_UIRT.TransmitIR(u'Z20000 006C 0000 0022 0156 00AC 0016 0015 0016 0040 0016 0015 0016 0015 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0040 0016 0040 0016 05C4', 30, 0)
+            </Action>
+            <Action Name="av_vol_up">
+                USB_UIRT.TransmitIR(u'Z20000 006C 0000 0022 0157 00AC 0016 0015 0016 0040 0016 0015 0016 0015 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0015 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0040 0016 0040 0016 05C7', 13, 5)
+            </Action>
+        </Macro>
+        <Macro Name="Set Vol_14" Expanded="True">
+            <Event Name="MQTT.device/eventghost/set_vol_14" />
+            <Action Name="av_vol_down">
+                USB_UIRT.TransmitIR(u'Z20000 006C 0000 0022 0156 00AC 0016 0015 0016 0040 0016 0015 0016 0015 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0040 0016 0040 0016 05C4', 30, 0)
+            </Action>
+            <Action Name="av_vol_up">
+                USB_UIRT.TransmitIR(u'Z20000 006C 0000 0022 0157 00AC 0016 0015 0016 0040 0016 0015 0016 0015 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0015 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 0040 0016 0040 0016 05C7', 19, 0)
+            </Action>
+        </Macro>
+        <Macro Name="Aux">
             <Event Name="USB_UIRT.Unknown.15FD7DFD70" />
+            <Event Name="USB_UIRT.Unknown.17F7FFF7F0" />
+            <Action>
+                EventGhost.JumpIfLongPress(1.0, XmlIdLink(76))
+            </Action>
             <Action Name="av_source_cblsat">
                 USB_UIRT.TransmitIR(u'0000 006D 0022 0002 0156 00AC 0016 0015 0016 0040 0016 0015 0016 0015 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 05C2 0156 0057 0016 0E44', 1, 0)
             </Action>
-            <Action>
-                EventGhost.JumpIfDoubleEvent(1.0, XmlIdLink(67))
-            </Action>
         </Macro>
-        <Macro Name="Aux_Long" id="67">
+        <Macro Name="Aux_Long" id="76">
             <Action Name="av_source_game">
-                USB_UIRT.TransmitIR(u'0000 006D 0022 0002 0156 00AC 0016 0015 0016 0040 0016 0015 0016 0015 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 05C2 0156 0057 0016 0E45', 1, 0)
+                USB_UIRT.TransmitIR(u'0000 006D 0022 0002 0156 00AC 0016 0015 0016 0040 0016 0015 0016 0015 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 05C2 0156 0057 0016 0E45', 1, 200)
             </Action>
         </Macro>
         <Macro Name="Play/Pause">
             <Event Name="USB_UIRT.Unknown.157D757D70" />
+            <Event Name="USB_UIRT.Unknown.17DD7FDD70" />
             <Action>
                 MQTTthreads.publishMQTT(u'Play/Pause Chromecast', u'192.168.1.3', 1883, u'device/eventghost/play_pause', u'toggle', 0, False, '915466271684', True, u'username', u'42157406', False, u'')
             </Action>
         </Macro>
         <Macro Name="Prev">
             <Event Name="USB_UIRT.Unknown.157DFD7DF0" />
+            <Event Name="USB_UIRT.Unknown.17DDF7DDF8" />
             <Action>
                 MQTTthreads.publishMQTT(u'Prev Chromecast', u'192.168.1.3', 1883, u'device/eventghost/prev', u'1', 0, False, '915466271684', True, u'username', u'42157406', False, u'')
             </Action>
         </Macro>
         <Macro Name="Next">
             <Event Name="USB_UIRT.Unknown.15FDF5FDF0" />
+            <Event Name="USB_UIRT.Unknown.17DDDFDDD0" />
             <Action>
                 MQTTthreads.publishMQTT(u'Prev Next', u'192.168.1.3', 1883, u'device/eventghost/next', u'1', 0, False, '915466271684', True, u'username', u'42157406', False, u'')
+            </Action>
+        </Macro>
+        <Macro Name="Button_1">
+            <Event Name="USB_UIRT.Unknown.17FDFFFDF0" />
+            <Action>
+                EventGhost.JumpIfLongPress(1.0, XmlIdLink(94))
+            </Action>
+            <Action>
+                MQTTthreads.publishMQTT(u'Trigger button1', u'192.168.1.3', 1883, u'device/eventghost/button', u'1', 0, False, '489120886042', True, u'username', u'42157406', False, u'')
+            </Action>
+        </Macro>
+        <Macro Name="Button_1_Long" id="94">
+            <Action>
+                MQTTthreads.publishMQTT(u'Trigger button1_long', u'192.168.1.3', 1883, u'device/eventghost/button_long', u'1', 0, False, '489120886042', True, u'username', u'42157406', False, u'')
+            </Action>
+        </Macro>
+        <Macro Name="Button_2">
+            <Event Name="USB_UIRT.Unknown.17F5F7F5F8" />
+            <Action>
+                EventGhost.JumpIfLongPress(1.0, XmlIdLink(100))
+            </Action>
+            <Action>
+                MQTTthreads.publishMQTT(u'Trigger button2', u'192.168.1.3', 1883, u'device/eventghost/button', u'2', 0, False, '489120886042', True, u'username', u'42157406', False, u'')
+            </Action>
+        </Macro>
+        <Macro Name="Button_2_Long" id="100">
+            <Action>
+                MQTTthreads.publishMQTT(u'Trigger button2_long', u'192.168.1.3', 1883, u'device/eventghost/button_long', u'2', 0, False, '489120886042', True, u'username', u'42157406', False, u'')
+            </Action>
+        </Macro>
+        <Macro Name="Button_3">
+            <Event Name="USB_UIRT.Unknown.17F5DFF5D0" />
+            <Action>
+                EventGhost.JumpIfLongPress(1.0, XmlIdLink(106))
+            </Action>
+            <Action>
+                MQTTthreads.publishMQTT(u'Trigger button3', u'192.168.1.3', 1883, u'device/eventghost/button', u'3', 0, False, '489120886042', True, u'username', u'42157406', False, u'')
+            </Action>
+        </Macro>
+        <Macro Name="Button_3_Long" id="106">
+            <Action>
+                MQTTthreads.publishMQTT(u'Trigger button3_long', u'192.168.1.3', 1883, u'device/eventghost/button_long', u'3', 0, False, '489120886042', True, u'username', u'42157406', False, u'')
+            </Action>
+        </Macro>
+        <Macro Name="Button_4">
+            <Event Name="USB_UIRT.Unknown.17F557F558" />
+            <Action>
+                EventGhost.JumpIfLongPress(1.0, XmlIdLink(112))
+            </Action>
+            <Action>
+                MQTTthreads.publishMQTT(u'Trigger button4', u'192.168.1.3', 1883, u'device/eventghost/button', u'4', 0, False, '489120886042', True, u'username', u'42157406', False, u'')
+            </Action>
+        </Macro>
+        <Macro Name="Button_4_Long" id="112">
+            <Action>
+                MQTTthreads.publishMQTT(u'Trigger button4_long', u'192.168.1.3', 1883, u'device/eventghost/button_long', u'4', 0, False, '489120886042', True, u'username', u'42157406', False, u'')
+            </Action>
+        </Macro>
+        <Macro Name="Button_5">
+            <Event Name="USB_UIRT.Unknown.17F57FF570" />
+            <Action>
+                EventGhost.JumpIfLongPress(1.0, XmlIdLink(118))
+            </Action>
+            <Action>
+                MQTTthreads.publishMQTT(u'Trigger button5', u'192.168.1.3', 1883, u'device/eventghost/button', u'5', 0, False, '489120886042', True, u'username', u'42157406', False, u'')
+            </Action>
+        </Macro>
+        <Macro Name="Button_5_Long" id="118">
+            <Action>
+                MQTTthreads.publishMQTT(u'Trigger button5_long', u'192.168.1.3', 1883, u'device/eventghost/button_long', u'5', 0, False, '489120886042', True, u'username', u'42157406', False, u'')
+            </Action>
+        </Macro>
+        <Macro Name="Button_6">
+            <Event Name="USB_UIRT.Unknown.17F777F778" />
+            <Action>
+                EventGhost.JumpIfLongPress(1.0, XmlIdLink(124))
+            </Action>
+            <Action>
+                MQTTthreads.publishMQTT(u'Trigger button6', u'192.168.1.3', 1883, u'device/eventghost/button', u'6', 0, False, '489120886042', True, u'username', u'42157406', False, u'')
+            </Action>
+        </Macro>
+        <Macro Name="Button_6_Long" id="124">
+            <Action>
+                MQTTthreads.publishMQTT(u'Trigger button6_long', u'192.168.1.3', 1883, u'device/eventghost/button_long', u'6', 0, False, '489120886042', True, u'username', u'42157406', False, u'')
             </Action>
         </Macro>
     </Folder>
@@ -220,7 +333,7 @@
                 EventGhost.Wait(0.10000000000000001)
             </Action>
         </Macro>
-        <Macro Name="av_power">
+        <Macro Name="av_power" Expanded="True">
             <Event Name="Main.av_power" Enabled="False" />
             <Event Name="MQTT.device/eventghost/av_power" />
             <Action Name="av_power">
