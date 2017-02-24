@@ -19,6 +19,7 @@
     entities:
     - media_player.vtv_chromecast
     - sensor.sonarr_upcoming
+    - sensor.sonarr_upcoming_episodes
     - media_player.plex
     - sensor.chromecast_playing_app
 

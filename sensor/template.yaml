@@ -324,3 +324,14 @@
               {{ iot }} - {{ states(iot) }};
             {%endif%}
           {%- endfor -%}
+
+      sonarr_upcoming_episodes:
+        friendly_name: "Upcoming Episodes"
+        value_template: >
+          {% if states.sensor.sonarr_upcoming.state | int > 0 %}
+            {% for episode in states.sensor.sonarr_upcoming.attributes %}
+              {% if "icon" not in episode | string and "unit_of_measurement" not in episode | string  and "friendly_name"  not in episode | string %}
+                {{episode}} |
+              {%endif %}
+            {% endfor %}
+          {% endif %}
