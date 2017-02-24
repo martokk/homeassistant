@@ -27,17 +27,6 @@
     entities:
     - script.media_scene_fireplace
     - script.media_scene_battlestar_galactica_intro
+    - script.media_scene_space
     - script.media_scene_bushes_of_love
-    - script.media_scene_magenta_blue_orbs
-    - script.media_scene_magenta_green_matrix_horizon
-    - script.media_scene_magenta_orb_in_space
-    - script.media_scene_magenta_plasma
-    - script.media_scene_magenta_plasma_lines
-    - script.media_scene_magenta_sparkling_space
-    - script.media_scene_magenta_sparkling_waves
-    - script.media_scene_magenta_stars
-    - script.media_scene_rainbow_horizon_stars
-    - script.media_scene_rainbow_orb
-    - script.media_scene_rainbow_particle_horizon
-    - script.media_scene_rainbow_sun
     - script.media_scene_whats_up_bitches

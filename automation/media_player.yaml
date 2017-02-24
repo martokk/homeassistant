@@ -7,22 +7,39 @@
         entity_id: media_player.vtv_chromecast
         state: 'off'
         for:
-          minutes: 5
+          minutes: 3
     condition:
-      - condition: time
-        before: "23:00:00"
-      - condition: sun
-        after: sunset
+      # - condition: time
+      #   before: "23:59:59"
+      # - condition: sun
+      #   after: sunset
       - condition: state
         entity_id: input_boolean.var_mike_home
         state: 'on'
     action:
       - condition: template
         value_template: >
-          {% if states.media_player.vtv_chromecast.state | string == "playing" and "192.168" not in states.media_player.vtv_chromecast.attributes.media_content_id  %}
-            false
-          {%else%}
+          {% if is_state('media_player.vtv_chromecast', 'off') %}
             true
           {%endif%}
-      - service: script.set_volume_9
-      - service: script.media_scene_magenta_blue_orbs_long
+      - service: script.set_volume_4
+      - service: script.turn_on
+        data_template:
+          entity_id: >
+            {% set hour = states.sensor.time.state[:2] | int %}
+            {% if hour < 1 %}
+              script.media_scene_fireplace
+            {% elif hour < 16 %}
+              script.media_scene_space
+            {% elif hour < 21 %}
+              script.media_scene_magenta_blue_orbs_long
+            {% elif hour >= 21 %}
+              script.media_scene_fireplace
+            {% endif %}
+        # data_template:
+        #   entity_id: >
+        #     {% set random_number = range(1, 51) | random }
+        #     {% if random_number == 1 %}
+        #     {% elif random_number == 2 %}
+        #     {% elif random_number == 3 %}
+        #     {% endif %}

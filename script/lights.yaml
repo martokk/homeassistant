@@ -159,7 +159,7 @@
       data_template:
         color_name: '{{ flood_color }}'
         entity_id: '{{ entity_id }}'
-        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") %}80{%else%}255{%endif%}'
+        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") or is_state("input_select.var_last_known_scene", "Night Computer") %}40{%else%}200{%endif%}'
         transition: 1
     - delay: '{{ delay }}'
     - service: script.call_last_known_scene
@@ -211,7 +211,7 @@
       data_template:
         color_name: '{{ breathe_color }}'
         entity_id: '{{ entity_id }}'
-        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") %}80{%else%}255{%endif%}'
+        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") or is_state("input_select.var_last_known_scene", "Night Computer") %}40{%else%}200{%endif%}'
         transition: 1
     - delay: "00:00:00"
     - service: script.call_last_known_scene
@@ -239,7 +239,7 @@
       data_template:
         entity_id: '{{ entity_id }}'
         color_name: '{{ flash_color }}'
-        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") %}80{%else%}255{%endif%}'
+        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") or is_state("input_select.var_last_known_scene", "Night Computer") %}40{%else%}200{%endif%}'
         transition: 0
     - delay: "00:00:00"
     - service: script.call_last_known_scene_0s
@@ -267,7 +267,7 @@
       data_template:
         entity_id: '{{ entity_id }}'
         color_name: '{{ blink_color }}'
-        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") %}80{%else%}255{%endif%}'
+        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") or is_state("input_select.var_last_known_scene", "Night Computer") %}40{%else%}200{%endif%}'
         transition: 0
     - delay: "00:00:00"
     - service: script.call_last_known_scene
@@ -276,7 +276,7 @@
       data_template:
         entity_id: '{{ entity_id }}'
         color_name: '{{ blink_color }}'
-        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") %}80{%else%}255{%endif%}'
+        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") or is_state("input_select.var_last_known_scene", "Night Computer") %}40{%else%}200{%endif%}'
         transition: 0
     - delay: "00:00:00"
     - service: script.call_last_known_scene
@@ -285,7 +285,7 @@
       data_template:
         entity_id: '{{ entity_id }}'
         color_name: '{{ blink_color }}'
-        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") %}80{%else%}255{%endif%}'
+        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") or is_state("input_select.var_last_known_scene", "Night Computer") %}40{%else%}200{%endif%}'
         transition: 0
     - delay: "00:00:00"
     - service: script.call_last_known_scene
@@ -294,7 +294,7 @@
       data_template:
         entity_id: '{{ entity_id }}'
         color_name: '{{ blink_color }}'
-        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") %}80{%else%}255{%endif%}'
+        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") or is_state("input_select.var_last_known_scene", "Night Computer") %}40{%else%}200{%endif%}'
         transition: 0
     - delay: "00:00:00"
     - service: script.call_last_known_scene
@@ -322,42 +322,42 @@
       data_template:
         entity_id: '{{ entity_id }}'
         color_name: '{{ blink_color }}'
-        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") %}80{%else%}255{%endif%}'
+        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") or is_state("input_select.var_last_known_scene", "Night Computer") %}40{%else%}200{%endif%}'
         transition: 0
     - delay: "00:00:00"
     - service: light.turn_on
       data_template:
         entity_id: '{{ entity_id }}'
         color_name: '{{ blink_color2 }}'
-        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") %}80{%else%}255{%endif%}'
+        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") or is_state("input_select.var_last_known_scene", "Night Computer") %}40{%else%}200{%endif%}'
         transition: 0
     - delay: "00:00:00"
     - service: light.turn_on
       data_template:
         entity_id: '{{ entity_id }}'
         color_name: '{{ blink_color }}'
-        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") %}80{%else%}255{%endif%}'
+        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") or is_state("input_select.var_last_known_scene", "Night Computer") %}40{%else%}200{%endif%}'
         transition: 0
     - delay: "00:00:00"
     - service: light.turn_on
       data_template:
         entity_id: '{{ entity_id }}'
         color_name: '{{ blink_color2 }}'
-        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") %}80{%else%}255{%endif%}'
+        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") or is_state("input_select.var_last_known_scene", "Night Computer") %}40{%else%}200{%endif%}'
         transition: 0
     - delay: "00:00:00"
     - service: light.turn_on
       data_template:
         entity_id: '{{ entity_id }}'
         color_name: '{{ blink_color }}'
-        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") %}80{%else%}255{%endif%}'
+        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") or is_state("input_select.var_last_known_scene", "Night Computer") %}40{%else%}200{%endif%}'
         transition: 0
     - delay: "00:00:00"
     - service: light.turn_on
       data_template:
         entity_id: '{{ entity_id }}'
         color_name: '{{ blink_color2 }}'
-        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") %}80{%else%}255{%endif%}'
+        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") or is_state("input_select.var_last_known_scene", "Night Computer") %}40{%else%}200{%endif%}'
         transition: 0
     - delay: "00:00:00"
     - service: script.call_last_known_scene
@@ -385,7 +385,7 @@
       data_template:
         entity_id: group.overhead_lights
         color_name: '{{ flood_color }}'
-        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") %}80{%else%}255{%endif%}'
+        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") or is_state("input_select.var_last_known_scene", "Night Computer") %}40{%else%}200{%endif%}'
         transition: 1
     - service: light.turn_off
       data_template:
@@ -397,7 +397,7 @@
       data_template:
         entity_id: group.ambient_lights
         color_name: '{{ blink_color }}'
-        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") %}80{%else%}255{%endif%}'
+        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") or is_state("input_select.var_last_known_scene", "Night Computer") %}40{%else%}200{%endif%}'
         transition: 0
     - delay: "00:00:00"
     #*--------- Blink Off --------------*#
@@ -405,7 +405,7 @@
       data_template:
         entity_id: group.overhead_lights
         color_name: '{{ flood_color }}'
-        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") %}80{%else%}255{%endif%}'
+        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") or is_state("input_select.var_last_known_scene", "Night Computer") %}40{%else%}200{%endif%}'
         transition: 0
     - service: light.turn_off
       data_template:
@@ -417,7 +417,7 @@
       data_template:
         entity_id: group.ambient_lights
         color_name: '{{ blink_color }}'
-        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") %}80{%else%}255{%endif%}'
+        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") or is_state("input_select.var_last_known_scene", "Night Computer") %}40{%else%}200{%endif%}'
         transition: 0
     - delay: "00:00:00"
     #*--------- Blink Off --------------*#
@@ -425,7 +425,7 @@
       data_template:
         entity_id: group.overhead_lights
         color_name: '{{ flood_color }}'
-        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") %}80{%else%}255{%endif%}'
+        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") or is_state("input_select.var_last_known_scene", "Night Computer") %}40{%else%}200{%endif%}'
         transition: 0
     - service: light.turn_off
       data_template:
@@ -437,7 +437,7 @@
       data_template:
         entity_id: group.ambient_lights
         color_name: '{{ blink_color }}'
-        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") %}80{%else%}255{%endif%}'
+        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") or is_state("input_select.var_last_known_scene", "Night Computer") %}40{%else%}200{%endif%}'
         transition: 0
     - delay: "00:00:00"
     #*--------- Blink Off --------------*#
@@ -445,7 +445,7 @@
       data_template:
         entity_id: group.overhead_lights
         color_name: '{{ flood_color }}'
-        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") %}80{%else%}255{%endif%}'
+        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") or is_state("input_select.var_last_known_scene", "Night Computer") %}40{%else%}200{%endif%}'
         transition: 0
     - service: light.turn_off
       data_template:
@@ -457,7 +457,7 @@
       data_template:
         entity_id: group.overhead_lights
         color_name: '{{ flood_color }}'
-        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") %}80{%else%}255{%endif%}'
+        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") or is_state("input_select.var_last_known_scene", "Night Computer") %}40{%else%}200{%endif%}'
         transition: 0
     - service: light.turn_off
       data_template:
@@ -489,7 +489,7 @@
       data_template:
         entity_id: group.overhead_lights
         color_name: '{{ flood_color }}'
-        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") %}80{%else%}255{%endif%}'
+        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") or is_state("input_select.var_last_known_scene", "Night Computer") %}40{%else%}200{%endif%}'
         transition: 0
     - service: light.turn_off
       data_template:
@@ -500,49 +500,49 @@
       data_template:
         entity_id: group.ambient_lights
         color_name: '{{ blink_color }}'
-        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") %}80{%else%}255{%endif%}'
+        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") or is_state("input_select.var_last_known_scene", "Night Computer") %}40{%else%}200{%endif%}'
         transition: 0
     - delay: "00:00:00"
     - service: light.turn_on
       data_template:
         entity_id: group.ambient_lights
         color_name: '{{ blink_color2 }}'
-        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") %}80{%else%}255{%endif%}'
+        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") or is_state("input_select.var_last_known_scene", "Night Computer") %}40{%else%}200{%endif%}'
         transition: 0
     - delay: "00:00:00"
     - service: light.turn_on
       data_template:
         entity_id: group.ambient_lights
         color_name: '{{ blink_color }}'
-        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") %}80{%else%}255{%endif%}'
+        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") or is_state("input_select.var_last_known_scene", "Night Computer") %}40{%else%}200{%endif%}'
         transition: 0
     - delay: "00:00:00"
     - service: light.turn_on
       data_template:
         entity_id: group.ambient_lights
         color_name: '{{ blink_color2 }}'
-        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") %}80{%else%}255{%endif%}'
+        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") or is_state("input_select.var_last_known_scene", "Night Computer") %}40{%else%}200{%endif%}'
         transition: 0
     - delay: "00:00:00"
     - service: light.turn_on
       data_template:
         entity_id: group.ambient_lights
         color_name: '{{ blink_color }}'
-        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") %}80{%else%}255{%endif%}'
+        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") or is_state("input_select.var_last_known_scene", "Night Computer") %}40{%else%}200{%endif%}'
         transition: 0
     - delay: "00:00:00"
     - service: light.turn_on
       data_template:
         entity_id: group.ambient_lights
         color_name: '{{ blink_color2 }}'
-        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") %}80{%else%}255{%endif%}'
+        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") or is_state("input_select.var_last_known_scene", "Night Computer") %}40{%else%}200{%endif%}'
         transition: 0
     - delay: "00:00:00"
     - service: light.turn_on
       data_template:
         entity_id: group.overhead_lights
         color_name: '{{ flood_color }}'
-        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") %}80{%else%}255{%endif%}'
+        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") or is_state("input_select.var_last_known_scene", "Night Computer") %}40{%else%}200{%endif%}'
         transition: 0
     - service: light.turn_off
       data_template:
@@ -572,33 +572,33 @@
     - service: light.turn_on
       data_template:
         color_name: '{{ flood_color }}'
-        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") %}80{%else%}255{%endif%}'
+        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") or is_state("input_select.var_last_known_scene", "Night Computer") %}40{%else%}200{%endif%}'
         transition: 1
     - delay: "00:00:01"
     - service: light.turn_on
       data_template:
         color_name: '{{ breathe_color }}'
         entity_id: group.ambient_lights
-        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") %}80{%else%}255{%endif%}'
+        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") or is_state("input_select.var_last_known_scene", "Night Computer") %}40{%else%}200{%endif%}'
         transition: 1
     - delay: "00:00:00"
     - service: light.turn_on
       data_template:
         color_name: '{{ flood_color }}'
-        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") %}80{%else%}255{%endif%}'
+        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") or is_state("input_select.var_last_known_scene", "Night Computer") %}40{%else%}200{%endif%}'
         transition: 1
     - delay: "00:00:00"
     - service: light.turn_on
       data_template:
         color_name: '{{ breathe_color }}'
         entity_id: group.ambient_lights
-        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") %}80{%else%}255{%endif%}'
+        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") or is_state("input_select.var_last_known_scene", "Night Computer") %}40{%else%}200{%endif%}'
         transition: 1
     - delay: "00:00:00"
     - service: light.turn_on
       data_template:
         color_name: '{{ flood_color }}'
-        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") %}80{%else%}255{%endif%}'
+        brightness: '{% if is_state("input_select.var_last_known_scene", "Off") or is_state("input_select.var_last_known_scene", "Night Computer") %}40{%else%}200{%endif%}'
         transition: 1
     - delay: "00:00:01"
     - service: script.call_last_known_scene

@@ -1,13 +1,6 @@
-  media_scene_fireplace:
-    alias: "fireplace"
-    sequence:
-      - service: script.set_volume_9
-      - service: media_player.play_media
-        data:
-          entity_id: media_player.vtv_chromecast
-          media_content_type: video/mp4
-          media_content_id: http://192.168.1.82:8123/local/fireplace.mp4
-
+##########################################
+########## MEDIA SCENE ###################
+##########################################
   media_scene_battlestar_galactica_intro:
     alias: "battlestar_galactica_intro"
     sequence:
@@ -26,102 +19,6 @@
           media_content_type: video/mp4
           media_content_id: http://192.168.1.82:8123/local/bushes_of_love.mp4
 
-  media_scene_magenta_blue_orbs_long:
-    alias: "magenta_blue_orbs_long"
-    sequence:
-      - service: media_player.play_media
-        data:
-          entity_id: media_player.vtv_chromecast
-          media_content_type: video/mp4
-          media_content_id: http://192.168.1.82:8123/local/magenta_blue_orbs_long.mp4
-  media_scene_magenta_green_matrix_horizon:
-    alias: "magenta_green_matrix_horizon"
-    sequence:
-      - service: media_player.play_media
-        data:
-          entity_id: media_player.vtv_chromecast
-          media_content_type: video/mp4
-          media_content_id: http://192.168.1.82:8123/local/magenta_green_matrix_horizon.mp4
-  media_scene_magenta_orb_in_space:
-    alias: "magenta_orb_in_space"
-    sequence:
-      - service: media_player.play_media
-        data:
-          entity_id: media_player.vtv_chromecast
-          media_content_type: video/mp4
-          media_content_id: http://192.168.1.82:8123/local/magenta_orb_in_space.mp4
-  media_scene_magenta_plasma:
-    alias: "magenta_plasma"
-    sequence:
-      - service: media_player.play_media
-        data:
-          entity_id: media_player.vtv_chromecast
-          media_content_type: video/mp4
-          media_content_id: http://192.168.1.82:8123/local/magenta_plasma.mp4
-  media_scene_magenta_plasma_lines:
-    alias: "magenta_plasma_lines"
-    sequence:
-      - service: media_player.play_media
-        data:
-          entity_id: media_player.vtv_chromecast
-          media_content_type: video/mp4
-          media_content_id: http://192.168.1.82:8123/local/magenta_plasma_lines.mp4
-  media_scene_magenta_sparkling_space:
-    alias: "magenta_sparkling_space"
-    sequence:
-      - service: media_player.play_media
-        data:
-          entity_id: media_player.vtv_chromecast
-          media_content_type: video/mp4
-          media_content_id: http://192.168.1.82:8123/local/magenta_sparkling_space.mp4
-  media_scene_magenta_sparkling_waves:
-    alias: "magenta_sparkling_waves"
-    sequence:
-      - service: media_player.play_media
-        data:
-          entity_id: media_player.vtv_chromecast
-          media_content_type: video/mp4
-          media_content_id: http://192.168.1.82:8123/local/magenta_sparkling_waves.mp4
-  media_scene_magenta_stars:
-    alias: "magenta_stars"
-    sequence:
-      - service: media_player.play_media
-        data:
-          entity_id: media_player.vtv_chromecast
-          media_content_type: video/mp4
-          media_content_id: http://192.168.1.82:8123/local/magenta_stars.mp4
-  media_scene_rainbow_horizon_stars:
-    alias: "rainbow_horizon_stars"
-    sequence:
-      - service: media_player.play_media
-        data:
-          entity_id: media_player.vtv_chromecast
-          media_content_type: video/mp4
-          media_content_id: http://192.168.1.82:8123/local/rainbow_horizon_stars.mp4
-  media_scene_rainbow_orb:
-    alias: "rainbow_orb"
-    sequence:
-      - service: media_player.play_media
-        data:
-          entity_id: media_player.vtv_chromecast
-          media_content_type: video/mp4
-          media_content_id: http://192.168.1.82:8123/local/rainbow_orb.mp4
-  media_scene_rainbow_particle_horizon:
-    alias: "rainbow_particle_horizon"
-    sequence:
-      - service: media_player.play_media
-        data:
-          entity_id: media_player.vtv_chromecast
-          media_content_type: video/mp4
-          media_content_id: http://192.168.1.82:8123/local/rainbow_particle_horizon.mp4
-  media_scene_rainbow_sun:
-    alias: "rainbow_sun"
-    sequence:
-      - service: media_player.play_media
-        data:
-          entity_id: media_player.vtv_chromecast
-          media_content_type: video/mp4
-          media_content_id: http://192.168.1.82:8123/local/rainbow_sun.mp4
   media_scene_whats_up_bitches:
     alias: "whats_up_bitches"
     sequence:
@@ -130,3 +27,34 @@
           entity_id: media_player.vtv_chromecast
           media_content_type: video/mp4
           media_content_id: http://192.168.1.82:8123/local/whats_up_bitches.mp4
+
+##########################################
+########## SCREEN SAVERS #################
+##########################################
+  media_scene_magenta_blue_orbs_long:
+    alias: "magenta_blue_orbs_long"
+    sequence:
+      - service: media_player.play_media
+        data:
+          entity_id: media_player.vtv_chromecast
+          media_content_type: video/mp4
+          media_content_id: http://192.168.1.82:8123/local/magenta_blue_orbs_long.mp4
+
+  media_scene_space:
+    alias: "space"
+    sequence:
+      - service: media_player.play_media
+        data:
+          entity_id: media_player.vtv_chromecast
+          media_content_type: video/mp4
+          media_content_id: http://192.168.1.82:8123/local/space.mp4
+
+  media_scene_fireplace:
+    alias: "fireplace"
+    sequence:
+      - service: script.set_volume_9
+      - service: media_player.play_media
+        data:
+          entity_id: media_player.vtv_chromecast
+          media_content_type: video/mp4
+          media_content_id: http://192.168.1.82:8123/local/fireplace.mp4

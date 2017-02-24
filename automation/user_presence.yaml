@@ -57,12 +57,6 @@
       data_template:
         message: |
           Dan's Here!
-    # - service: script.flood_and_blink
-    #   data:
-    #     flood_color: "green"
-    #     blink_color: "yellow"
-    # - delay: "00:00:10"
-    # TODO: set to AV Volume: 9
     - condition: template
       value_template: >
         {% if states.automation.dan_home_notification.attributes.last_triggered %}
@@ -72,6 +66,12 @@
         {%else%}
           true
         {%endif%}
+    - service: script.flood_lights
+      data:
+        flood_color: "green"
+        entity_id: group.ambient_lights
+        delay: "00:00:02"
+    - delay: "00:00:04"
     - condition: template
       value_template: >
         {% if states.media_player.vtv_chromecast.state | string == "playing" and "192.168" not in states.media_player.vtv_chromecast.attributes.media_content_id  %}
