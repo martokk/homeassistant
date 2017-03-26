@@ -18,7 +18,6 @@
       - input_select.var_last_known_scene
       - input_boolean.var_mike_home
       - input_boolean.var_dan_home
-      - input_boolean.var_kitchen_on
       - input_boolean.var_start_notifications_1m
       - input_boolean.var_start_notifications_5m
       - input_boolean.var_kitchen_on

@@ -115,7 +115,7 @@
       #   entity_id: sensor.kitchen_temperature
       #   above: 83
       - platform: template
-        value_template: "{% if states.sensor.indoor_temperature.state | int > 81 %}true{%endif%}"
+        value_template: "{% if states.sensor.indoor_temperature.state | int > 79 %}true{%endif%}"
     action:
       - condition: state
         entity_id: input_boolean.var_start_notifications_1m
@@ -151,7 +151,7 @@
       #   entity_id: sensor.kitchen_temperature
       #   below: 73
       - platform: template
-        value_template: "{% if states.sensor.indoor_temperature.state | int < 72 %}true{%endif%}"
+        value_template: "{% if states.sensor.indoor_temperature.state | int < 70 %}true{%endif%}"
     action:
       - condition: state
         entity_id: input_boolean.var_start_notifications_1m
