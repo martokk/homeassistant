@@ -28,11 +28,11 @@
   - service: input_slider.select_value
     data_template:
       entity_id: input_slider.var_kitchen_brightness
-      value: '{{ states.light.kitchen_left.attributes.brightness }}'
+      value: '{{ states.light.kitchen_right.attributes.brightness }}'
   - service: input_slider.select_value
     data_template:
       entity_id: input_slider.var_kitchen_color_temp
-      value: '{{ states.light.kitchen_left.attributes.color_temp }}'
+      value: '{{ states.light.kitchen_right.attributes.color_temp }}'
 
 - alias: set_var_last_known_scene2
   trigger:
@@ -59,11 +59,11 @@
   - service: input_slider.select_value
     data_template:
       entity_id: input_slider.var_kitchen_brightness
-      value: '{{ states.light.kitchen_left.attributes.brightness }}'
+      value: '{{ states.light.kitchen_right.attributes.brightness }}'
   - service: input_slider.select_value
     data_template:
       entity_id: input_slider.var_kitchen_color_temp
-      value: '{{ states.light.kitchen_left.attributes.color_temp }}'
+      value: '{{ states.light.kitchen_right.attributes.color_temp }}'
 
 ##########################################
 ############### SCENE OFF ###############

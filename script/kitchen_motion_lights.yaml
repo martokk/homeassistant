@@ -43,11 +43,11 @@
     - service: input_slider.select_value
       data_template:
         entity_id: input_slider.var_kitchen_brightness
-        value: '{{ states.light.kitchen_left.attributes.brightness }}'
+        value: '{{ states.light.kitchen_right.attributes.brightness }}'
     - service: input_slider.select_value
       data_template:
         entity_id: input_slider.var_kitchen_color_temp
-        value: '{{ states.light.kitchen_left.attributes.color_temp }}'
+        value: '{{ states.light.kitchen_right.attributes.color_temp }}'
     - service: script.turn_off
       data:
         entity_id: script.kitchen_lights_timer_on
@@ -174,4 +174,4 @@
         rgb_color: [255, 255, 255]
         color_temp: 313
       data_template:
-        transition: '{%if states.light.kitchen_left.attributes.brightness %}{{ (( 255 - states.light.kitchen_left.attributes.brightness | int ) / 2.2833) | int }}{%else %}45{%endif%}'
+        transition: '{%if states.light.kitchen_right.attributes.brightness %}{{ (( 255 - states.light.kitchen_right.attributes.brightness | int ) / 2.2833) | int }}{%else %}45{%endif%}'
