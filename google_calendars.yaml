@@ -32,6 +32,6 @@
 
 - cal_id: rmiulhjq199po7pil2si3fion0@group.calendar.google.com
   entities:
-  - device_id: subspace_radio
-    name: Subspace Radio
+  - device_id: subspace_radio2
+    name: Subspace Radio2
     track: true

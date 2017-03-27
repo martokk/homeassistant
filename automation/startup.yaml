@@ -7,9 +7,7 @@
       platform: event
       event_type: homeassistant_start
     action:
-      - delay: "00:00:06"
       - service: script.timebased_scene
-      - delay: "00:00:00"
       - service: script.breathe_light
         data:
           breathe_color: "green"
@@ -24,6 +22,8 @@
       platform: event
       event_type: homeassistant_start
     action:
+      - service: homeassistant.turn_off
+        entity_id: input_boolean.var_start_notifications_1m
       - delay: "00:01:00"
       - service: homeassistant.turn_on
         entity_id: input_boolean.var_start_notifications_1m
@@ -33,6 +33,8 @@
       platform: event
       event_type: homeassistant_start
     action:
+      - service: homeassistant.turn_off
+        entity_id: input_boolean.var_start_notifications_5m
       - delay: "00:05:00"
       - service: homeassistant.turn_on
         entity_id: input_boolean.var_start_notifications_5m

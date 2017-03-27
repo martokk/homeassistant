@@ -4,7 +4,6 @@
     - device_tracker.iphone6s
     - device_tracker.watch
     - device_tracker.echo_dot
-    - device_tracker.chromecast
     - device_tracker.esp8266_kitchen
     - device_tracker.esp8266_office
     - device_tracker.esp8266_tables

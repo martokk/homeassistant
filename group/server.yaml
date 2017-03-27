@@ -28,7 +28,6 @@
     name: "IoT Status"
     entities:
     - sensor.iot_echo_dot
-    - sensor.iot_chromecast
     - sensor.iot_esp8266_kitchen
     - sensor.iot_esp8266_office
     - sensor.iot_esp8266_tables

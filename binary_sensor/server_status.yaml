@@ -1,35 +1,35 @@
   - platform: command_line
     command: netstat -na | find "8085" | find /c "LISTENING" > nul && (echo 1) || (echo 0)
     name: "qBittorrent"
-    sensor_class: connectivity
+    device_class: connectivity
     payload_on: 1
     payload_off: 0
 
   - platform: command_line
     command: netstat -na | find "8090" | find /c "LISTENING" > nul && (echo 1) || (echo 0)
     name: "SABnzbd"
-    sensor_class: connectivity
+    device_class: connectivity
     payload_on: 1
     payload_off: 0
 
   - platform: command_line
     command: netstat -na | find "8989" | find /c "LISTENING" > nul && (echo 1) || (echo 0)
     name: "sonarr"
-    sensor_class: connectivity
+    device_class: connectivity
     payload_on: 1
     payload_off: 0
 
   - platform: command_line
     command: netstat -na | find "5050" | find /c "LISTENING" > nul && (echo 1) || (echo 0)
     name: "CouchPotato"
-    sensor_class: connectivity
+    device_class: connectivity
     payload_on: 1
     payload_off: 0
 
   - platform: command_line
     command: netstat -na | find "1883" | find /c "ESTABLISHED" > nul && (echo 1) || (echo 0)
     name: "MQTT Server"
-    sensor_class: connectivity
+    device_class: connectivity
     payload_on: 1
     payload_off: 0
     hidden: true
@@ -37,7 +37,7 @@
   - platform: command_line
     command: ping -n 1 192.168.1.1 | find "unreachable" > nul && (echo 0) || (echo 1)
     name: "ARRIS Modem"
-    sensor_class: connectivity
+    device_class: connectivity
     payload_on: 1
     payload_off: 0
     hidden: true
@@ -45,7 +45,7 @@
   - platform: command_line
     command: ping -n 1 192.168.1.2 | find "unreachable" > nul && (echo 0) || (echo 1)
     name: "Linksys DDWRT Router"
-    sensor_class: connectivity
+    device_class: connectivity
     payload_on: 1
     payload_off: 0
     hidden: true
@@ -53,7 +53,7 @@
   - platform: command_line
     command: netstat -na | find "192.168.1.80:32400" > nul && (echo 1) || (echo 0)
     name: "Plex Media Server"
-    sensor_class: connectivity
+    device_class: connectivity
     payload_on: 1
     payload_off: 0
     hidden: true

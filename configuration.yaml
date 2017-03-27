@@ -11,6 +11,7 @@ updater:
 discovery:
 conversation:
 history:
+config:
 logbook: !include includes\logbook.yaml
 recorder:
   purge_days: 14
@@ -22,6 +23,7 @@ mqtt:
   client_id: home-assistant-1
   username: username
   password: 42157406
+  # protocol: 3.1
 # mqtt:
 #   embedded:
 
@@ -62,12 +64,12 @@ tts:
     cache: true
     cache_dir: V:\hass\tmp\tts
     time_memory: 300
-
-
-emulated_hue:
-  type: alexa
-  host_ip: 192.168.1.82
-  listen_port: 8300
-  expose_by_default: true
-  exposed_domains:
-    - light
+#
+#
+# emulated_hue:
+#   type: alexa
+#   host_ip: 192.168.1.82
+#   listen_port: 8300
+#   expose_by_default: true
+#   exposed_domains:
+#     - light

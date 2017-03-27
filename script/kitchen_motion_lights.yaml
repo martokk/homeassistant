@@ -87,7 +87,7 @@
           - light.kitchen_right
         brightness: 135
         rgb_color: [140, 140, 140]
-        color_temp: 235
+        color_temp: 285
         transition: 0
     - service: input_slider.select_value
       data:
@@ -100,7 +100,7 @@
     - service: input_slider.select_value
       data:
         entity_id: input_slider.var_kitchen_color_temp
-        value: 235
+        value: 285
     - delay: '00:00:07'
     - service: script.turn_on
       entity_id: script.kitchen_lights_timer_bright_long
@@ -115,7 +115,7 @@
           - light.kitchen_right
         brightness: 255
         rgb_color: [255, 255, 255]
-        color_temp: 313
+        color_temp: 200
         transition: 0
     - service: input_slider.select_value
       data_template:
@@ -139,13 +139,13 @@
       data_template:
         color_temp: >
           {% if states("input_slider.var_kitchen_color_temp") %}
-            {%if states("input_slider.var_kitchen_color_temp") | int > 229 %}
+            {%if states("input_slider.var_kitchen_color_temp") | int > 200 %}
               {{ states("input_slider.var_kitchen_color_temp") | int }}
             {%else%}
-              230
+              200
             {%endif%}
           {%else%}
-            230
+            200
           {%endif%}
         brightness: >
           {% if states("input_slider.var_kitchen_brightness") %}
@@ -172,6 +172,6 @@
           # - light.office_led_strip
         brightness: 255
         rgb_color: [255, 255, 255]
-        color_temp: 313
+        color_temp: 200
       data_template:
         transition: '{%if states.light.kitchen_right.attributes.brightness %}{{ (( 255 - states.light.kitchen_right.attributes.brightness | int ) / 2.2833) | int }}{%else %}45{%endif%}'
