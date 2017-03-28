@@ -93,17 +93,3 @@
       # TODO: condition: script.call_last_known_scene not triggered in past 5 minutes
     action:
       - service: script.call_last_known_scene
-
-
-##########################################
-########## DEVICE CONNECTED ##############
-##########################################
-  - alias: 'New Device Found'
-    trigger:
-      platform: event
-      event_type: device_tracker_new_device
-    action:
-      - service: notify.sms
-        data_template:
-          message: |
-            New Device Found! Check Home Assistant's 'Known Devices'

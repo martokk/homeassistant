@@ -40,7 +40,19 @@
     step: 1
 
   var_kitchen_color_temp: #in Seconds
-    initial: 240
-    min: 100
-    max: 500
+    initial: 200
+    min: 0
+    max: 1000
+    step: 1
+
+  var_indoor_temp_hot:
+    initial: 78
+    min: 65
+    max: 85
+    step: 1
+
+  var_indoor_temp_cold:
+    initial: 69
+    min: 65
+    max: 85
     step: 1

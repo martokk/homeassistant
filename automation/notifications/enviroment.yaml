@@ -1,0 +1,47 @@
+##########################################
+############## INDOOR TEMP ######## ######
+##########################################
+
+  - alias: Indoor Temp (Hot)
+    trigger:
+      - platform: template
+        value_template: "{% if states.sensor.indoor_temperature.state | int > states.input_slider.var_indoor_temp_hot.state %}true{%endif%}"
+    action:
+      - condition: template
+        value_template: >
+          {% if states.automation.indoor_temp_hot.attributes.last_triggered %}
+            {% if (as_timestamp(now())-as_timestamp(states.automation.indoor_temp_hot.attributes.last_triggered)) > (2 * 60 * 60)  %}
+              true
+            {% endif %}
+          {%else%}
+            true
+          {%endif%}
+      - service: script.notify2
+        data_template:
+          sms_message: |
+            Indoor Temp HOT: {{ states.sensor.indoor_temperature.state | round(1) }}°F
+            Kitchen: {{ states.sensor.kitchen_temperature.state | round(1) }}°F   |   Tables: {{ states.sensor.tables_temperature.state | round(1) }}°F
+          blink_color: "red"
+          entity_id: group.ambient_lights
+
+  - alias: Indoor Temp (Cold)
+    trigger:
+      - platform: template
+        value_template: "{% if states.sensor.indoor_temperature.state | int < states.input_slider.var_indoor_temp_cold.state %}true{%endif%}"
+    action:
+      - condition: template
+        value_template: >
+          {% if states.automation.indoor_temp_cold.attributes.last_triggered %}
+            {% if (as_timestamp(now())-as_timestamp(states.automation.indoor_temp_cold.attributes.last_triggered)) > (2 * 60 * 60)  %}
+              true
+            {% endif %}
+          {%else%}
+            true
+          {%endif%}
+      - service: script.notify2
+        data_template:
+          sms_message: |
+            Indoor Temp COLD: {{ states.sensor.indoor_temperature.state | round(1) }}°F
+            Kitchen: {{ states.sensor.kitchen_temperature.state | round(1) }}°F   |   Tables: {{ states.sensor.tables_temperature.state | round(1) }}°F
+          blink_color: "deepskyblue"
+          entity_id: group.ambient_lights

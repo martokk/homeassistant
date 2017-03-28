@@ -1,0 +1,125 @@
+##########################################
+##########  TEST NOTIFY2 #################
+##########################################
+  notify2_test:
+    sequence:
+      - service: script.notify2
+        data_template:
+          sms_message: |
+            BLINK 1 RED TEST {{ states.sensor.bitcoin_percent_change_24h.state | round(1) }}% in TEST;
+
+            TEST:  ${{ states.sensor.bitcoin.state | round(2) }};
+            TEST-TEST: {{ states.sensor.bitcoin_percent_change_7d.state | round(1) }}%
+          flood_color: "blue"
+          blink_color: "red"
+          blink_color2: "green"
+
+##########################################
+##########  MAIN NOTIFY2 #################
+##########################################
+  notify2:
+    alias: "vHome Notify2"
+    sequence:
+    ### SMS Notifications
+    - service_template: >
+        {% if sms_message %}
+          {% if is_state('input_boolean.option_notify2_sms', 'on') %}
+            notify.sms
+          {% endif %}
+        {% endif %}
+      data_template:
+        message: "{{ sms_message }}"
+
+    ### Email Notifications
+    - service_template: >
+        {% if email_message %}
+          {% if is_state('input_boolean.option_notify2_email', 'on') %}
+            notify.gmail
+          {% endif %}
+        {% endif %}
+      data_template:
+        email_message: "{{ email_message }}"
+
+    ### Telegram Notifications     #### INCOMEPLETE
+    # - service_template: >
+    #     {% if telegram_message %}
+    #       {% if is_state('input_boolean.option_notify2_telegram', 'on') %}
+    #         notify.telegram
+    #       {% endif %}
+    #     {% endif %}
+    #   data_template:
+    #     email_message: "{{ telegram_message }}"
+
+    ### TTS Notifications    #### INCOMEPLETE
+    # - service_template: >
+    #     {% if tts_message %}
+    #       {% if is_state('input_boolean.option_notify2_tts', 'on') %}
+    #         notify.tts
+    #       {% endif %}
+    #     {% endif %}
+    #   data_template:
+    #     tts_message: "{{ tts_message }}"
+
+      ### Chromecast Media Notifications
+    - service_template: >
+        {% if chromecast_link %}
+          {% if not chromecast_entity_id %}
+            {% set chromecast_entity_id = 'media_player.vtv_chromecast' %}
+          {% endif %}
+          {% if is_state('input_boolean.option_notify2_chromecast', 'on') %}
+            {% if not is_state('binary_sensor.ps3', 'on') %}
+              {% if not is_state(chromecast_entity_id, 'playing') or is_state_attr(chromecast_entity_id, 'app_name', 'Default Media Receiver') %}
+                media_player.play_media
+              {% endif %}
+            {% endif %}
+          {% endif %}
+        {% endif %}
+      data_template:
+        entity_id: "{% if chromecast_entity_id %} {{ chromecast_entity_id }} {% else %} media_player.vtv_chromecast {% endif %}"
+        media_content_type: video
+        media_content_id: "{{ chromecast_link }}"
+
+    ### Light Notifications
+    - service_template: >
+        {% if is_state('input_boolean.option_notify2_lights', 'on') %}
+
+          {% if flood_color %}
+            {% if blink_color %}
+              {% if blink_color2 %}
+                script.flood_and_blink2
+              {% else %}
+                script.flood_and_blink
+              {% endif %}
+            {% elif breathe_color %}
+              script.flood_and_breathe
+            {% else %}
+              script.flood_light
+            {% endif %}
+
+          {% elif blink_color %}
+            {% if blink_color2 %}
+              script.blink2_light
+            {% else %}
+              script.blink_light
+            {% endif %}
+
+          {% elif breathe_color %}
+            script.breathe_light
+
+          {% elif flash_color %}
+            script.flash_light
+
+          {% elif flood_scene %}
+            script.flood_scene
+
+          {% endif %}
+        {% endif %}
+      data_template:
+        blink_color: "{{ blink_color }}"
+        blink_color2: "{{ blink_color2 }}"
+        breathe_color: "{{ breathe_color }}"
+        flash_color: "{{ flash_color }}"
+        flood_color: "{{ flood_color }}"
+        flood_scene: "{{ flood_scene }}"
+        delay: "{{ delay }}"
+        entity_id: "{% if entity_id %}entity_id{% else %}group.all_lights{% endif %}"

@@ -16,6 +16,9 @@
       - condition: state
         entity_id: input_boolean.var_mike_home
         state: 'on'
+      - condition: state
+        entity_id: binary_sensor.ps3
+        state: 'off'
     action:
       - condition: template
         value_template: >

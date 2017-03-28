@@ -1,7 +1,6 @@
 ##########################################
 ########## STORED VARIABLES ##############
 ##########################################
-
   var_mike_home:
     name: Mike Home
     initial: on
@@ -21,6 +20,36 @@
   var_start_notifications_5m:
     initial: off
 
+##########################################
+########## OPTIONS #######################
+##########################################
   option_blind_notifications:
     name: "Blind Notfications (No Lights)"
     initial: off
+
+##########################################
+########## OPTION - NOTIFICATIONS ########
+##########################################
+  option_notify2_sms:
+    name: "SMS Notifications"
+    initial: on
+
+  option_notify2_email:
+    name: "Email Notifications"
+    initial: on
+
+  option_notify2_telegram:
+    name: "Telegram Notifications"
+    initial: on
+
+  option_notify2_tts:
+    name: "TTS Notifications"
+    initial: on
+
+  option_notify2_chromecast:
+    name: "Chromecast Notifications"
+    initial: on
+
+  option_notify2_lights:
+    name: "Lights Notifications"
+    initial: on

@@ -4,6 +4,16 @@
     entities:
       - input_boolean.option_blind_notifications
 
+  notifications:
+    name: "Notifications"
+    entities:
+      - input_boolean.option_notify2_sms
+      - input_boolean.option_notify2_email
+      - input_boolean.option_notify2_telegram
+      - input_boolean.option_notify2_tts
+      - input_boolean.option_notify2_chromecast
+      - input_boolean.option_notify2_lights
+
   tools:
     name: "Tools"
     entities:
@@ -24,3 +34,5 @@
       - input_slider.var_kitchen_brightness
       - input_slider.var_kitchen_color_temp
       - input_slider.var_kitchen_delay
+      - input_slider.var_indoor_temp_hot
+      - input_slider.var_indoor_temp_cold

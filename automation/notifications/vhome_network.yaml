@@ -1,0 +1,123 @@
+##########################################
+############# HOME ASSISTANT UPDATE ######
+##########################################
+  - alias: HOME ASSISTANT Update Notificaiton
+    trigger:
+      - platform: state
+        entity_id: updater.updater
+    action:
+      - service: script.notify2
+        data_template:
+          sms_message: "There is a new update for Home Assistant! http://home-assistant.io/blog/categories/release-notes"
+
+##########################################
+############# VHOME NETWORK ##############
+##########################################
+
+  - alias: "Server Service Down"
+    trigger:
+      - platform: template
+        value_template: >
+          {% if states.sensor.server_status_alert.state != "" %}
+            true
+          {%else%}
+            false
+          {%endif%}
+    action:
+      - service: script.notify2
+        data_template:
+          sms_message: |
+            Server Service Down! -
+            {{ states.sensor.server_status_alert.state }}
+          flood_color: "red"
+          blink_color: "yellow"
+
+
+  - alias: "Cloud Service Down"
+    trigger:
+      - platform: template
+        value_template: >
+          {% if states.sensor.cloud_status_alert.state != "" %}
+            true
+          {%else%}
+            false
+          {%endif%}
+    action:
+      - service: script.notify2
+        data_template:
+          sms_message: |
+            Cloud Service Down! -
+            {{ states.sensor.cloud_status_alert.state }}
+          flood_color: "red"
+          blink_color: "orange"
+
+
+  - alias: "IoT Device Down"
+    trigger:
+      - platform: template
+        value_template: >
+          {% if states.sensor.iot_status_alert.state != "" %}
+            true
+          {%else%}
+            false
+          {%endif%}
+    action:
+      - service: script.notify2
+        data_template:
+          sms_message: |
+            IoT Device Down! -
+            {{ states.sensor.iot_status_alert.state }}
+          flood_color: "red"
+          blink_color: "blueviolet"
+
+
+  - alias: "Disk Space Low"
+    trigger:
+      - platform: numeric_state
+        entity_id: sensor.sabnzbd_disk_free
+        below: 8
+    action:
+      - condition: template
+        value_template: >
+          {% if states.automation.disk_space_low.attributes.last_triggered %}
+            {% if (as_timestamp(now())-as_timestamp(states.automation.disk_space_low.attributes.last_triggered)) > (2 * 60 * 60)  %}
+              true
+            {% else %}
+              false
+            {% endif %}
+          {%else%}
+            true
+          {%endif%}
+      - service: script.notify2
+        data_template:
+          sms_message: |
+            V: Disk Space Low! -
+            {{ states.sensor.sabnzbd_disk_free.state }}GB Free
+          flood_color: "red"
+          blink_color: "magenta"
+
+
+  - alias: "SpeedTest Speed Low"
+    trigger:
+      - platform: numeric_state
+        entity_id: sensor.speedtables_download
+        below: 15
+    action:
+      - condition: template
+        value_template: >
+          {% if states.automation.speedtables_speed_low.attributes.last_triggered %}
+            {% if (as_timestamp(now())-as_timestamp(states.automation.speedtables_speed_low.attributes.last_triggered)) > (2 * 60 * 60)  %}
+              true
+            {% else %}
+              false
+            {% endif %}
+          {%else%}
+            true
+          {%endif%}
+      - service: script.notify2
+        data_template:
+          sms_message: |
+            Speed Test LOW! -
+            {{ states.sensor.speedtables_download.state }}Mbit/s
+          flood_color: "red"
+          blink_color: "cyan"

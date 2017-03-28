@@ -5,6 +5,7 @@
     - switch.tv_power_switch
     - switch.av_power_switch
     - cover.volume
+    - binary_sensor.ps3
 
   ambivision:
     name: "AmbiVision LEDs"

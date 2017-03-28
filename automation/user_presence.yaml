@@ -7,12 +7,14 @@
         entity_id: input_boolean.var_mike_home
         state: 'off'
     action:
-    - condition: state
-      entity_id: input_boolean.var_start_notifications_1m
-      state: 'on'
     - service: scene.turn_on
       entity_id: scene.off
-
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.option_notify2_tts
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.option_notify2_chromecast
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.option_notify2_lights
 
   - alias: 'Mike Home - Automations'
     trigger:
@@ -20,86 +22,13 @@
         entity_id: input_boolean.var_mike_home
         state: 'on'
     action:
-    - condition: state
-      entity_id: input_boolean.var_start_notifications_1m
-      state: 'on'
     - service: scene.turn_on
       entity_id: scene.day
-    - condition: template
-      value_template: >
-        {% if states.media_player.vtv_chromecast.state | string == "playing" and "192.168" not in states.media_player.vtv_chromecast.attributes.media_content_id  %}
-          false
-        {%else%}
-          true
-        {%endif%}
-    - service: script.set_volume_14
-    - delay: "00:00:02"
-    - service: media_player.play_media
-      data:
-        entity_id: media_player.vtv_chromecast
-        media_content_type: video/mp4
-        media_content_id: http://192.168.1.82:8123/local/battlestar_galactica_intro.mp4
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.option_notify2_tts
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.option_notify2_chromecast
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.option_notify2_lights
     - delay: "00:05:00"
     - service: script.timebased_scene
-
-
-##########################################
-########## DAN HOME/AWAY #################
-##########################################
-  - alias: 'Dan Home Notification'
-    trigger:
-    - platform: state
-      entity_id: input_boolean.var_dan_home
-      from: "off"
-      to: "on"
-    action:
-    - service: notify.sms
-      data_template:
-        message: |
-          Dan's Here!
-    - condition: template
-      value_template: >
-        {% if states.automation.dan_home_notification.attributes.last_triggered %}
-          {% if (as_timestamp(now())-as_timestamp(states.automation.dan_home_notification.attributes.last_triggered)) > (8 * 60 * 60)  %}
-            true
-          {% endif %}
-        {%else%}
-          true
-        {%endif%}
-    - service: script.flood_lights
-      data:
-        flood_color: "green"
-        entity_id: group.ambient_lights
-        delay: "00:00:02"
-    - delay: "00:00:04"
-    - condition: template
-      value_template: >
-        {% if states.media_player.vtv_chromecast.state | string == "playing" and "192.168" not in states.media_player.vtv_chromecast.attributes.media_content_id  %}
-          false
-        {%else%}
-          true
-        {%endif%}
-    - service: script.set_volume_14
-    - delay: "00:00:00"
-    - service: media_player.play_media
-      data:
-        entity_id: media_player.vtv_chromecast
-        media_content_type: video/mp4
-        media_content_id: http://192.168.1.82:8123/local/bushes_of_love.mp4
-
-
-  # - alias: 'Dan Home Notification Play Video whats_up_bitches'
-  #   trigger:
-  #   - platform: state
-  #     entity_id: input_boolean.var_dan_home
-  #     from: "off"
-  #     to: "on"
-  #   condition:
-  #     condition: time
-  #     after: '21:00:00'
-  #   action:
-  #   - service: media_player.play_media
-  #     data:
-  #       entity_id: media_player.vtv_chromecast
-  #       media_content_type: video/mp4
-  #       media_content_id: http://192.168.1.82:8123/local/whats_up_bitches.mp4

@@ -1,0 +1,180 @@
+##########################################
+########## RAIN ##########################
+##########################################
+  - alias: 'Rain_Start'
+    trigger:
+    - platform: state
+      entity_id: sensor.dark_sky_precip
+      state: 'rain'
+    condition:
+    - condition: time
+      after: '05:00'
+      before: '02:00'
+    action:
+    - condition: template
+      value_template: >
+        {% if states.automation.rain_start.attributes.last_triggered %}
+          {% if (as_timestamp(now())-as_timestamp(states.automation.rain_start.attributes.last_triggered)) > (2 * 60 * 60)  %}
+            true
+          {% else %}
+            false
+          {% endif %}
+        {%else%}
+          true
+        {%endif%}
+    - service: script.notify2
+      data_template:
+        flood_color: "gold"
+        blink_color: "blue"
+        blink_color2: "green"
+        sms_message: |
+          {{ states("sensor.dark_sky_minutely_summary") }}
+          {{ states("sensor.dark_sky_hourly_summary") }}
+
+  - alias: 'Rain_Stop'
+    trigger:
+    - platform: state
+      entity_id: sensor.dark_sky_precip
+      from: 'rain'
+      to: 'unknown'
+      for:
+        minutes: 10
+    condition:
+    - condition: time
+      after: '05:00'
+      before: '02:00'
+    action:
+    - condition: template
+      value_template: >
+        {% if states.automation.rain_stop.attributes.last_triggered %}
+          {% if (as_timestamp(now())-as_timestamp(states.automation.rain_stop.attributes.last_triggered)) > (2 * 60 * 60)  %}
+            true
+          {% else %}
+            false
+          {% endif %}
+        {%else%}
+          true
+        {%endif%}
+    - service: script.notify2
+      data_template:
+        flood_color: "gold"
+        blink_color: "blue"
+        blink_color2: "red"
+        sms_message: |
+          Rain Stopped!
+          {{ states("sensor.dark_sky_minutely_summary") }}
+          {{ states("sensor.dark_sky_hourly_summary") }}
+
+##########################################
+########## SNOW ##########################
+##########################################
+  - alias: 'Snow_Start'
+    trigger:
+    - platform: state
+      entity_id: sensor.dark_sky_precip
+      state: 'snow'
+    condition:
+    - condition: time
+      after: '05:00'
+      before: '02:00'
+    action:
+    - condition: template
+      value_template: >
+        {% if states.automation.snow_start.attributes.last_triggered %}
+          {% if (as_timestamp(now())-as_timestamp(states.automation.snow_start.attributes.last_triggered)) > (2 * 60 * 60)  %}
+            true
+          {% else %}
+            false
+          {% endif %}
+        {%else%}
+          true
+        {%endif%}
+    - service: script.notify2
+      data_template:
+        flood_color: "gold"
+        blink_color: "cyan"
+        blink_color2: "green"
+        sms_message: |
+          {{ states("sensor.dark_sky_minutely_summary") }}
+          {{ states("sensor.dark_sky_hourly_summary") }}
+
+  - alias: 'Snow_Stop'
+    trigger:
+    - platform: state
+      entity_id: sensor.dark_sky_precip
+      from: 'snow'
+      to: 'unknown'
+      for:
+        minutes: 10
+    condition:
+    - condition: time
+      after: '05:00'
+      before: '02:00'
+    action:
+    - condition: template
+      value_template: >
+        {% if states.automation.snow_stop.attributes.last_triggered %}
+          {% if (as_timestamp(now())-as_timestamp(states.automation.snow_stop.attributes.last_triggered)) > (2 * 60 * 60)  %}
+            true
+          {% else %}
+            false
+          {% endif %}
+        {%else%}
+          true
+        {%endif%}
+    - service: script.notify2
+      data_template:
+        flood_color: "gold"
+        blink_color: "cyan"
+        blink_color2: "red"
+        sms_message: |
+          Snow stopped!
+          {{ states("sensor.dark_sky_minutely_summary") }}
+          {{ states("sensor.dark_sky_hourly_summary") }}
+
+##########################################
+########## WEATHER ALERTS ################
+##########################################
+
+  - alias: "Weather Alert"
+    trigger:
+      - platform: template
+        value_template: >
+          {% if states.sensor.weather_alert.state != "" %}
+            true
+          {%else%}
+            false
+          {%endif%}
+    action:
+      - condition: template
+        value_template: >
+          {% if states.automation.weather_alert.attributes.last_triggered %}
+            {% if (as_timestamp(now())-as_timestamp(states.automation.weather_alert.attributes.last_triggered)) > (8 * 60 * 60)  %}
+              true
+            {% else %}
+              false
+            {% endif %}
+          {%else%}
+            true
+          {%endif%}
+      - service: script.notify2
+        data_template:
+          sms_message: |
+            WEATHER ALERT!
+            {{ states("sensor.weather_alert") }}
+            {{ states.sensor.pws_alerts.attributes.Message }}
+
+            http://sirocco.accuweather.com/nxssa_r1_h_500x620d/r1h/inxr1kmkea_h.gif
+
+            http://static.lakana.com/mmm-wisctv-media-us-east-1/weather/Local_Radar_Loop.gif
+          flood_color: "yellow"
+          blink_color: "red"
+          chromecast_entity_id: media_player.vtv_chromecast
+          chromecast_link: https://sirocco.accuweather.com/nxssa_r1_h_500x620d/r1h/inxr1kmkea_h.gif
+      - delay: "00:00:10"
+      - service: script.notify2
+        data_template:
+          flood_color: "yellow"
+          blink_color: "red"
+          chromecast_entity_id: media_player.vtv_chromecast
+          media_content_id: http://static.lakana.com/mmm-wisctv-media-us-east-1/weather/Local_Radar_Loop.gif

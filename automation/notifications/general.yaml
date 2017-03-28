@@ -1,0 +1,22 @@
+##########################################
+############# TV SHOWS #### ##############
+##########################################
+
+  - alias: "Upcoming Episodes"
+    trigger:
+      - platform: numeric_state
+        entity_id: sensor.sonarr_upcoming
+        above: 0
+    condition:
+      - condition: time
+        after: "21:00:00"
+    action:
+      - service: script.notify2
+        data_template:
+          sms_message: |
+            Upcoming Episodes! -
+            {% for episode in states.sensor.sonarr_upcoming.attributes %}
+              {% if "icon" not in episode | string and "unit_of_measurement" not in episode | string  and "friendly_name"  not in episode | string %}
+                {{episode}} |
+              {%endif %}
+            {% endfor %}

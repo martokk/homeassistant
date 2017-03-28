@@ -63,6 +63,7 @@
     entities:
     - group.tools
     - group.options
+    - group.notifications
     - group.light_scripts
     - group.light_tests
     - group.stored_variables
