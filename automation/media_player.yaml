@@ -1,23 +1,45 @@
 ##########################################
 ########## SCREENSAVERS ##################
 ##########################################
-  - alias: "Chromecast Screen Saver"
+
+
+  var_chromecast_screensaver_ready:
+
+  - alias: "Chromecast Screen Saver (Mark as Ready)"
     trigger:
       - platform: state
         entity_id: media_player.vtv_chromecast
         state: 'off'
         for:
-          minutes: 3
+          minutes: 5
+    action:
+      - service: homeassistant.turn_on
+        entity_id: input_boolean.var_chromecast_screensaver_ready
+
+  - alias: "Chromecast Screen Saver (Mark as NOT Ready)"
+    trigger:
+      - platform: state
+        entity_id: media_player.vtv_chromecast
+        from: 'off'
+    action:
+      - service: homeassistant.turn_off
+        entity_id: input_boolean.var_chromecast_screensaver_ready
+
+
+  - alias: "Chromecast Screen Saver"
+    trigger:
+      - platform: state
+        entity_id: input_boolean.var_chromecast_screensaver_ready
+        state: 'on'
     condition:
-      # - condition: time
-      #   before: "23:59:59"
-      # - condition: sun
-      #   after: sunset
       - condition: state
         entity_id: input_boolean.var_mike_home
         state: 'on'
       - condition: state
         entity_id: binary_sensor.ps3
+        state: 'off'
+      - condition: state
+        entity_id: media_player.vtv_chromecast
         state: 'off'
     action:
       - condition: template
@@ -25,7 +47,6 @@
           {% if is_state('media_player.vtv_chromecast', 'off') %}
             true
           {%endif%}
-      - service: script.set_volume_4
       - service: script.turn_on
         data_template:
           entity_id: >

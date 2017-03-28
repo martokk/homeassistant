@@ -20,6 +20,9 @@
   var_start_notifications_5m:
     initial: off
 
+  var_chromecast_screensaver_ready:
+    initial: off
+
 ##########################################
 ########## OPTIONS #######################
 ##########################################
