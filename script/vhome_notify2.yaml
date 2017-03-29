@@ -25,7 +25,11 @@
         {% if sms_message %}
           {% if is_state('input_boolean.option_notify2_sms', 'on') %}
             notify.sms
+          {% else %}
+            script.notify2_do_nothing
           {% endif %}
+        {% else %}
+          script.notify2_do_nothing
         {% endif %}
       data_template:
         message: "{{ sms_message }}"
@@ -35,7 +39,11 @@
         {% if email_message %}
           {% if is_state('input_boolean.option_notify2_email', 'on') %}
             notify.gmail
+          {% else %}
+            script.notify2_do_nothing
           {% endif %}
+        {% else %}
+          script.notify2_do_nothing
         {% endif %}
       data_template:
         email_message: "{{ email_message }}"
@@ -70,9 +78,17 @@
             {% if not is_state('binary_sensor.ps3', 'on') %}
               {% if not is_state(chromecast_entity_id, 'playing') or not is_state(chromecast_entity_id, 'paused') or is_state_attr(chromecast_entity_id, 'app_name', 'Default Media Receiver') %}
                 media_player.play_media
+              {% else %}
+                script.notify2_do_nothing
               {% endif %}
+            {% else %}
+              script.notify2_do_nothing
             {% endif %}
+          {% else %}
+            script.notify2_do_nothing
           {% endif %}
+        {% else %}
+          script.notify2_do_nothing
         {% endif %}
       data_template:
         entity_id: "{% if chromecast_entity_id %} {{ chromecast_entity_id }} {% else %} media_player.vtv_chromecast {% endif %}"
@@ -112,7 +128,13 @@
           {% elif flood_scene %}
             script.flood_scene
 
+          {% else %}
+            script.notify2_do_nothing
+
           {% endif %}
+
+        {% else %}
+          script.notify2_do_nothing
         {% endif %}
       data_template:
         blink_color: "{{ blink_color }}"
@@ -122,4 +144,9 @@
         flood_color: "{{ flood_color }}"
         flood_scene: "{{ flood_scene }}"
         delay: "{{ delay }}"
-        entity_id: "{% if entity_id %}entity_id{% else %}group.all_lights{% endif %}"
+        entity_id: "{% if entity_id %}{{entity_id}}{% else %}group.all_lights{% endif %}"
+
+
+  notify2_do_nothing:
+    alias: "vHome Notify2: Do Nothing"
+    sequence:

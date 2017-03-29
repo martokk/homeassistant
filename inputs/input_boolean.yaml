@@ -2,12 +2,10 @@
 ########## STORED VARIABLES ##############
 ##########################################
   var_mike_home:
-    name: Mike Home
     initial: on
     icon: mdi:cellphone-iphone
 
   var_dan_home:
-    name: Dan Home
     initial: off
     icon: mdi:cellphone-iphone
 
@@ -26,9 +24,7 @@
 ##########################################
 ########## OPTIONS #######################
 ##########################################
-  option_blind_notifications:
-    name: "Blind Notfications (No Lights)"
-    initial: off
+
 
 ##########################################
 ########## OPTION - NOTIFICATIONS ########

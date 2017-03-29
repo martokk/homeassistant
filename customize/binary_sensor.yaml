@@ -7,8 +7,6 @@
     hidden: true
   binary_sensor.linksys_ddwrt_router:
     hidden: true
-  binary_sensor.plex_media_server:
-    hidden: true
   binary_sensor.sabnzbd:
     hidden: true
   binary_sensor.qbittorrent:

@@ -2,7 +2,6 @@
   options:
     name: "Options"
     entities:
-      - input_boolean.option_blind_notifications
 
   notifications:
     name: "Notifications"

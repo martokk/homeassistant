@@ -11,6 +11,10 @@ updater:
 discovery:
 conversation:
 history:
+logger: # Log Severities: notset, debug, info, warn, warning, error, fatal, critical
+  default: warn  # Can also change via input_select
+  logs:
+    homeassistant.helpers.condition: debug
 config:
 logbook: !include includes\logbook.yaml
 recorder:

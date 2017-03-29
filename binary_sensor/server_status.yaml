@@ -49,11 +49,3 @@
     payload_on: 1
     payload_off: 0
     hidden: true
-
-  - platform: command_line
-    command: netstat -na | find "192.168.1.80:32400" > nul && (echo 1) || (echo 0)
-    name: "Plex Media Server"
-    device_class: connectivity
-    payload_on: 1
-    payload_off: 0
-    hidden: true

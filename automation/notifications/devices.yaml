@@ -32,7 +32,7 @@
         data_template:
           sms_message: |
             Battery Low!
-            iPhone: {{ states("sensor.iphone6s_battery") }}%  |  Watch: {{ states("sensor.watch_battery") }}%  |  iPad: {{ states("sensor.ipad_battery") }}%;
+            iPhone: {{ states("sensor.iphone6s_battery") | int }}%  |  Watch: {{ states("sensor.watch_battery") | int  }}%  |  iPad: {{ states("sensor.ipad_battery") | int  }}%;
       - condition: template
         value_template: >
           {% if trigger.to_state.state | int <= 10 %}
@@ -42,7 +42,7 @@
         data_template:
           sms_message: |
             Battery Low!
-            iPhone: {{ states("sensor.iphone6s_battery") }}%  |  Watch: {{ states("sensor.watch_battery") }}%  |  iPad: {{ states("sensor.ipad_battery") }}%;
+            iPhone: {{ states("sensor.iphone6s_battery") | int  }}%  |  Watch: {{ states("sensor.watch_battery") | int  }}%  |  iPad: {{ states("sensor.ipad_battery") | int  }}%;
           flood_color: "cyan"
           blink_color: "blueviolet"
           blink_color2: "red"
@@ -60,7 +60,7 @@
         data_template:
           sms_message: |
             Battery Fully Charged!
-            iPhone: {{ states("sensor.iphone6s_battery") }}%  |  Watch: {{ states("sensor.watch_battery") }}%
+            iPhone: {{ states("sensor.iphone6s_battery") | int  }}%  |  Watch: {{ states("sensor.watch_battery") | int  }}%
 
 
   - alias: 'Battery Fully Charged Notificaiton'
@@ -79,7 +79,7 @@
         data_template:
           sms_message: |
             Battery Fully Charged!
-            iPhone: {{ states("sensor.iphone6s_battery") }}%  |  Watch: {{ states("sensor.watch_battery") }}%
+            iPhone: {{ states("sensor.iphone6s_battery") | int  }}%  |  Watch: {{ states("sensor.watch_battery") | int  }}%
           flood_color: "cyan"
           blink_color: "blueviolet"
           blink_color2: "green"

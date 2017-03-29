@@ -10,9 +10,7 @@
     entities:
     - sensor.server_modem
     - sensor.server_router
-    # - sensor.server_pihole
     - sensor.server_mqtt
-    - sensor.server_plex
     - sensor.server_sabnzbd
     - sensor.server_qbittorrent
     - sensor.server_sonarr

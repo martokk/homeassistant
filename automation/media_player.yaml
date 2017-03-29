@@ -47,17 +47,18 @@
           {% if is_state('media_player.vtv_chromecast', 'off') %}
             true
           {%endif%}
+      - service: script.set_volume_4
       - service: script.turn_on
         data_template:
           entity_id: >
             {% set hour = states.sensor.time.state[:2] | int %}
-            {% if hour < 1 %}
+            {% if hour | int < 1 %}
               script.media_scene_fireplace
-            {% elif hour < 16 %}
+            {% elif hour | int < 16 %}
               script.media_scene_space
-            {% elif hour < 21 %}
+            {% elif hour | int < 21 %}
               script.media_scene_magenta_blue_orbs_long
-            {% elif hour >= 21 %}
+            {% elif hour | int >= 21 %}
               script.media_scene_fireplace
             {% endif %}
         # data_template:

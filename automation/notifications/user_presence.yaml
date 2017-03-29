@@ -24,9 +24,9 @@
       from: "off"
       to: "on"
     action:
-    - service: notify.sms
+    - service: script.notify2
       data_template:
-        message: |
+        sms_message: |
           Dan's Here!
     - condition: template
       value_template: >
@@ -37,23 +37,14 @@
         {%else%}
           true
         {%endif%}
-    - service: script.flood_lights
-      data:
+    - service: script.set_volume_14
+    - service: script.notify2
+      data_template:
         flood_color: "green"
         entity_id: group.ambient_lights
         delay: "00:00:02"
     - delay: "00:00:04"
-    - condition: template
-      value_template: >
-        {% if states.media_player.vtv_chromecast.state | string == "playing" and "192.168" not in states.media_player.vtv_chromecast.attributes.media_content_id  %}
-          false
-        {%else%}
-          true
-        {%endif%}
-    - service: script.set_volume_14
-    - delay: "00:00:00"
-    - service: media_player.play_media
-      data:
-        entity_id: media_player.vtv_chromecast
-        media_content_type: video/mp4
-        media_content_id: http://192.168.1.82:8123/local/bushes_of_love.mp4
+    - service: script.notify2
+      data_template:
+        chromecast_entity_id: media_player.vtv_chromecast
+        chromecast_link: http://192.168.1.82:8123/local/bushes_of_love.mp4

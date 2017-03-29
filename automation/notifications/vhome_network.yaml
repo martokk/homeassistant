@@ -11,6 +11,29 @@
           sms_message: "There is a new update for Home Assistant! http://home-assistant.io/blog/categories/release-notes"
 
 ##########################################
+########## NOTIFICATION OPTIONS ##########
+##########################################
+  - alias: "Notificaiton Type Changed"
+    trigger:
+      - platform: state
+        entity_id: input_boolean.option_notify2_sms
+      - platform: state
+        entity_id: input_boolean.option_notify2_email
+      - platform: state
+        entity_id: input_boolean.option_notify2_telegram
+      - platform: state
+        entity_id: input_boolean.option_notify2_tts
+      - platform: state
+        entity_id: input_boolean.option_notify2_chromecast
+      - platform: state
+        entity_id: input_boolean.option_notify2_lights
+    action:
+      - service: script.notify2
+        data_template:
+          flash_color: "cyan"
+          entity_id: "group.all_lights"
+
+##########################################
 ############# VHOME NETWORK ##############
 ##########################################
 
