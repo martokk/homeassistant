@@ -255,10 +255,6 @@
         friendly_name: "IFTTT Cloud"
         value_template: '{% if "Operational" in states("sensor.ifttt_status") %}online{% else %}Unknown{% endif %}'
 
-      cloud_lifx:
-        friendly_name: "Lifx Cloud"
-        value_template: '{% if "Operational" in states("sensor.lifx_status") %}online{% else %}Unknown{% endif %}'
-
       ##################################
       ########### IOT TEMPLATES ########
       ##################################

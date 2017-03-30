@@ -3,9 +3,3 @@
     name: "IFTTT Status"
     select: '.component-status'
     scan_interval: 300
-
-  - platform: scrape
-    resource: http://status.lifx.com/
-    name: "LIFX Status"
-    select: 'span.status'
-    scan_interval: 300
