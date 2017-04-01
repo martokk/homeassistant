@@ -2,19 +2,19 @@ name: 10m_Night Red
 entities:
   light.living_room_overhead:
     state: on
-    brightness: 100
+    brightness: 150
     rgb_color: [105, 1, 0]
     color_temp: 207
     transition: 780
   light.end_table_left:
     state: on
-    brightness: 100
+    brightness: 130
     rgb_color: [69, 69, 69]
     color_temp: 207
     transition: 780
   light.end_table_right:
     state: on
-    brightness: 100
+    brightness: 130
     rgb_color: [69, 69, 69]
     color_temp: 207
     transition: 780
@@ -46,32 +46,32 @@ entities:
 
   light.office_right:
     state: on
-    brightness: 100
+    brightness: 130
     rgb_color: [105, 1, 0]
     color_temp: 207
     transition: 780
   light.office_center:
     state: on
-    brightness: 50
+    brightness: 75
     rgb_color: [69, 69, 69]
     color_temp: 207
     transition: 780
   light.office_left:
     state: on
-    brightness: 50
+    brightness: 75
     rgb_color: [69, 69, 69]
     color_temp: 207
     transition: 780
 
   light.kitchen_right:
     state: on
-    brightness: 60
+    brightness: 80
     rgb_color: [105, 1, 0]
     color_temp: 207
     transition: 60
   light.kitchen_left:
     state: on
-    brightness: 60
+    brightness: 80
     rgb_color: [105, 1, 0]
     color_temp: 207
     transition: 60

@@ -4,7 +4,7 @@ entities:
     state: on
     brightness: 150
     rgb_color: [199, 199, 199]
-    color_temp: 207
+    color_temp: 250
     transition: 0
   light.end_table_left:
     state: on
@@ -30,13 +30,13 @@ entities:
     state: on
     brightness: 150
     rgb_color: [129, 129, 129]
-    color_temp: 207
+    color_temp: 250
     transition: 0
   light.tv_overhead_left:
     state: on
     brightness: 150
     rgb_color: [129, 129, 129]
-    color_temp: 207
+    color_temp: 250
     transition: 0
   light.tv_floor_left:
     state: on
@@ -55,7 +55,7 @@ entities:
     state: on
     brightness: 150
     rgb_color: [101, 101, 101]
-    color_temp: 191
+    color_temp: 250
     transition: 0
   light.office_center:
     state: on
