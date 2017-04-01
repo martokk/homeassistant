@@ -3,19 +3,20 @@
   timebased_scene:
     alias: "Time-based Scene"
     sequence:
-      - service: script.timebased_day_le
-      - service: script.timebased_day
-      - service: script.timebased_night_cyan
-      - service: script.timebased_night_blue
-      - service: script.timebased_night_red
+      - service: script.timebased_sunrise
+      - service: script.timebased_pre_sunset_day
+      - service: script.timebased_5pm
+      - service: script.timebased_9pm
+      - service: script.timebased_11pm
+      - service: script.timebased_1230am
       - service: script.timebased_off
 
 # Sunrise to Pre-Sunset
-  timebased_day_le:
+  timebased_sunrise:
     sequence:
       - condition: time
         after: '05:00:00'
-        before: '21:00:00'
+        before: '17:00:00'
       - condition: sun
         after: sunrise
         after_offset: "-00:25:00"
@@ -28,11 +29,11 @@
         entity_id: script.timebased_scene
 
 # Sunrise to Pre-Sunset
-  timebased_day:
+  timebased_pre_sunset_day:
     sequence:
       - condition: time
         after: '05:00:00'
-        before: '21:00:00'
+        before: '17:00:00'
       - condition: sun
         before: sunset
       - condition: sun
@@ -43,11 +44,11 @@
       - service: script.turn_off
         entity_id: script.timebased_scene
 
-# Sunset
-  timebased_night_cyan:
+# 5pm
+  timebased_5pm:
     sequence:
       - condition: time
-        after: '15:00:00'
+        after: '17:00:00'
         before: '20:59:59'
       - condition: sun
         after: sunset
@@ -56,8 +57,8 @@
       - service: script.turn_off
         entity_id: script.timebased_scene
 
-# 9:00 PM to 12:00 AM
-  timebased_night_blue:
+# 9pm
+  timebased_9pm:
     sequence:
       - condition: time
         after: '21:00:00'
@@ -68,14 +69,25 @@
         entity_id: script.timebased_scene
 
 
-# 00:00 PM to 0:30 AM
-  timebased_night_red:
+# 11pm
+  timebased_11pm:
     sequence:
       - condition: time
         after: '23:00:00'
-        before: '01:30:00'
+        before: '00:30:00'
       - service: scene.turn_on
         entity_id: scene.night_red
+      - service: script.turn_off
+        entity_id: script.timebased_scene
+
+# 12:30am
+  timebased_1230am:
+    sequence:
+      - condition: time
+        after: '00:30:00'
+        before: '01:00:00'
+      - service: scene.turn_on
+        entity_id: scene.night_computer_red
       - service: script.turn_off
         entity_id: script.timebased_scene
 
@@ -83,11 +95,11 @@
   timebased_off:
     sequence:
       - condition: time
-        after: '01:30:00'
+        after: '01:00:00'
         before: '09:00:00'
       - condition: sun
         before: sunrise
-        before_offset: "-00:25:00"
+        before_offset: "-00:35:00"
       - service: scene.turn_on
         entity_id: scene.off
       - service: script.turn_off

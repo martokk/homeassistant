@@ -2,9 +2,6 @@
 ########## SCREENSAVERS ##################
 ##########################################
 
-
-  var_chromecast_screensaver_ready:
-
   - alias: "Chromecast Screen Saver (Mark as Ready)"
     trigger:
       - platform: state
@@ -24,7 +21,6 @@
     action:
       - service: homeassistant.turn_off
         entity_id: input_boolean.var_chromecast_screensaver_ready
-
 
   - alias: "Chromecast Screen Saver"
     trigger:

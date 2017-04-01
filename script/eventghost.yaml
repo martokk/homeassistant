@@ -91,7 +91,7 @@
           {% elif button | int == 2  %}
             scene.night_computer
           {% elif button | int == 3  %}
-            scene.off
+            scene.night_computer_red
           {% elif button | int == 4  %}
             scene.off
           {% elif button | int == 5  %}

@@ -19,6 +19,8 @@
     hidden: true
   scene.0s_night_computer:
     hidden: true
+  scene.0s_night_computer_red:
+    hidden: true
   scene.0s_off:
     hidden: true
 
@@ -43,6 +45,8 @@
     entity_picture: http://192.168.1.82:8123/local/icons/night.png
   scene.night_computer:
     entity_picture: http://192.168.1.82:8123/local/icons/night_computer.png
+  scene.night_computer_red:
+    entity_picture: http://192.168.1.82:8123/local/icons/night_computer_red.png
   scene.off:
     entity_picture: http://192.168.1.82:8123/local/icons/off.png
 
@@ -66,6 +70,8 @@
   scene.10m_night:
     hidden: true
   scene.10m_night_computer:
+    hidden: true
+  scene.10m_night_computer_red:
     hidden: true
   scene.10m_off:
     hidden: true

@@ -29,6 +29,7 @@
       - input_boolean.var_dan_home
       - input_boolean.var_start_notifications_1m
       - input_boolean.var_start_notifications_5m
+      - input_boolean.var_chromecast_screensaver_ready
       - input_boolean.var_kitchen_on
       - input_slider.var_kitchen_brightness
       - input_slider.var_kitchen_color_temp

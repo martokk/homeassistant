@@ -20,6 +20,9 @@
   notify2:
     alias: "vHome Notify2"
     sequence:
+    - condition: state
+      entity_id: input_boolean.var_var_start_notifications_1m
+      state: 'on'
     ### SMS Notifications
     - service_template: >
         {% if sms_message %}
@@ -108,6 +111,8 @@
               {% endif %}
             {% elif breathe_color %}
               script.flood_and_breathe
+            {% elif next_scene %}
+              script.flood_and_change_scene
             {% else %}
               script.flood_light
             {% endif %}

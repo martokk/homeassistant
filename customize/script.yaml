@@ -39,15 +39,17 @@
 ##########################################
 ########## TIME-BASED LIGHTS #############
 ##########################################
-  script.timebased_day:
+  script.timebased_sunrise:
     hidden: true
-  script.timebased_day_le:
+  script.timebased_pre_sunset_day:
     hidden: true
-  script.timebased_night_cyan:
+  script.timebased_5pm:
     hidden: true
-  script.timebased_night_blue:
+  script.timebased_9pm:
     hidden: true
-  script.timebased_night_red:
+  script.timebased_11pm:
+    hidden: true
+  script.timebased_1230am:
     hidden: true
   script.timebased_off:
     hidden: true
