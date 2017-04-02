@@ -96,3 +96,5 @@
         data_template:
           sms_message: |
             New Device Found! Check Home Assistant's 'Known Devices'
+            Host Name: {{trigger.event.data.host_name}}
+            Entity_ID: ({{trigger.event.data.entity_id}})
