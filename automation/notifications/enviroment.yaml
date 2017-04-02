@@ -5,7 +5,7 @@
   - alias: Indoor Temp (Hot)
     trigger:
       - platform: template
-        value_template: "{% if states.sensor.indoor_temperature.state | int > states.input_slider.var_indoor_temp_hot.state | int %}true{%endif%}"
+        value_template: "{% if states.sensor.indoor_temperature.state | int > states.input_slider.option_indoor_temp_hot.state | int %}true{%endif%}"
     action:
       - condition: template
         value_template: >
@@ -27,7 +27,7 @@
   - alias: Indoor Temp (Cold)
     trigger:
       - platform: template
-        value_template: "{% if states.sensor.indoor_temperature.state | int < states.input_slider.var_indoor_temp_cold.state | int %}true{%endif%}"
+        value_template: "{% if states.sensor.indoor_temperature.state | int < states.input_slider.option_indoor_temp_cold.state | int %}true{%endif%}"
     action:
       - condition: template
         value_template: >

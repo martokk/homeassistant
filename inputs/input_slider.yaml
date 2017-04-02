@@ -45,14 +45,33 @@
     max: 1000
     step: 1
 
-  var_indoor_temp_hot:
+##########################################
+########## OPTIONS ############
+##########################################
+  option_indoor_temp_hot:
+    name: Indoor Temp - High Range
     initial: 78
     min: 65
     max: 85
     step: 1
 
-  var_indoor_temp_cold:
+  option_indoor_temp_cold:
+    name: Indoor Temp - Low Range
     initial: 69
     min: 65
     max: 85
     step: 1
+
+  option_notification_brightness:
+    name: Default Notificaiton Brightness
+    initial: 225
+    min: 1
+    max: 255
+    step: 5
+
+  option_notification_brightness_low:
+    name: Low Light Scene Notificaiton Brightness
+    initial: 40
+    min: 1
+    max: 255
+    step: 5

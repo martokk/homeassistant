@@ -3,6 +3,8 @@
     name: "Options - Lights"
     entities:
       - input_boolean.option_delay_timebased_off
+      - input_slider.option_notification_brightness
+      - input_slider.option_notification_brightness_low
 
   options_media:
     name: "Options - Media"
@@ -18,6 +20,12 @@
       - input_boolean.option_notify2_tts
       - input_boolean.option_notify2_chromecast
       - input_boolean.option_notify2_lights
+
+  options_environment:
+    name: "Options - Environment"
+    entities:
+      - input_slider.option_indoor_temp_cold
+      - input_slider.option_indoor_temp_hot
 
   tools:
     name: "Tools"
@@ -41,8 +49,8 @@
       - input_slider.var_kitchen_brightness
       - input_slider.var_kitchen_color_temp
       - input_slider.var_kitchen_delay
-      - input_slider.var_indoor_temp_hot
-      - input_slider.var_indoor_temp_cold
+      - input_slider.option_indoor_temp_hot
+      - input_slider.option_indoor_temp_cold
 
   scripts_lights:
     name: "Scripts - Lights"
