@@ -15,3 +15,7 @@
     hidden: true
   binary_sensor.couchpotato:
     hidden: true
+  binary_sensor.ps3:
+    hidden: true
+  binary_sensor.ps3_ping:
+    hidden: true

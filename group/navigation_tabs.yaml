@@ -19,7 +19,7 @@
     - group.office_lights
     - group.kitchen_lights
     - group.scenes
-    - group.light_scripts
+    - group.scripts_lights
     - group.led_lights
     - group.ambient_lights
     - group.living_room_overhead_lights
@@ -62,10 +62,11 @@
     view: yes
     entities:
     - group.tools
-    - group.options
-    - group.notifications
-    - group.light_scripts
-    - group.light_tests
+    - group.options_lights
+    - group.options_media
+    - group.options_notify2
+    - group.scripts_lights
+    - group.scripts_lights_test
     - group.stored_variables
 
   all:

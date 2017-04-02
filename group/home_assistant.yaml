@@ -1,10 +1,16 @@
 
-  options:
-    name: "Options"
+  options_lights:
+    name: "Options - Lights"
     entities:
+      - input_boolean.option_delay_timebased_off
 
-  notifications:
-    name: "Notifications"
+  options_media:
+    name: "Options - Media"
+    entities:
+      - input_boolean.option_chromecast_screensaver
+
+  options_notify2:
+    name: "Options - Notify2"
     entities:
       - input_boolean.option_notify2_sms
       - input_boolean.option_notify2_email
@@ -30,9 +36,30 @@
       - input_boolean.var_start_notifications_1m
       - input_boolean.var_start_notifications_5m
       - input_boolean.var_chromecast_screensaver_ready
+      - input_boolean.var_ps3_on
       - input_boolean.var_kitchen_on
       - input_slider.var_kitchen_brightness
       - input_slider.var_kitchen_color_temp
       - input_slider.var_kitchen_delay
       - input_slider.var_indoor_temp_hot
       - input_slider.var_indoor_temp_cold
+
+  scripts_lights:
+    name: "Scripts - Lights"
+    entities:
+      - script.timebased_scene
+      - script.scenegen
+
+  scripts_lights_test:
+    name: "Scripts - Lights Test"
+    entities:
+      - script.breathe_light_test
+      - script.flash_light_test
+      - script.blink_light_test
+      - script.blink2_light_test
+      - script.flood_scene_test
+      - script.flood_light_test
+      - script.flood_and_change_scene_test
+      - script.flood_and_breathe_test
+      - script.flood_and_blink_test
+      - script.flood_and_blink2_test

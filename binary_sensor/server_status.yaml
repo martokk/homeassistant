@@ -49,3 +49,11 @@
     payload_on: 1
     payload_off: 0
     hidden: true
+
+  - platform: command_line
+    command: ping -n 1 192.168.1.50 | find "unreachable" > nul && (echo 0) || (echo 1)
+    name: "PS3 Ping"
+    device_class: connectivity
+    payload_on: 1
+    payload_off: 0
+    hidden: true

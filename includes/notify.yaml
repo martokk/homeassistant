@@ -17,3 +17,8 @@
     username: vhome.notifications@gmail.com
     password: !secret gmail_password
     recipient: "2622206437@mms.att.net"
+
+  - name: telegram
+    platform: telegram
+    api_key: 371185092:AAGZifDwOUZLssxyEwzj7un9EG261Ve_eGg
+    chat_id: 343498992

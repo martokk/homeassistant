@@ -1,3 +1,25 @@
+# Due to code limitation... turning off timebased scenese will also turn off light notifications. (Light notificaitons need LKS to work)
+##########################################
+########## TIMEBASED OPTIONS #############
+##########################################
+  - alias: timebased_light_scene_turn_off
+    trigger:
+      - platform: state
+        entity_id: input_select.option_timebased_light_scene
+        state: 'off'
+    action:
+      - service: homeassistant.turn_off
+        entity_id: input_boolean.option_notify2_lights
+
+  - alias: timebased_light_scene_turn_on
+    trigger:
+      - platform: state
+        entity_id: input_select.option_timebased_light_scene
+        state: 'on'
+    action:
+      - service: homeassistant.turn_on
+        entity_id: input_boolean.option_notify2_lights
+
 ####################################
 ##### HOURLY BREATHE ###############
 ####################################
@@ -22,7 +44,7 @@
         {% else %}
           true
         {% endif %}
-    - service: script.flash_light
+    - service: script.notify2
       data:
         flash_color: "magenta"
         entity_id: group.overhead_lights
@@ -37,6 +59,9 @@
         event: sunrise
         offset: "-00:25:00"
     condition:
+      - condition: state
+        entity_id: input_boolean.option_timebased_light_scene
+        state: 'on'
       - condition: state
         entity_id: input_boolean.var_mike_home
         state: 'on'
@@ -55,6 +80,9 @@
         offset: "-03:15:00"
     condition:
       - condition: state
+        entity_id: input_boolean.option_timebased_light_scene
+        state: 'on'
+      - condition: state
         entity_id: input_boolean.var_mike_home
         state: 'on'
     action:
@@ -70,6 +98,9 @@
         offset: "-00:30:00"
     condition:
       - condition: state
+        entity_id: input_boolean.option_timebased_light_scene
+        state: 'on'
+      - condition: state
         entity_id: input_boolean.var_mike_home
         state: 'on'
     action:
@@ -82,7 +113,13 @@
       - platform: time
         after: "01:00:00"
     action:
-      service: scene.turn_on
+    - condition: state
+      entity_id: input_boolean.option_timebased_light_scene
+      state: 'on'
+    - condition: state
+      entity_id: input_boolean.option_delay_timebased_off
+      state: 'off'
+    - service: scene.turn_on
       entity_id: scene.10m_off
 
 ### 2am - OFF
@@ -91,7 +128,13 @@
       - platform: time
         after: "02:00:00"
     action:
-      service: scene.turn_on
+    - condition: state
+      entity_id: input_boolean.option_timebased_light_scene
+      state: 'on'
+    - condition: state
+      entity_id: input_boolean.option_delay_timebased_off
+      state: 'off'
+    - service: scene.turn_on
       entity_id: scene.10m_off
 
 ### 3am - OFF
@@ -100,7 +143,12 @@
       - platform: time
         after: "03:00:00"
     action:
-      service: scene.turn_on
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.option_delay_timebased_off
+    - condition: state
+      entity_id: input_boolean.option_timebased_light_scene
+      state: 'on'
+    - service: scene.turn_on
       entity_id: scene.10m_off
 
 ##########################################

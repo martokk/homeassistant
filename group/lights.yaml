@@ -81,26 +81,6 @@
     - input_select.kitchen_led_effect
     - input_slider.kitchen_animation_speed
 
-  light_scripts:
-    name: "Light Scripts"
-    entities:
-      - script.timebased_scene
-      - script.scenegen
-
-  light_tests:
-    name: "Light Effects Tests"
-    entities:
-      - script.breathe_light_test
-      - script.flash_light_test
-      - script.blink_light_test
-      - script.blink2_light_test
-      - script.flood_scene_test
-      - script.flood_light_test
-      - script.flood_and_change_scene_test
-      - script.flood_and_breathe_test
-      - script.flood_and_blink_test
-      - script.flood_and_blink2_test
-
   led_lights:
     name: "All LED Lights"
     entities:

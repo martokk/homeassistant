@@ -5,11 +5,7 @@
     sequence:
       - service: script.notify2
         data_template:
-          sms_message: |
-            BLINK 1 RED TEST {{ states.sensor.bitcoin_percent_change_24h.state | round(1) }}% in TEST;
-
-            TEST:  ${{ states.sensor.bitcoin.state | round(2) }};
-            TEST-TEST: {{ states.sensor.bitcoin_percent_change_7d.state | round(1) }}%
+          telegram_message: "test"
           flood_color: "blue"
           blink_color: "red"
           blink_color2: "green"
@@ -49,17 +45,21 @@
           script.notify2_do_nothing
         {% endif %}
       data_template:
-        email_message: "{{ email_message }}"
+        message: "{{ email_message }}"
 
-    ### Telegram Notifications     #### INCOMEPLETE
-    # - service_template: >
-    #     {% if telegram_message %}
-    #       {% if is_state('input_boolean.option_notify2_telegram', 'on') %}
-    #         notify.telegram
-    #       {% endif %}
-    #     {% endif %}
-    #   data_template:
-    #     email_message: "{{ telegram_message }}"
+    ## Telegram Notifications     #### INCOMEPLETE
+    - service_template: >
+        {% if telegram_message %}
+          {% if is_state('input_boolean.option_notify2_telegram', 'on') %}
+            notify.telegram
+          {% else %}
+            script.notify2_do_nothing
+          {% endif %}
+        {% else %}
+          script.notify2_do_nothing
+        {% endif %}
+      data_template:
+        message: "{{ telegram_message }}"
 
     ### TTS Notifications    #### INCOMEPLETE
     # - service_template: >
@@ -150,6 +150,7 @@
         flood_scene: "{{ flood_scene }}"
         delay: "{{ delay }}"
         entity_id: "{% if entity_id %}{{entity_id}}{% else %}group.all_lights{% endif %}"
+        next_scene: "{{ next_scene }}"
 
 
   notify2_do_nothing:

@@ -225,6 +225,14 @@ acer_laptop:
   track: false
   vendor: Liteon Technology Corporation
 
+# ps3: # can't get this working with ddwrt for some reason. If possible remove ping via binary_sensor and replace with this (via device_tracker)
+#   hide_if_away: false
+#   mac: FC:0F:E6:3A:6C:FA
+#   name: Playstation 3
+#   picture:
+#   track: true
+#   vendor: Sony Interactive Entertainment Inc.
+
 ##########################################
 ########## SERVER ########################
 ##########################################

@@ -9,6 +9,9 @@
     initial: off
     icon: mdi:cellphone-iphone
 
+  var_ps3_on:
+    initial: off
+
   var_kitchen_on:
     initial: off
 
@@ -22,9 +25,22 @@
     initial: off
 
 ##########################################
-########## OPTIONS #######################
+########## OPTIONS - LIGHTS ##############
 ##########################################
+  option_delay_timebased_off:
+    name: "Delay turning lights off until 3am"
+    initial: off
 
+  option_timebased_light_scene:
+    name: "Use Time-based light scenes"
+    initial: on
+
+##########################################
+########## OPTIONS - MEDIA ##############
+##########################################
+  option_chromecast_screensaver:
+    name: "Chromecast Screensaver"
+    initial: on
 
 ##########################################
 ########## OPTION - NOTIFICATIONS ########

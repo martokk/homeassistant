@@ -21,8 +21,8 @@
     - service: script.flood_and_change_scene
       data:
         flood_color: "magenta"
-        delay: "00:00:05"
-        next_scene: scene.chill
+        delay: "00:00:10"
+        next_scene: scene.night_cyan
 
   flood_and_blink_test:
     sequence:

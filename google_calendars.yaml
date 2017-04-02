@@ -35,3 +35,9 @@
   - device_id: subspace_radio2
     name: Subspace Radio2
     track: true
+
+- cal_id: oupk9j6scqvglsnb2rgntkb4p0@group.calendar.google.com
+  entities:
+  - device_id: rev_20
+    name: Rev 2.0
+    track: true

@@ -38,7 +38,7 @@
         before: sunset
       - condition: sun
         after: sunset
-        after_offset: "-03:15:00"
+        after_offset: "-03:45:00"
       - service: scene.turn_on
         entity_id: 'scene.day'
       - service: script.turn_off
@@ -50,8 +50,6 @@
       - condition: time
         after: '17:00:00'
         before: '20:59:59'
-      - condition: sun
-        after: sunset
       - service: scene.turn_on
         entity_id: scene.night_cyan
       - service: script.turn_off
