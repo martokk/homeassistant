@@ -51,6 +51,10 @@
     action:
       - service: switch.toggle
         entity_id: switch.tv_power_switch
+      - service: script.flash_light
+        data:
+          flash_color: "cyan"
+          entity_id: group.tv_lights
 
   - alias: 'Toggle Chromecast Play/Pause'
     trigger:
@@ -60,6 +64,10 @@
     action:
       - service: media_player.media_play_pause
         entity_id: media_player.vtv_chromecast
+      - service: script.flash_light
+        data:
+          flash_color: "cyan"
+          entity_id: group.tv_lights
 
   - alias: 'Toggle Chromecast Prev'
     trigger:
@@ -69,6 +77,10 @@
     action:
       - service: media_player.media_previous_track
         entity_id: media_player.vtv_chromecast
+      - service: script.flash_light
+        data:
+          flash_color: "cyan"
+          entity_id: group.tv_lights
 
   - alias: 'Toggle Chromecast Next'
     trigger:
@@ -78,7 +90,21 @@
     action:
       - service: media_player.media_next_track
         entity_id: media_player.vtv_chromecast
+      - service: script.flash_light
+        data:
+          flash_color: "cyan"
+          entity_id: group.tv_lights
 
+  - alias: 'Flash Cyan'
+    trigger:
+      - platform: mqtt
+        topic: device/hass/breathe_light
+        payload: "1"
+    action:
+      - service: script.flash_light
+        data:
+          flash_color: "cyan"
+          entity_id: group.tv_lights
 ##########################################
 ########## Eventghost Buttons ############
 ##########################################

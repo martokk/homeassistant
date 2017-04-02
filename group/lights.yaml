@@ -43,6 +43,14 @@
     - light.kitchen_led_strip
     - light.tables_led_strips
 
+  tv_lights:
+    name: "TV Area"
+    entities:
+    - light.tv_overhead_left
+    - light.tv_overhead_right
+    - light.tv_floor_left
+    - light.tv_floor_right
+
   living_room_overhead_lights:
     name: "Living Room Overhead"
     entities:
