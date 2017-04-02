@@ -4,11 +4,18 @@
   notify2_test:
     sequence:
       - service: script.notify2
-        data_template:
-          telegram_message: "test"
-          flood_color: "blue"
+        data:
+          telegram_message: |
+            Snow stopped!
+            {{ states("sensor.dark_sky_minutely_summary") }}
+            {{ states("sensor.dark_sky_hourly_summary") }}
           blink_color: "red"
-          blink_color2: "green"
+
+  telegram_test:
+    sequence:
+      - service: notify.telegram
+        data:
+          message: "test"
 
 ##########################################
 ##########  MAIN NOTIFY2 #################
@@ -17,7 +24,7 @@
     alias: "vHome Notify2"
     sequence:
     - condition: state
-      entity_id: input_boolean.var_var_start_notifications_1m
+      entity_id: input_boolean.var_start_notifications_1m
       state: 'on'
     ### SMS Notifications
     - service_template: >
@@ -47,7 +54,7 @@
       data_template:
         message: "{{ email_message }}"
 
-    ## Telegram Notifications     #### INCOMEPLETE
+    ## Telegram Notifications
     - service_template: >
         {% if telegram_message %}
           {% if is_state('input_boolean.option_notify2_telegram', 'on') %}
@@ -59,7 +66,31 @@
           script.notify2_do_nothing
         {% endif %}
       data_template:
-        message: "{{ telegram_message }}"
+        message: |
+
+          {{ telegram_message }}
+
+    ## Telegram Picture Notifications
+    - service_template: >
+        {% if telegram_url %}
+          {% if is_state('input_boolean.option_notify2_telegram', 'on') %}
+            notify.telegram
+          {% else %}
+            script.notify2_do_nothing
+          {% endif %}
+        {% else %}
+          script.notify2_do_nothing
+        {% endif %}
+      data_template:
+        message: ''
+        data:
+          photo:
+            url: "{{ telegram_url }}"
+
+    ### CONDITION: MIKE is HOME
+    - condition: state
+      entity_id: input_boolean.var_mike_home
+      state: 'on'
 
     ### TTS Notifications    #### INCOMEPLETE
     # - service_template: >
