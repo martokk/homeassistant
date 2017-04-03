@@ -244,18 +244,9 @@ pihole:
   track: false
   vendor:
 
-
-
 ##########################################
 ########## HIDDEN ########################
 ##########################################
-roku_player: ## Neighbor
-  hide_if_away: false
-  mac: BT_CC:6D:A0:AE:95:D0
-  name: Roku Player
-  picture:
-  track: false
-  vendor:
 echo_dot3ur: ## Amazon Echo Dot (mine)
   hide_if_away: false
   mac: BT_88:71:E5:BD:17:01
@@ -270,6 +261,33 @@ bose_mini_ii_soundlink: ## Bose Soundlink (mine)
   picture:
   track: false
   vendor: Bose Corporation
+
+wifi_adapter_tenda: ## USB Wifi Adapter (mine) (dan is borrowing)
+  hide_if_away: false
+  mac: C8:3A:35:CC:CD:38
+  name: wifi_adapter_tenda
+  picture:
+  track: false
+  vendor: Tenda Technology Co., Ltd.
+
+
+##########################################
+########## NEIGHBORS DEVICES #############
+##########################################
+jbl_reflect_mini_bt: ## neighbors
+  hide_if_away: false
+  mac: BT_FC:A8:9A:22:A3:7A
+  name: JBL Reflect Mini BT
+  picture:
+  track: false
+  vendor: Sunitec Enterprise Co.,Ltd
+nintendo_rvlcnt01: ## neighbors
+  hide_if_away: false
+  mac: BT_0C:FC:83:97:FA:B6
+  name: Nintendo RVL-CNT-01
+  picture:
+  track: false
+  vendor: Airoha Technology Corp.,
 vizio_sb2920: ## Neighbor
   hide_if_away: false
   mac: BT_40:EF:4C:90:35:2C
@@ -291,21 +309,13 @@ z813: ## neighbors
   picture:
   track: false
   vendor: zte corporation
-wifi_adapter_tenda: ## USB Wifi Adapter (mine) (dan is borrowing)
+roku_player: ## Neighbor
   hide_if_away: false
-  mac: C8:3A:35:CC:CD:38
-  name: wifi_adapter_tenda
+  mac: BT_CC:6D:A0:AE:95:D0
+  name: Roku Player
   picture:
   track: false
-  vendor: Tenda Technology Co., Ltd.
-jbl_reflect_mini_bt: ## neighbors
-  hide_if_away: false
-  mac: BT_FC:A8:9A:22:A3:7A
-  name: JBL Reflect Mini BT
-  picture:
-  track: false
-  vendor: Sunitec Enterprise Co.,Ltd
-
+  vendor:
 ##########################################
 ########## UNKNOWN #######################
 ##########################################
