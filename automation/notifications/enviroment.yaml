@@ -21,8 +21,9 @@
           sms_message: |
             Indoor Temp HOT: {{ states.sensor.indoor_temperature.state | round(1) }}°F
             Kitchen: {{ states.sensor.kitchen_temperature.state | round(1) }}°F   |   Tables: {{ states.sensor.tables_temperature.state | round(1) }}°F
-          blink_color: "red"
-          entity_id: group.ambient_lights
+          flood_color: "gold"
+          blink_color: "white"
+          blink_color2: "red"
 
   - alias: Indoor Temp (Cold)
     trigger:
@@ -43,5 +44,6 @@
           sms_message: |
             Indoor Temp COLD: {{ states.sensor.indoor_temperature.state | round(1) }}°F
             Kitchen: {{ states.sensor.kitchen_temperature.state | round(1) }}°F   |   Tables: {{ states.sensor.tables_temperature.state | round(1) }}°F
-          blink_color: "deepskyblue"
-          entity_id: group.ambient_lights
+          flood_color: "gold"
+          blink_color: "white"
+          blink_color2: "deepskyblue"
