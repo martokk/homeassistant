@@ -8,10 +8,9 @@
       event_type: homeassistant_start
     action:
       - service: script.timebased_scene
-      - service: script.breathe_light
+      - service: script.notify2
         data:
-          breathe_color: "green"
-          entity_id: group.all_lights
+          telegram_message: "Home Assistant Server Restarted!"
 
 ##########################################
 ########## ALLOW NOTIFICATIONS ###########
