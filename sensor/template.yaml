@@ -251,9 +251,9 @@
       ######### CLOUD TEMPLATES ########
       ##################################
 
-      cloud_ifttt:
-        friendly_name: "IFTTT Cloud"
-        value_template: '{% if "Operational" in states("sensor.ifttt_status") %}online{% else %}Unknown{% endif %}'
+      # cloud_ifttt:
+      #   friendly_name: "IFTTT Cloud"
+      #   value_template: '{% if "Operational" in states("sensor.ifttt_status") %}online{% else %}Unknown{% endif %}'
 
       ##################################
       ########### IOT TEMPLATES ########
@@ -289,15 +289,15 @@
             {%endif%}
           {%- endfor -%}
 
-      cloud_status_alert:
-        friendly_name: 'Cloud Status'
-        value_template: >
-          {% for cloud in states.group.cloud_status.attributes.entity_id -%}
-            {%if is_state(cloud, "online") %}
-            {%else%}
-              {{ cloud }} - {{ states(cloud) }};
-            {%endif%}
-          {%- endfor -%}
+      # cloud_status_alert:
+      #   friendly_name: 'Cloud Status'
+      #   value_template: >
+      #     {% for cloud in states.group.cloud_status.attributes.entity_id -%}
+      #       {%if is_state(cloud, "online") %}
+      #       {%else%}
+      #         {{ cloud }} - {{ states(cloud) }};
+      #       {%endif%}
+      #     {%- endfor -%}
 
       iot_status_alert:
         friendly_name: 'IoT Status'

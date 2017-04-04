@@ -53,7 +53,7 @@
     - group.server_status
     - group.downloads
     - group.connection_speed
-    - group.cloud_status
+    # - group.cloud_status
     # - group.pihole
     - group.iot_status
 

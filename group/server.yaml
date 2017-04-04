@@ -16,11 +16,11 @@
     - sensor.server_sonarr
     - sensor.server_couchpotato
 
-  cloud_status:
-    name: "Cloud Status"
-    entities:
-    - sensor.cloud_ifttt
-    - sensor.cloud_lifx
+  # cloud_status:
+  #   name: "Cloud Status"
+  #   entities:
+  #   - sensor.cloud_ifttt
+  #   - sensor.cloud_lifx
 
   iot_status:
     name: "IoT Status"
