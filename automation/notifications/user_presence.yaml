@@ -26,7 +26,7 @@
     action:
     - service: script.notify2
       data_template:
-        sms_message: |
+        telegram_message: |
           Dan's Here!
     - condition: template
       value_template: >

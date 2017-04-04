@@ -30,7 +30,7 @@
           {%endif%}
       - service: script.notify2
         data_template:
-          sms_message: |
+          telegram_message: |
             Battery Low!
             iPhone: {{ states("sensor.iphone6s_battery") | int }}%  |  Watch: {{ states("sensor.watch_battery") | int  }}%  |  iPad: {{ states("sensor.ipad_battery") | int  }}%;
       - condition: template
@@ -40,7 +40,7 @@
           {% endif %}
       - service: script.notify2
         data_template:
-          sms_message: |
+          telegram_message: |
             Battery Low!
             iPhone: {{ states("sensor.iphone6s_battery") | int  }}%  |  Watch: {{ states("sensor.watch_battery") | int  }}%  |  iPad: {{ states("sensor.ipad_battery") | int  }}%;
           flood_color: "cyan"
@@ -58,7 +58,7 @@
     action:
       - service: script.notify2
         data_template:
-          sms_message: |
+          telegram_message: |
             Battery Fully Charged!
             iPhone: {{ states("sensor.iphone6s_battery") | int  }}%  |  Watch: {{ states("sensor.watch_battery") | int  }}%
 
@@ -77,7 +77,7 @@
         before: "23:59:59"
       - service: script.notify2
         data_template:
-          sms_message: |
+          telegram_message: |
             Battery Fully Charged!
             iPhone: {{ states("sensor.iphone6s_battery") | int  }}%  |  Watch: {{ states("sensor.watch_battery") | int  }}%
           flood_color: "cyan"
@@ -94,7 +94,7 @@
     action:
       - service: script.notify2
         data_template:
-          sms_message: |
+          telegram_message: |
             New Device Found! Check Home Assistant's 'Known Devices'
             Host Name: {{trigger.event.data.host_name}}
-            Entity_ID: ({{trigger.event.data.entity_id}})
+            entity_id: {{trigger.event.data.entity_id}}

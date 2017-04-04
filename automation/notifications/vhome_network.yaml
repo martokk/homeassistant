@@ -8,7 +8,7 @@
     action:
       - service: script.notify2
         data_template:
-          sms_message: "There is a new update for Home Assistant! http://home-assistant.io/blog/categories/release-notes"
+          telegram_message: "There is a new update for Home Assistant! http://home-assistant.io/blog/categories/release-notes"
 
 ##########################################
 ########## NOTIFICATION OPTIONS ##########
@@ -49,7 +49,7 @@
     action:
       - service: script.notify2
         data_template:
-          sms_message: |
+          telegram_message: |
             Server Service Down! -
             {{ states.sensor.server_status_alert.state }}
           flood_color: "red"
@@ -68,7 +68,7 @@
     action:
       - service: script.notify2
         data_template:
-          sms_message: |
+          telegram_message: |
             Cloud Service Down! -
             {{ states.sensor.cloud_status_alert.state }}
           flood_color: "red"
@@ -87,7 +87,7 @@
     action:
       - service: script.notify2
         data_template:
-          sms_message: |
+          telegram_message: |
             IoT Device Down! -
             {{ states.sensor.iot_status_alert.state }}
           flood_color: "red"
@@ -113,7 +113,7 @@
           {%endif%}
       - service: script.notify2
         data_template:
-          sms_message: |
+          telegram_message: |
             V: Disk Space Low! -
             {{ states.sensor.sabnzbd_disk_free.state }}GB Free
           flood_color: "red"
@@ -139,7 +139,7 @@
           {%endif%}
       - service: script.notify2
         data_template:
-          sms_message: |
+          telegram_message: |
             Speed Test LOW! -
             {{ states.sensor.speedtables_download.state }}Mbit/s
           flood_color: "red"

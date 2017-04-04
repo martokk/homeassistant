@@ -27,7 +27,7 @@
         flood_color: "gold"
         blink_color: "blue"
         blink_color2: "green"
-        sms_message: |
+        telegram_message: |
           {{ states("sensor.dark_sky_minutely_summary") }}
           {{ states("sensor.dark_sky_hourly_summary") }}
 
@@ -60,7 +60,7 @@
         flood_color: "gold"
         blink_color: "blue"
         blink_color2: "red"
-        sms_message: |
+        telegram_message: |
           Rain Stopped!
           {{ states("sensor.dark_sky_minutely_summary") }}
           {{ states("sensor.dark_sky_hourly_summary") }}
@@ -94,7 +94,7 @@
         flood_color: "gold"
         blink_color: "cyan"
         blink_color2: "green"
-        sms_message: |
+        telegram_message: |
           {{ states("sensor.dark_sky_minutely_summary") }}
           {{ states("sensor.dark_sky_hourly_summary") }}
 
@@ -127,7 +127,7 @@
         flood_color: "gold"
         blink_color: "cyan"
         blink_color2: "red"
-        sms_message: |
+        telegram_message: |
           Snow stopped!
           {{ states("sensor.dark_sky_minutely_summary") }}
           {{ states("sensor.dark_sky_hourly_summary") }}
@@ -159,14 +159,11 @@
           {%endif%}
       - service: script.notify2
         data_template:
-          sms_message: |
+          telegram_message: |
             WEATHER ALERT!
             {{ states("sensor.weather_alert") }}
             {{ states.sensor.pws_alerts.attributes.Message }}
-
-            http://sirocco.accuweather.com/nxssa_r1_h_500x620d/r1h/inxr1kmkea_h.gif
-
-            http://static.lakana.com/mmm-wisctv-media-us-east-1/weather/Local_Radar_Loop.gif
+          telegram_url: http://sirocco.accuweather.com/nxssa_r1_h_500x620d/r1h/inxr1kmkea_h.gif
           flood_color: "yellow"
           blink_color: "red"
           chromecast_entity_id: media_player.vtv_chromecast
@@ -174,6 +171,7 @@
       - delay: "00:00:10"
       - service: script.notify2
         data_template:
+          telegram_url: http://static.lakana.com/mmm-wisctv-media-us-east-1/weather/Local_Radar_Loop.gif
           flood_color: "yellow"
           blink_color: "red"
           chromecast_entity_id: media_player.vtv_chromecast

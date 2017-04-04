@@ -10,10 +10,11 @@
     action:
       - service: script.notify2
         data_template:
-          sms_message: |
+          email_message: |
             Upcoming Episodes! -
             {% for episode in states.sensor.sonarr_upcoming.attributes %}
               {% if "icon" not in episode | string and "unit_of_measurement" not in episode | string  and "friendly_name"  not in episode | string %}
                 {{episode}} |
+
               {%endif %}
             {% endfor %}
