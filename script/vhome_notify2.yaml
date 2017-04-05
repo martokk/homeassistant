@@ -11,12 +11,6 @@
             {{ states("sensor.dark_sky_hourly_summary") }}
           blink_color: "red"
 
-  telegram_test:
-    sequence:
-      - service: notify.telegram
-        data:
-          message: "test"
-
 ##########################################
 ##########  MAIN NOTIFY2 #################
 ##########################################
