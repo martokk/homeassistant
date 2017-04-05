@@ -1,2 +1,44 @@
+#********** PI HOLE ***************************************#
   # - platform: pi_hole
   #   host: 192.168.1.3
+
+#********** SABNZBD ***************************************#
+  - platform: sabnzbd
+    host: 192.168.1.82
+    port: 8090
+    api_key: !secret sabnzbd_api_key
+    monitored_variables:
+    - current_status
+    - speed
+    - queue_size
+    - queue_remaining
+    - disk_size
+    - disk_free
+
+#********** SONARR ***************************************#
+  - platform: sonarr
+    api_key: !secret sonarr_api_key
+    host: 192.168.1.82
+    port: 8989
+    monitored_conditions:
+      - upcoming     #   The number of upcoming episodes.
+      - diskspace    #   Available disk space.
+    days: 1          #   How many days to look ahead for the upcoming sensor, 1 means today only (Default: 1).
+    unit: TB           #    (Optional): The unit to display disk space in (Default: GB).
+
+#********** IFTTT CLOUD ***************************************#
+  # - platform: scrape
+  #   resource: http://status.ifttt.com/
+  #   name: "IFTTT Status"
+  #   select: '.component-status'
+  #   scan_interval: 300
+
+#********** SPEED TEST ***************************************#
+  - platform: speedtest
+    minute:
+      - 0
+      - 30
+    monitored_conditions:
+      # - ping
+      - download
+      - upload
