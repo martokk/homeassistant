@@ -105,10 +105,18 @@
   flood_scene:
     alias: Flood Scene [flood_scene(entity_id); delay]
     sequence:
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.var_last_known_scene_helper
+        option: '{{ states.input_select.var_last_known_scene.state }}'
     - service: scene.turn_on
       data_template:
         entity_id: '{{ flood_scene }}'
     - delay: "{% if delay %}{{delay}}{% else %}00:00:05{% endif %}"
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.var_last_known_scene
+        option: '{{ states.input_select.var_last_known_scene_helper.state }}'
     - service: script.call_last_known_scene
     - condition: template
       value_template: >

@@ -7,6 +7,16 @@
     - service: shell_command.scenegen
 
 ##########################################
+########## EFFECTS #######################
+##########################################
+  5m_flood_day:
+    sequence:
+    - service: script.flood_scene
+      data:
+        flood_scene: scene.day
+        delay: "00:05:00"
+
+##########################################
 ########## LAST KNOW SCENE ###############
 ##########################################
   call_last_known_scene:

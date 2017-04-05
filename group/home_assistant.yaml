@@ -40,6 +40,7 @@
     name: "Stored Variables"
     entities:
       - input_select.var_last_known_scene
+      - input_select.var_last_known_scene_helper
       - input_boolean.var_mike_home
       - input_boolean.var_dan_home
       - input_boolean.var_start_notifications_1m
@@ -72,3 +73,4 @@
       - script.flood_and_breathe_test
       - script.flood_and_blink_test
       - script.flood_and_blink2_test
+      - script.5m_flood_day

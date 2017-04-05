@@ -64,7 +64,20 @@
 
   eventghost_button:
     sequence:
-    - service: scene.turn_on
+    - service_template: >
+        {% if button | int == 1 %}
+          scene.turn_on
+        {% elif button | int == 2  %}
+          scene.turn_on
+        {% elif button | int == 3  %}
+          scene.turn_on
+        {% elif button | int == 4  %}
+          scene.turn_on
+        {% elif button | int == 5  %}
+          scene.turn_on
+        {% elif button | int == 6  %}
+          scene.turn_on
+        {% endif %}
       data_template:
         entity_id: >
           {% if button | int == 1 %}
@@ -83,7 +96,20 @@
 
   eventghost_button_long:
     sequence:
-    - service: scene.turn_on
+    - service_template: >
+        {% if button | int == 1 %}
+          scene.turn_on
+        {% elif button | int == 2  %}
+          scene.turn_on
+        {% elif button | int == 3  %}
+          scene.turn_on
+        {% elif button | int == 4  %}
+          scene.turn_on
+        {% elif button | int == 5  %}
+          scene.turn_on
+        {% elif button | int == 6  %}
+          script.turn_on
+        {% endif %}
       data_template:
         entity_id: >
           {% if button | int == 1 %}
@@ -97,5 +123,5 @@
           {% elif button | int == 5  %}
             scene.off
           {% elif button | int == 6  %}
-            scene.off
+            script.5m_flood_day
           {% endif %}
