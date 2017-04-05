@@ -16,6 +16,7 @@
     entities:
       - input_boolean.option_notify2_sms
       - input_boolean.option_notify2_email
+      - input_boolean.option_notify2_mlo
       - input_boolean.option_notify2_telegram
       - input_boolean.option_notify2_tts
       - input_boolean.option_notify2_chromecast

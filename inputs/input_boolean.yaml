@@ -53,6 +53,10 @@
     name: "Email Notifications"
     initial: on
 
+  option_notify2_mlo:
+    name: "MLO Notifications"
+    initial: on
+
   option_notify2_telegram:
     name: "Telegram Notifications"
     initial: on

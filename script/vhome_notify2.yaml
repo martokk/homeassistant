@@ -6,9 +6,8 @@
       - service: script.notify2
         data:
           telegram_message: |
-            Snow stopped!
-            {{ states("sensor.dark_sky_minutely_summary") }}
-            {{ states("sensor.dark_sky_hourly_summary") }}
+            Remind Me to Buy Milk (Sent to MLO Cloud)
+          mlo_message: "Remind me to buy Milk (TEST: HA to MLO)"
           blink_color: "red"
 
 ##########################################
@@ -48,6 +47,21 @@
       data_template:
         message: "{{ email_message }}"
 
+    ### MLO Notifications
+    - service_template: >
+        {% if mlo_message %}
+          {% if is_state('input_boolean.option_notify2_mlo', 'on') %}
+            notify.mlo
+          {% else %}
+            script.notify2_do_nothing
+          {% endif %}
+        {% else %}
+          script.notify2_do_nothing
+        {% endif %}
+      data_template:
+        title: "{{ mlo_message }}"
+        message: ""
+
     ## Telegram Notifications
     - service_template: >
         {% if telegram_message %}
@@ -60,9 +74,7 @@
           script.notify2_do_nothing
         {% endif %}
       data_template:
-        message: |
-
-          {{ telegram_message }}
+        message: "{{ telegram_message }}"
 
     ## Telegram Picture Notifications
     - service_template: >
