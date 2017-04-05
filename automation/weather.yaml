@@ -5,6 +5,11 @@
     trigger:
     - platform: state
       entity_id: sensor.dark_sky_icon
+    - platform: state
+      entity_id: input_select.var_last_known_scene
+      state: 'Day'
+      for:
+        seconds: 30
     condition:
     - condition: state
       entity_id: input_boolean.var_mike_home
@@ -12,6 +17,11 @@
     - condition: state
       entity_id: input_select.var_last_known_scene
       state: 'Day'
+    - condition: time
+      after: '07:30:00'
+    - condition: sun
+      before: sunset
+      before_offset: "-03:45:00"
     - condition: template
       value_template: >
         {% if "clear" in states.sensor.dark_sky_icon.state  %}
@@ -27,6 +37,11 @@
     trigger:
     - platform: state
       entity_id: sensor.dark_sky_icon
+    - platform: state
+      entity_id: input_select.var_last_known_scene
+      state: 'Day Le'
+      for:
+        seconds: 30
     condition:
     - condition: state
       entity_id: input_boolean.var_mike_home
@@ -34,6 +49,9 @@
     - condition: state
       entity_id: input_select.var_last_known_scene
       state: 'Day Le'
+    - condition: sun
+      before: sunset
+      before_offset: "-03:45:00"
     - condition: template
       value_template: >
         {% if "cloudy" in states.sensor.dark_sky_icon.state or "snow" in states.sensor.dark_sky_icon.state  or "sleet" in states.sensor.dark_sky_icon.state  or "rain" in states.sensor.dark_sky_icon.state  or "hail" in states.sensor.dark_sky_icon.state or "tornado" in states.sensor.dark_sky_icon.state or "fog" in states.sensor.dark_sky_icon.state or "thunderstorm" in states.sensor.dark_sky_icon.state %}

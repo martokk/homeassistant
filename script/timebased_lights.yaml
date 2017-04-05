@@ -15,14 +15,25 @@
   timebased_sunrise:
     sequence:
       - condition: time
-        after: '05:00:00'
-        before: '17:00:00'
-      - condition: sun
-        after: sunrise
-        after_offset: "-00:25:00"
+        after: '05:30:00'
+        before: '07:30:00'
       - condition: sun
         before: sunset
-        before_offset: "-03:15:00"
+        before_offset: "-03:45:00"
+      - service: scene.turn_on
+        entity_id: 'scene.day'
+      - service: script.turn_off
+        entity_id: script.timebased_scene
+
+# Sunrise to Pre-Sunset
+  timebased_day:
+    sequence:
+      - condition: time
+        after: '07:30:00'
+        before: '17:00:00'
+      - condition: sun
+        before: sunset
+        before_offset: "-03:45:00"
       - service: scene.turn_on
         entity_id: 'scene.day_le'
       - service: script.turn_off
@@ -32,7 +43,7 @@
   timebased_pre_sunset_day:
     sequence:
       - condition: time
-        after: '05:00:00'
+        after: '05:30:00'
         before: '17:00:00'
       - condition: sun
         before: sunset

@@ -55,9 +55,9 @@
 ### SUNRISE
   - alias: Timebased_Sunrise
     trigger:
-      - platform: sun
-        event: sunrise
-        offset: "-00:25:00"
+      - platform: time
+        after: '05:30:00'
+        before: '07:30:00'
     condition:
       - condition: state
         entity_id: input_boolean.option_timebased_light_scene
@@ -70,14 +70,14 @@
         state: 'Off'
     action:
       service: scene.turn_on
-      entity_id: scene.10m_day_le
+      entity_id: scene.10m_day
 
 ### SUNSET (-3hr offset)
   - alias: Timebased_Day
     trigger:
       - platform: sun
         event: sunset
-        offset: "-03:15:00"
+        offset: "-03:45:00"
     condition:
       - condition: state
         entity_id: input_boolean.option_timebased_light_scene
