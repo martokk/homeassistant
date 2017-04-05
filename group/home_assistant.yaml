@@ -46,6 +46,8 @@
       - input_boolean.var_start_notifications_1m
       - input_boolean.var_start_notifications_5m
       - input_boolean.var_chromecast_screensaver_ready
+      - input_boolean.var_av_power
+      - input_boolean.var_tv_power
       - input_boolean.var_ps3_on
       - input_boolean.var_kitchen_on
       - input_slider.var_kitchen_brightness

@@ -72,3 +72,20 @@
         #     {% elif random_number == 2 %}
         #     {% elif random_number == 3 %}
         #     {% endif %}
+
+
+##########################################
+########## SET STATES ####################
+##########################################
+  - alias: "Set AV Switch to 'ON'"
+    trigger:
+      - platform: state
+        entity_id: media_player.vtv_chromecast
+        state: 'playing'
+      - platform: mqtt
+        topic: device/ps3/power
+      - platform: mqtt
+        topic: device/eventghost/play_pause
+    action:
+      - service: homeassistant.turn_on
+        entity_id: input_boolean.var_av_power

@@ -39,7 +39,6 @@ light: !include includes\light.yaml
 input_boolean: !include inputs\input_boolean.yaml
 input_select: !include inputs\input_select.yaml
 input_slider: !include inputs\input_slider.yaml
-switch: !include includes\switch.yaml
 binary_sensor: !include_dir_merge_list binary_sensor
 
 cover: !include includes\cover.yaml

@@ -8,17 +8,13 @@
         topic: device/eventghost/av_power
         payload: "toggle"
     action:
-      - service: switch.toggle
-        entity_id: switch.av_power_switch
+      - service: homeassistant.toggle
+        entity_id: input_boolean.var_av_power
       ## Toggles off lights if after 12pm
       - condition: time
         after: "00:00:00"
       - condition: sun
         before: sunrise
-      - service: script.breathe_light
-        data:
-          breathe_color: "red"
-          entity_id: group.all_lights
       - delay: "00:00:02"
       - service: light.turn_off
         entity_id: group.ambient_lights
@@ -42,19 +38,6 @@
       - delay: "00:00:05"
       - service: scene.turn_on
         entity_id: scene.10m_off
-
-  - alias: 'Toggle tv_power'
-    trigger:
-      - platform: mqtt
-        topic: device/eventghost/tv_power
-        payload: "toggle"
-    action:
-      - service: switch.toggle
-        entity_id: switch.tv_power_switch
-      - service: script.flash_light
-        data:
-          flash_color: "cyan"
-          entity_id: group.tv_lights
 
   - alias: 'Toggle Chromecast Play/Pause'
     trigger:
@@ -105,6 +88,7 @@
         data:
           flash_color: "cyan"
           entity_id: group.tv_lights
+
 ##########################################
 ########## Eventghost Buttons ############
 ##########################################

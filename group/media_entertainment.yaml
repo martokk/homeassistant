@@ -2,8 +2,8 @@
     name: "Entertainment Center"
     # control: hidden
     entities:
-    - switch.tv_power_switch
-    - switch.av_power_switch
+    - input_boolean.var_av_power
+    - input_boolean.var_tv_power
     - cover.volume
     - binary_sensor.ps3
 

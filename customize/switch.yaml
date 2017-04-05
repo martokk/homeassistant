@@ -1,7 +1,0 @@
-##########################################
-########## ENTERTAINMENT CENTER ##########
-##########################################
-  switch.av_power_switch:
-    assumed_state: true
-  switch.tv_power_switch:
-    assumed_state: true

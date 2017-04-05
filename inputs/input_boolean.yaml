@@ -15,6 +15,10 @@
   var_kitchen_on:
     initial: off
 
+  var_av_power:
+
+  var_tv_power:
+
   var_start_notifications_1m:
     initial: off
 

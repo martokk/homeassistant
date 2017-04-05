@@ -44,7 +44,7 @@
     - light.tables_led_strips
 
   tv_lights:
-    name: "TV Area"
+    name: "TV Lights"
     entities:
     - light.tv_overhead_left
     - light.tv_overhead_right
