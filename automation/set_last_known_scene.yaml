@@ -13,7 +13,7 @@
   action:
   - condition: template
     value_template: >
-      {% if trigger.event.data.service_data.entity_id[0][6:] | replace("10m_", "") | replace("0s_", "") | replace("_", " ") | title != "" %}
+      {% if trigger.event.data.service_data.entity_id[0][6:] | replace("10m_", "") | replace("0s_", "") | replace("_", " ") | title in states.input_select.var_last_known_scene.attributes.options %}
         true
       {% else %}
         false
@@ -44,7 +44,7 @@
   action:
   - condition: template
     value_template: >
-      {% if trigger.event.data.service_data.entity_id[6:] | replace("10m_", "") | replace("0s_", "") | replace("_", " ") | title != "" %}
+      {% if trigger.event.data.service_data.entity_id[6:] | replace("10m_", "") | replace("0s_", "") | replace("_", " ") | title in states.input_select.var_last_known_scene.attributes.options  %}
         true
       {% else %}
         false
