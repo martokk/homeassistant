@@ -57,8 +57,9 @@
     trigger:
       - platform: time
         after: '05:30:00'
-        before: '07:30:00'
     condition:
+      - condition: time
+        before: '07:30:00'
       - condition: state
         entity_id: input_boolean.option_timebased_light_scene
         state: 'on'
