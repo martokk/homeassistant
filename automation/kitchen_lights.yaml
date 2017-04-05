@@ -26,10 +26,9 @@
 
   - alias: Turn ON kitch lights (sink movement)
     trigger:
-    - platform: state
-      entity_id: binary_sensor.sink_motion_sensor
-      from: 'off'
-      to: 'on'
+      - platform: mqtt
+        topic: device/kitchen/pir3
+        payload: "1"
     action:
     - service: script.kitchen_lights_timer_day
 
