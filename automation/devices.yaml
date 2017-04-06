@@ -124,6 +124,12 @@
       - platform: mqtt
         topic: device/tables/device
         payload: 'connected'
+      - platform: mqtt
+        topic: device/entertainment_center/device
+        payload: 'connected'
+      - platform: mqtt
+        topic: device/bedroom/device
+        payload: 'connected'
     condition:
       - condition: state
         entity_id: input_boolean.var_mike_home

@@ -29,6 +29,8 @@
     - sensor.iot_esp8266_kitchen
     - sensor.iot_esp8266_office
     - sensor.iot_esp8266_tables
+    - sensor.iot_esp8266_entertainment_center
+    - sensor.iot_esp8266_bedroom
 
   connection_speed:
     name: "Connection Speed"

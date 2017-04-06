@@ -47,8 +47,26 @@
       data_template:
         topic: "device/tables/led1/effect"
         payload: >
-          {% for opt in states.input_select.kitchen_led_effect.attributes.options -%}
-            {% if states.input_select.kitchen_led_effect.state | string == opt %}
+          {% for opt in states.input_select.tables_led_effect.attributes.options -%}
+            {% if states.input_select.tables_led_effect.state | string == opt %}
+              {{loop.index - 1}}
+            {%endif%}
+          {%- endfor -%}
+    - service: mqtt.publish
+      data_template:
+        topic: "device/entertainment_center/led1/effect"
+        payload: >
+          {% for opt in states.input_select.entertainment_center_led_effect.attributes.options -%}
+            {% if states.input_select.entertainment_center_led_effect.state | string == opt %}
+              {{loop.index - 1}}
+            {%endif%}
+          {%- endfor -%}
+    - service: mqtt.publish
+      data_template:
+        topic: "device/bedroom/led1/effect"
+        payload: >
+          {% for opt in states.input_select.bedroom_led_effect.attributes.options -%}
+            {% if states.input_select.bedroom_led_effect.state | string == opt %}
               {{loop.index - 1}}
             {%endif%}
           {%- endfor -%}
@@ -83,6 +101,24 @@
         payload: >
           {% for opt in states.input_select.kitchen_led_effect.attributes.options -%}
             {% if states.input_select.kitchen_led_effect.state | string == opt %}
+              {{loop.index - 1}}
+            {%endif%}
+          {%- endfor -%}
+    - service: mqtt.publish
+      data_template:
+        topic: "device/entertainment_center/led1/effect"
+        payload: >
+          {% for opt in states.input_select.entertainment_center_led_effect.attributes.options -%}
+            {% if states.input_select.entertainment_center_led_effect.state | string == opt %}
+              {{loop.index - 1}}
+            {%endif%}
+          {%- endfor -%}
+    - service: mqtt.publish
+      data_template:
+        topic: "device/bedroom/led1/effect"
+        payload: >
+          {% for opt in states.input_select.bedroom_led_effect.attributes.options -%}
+            {% if states.input_select.bedroom_led_effect.state | string == opt %}
               {{loop.index - 1}}
             {%endif%}
           {%- endfor -%}

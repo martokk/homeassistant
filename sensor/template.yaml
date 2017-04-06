@@ -8,32 +8,69 @@
         friendly_name: "Indoor Temperature"
         unit_of_measurement: 'ºF'
         value_template: >-
+          {% set temp = 0.0 %}
+          {% set c = 0 %}
+          {% if states.sensor.kitchen_temperature %}
             {% if states.sensor.kitchen_temperature.state | float > 1.0 %}
-              {% if states.sensor.tables_temperature.state | float > 1.0 %}
-                {{ ( states.sensor.kitchen_temperature.state | float * 0.40 ) + ( states.sensor.tables_temperature.state | float * 0.60 ) | round(1)}}
-              {% else %}
-                {{ states.sensor.kitchen_temperature.state | float | round(1) }}
-              {% endif %}
-            {% else %}
-              {% if states.sensor.tables_temperature.state | float > 1.0 %}
-                {{ states.sensor.tables_temperature.state | float | round(1) }}
-              {% endif %}
+              {% set temp = temp + states.sensor.kitchen_temperature.state | float %}
+              {% set c = c + 1 %}
             {% endif %}
+          {% endif %}
+          {% if states.sensor.tables_temperature %}
+            {% if states.sensor.tables_temperature.state | float > 1.0 %}
+              {% set temp = temp + states.sensor.tables_temperature.state | float %}
+              {% set c = c + 1 %}
+            {% endif %}
+          {% endif %}
+          {% if states.sensor.entertainment_center_temperature %}
+            {% if states.sensor.entertainment_center_temperature.state | float > 1.0 %}
+              {% set temp = temp + states.entertainment_center_temperature.state | float %}
+              {% set c = c + 1 %}
+            {% endif %}
+          {% endif %}
+          {% if states.sensor.bedroom_temperature %}
+            {% if states.sensor.bedroom_temperature.state | float > 1.0 %}
+              {% set temp = temp + states.bedroom_temperature.state | float %}
+              {% set c = c + 1 %}
+            {% endif %}
+          {% endif %}
+          {% if c > 0 %}
+           {{ (temp / c) | float }}
+          {% endif %}
+
       indoor_humidity:
         friendly_name: "Indoor Humidity"
         unit_of_measurement: '%'
         value_template: >-
+          {% set humidity = 0.0 %}
+          {% set c = 0 %}
+          {% if states.sensor.kitchen_humidity %}
             {% if states.sensor.kitchen_humidity.state | float > 1.0 %}
-              {% if states.sensor.tables_humidity.state | float > 1.0 %}
-                {{ ( states.sensor.kitchen_humidity.state | float * 0.40 ) + ( states.sensor.tables_humidity.state | float * 0.60 ) | round(1)}}
-              {% else %}
-                {{ states.sensor.kitchen_humidity.state | float | round(1) }}
-              {% endif %}
-            {% else %}
-              {% if states.sensor.tables_humidity.state | float > 1.0 %}
-                {{ states.sensor.tables_humidity.state | float | round(1) }}
-              {% endif %}
+              {% set humidity = humidity + states.sensor.kitchen_humidity.state | float %}
+              {% set c = c + 1 %}
             {% endif %}
+          {% endif %}
+          {% if states.sensor.tables_humidity %}
+            {% if states.sensor.tables_humidity.state | float > 1.0 %}
+              {% set humidity = humidity + states.sensor.tables_humidity.state | float %}
+              {% set c = c + 1 %}
+            {% endif %}
+          {% endif %}
+          {% if states.sensor.entertainment_center_humidity %}
+            {% if states.sensor.entertainment_center_humidity.state | float > 1.0 %}
+              {% set humidity = humidity + states.entertainment_center_humidity.state | float %}
+              {% set c = c + 1 %}
+            {% endif %}
+          {% endif %}
+          {% if states.sensor.bedroom_humidity %}
+            {% if states.sensor.bedroom_center_humidity.state | float > 1.0 %}
+              {% set humidity = humidity + states.bedroom_center_humidity.state | float %}
+              {% set c = c + 1 %}
+            {% endif %}
+          {% endif %}
+          {% if c > 0 %}
+           {{ (humidity / c) | float }}
+          {% endif %}
 
 
 

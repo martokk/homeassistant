@@ -18,6 +18,7 @@
     - group.living_room_lights
     - group.office_lights
     - group.kitchen_lights
+    - group.bedroom_lights
     - group.scenes
     - group.scripts_lights
     - group.led_lights

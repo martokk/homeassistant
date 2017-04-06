@@ -21,3 +21,27 @@
     state_topic: "device/tables/humidity"
     qos: 0
     unit_of_measurement: "%"
+
+  - platform: mqtt
+    name: "Entertainment Center Temperature"
+    state_topic: "device/entertainment_center/temperature"
+    qos: 0
+    unit_of_measurement: "ºF"
+
+  - platform: mqtt
+    name: "Entertainment Center Humidity"
+    state_topic: "device/entertainment_center/humidity"
+    qos: 0
+    unit_of_measurement: "%"
+
+  - platform: mqtt
+    name: "Bedroom Temperature"
+    state_topic: "device/bedroom/temperature"
+    qos: 0
+    unit_of_measurement: "ºF"
+
+  - platform: mqtt
+    name: "Bedroom Humidity"
+    state_topic: "device/bedroom/humidity"
+    qos: 0
+    unit_of_measurement: "%"

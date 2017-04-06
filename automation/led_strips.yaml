@@ -20,6 +20,10 @@
         data_template:
           entity_id: input_select.tables_led_effect
           option: "{{ trigger.to_state.state }}"
+      - service: input_select.select_option
+        data_template:
+          entity_id: input_select.entertainment_ceneter_led_effect
+          option: "{{ trigger.to_state.state }}"
 
 ##########################################
 ########## OFFICE LEDS ###################
@@ -117,4 +121,71 @@
       - service: mqtt.publish
         data_template:
           topic: "device/tables/led1/speed"
+          payload: '{{ trigger.to_state.state | int }}'
+
+
+##########################################
+########## ENTERTAINMENT CENTER LEDS #####
+##########################################
+
+  - alias: "Entertainment Center LEDs Input Effect"
+    initial_state: True
+    hide_entity: False
+    trigger:
+      - platform: state
+        entity_id: input_select.entertainment_center_led_effect
+    action:
+      - service: mqtt.publish
+        data_template:
+          topic: "device/entertainment_center/led1/effect"
+          payload: >
+            {% for opt in states.input_select.entertainment_center_led_effect.attributes.options -%}
+              {% if trigger.to_state.state | string == opt %}
+                {{loop.index - 1}}
+              {%endif%}
+            {%- endfor -%}
+
+  - alias: "Entertainment Center LEDs Animation Speed"
+    initial_state: True
+    hide_entity: False
+    trigger:
+      - platform: state
+        entity_id: input_slider.entertainment_center_animation_speed
+    action:
+      - service: mqtt.publish
+        data_template:
+          topic: "device/entertainment_center/led1/speed"
+          payload: '{{ trigger.to_state.state | int }}'
+
+##########################################
+########## BEDROOM LEDS ##################
+##########################################
+
+  - alias: "Entertainment Center LEDs Input Effect"
+    initial_state: True
+    hide_entity: False
+    trigger:
+      - platform: state
+        entity_id: input_select.bedroom_led_effect
+    action:
+      - service: mqtt.publish
+        data_template:
+          topic: "device/bedroom/led1/effect"
+          payload: >
+            {% for opt in states.input_select.bedroom_led_effect.attributes.options -%}
+              {% if trigger.to_state.state | string == opt %}
+                {{loop.index - 1}}
+              {%endif%}
+            {%- endfor -%}
+
+  - alias: "Entertainment Center LEDs Animation Speed"
+    initial_state: True
+    hide_entity: False
+    trigger:
+      - platform: state
+        entity_id: input_slider.bedroom_animation_speed
+    action:
+      - service: mqtt.publish
+        data_template:
+          topic: "device/bedroom/led1/speed"
           payload: '{{ trigger.to_state.state | int }}'

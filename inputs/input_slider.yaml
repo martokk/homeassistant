@@ -23,6 +23,20 @@
     max: 255
     step: 5
 
+  entertainment_center_animation_speed:
+    name: Entertainment Center Animation Speed
+    initial: 230
+    min: 0
+    max: 255
+    step: 5
+
+  bedroom_animation_speed:
+    name: Bedroom Animation Speed
+    initial: 230
+    min: 0
+    max: 255
+    step: 5
+
 ##########################################
 ########## STORED VARIABLES ##############
 ##########################################

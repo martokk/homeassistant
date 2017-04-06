@@ -156,6 +156,22 @@ esp8266_tables:
   track: true
   vendor: Espressif Inc.
 
+esp8266_entertainment_center:
+  hide_if_away: false
+  mac: 5C:CF:7F:D5:DF:C5
+  name: "ESP8266 - Entertainment Center"
+  picture:
+  track: true
+  vendor: Espressif Inc.
+
+esp_bedroom:
+  hide_if_away: false
+  mac: 5C:CF:7F:D5:E8:08
+  name: "ESP8266 - Bedroom"
+  picture:
+  track: true
+  vendor: Espressif Inc.
+
 esp8266_test:
   hide_if_away: false
   mac: 5C:CF:7F:D5:20:C3
@@ -224,6 +240,14 @@ acer_laptop:
   picture:
   track: false
   vendor: Liteon Technology Corporation
+
+headphones_mpow_wolverine:
+  hide_if_away: false
+  mac: BT_00:08:2A:F1:0E:E4
+  name: 'Headphones (Mpow Wolverine)'
+  picture:
+  track: false
+  vendor: Powerwallz Network Security
 
 # ps3: # can't get this working with ddwrt for some reason. If possible remove ping via binary_sensor and replace with this (via device_tracker)
 #   hide_if_away: false
