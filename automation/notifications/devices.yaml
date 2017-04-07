@@ -95,7 +95,7 @@
       - service: script.notify2
         data_template:
           telegram_message: |
-            New Device Found! Check Home Assistant's 'Known Devices'
+            New Device Found!
             Host Name: {{trigger.event.data.host_name}}
             entity_id: {{trigger.event.data.entity_id}}
 

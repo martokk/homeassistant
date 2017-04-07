@@ -24,11 +24,14 @@
       before_offset: "-03:45:00"
     - condition: template
       value_template: >
-        {% if "clear" in states.sensor.dark_sky_icon.state  %}
-          true
-        {% else %}
-          false
+        {% if states.sensor.dark_sky_icon %}
+          {% if "clear" in states.sensor.dark_sky_icon.state  %}
+            true
+          {% else %}
+            false
+          {% endif %}
         {% endif %}
+
     action:
     - service: scene.turn_on
       entity_id: scene.10m_day_le
@@ -54,11 +57,14 @@
       before_offset: "-03:45:00"
     - condition: template
       value_template: >
-        {% if "cloudy" in states.sensor.dark_sky_icon.state or "snow" in states.sensor.dark_sky_icon.state  or "sleet" in states.sensor.dark_sky_icon.state  or "rain" in states.sensor.dark_sky_icon.state  or "hail" in states.sensor.dark_sky_icon.state or "tornado" in states.sensor.dark_sky_icon.state or "fog" in states.sensor.dark_sky_icon.state or "thunderstorm" in states.sensor.dark_sky_icon.state %}
-          true
-        {% else %}
-          false
+        {% if states.sensor.dark_sky_icon %}
+          {% if "cloudy" in states.sensor.dark_sky_icon.state or "snow" in states.sensor.dark_sky_icon.state  or "sleet" in states.sensor.dark_sky_icon.state  or "rain" in states.sensor.dark_sky_icon.state  or "hail" in states.sensor.dark_sky_icon.state or "tornado" in states.sensor.dark_sky_icon.state or "fog" in states.sensor.dark_sky_icon.state or "thunderstorm" in states.sensor.dark_sky_icon.state %}
+            true
+          {% else %}
+            false
+          {% endif %}
         {% endif %}
+
     action:
     - service: scene.turn_on
       entity_id: scene.10m_day

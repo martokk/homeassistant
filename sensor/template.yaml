@@ -328,6 +328,14 @@
         friendly_name: "ESP8266 - Tables"
         value_template: '{% if is_state("device_tracker.esp8266_tables", "home") %}online{% else %}OFFLINE{% endif %}'
 
+      iot_esp8266_entertainment_center:
+        friendly_name: "ESP8266 - Entertainment Center"
+        value_template: '{% if is_state("device_tracker.esp8266_entertainment_center", "home") %}online{% else %}OFFLINE{% endif %}'
+
+      iot_esp8266_bedroom:
+        friendly_name: "ESP8266 - Bedroom"
+        value_template: '{% if is_state("device_tracker.esp8266_bedroom", "home") %}online{% else %}OFFLINE{% endif %}'
+
       ###############################
       #### VHOME STATUS ALERTS ######
       ###############################
