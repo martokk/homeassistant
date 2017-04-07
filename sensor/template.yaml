@@ -12,30 +12,38 @@
           {% set c = 0 %}
           {% if states.sensor.kitchen_temperature %}
             {% if states.sensor.kitchen_temperature.state | float > 1.0 %}
-              {% set temp = temp + states.sensor.kitchen_temperature.state | float %}
-              {% set c = c + 1 %}
+              {% if (as_timestamp(now())-as_timestamp(states.sensor.kitchen_temperature.last_changed)) > (10 * 60)  %}
+                {% set temp = temp + states.sensor.kitchen_temperature.state | float %}
+                {% set c = c + 1 %}
+              {% endif %}
             {% endif %}
           {% endif %}
           {% if states.sensor.tables_temperature %}
             {% if states.sensor.tables_temperature.state | float > 1.0 %}
-              {% set temp = temp + states.sensor.tables_temperature.state | float %}
-              {% set c = c + 1 %}
+              {% if (as_timestamp(now())-as_timestamp(states.sensor.tables_temperature.last_changed)) > (10 * 60)  %}
+                {% set temp = temp + states.sensor.tables_temperature.state | float %}
+                {% set c = c + 1 %}
+              {% endif %}
             {% endif %}
           {% endif %}
           {% if states.sensor.entertainment_center_temperature %}
             {% if states.sensor.entertainment_center_temperature.state | float > 1.0 %}
-              {% set temp = temp + states.entertainment_center_temperature.state | float %}
-              {% set c = c + 1 %}
+              {% if (as_timestamp(now())-as_timestamp(states.sensor.entertainment_center_temperature.last_changed)) > (10 * 60)  %}
+                {% set temp = temp + states.sensor.entertainment_center_temperature.state | float %}
+                {% set c = c + 1 %}
+              {% endif %}
             {% endif %}
           {% endif %}
           {% if states.sensor.bedroom_temperature %}
-            {% if states.sensor.bedroom_temperature.state | float > 1.0 %}
-              {% set temp = temp + states.bedroom_temperature.state | float %}
-              {% set c = c + 1 %}
+            {% if (as_timestamp(now())-as_timestamp(states.sensor.bedroom_temperature.last_changed)) > (10 * 60)  %}
+              {% if states.sensor.bedroom_temperature.state | float > 1.0 %}
+                {% set temp = temp + states.sensor.bedroom_temperature.state | float %}
+                {% set c = c + 1 %}
+              {% endif %}
             {% endif %}
           {% endif %}
           {% if c > 0 %}
-           {{ (temp / c) | float }}
+           {{ (temp / c) | round(1) }}
           {% endif %}
 
       indoor_humidity:
@@ -46,30 +54,38 @@
           {% set c = 0 %}
           {% if states.sensor.kitchen_humidity %}
             {% if states.sensor.kitchen_humidity.state | float > 1.0 %}
-              {% set humidity = humidity + states.sensor.kitchen_humidity.state | float %}
-              {% set c = c + 1 %}
+              {% if (as_timestamp(now())-as_timestamp(states.sensor.kitchen_humidity.last_changed)) > (10 * 60)  %}
+                {% set humidity = humidity + states.sensor.kitchen_humidity.state | float %}
+                {% set c = c + 1 %}
+              {% endif %}
             {% endif %}
           {% endif %}
           {% if states.sensor.tables_humidity %}
             {% if states.sensor.tables_humidity.state | float > 1.0 %}
-              {% set humidity = humidity + states.sensor.tables_humidity.state | float %}
-              {% set c = c + 1 %}
+              {% if (as_timestamp(now())-as_timestamp(states.sensor.tables_humidity.last_changed)) > (10 * 60)  %}
+                {% set humidity = humidity + states.sensor.tables_humidity.state | float %}
+                {% set c = c + 1 %}
+              {% endif %}
             {% endif %}
           {% endif %}
           {% if states.sensor.entertainment_center_humidity %}
             {% if states.sensor.entertainment_center_humidity.state | float > 1.0 %}
-              {% set humidity = humidity + states.entertainment_center_humidity.state | float %}
-              {% set c = c + 1 %}
+              {% if (as_timestamp(now())-as_timestamp(states.sensor.entertainment_center_humidity.last_changed)) > (10 * 60)  %}
+                {% set humidity = humidity + states.sensor.entertainment_center_humidity.state | float %}
+                {% set c = c + 1 %}
+              {% endif %}
             {% endif %}
           {% endif %}
           {% if states.sensor.bedroom_humidity %}
-            {% if states.sensor.bedroom_center_humidity.state | float > 1.0 %}
-              {% set humidity = humidity + states.bedroom_center_humidity.state | float %}
-              {% set c = c + 1 %}
+            {% if states.sensor.bedroom_humidity.state | float > 1.0 %}
+              {% if (as_timestamp(now())-as_timestamp(states.sensor.bedroom_humidity.last_changed)) > (10 * 60)  %}
+                {% set humidity = humidity + states.sensor.bedroom_humidity.state | float %}
+                {% set c = c + 1 %}
+              {% endif %}
             {% endif %}
           {% endif %}
           {% if c > 0 %}
-           {{ (humidity / c) | float }}
+           {{ (humidity / c) | round(1) }}
           {% endif %}
 
 
