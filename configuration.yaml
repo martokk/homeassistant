@@ -12,7 +12,7 @@ discovery:
 conversation:
 history:
 logger: # Log Severities: notset, debug, info, warn, warning, error, fatal, critical
-  default: info  # Can also change via input_select
+  default: warn  # Can also change via input_select
   logs:
     homeassistant.helpers.condition: debug
 config:

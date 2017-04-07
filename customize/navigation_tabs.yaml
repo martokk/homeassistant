@@ -7,13 +7,7 @@
     order: 2
   group.bitcoin:
     order: 3
-  group.user_presence:
-    order: 4
   group.batteries:
-    order: 5
-  group.devices:
-    order: 6
+    order: 4
   group.upcoming_events:
-    order: 7
-  group.google_calandars:
-    order: 8
+    order: 5

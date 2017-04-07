@@ -1,33 +1,3 @@
-
-  options_lights:
-    name: "Options - Lights"
-    entities:
-      - input_boolean.option_delay_timebased_off
-      - input_slider.option_notification_brightness
-      - input_slider.option_notification_brightness_low
-
-  options_media:
-    name: "Options - Media"
-    entities:
-      - input_boolean.option_chromecast_screensaver
-
-  options_notify2:
-    name: "Options - Notify2"
-    entities:
-      - input_boolean.option_notify2_sms
-      - input_boolean.option_notify2_email
-      - input_boolean.option_notify2_mlo
-      - input_boolean.option_notify2_telegram
-      - input_boolean.option_notify2_tts
-      - input_boolean.option_notify2_chromecast
-      - input_boolean.option_notify2_lights
-
-  options_environment:
-    name: "Options - Environment"
-    entities:
-      - input_slider.option_indoor_temp_cold
-      - input_slider.option_indoor_temp_hot
-
   tools:
     name: "Tools"
     entities:
@@ -53,8 +23,11 @@
       - input_slider.var_kitchen_brightness
       - input_slider.var_kitchen_color_temp
       - input_slider.var_kitchen_delay
-      - input_slider.option_indoor_temp_hot
-      - input_slider.option_indoor_temp_cold
+
+  stored_arrays:
+    name: "Stored Arrays"
+    entities:
+      - input_select.array_low_light_scenes
 
   scripts_lights:
     name: "Scripts - Lights"

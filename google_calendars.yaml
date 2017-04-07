@@ -26,14 +26,14 @@
 
 - cal_id: ir5nj4epch19ortn7gqa02ivgg@group.calendar.google.com
   entities:
-  - device_id: subspace_radio
-    name: Subspace Radio
-    track: true
+  - device_id: subspace_radio_old
+    name: Subspace Radio (old)
+    track: false
 
 - cal_id: rmiulhjq199po7pil2si3fion0@group.calendar.google.com
   entities:
-  - device_id: subspace_radio2
-    name: Subspace Radio2
+  - device_id: subspace_radio
+    name: Subspace Radio
     track: true
 
 - cal_id: oupk9j6scqvglsnb2rgntkb4p0@group.calendar.google.com

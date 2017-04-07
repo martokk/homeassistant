@@ -3,13 +3,10 @@
     view: yes
     entities:
     - group.today
-    - group.scenes
-    - group.devices
+    - group.quick_scenes
     - group.batteries
     - group.upcoming_events
     - group.bitcoin
-    - group.user_presence
-    - group.google_calandars
 
   lights_view:
     name: "Lights"
@@ -66,6 +63,7 @@
     - group.scripts_lights
     - group.scripts_lights_test
     - group.stored_variables
+    - group.stored_arrays
 
   options:
     name: "Options"
@@ -75,6 +73,7 @@
     - group.options_media
     - group.options_notify2
     - group.options_environment
+    - group.options_system
 
   all:
     name: "All"

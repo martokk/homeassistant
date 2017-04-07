@@ -5,6 +5,8 @@ google_calandars:
     - calendar.twit_live_schedule
     - calendar.green_bay_packers
     - calendar.chicago_bears
+    - calendar.subspace_radio
+    - calendar.rev_20
 
 upcoming_events:
   name: "Upcoming Events"

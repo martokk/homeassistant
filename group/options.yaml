@@ -1,0 +1,34 @@
+  options_lights:
+    name: "Lights"
+    entities:
+      - input_boolean.option_delay_timebased_off
+      - input_boolean.option_timebased_light_scene
+
+  options_media:
+    name: "Media"
+    entities:
+      - input_boolean.option_chromecast_screensaver
+
+  options_notify2:
+    name: "Notify2 Notifications"
+    entities:
+      - input_boolean.option_notify2_sms
+      - input_boolean.option_notify2_email
+      - input_boolean.option_notify2_mlo
+      - input_boolean.option_notify2_telegram
+      - input_boolean.option_notify2_tts
+      - input_boolean.option_notify2_chromecast
+      - input_boolean.option_notify2_lights
+      - input_slider.option_notification_brightness
+      - input_slider.option_notification_brightness_low
+
+  options_environment:
+    name: "Environment"
+    entities:
+      - input_slider.option_indoor_temp_cold
+      - input_slider.option_indoor_temp_hot
+
+  options_system:
+    name: "System"
+    entities:
+      - input_select.option_log_level

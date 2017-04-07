@@ -2,7 +2,7 @@
 ########## OPTIONS #######################
 ##########################################
   option_log_level:
-    name: Log Level
+    name: Error Log Level
     options:
       - critical
       - fatal

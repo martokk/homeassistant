@@ -16,6 +16,13 @@
     - scene.night_computer_red
     - scene.off
 
+  quick_scenes:
+    name: "Quick Scenes"
+    entities:
+    - script.timebased_scene
+    - scene.day
+    - scene.off
+
 #********** LIGHTS ***************************************#
   living_room_lights:
     name: "Living Room"
