@@ -340,6 +340,14 @@ roku_player: ## Neighbor
   picture:
   track: false
   vendor:
+iphone6s_2: #Neighbors
+  hide_if_away: false
+  mac: BT_30:63:6B:AC:AE:13
+  name: iPhone6S
+  picture:
+  track: true
+  vendor: Apple, Inc.
+
 ##########################################
 ########## UNKNOWN #######################
 ##########################################
