@@ -63,13 +63,18 @@
     view: yes
     entities:
     - group.tools
+    - group.scripts_lights
+    - group.scripts_lights_test
+    - group.stored_variables
+
+  options:
+    name: "Options"
+    view: yes
+    entities:
     - group.options_lights
     - group.options_media
     - group.options_notify2
     - group.options_environment
-    - group.scripts_lights
-    - group.scripts_lights_test
-    - group.stored_variables
 
   all:
     name: "All"
