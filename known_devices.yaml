@@ -345,7 +345,7 @@ iphone6s_2: #Neighbors
   mac: BT_30:63:6B:AC:AE:13
   name: iPhone6S
   picture:
-  track: true
+  track: false
   vendor: Apple, Inc.
 
 ##########################################
