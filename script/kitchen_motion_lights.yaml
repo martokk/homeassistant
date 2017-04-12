@@ -39,7 +39,12 @@
 
   kitchen_lights_timer_off:
     sequence:
-    - delay: '00:00:{{ states("input_slider.var_kitchen_delay") | int }}'
+    - delay: >-
+        {% if states.input_slider.var_kitchen_delay.state %}
+          {% print "%02d:%02d:%02d" % (states.input_slider.var_kitchen_delay.state | int  // 60 // 60, states.input_slider.var_kitchen_delay.state | int  // 60 % 60, states.input_slider.var_kitchen_delay.state | int  % 60) %}
+        {%else%}
+          00:00:06
+        {%endif%}
     - service: input_slider.select_value
       data_template:
         entity_id: input_slider.var_kitchen_brightness
@@ -87,7 +92,7 @@
           - light.kitchen_right
         brightness: 135
         rgb_color: [140, 140, 140]
-        color_temp: 285
+        color_temp: 250
         transition: 0
     - service: input_slider.select_value
       data:
@@ -100,7 +105,7 @@
     - service: input_slider.select_value
       data:
         entity_id: input_slider.var_kitchen_color_temp
-        value: 285
+        value: 250
     - delay: '00:00:07'
     - service: script.turn_on
       entity_id: script.kitchen_lights_timer_bright_long
@@ -149,13 +154,13 @@
           {%endif%}
         brightness: >
           {% if states("input_slider.var_kitchen_brightness") %}
-            {%if states("input_slider.var_kitchen_brightness") | int > 117 %}
+            {%if states("input_slider.var_kitchen_brightness") | int > 135 %}
               {{ states("input_slider.var_kitchen_brightness") | int }}
             {%else%}
-              118
+              135
             {%endif%}
           {%else%}
-            118
+            135
           {%endif%}
     - delay: '00:00:01'
     - service: script.turn_on
