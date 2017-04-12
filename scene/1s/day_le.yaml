@@ -13,7 +13,7 @@ entities:
       transition: 1
       state: off
   light.tables_led_strips:
-    transition: 0
+    transition: 1
     state: off
 
   light.tv_overhead_right:
@@ -33,6 +33,8 @@ entities:
       state: off
   light.tv_floor_right:
       transition: 1
+      state: off
+  light.entertainment_center_led_strips:
       state: off
 
   light.office_right:
@@ -66,3 +68,6 @@ entities:
   light.kitchen_led_strip:
     transition: 1
     state: off
+
+  light.bedroom_led_strip:
+      state: off

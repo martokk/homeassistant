@@ -1,8 +1,5 @@
-sensor:
   - platform: systemmonitor
     resources:
-      - type: disk_free
-        arg: /home
       - type: disk_free
         arg: /v
       - type: memory_free

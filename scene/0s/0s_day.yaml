@@ -46,6 +46,8 @@ entities:
       rgb_color: [255, 255, 255]
       color_temp: 200
       transition: 0
+  light.entertainment_center_led_strips:
+      state: off
 
   light.office_right:
       state: on
@@ -78,3 +80,6 @@ entities:
   light.kitchen_led_strip:
     transition: 0
     state: off
+
+  light.bedroom_led_strips:
+      state: off

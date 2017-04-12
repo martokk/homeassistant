@@ -5,24 +5,24 @@ entities:
     brightness: 25
     rgb_color: [227, 227, 227]
     color_temp: 250
-    transition: 1
+    transition: 0
   light.end_table_right:
     state: on
     brightness: 10
     rgb_color: [227, 227, 227]
     color_temp: 250
-    transition: 1
+    transition: 0
   light.end_table_left:
     state: on
     brightness: 10
     rgb_color: [227, 227, 227]
     color_temp: 250
-    transition: 1
+    transition: 0
   light.tables_led_strips:
     state: on
     brightness: 45
     rgb_color: [91, 0, 221]
-    transition: 1
+    transition: 0
   input_select.tables_led_effect:
     option: 'vHome Breathe'
 
@@ -31,62 +31,77 @@ entities:
     brightness: 25
     rgb_color: [150, 150, 150]
     color_temp: 250
-    transition: 1
+    transition: 0
   light.tv_overhead_left:
     state: on
     brightness: 25
     rgb_color: [150, 150, 150]
     color_temp: 250
-    transition: 1
+    transition: 0
   light.tv_floor_left:
     state: on
     brightness: 225
     rgb_color: [91, 0, 221]
     color_temp: 207
-    transition: 1
+    transition: 0
   light.tv_floor_right:
     state: on
     brightness: 225
     rgb_color: [91, 0, 221]
     color_temp: 207
-    transition: 1
+    transition: 0
+  light.entertainment_center_led_strips:
+    state: on
+    brightness: 45
+    rgb_color: [91, 0, 221]
+    transition: 0
+  input_select.entertainment_center_led_effect:
+    option: 'vHome Breathe'
 
   light.office_right:
     state: on
     brightness: 25
     rgb_color: [140, 140, 140]
     color_temp: 250
-    transition: 1
+    transition: 0
   light.office_center:
     state: on
     brightness: 25
     rgb_color: [140, 140, 140]
     color_temp: 250
-    transition: 1
+    transition: 0
   light.office_left:
     state: on
     brightness: 75
     rgb_color: [140, 140, 140]
     color_temp: 250
-    transition: 1
+    transition: 0
   light.office_led_strip:
     state: on
     brightness: 45
     rgb_color: [91, 0, 221]
-    transition: 1
+    transition: 0
   input_select.office_led_effect:
     option: 'vHome Breathe'
 
   light.kitchen_right:
-    transition: 1
+    transition: 0
     state: off
   light.kitchen_left:
-    transition: 1
+    transition: 0
     state: off
   light.kitchen_led_strip:
     state: on
     brightness: 45
     rgb_color: [91, 0, 221]
-    transition: 1
+    transition: 0
   input_select.kitchen_led_effect:
+    option: 'vHome Breathe'
+
+  light.bedroom_led_strips:
+    state: on
+    brightness: 45
+    rgb_color: [91, 0, 221]
+    transition: 0
+  input_select.bedroom_led_effect:
     option: 'vHome Breathe'

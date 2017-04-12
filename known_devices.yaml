@@ -241,14 +241,6 @@ acer_laptop:
   track: false
   vendor: Liteon Technology Corporation
 
-headphones_mpow_wolverine:
-  hide_if_away: false
-  mac: BT_00:08:2A:F1:0E:E4
-  name: 'Headphones (Mpow Wolverine)'
-  picture:
-  track: false
-  vendor: Powerwallz Network Security
-
 # ps3: # can't get this working with ddwrt for some reason. If possible remove ping via binary_sensor and replace with this (via device_tracker)
 #   hide_if_away: false
 #   mac: FC:0F:E6:3A:6C:FA
@@ -293,7 +285,20 @@ wifi_adapter_tenda: ## USB Wifi Adapter (mine) (dan is borrowing)
   picture:
   track: false
   vendor: Tenda Technology Co., Ltd.
-
+hmdx_craze_buds: ## Headphones
+  hide_if_away: false
+  mac: BT_00:11:67:54:89:CB
+  name: HMDX Craze Buds
+  picture:
+  track: false
+  vendor: Integrated System Solution Corp.
+headphones_mpow_wolverine:
+  hide_if_away: false
+  mac: BT_00:08:2A:F1:0E:E4
+  name: 'Headphones (Mpow Wolverine)'
+  picture:
+  track: false
+  vendor: Powerwallz Network Security
 
 ##########################################
 ########## NEIGHBORS DEVICES #############

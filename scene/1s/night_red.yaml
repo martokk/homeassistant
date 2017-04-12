@@ -50,6 +50,13 @@ entities:
     rgb_color: [69, 69, 69]
     color_temp: 207
     transition: 1
+  light.entertainment_center_led_strips:
+    state: on
+    brightness: 90
+    rgb_color: [105, 1, 0]
+    transition: 1
+  input_select.entertainment_center_led_effect:
+    option: 'vHome Breathe'
 
   light.office_right:
     state: on
@@ -95,4 +102,12 @@ entities:
     rgb_color: [255, 175, 125]
     transition: 1
   input_select.kitchen_led_effect:
+    option: 'vHome Breathe'
+
+  light.bedroom_led_strips:
+    state: on
+    brightness: 45
+    rgb_color: [105, 1, 0]
+    transition: 1
+  input_select.bedroom_led_effect:
     option: 'vHome Breathe'

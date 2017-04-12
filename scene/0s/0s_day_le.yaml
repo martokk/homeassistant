@@ -34,6 +34,8 @@ entities:
   light.tv_floor_right:
       transition: 0
       state: off
+  light.entertainment_center_led_strips:
+      state: off
 
   light.office_right:
       state: on
@@ -66,3 +68,6 @@ entities:
   light.kitchen_led_strip:
     transition: 0
     state: off
+
+  light.bedroom_led_strip:
+      state: off
