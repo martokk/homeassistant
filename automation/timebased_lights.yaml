@@ -239,3 +239,26 @@
           flood_color: "red"
           delay: "00:00:10"
           next_scene: scene.night_computer_red
+
+
+##########################################
+########## MORNING LIGHTS ################
+##########################################
+
+### Turn ON Silver Lamp at 5:30am
+  - alias: timebased_530am_silver_lamp
+    trigger:
+      - platform: time
+        after: "05:30:10"
+    action:
+      - service: switch.turn_on
+        entity_id: switch.sonoff_silver_lamp
+
+### Turn OFF Silver Lamp at 9:30am
+  - alias: timebased_930am_silver_lamp
+    trigger:
+      - platform: time
+        after: "09:30:10"
+    action:
+      - service: switch.turn_off
+        entity_id: switch.sonoff_silver_lamp
