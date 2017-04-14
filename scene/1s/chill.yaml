@@ -18,7 +18,7 @@ entities:
     rgb_color: [2, 111, 7]
     color_temp: 209
     transition: 1
-  light.tables_led_strips:
+  light.tables_led_strip:
     state: on
     brightness: 45
     rgb_color: [72, 6, 153]
@@ -50,7 +50,7 @@ entities:
     rgb_color: [5, 241, 52]
     color_temp: 209
     transition: 1
-  light.entertainment_center_led_strips:
+  light.entertainment_center_led_strip:
     state: on
     brightness: 70
     rgb_color: [98, 2, 176]
@@ -104,7 +104,7 @@ entities:
   input_select.kitchen_led_effect:
     option: 'vHome Breathe'
 
-  light.bedroom_led_strips:
+  light.bedroom_led_strip:
     state: on
     brightness: 45
     rgb_color: [2, 234, 0]

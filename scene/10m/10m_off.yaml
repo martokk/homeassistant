@@ -9,7 +9,7 @@ entities:
   light.end_table_right:
     transition: 780
     state: off
-  light.tables_led_strips:
+  light.tables_led_strip:
     transition: 780
     state: off
 
@@ -25,7 +25,7 @@ entities:
   light.tv_floor_left:
     transition: 780
     state: off
-  light.entertainment_center_led_strips:
+  light.entertainment_center_led_strip:
     transition: 1
     state: off
 
@@ -52,6 +52,6 @@ entities:
     transition: 60
     state: off
 
-  light.bedroom_led_strips:
+  light.bedroom_led_strip:
     transition: 1
     state: off

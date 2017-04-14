@@ -21,7 +21,7 @@
         entity_id: input_boolean.option_notify2_lights
 
 ####################################
-##### HOURLY BREATHE ###############
+##### HOURLY FLASH LIGHTS ##########
 ####################################
 
   - alias: hourly_flash_lights

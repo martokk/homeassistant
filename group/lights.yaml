@@ -34,10 +34,10 @@
     - light.tv_overhead_right
     - light.tv_floor_left
     - light.tv_floor_right
-    - light.tables_led_strips
+    - light.tables_led_strip
     - input_select.tables_led_effect
     - input_slider.tables_animation_speed
-    - light.entertainment_center_led_strips
+    - light.entertainment_center_led_strip
     - input_select.entertainment_center_led_effect
     - input_slider.entertainment_center_animation_speed
 
@@ -51,9 +51,9 @@
     - light.tv_floor_right
     - light.office_led_strip
     - light.kitchen_led_strip
-    - light.tables_led_strips
-    - light.entertainment_center_led_strips
-    - light.bedroom_led_strips
+    - light.tables_led_strip
+    - light.entertainment_center_led_strip
+    - light.bedroom_led_strip
 
   tv_lights:
     name: "TV Lights"
@@ -62,7 +62,7 @@
     - light.tv_overhead_right
     - light.tv_floor_left
     - light.tv_floor_right
-    - light.entertainment_center_led_strips
+    - light.entertainment_center_led_strip
 
   living_room_overhead_lights:
     name: "Living Room Overhead"
@@ -105,7 +105,7 @@
   bedroom_lights:
     name: "Bedroom Room"
     entities:
-    - light.bedroom_led_strips
+    - light.bedroom_led_strip
     - input_select.bedroom_led_effect
     - input_slider.bedroom_animation_speed
 
@@ -115,6 +115,6 @@
     - input_select.all_led_effect
     - light.kitchen_led_strip
     - light.office_led_strip
-    - light.tables_led_strips
-    - light.entertainment_center_led_strips
-    - light.bedroom_led_strips
+    - light.tables_led_strip
+    - light.entertainment_center_led_strip
+    - light.bedroom_led_strip

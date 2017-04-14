@@ -18,7 +18,7 @@ entities:
     rgb_color: [227, 227, 227]
     color_temp: 250
     transition: 780
-  light.tables_led_strips:
+  light.tables_led_strip:
     state: on
     brightness: 45
     rgb_color: [91, 0, 221]
