@@ -47,7 +47,7 @@
     - service: script.notify2
       data:
         flash_color: "magenta"
-        entity_id: group.overhead_lights
+        entity_id: group.timebased_hourly_flash_lights
 
 ##########################################
 ######## TIME-BASED SCENE CHANGE #########

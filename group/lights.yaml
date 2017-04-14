@@ -83,6 +83,19 @@
     - light.kitchen_left
     - light.kitchen_right
 
+  timebased_hourly_flash_lights:
+    name: "Timebased - Hourly Flash Lights"
+    entities:
+    - light.living_room_overhead
+    - light.tv_overhead_left
+    - light.tv_overhead_right
+    - light.office_left
+    - light.office_center
+    - light.office_right
+    - light.kitchen_left
+    - light.kitchen_right
+    - light.bedroom_led_strip
+
   office_lights:
     name: "Office"
     entities:
