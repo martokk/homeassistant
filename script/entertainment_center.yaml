@@ -14,7 +14,7 @@
         {% if states.media_player.vtv_chromecast.state != "playing" %}
         true
         {%else%}
-          {% if states.sensor.chromecast_playing_app.state == "Default Media Receiver" or if states.sensor.chromecast_playing_app.state == "Backdrop"  %}
+          {% if states.sensor.chromecast_playing_app.state == "Default Media Receiver" or states.sensor.chromecast_playing_app.state == "Backdrop"  %}
           true
           {%else%}
           false

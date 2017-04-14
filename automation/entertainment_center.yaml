@@ -59,3 +59,46 @@
         state: 'on'
     action:
       - service: script.entertainment_center_turn_off
+
+##########################################
+########## PLAYSTATION 3 #################
+##########################################
+  - alias: ps3_turn_on
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.ps3
+        state: 'on'
+      - platform: state
+        entity_id: binary_sensor.ps3_ping
+        state: 'on'
+    condition:
+      - condition: state
+        entity_id: input_boolean.var_ps3_on
+        state: 'off'
+    action:
+      - service: homeassistant.turn_on
+        entity_id: input_boolean.var_ps3_on
+      - service: mqtt.publish
+        data:
+          topic: "device/eventghost/input_game"
+          payload: '1'
+
+  - alias: ps3_turn_off
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.ps3
+        state: 'off'
+      - platform: state
+        entity_id: binary_sensor.ps3_ping
+        state: 'off'
+    condition:
+      - condition: state
+        entity_id: input_boolean.var_ps3_on
+        state: 'on'
+    action:
+      - service: homeassistant.turn_off
+        entity_id: input_boolean.var_ps3_on
+      - service: mqtt.publish
+        data:
+          topic: "device/eventghost/input_cbl"
+          payload: '1'
