@@ -122,6 +122,7 @@
       state: 'off'
     - service: scene.turn_on
       entity_id: scene.10m_off
+    - service: script.entertainment_center_turn_off
 
 ### 2am - OFF
   - alias: Timebased_2am_off
@@ -137,6 +138,7 @@
       state: 'off'
     - service: scene.turn_on
       entity_id: scene.10m_off
+    - service: script.entertainment_center_turn_off
 
 ### 3am - OFF
   - alias: Timebased_3am_off
@@ -151,6 +153,7 @@
       state: 'on'
     - service: scene.turn_on
       entity_id: scene.10m_off
+    - service: script.entertainment_center_turn_off
 
 ##########################################
 ########## FLOOD LIGHTS ##################

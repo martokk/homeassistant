@@ -8,8 +8,8 @@
         topic: device/eventghost/av_power
         payload: "toggle"
     action:
-      - service: homeassistant.toggle
-        entity_id: input_boolean.var_av_power
+      - service: switch.toggle
+        entity_id: switch.entertainment_center
       ## Toggles off lights if after 12pm
       - condition: time
         after: "00:00:00"
