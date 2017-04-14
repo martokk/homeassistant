@@ -1,3 +1,10 @@
+  test_tts:
+    sequence:
+    - service: tts.google_say
+      entity_id: media_player.vlc
+      data:
+        message: 'May the Force be with you.'
+
 ##########################################
 ########## MEDIA SCENE ###################
 ##########################################

@@ -352,6 +352,13 @@ iphone6s_2: #Neighbors
   picture:
   track: false
   vendor: Apple, Inc.
+galaxy_grand_prime: #Neighbor
+  hide_if_away: false
+  mac: BT_50:F0:D3:7C:9F:7A
+  name: Galaxy Grand Prime
+  picture:
+  track: false
+  vendor: Samsung Electronics Co.,Ltd
 
 ##########################################
 ########## UNKNOWN #######################
