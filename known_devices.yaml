@@ -164,7 +164,7 @@ esp8266_entertainment_center:
   track: true
   vendor: Espressif Inc.
 
-esp_bedroom:
+esp8266_bedroom:
   hide_if_away: false
   mac: 5C:CF:7F:D5:E8:08
   name: "ESP8266 - Bedroom"
