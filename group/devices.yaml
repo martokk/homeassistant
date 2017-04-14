@@ -9,6 +9,8 @@
     - device_tracker.esp8266_tables
     - device_tracker.esp8266_entertainment_center
     - device_tracker.esp8266_bedroom
+    - device_tracker.sonoff_silver_lamp
+    - device_tracker.sonoff_entertainment_center
 
   batteries:
     name: "Batteries"
