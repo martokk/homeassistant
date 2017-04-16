@@ -60,6 +60,27 @@
     action:
       - service: script.entertainment_center_turn_off
 
+
+  - alias: ambivision_turn_on
+    trigger:
+      - platform: state
+        entity_id: switch.sonoff_entertainment_center
+        from: 'off'
+        to: 'on'
+    action:
+      - service: switch.turn_on
+        entity_id: switch.ambivision
+
+  - alias: ambivision_turn_off
+    trigger:
+      - platform: state
+        entity_id: switch.sonoff_entertainment_center
+        from: 'off'
+        to: 'on'
+    action:
+      - service: switch.turn_on
+        entity_id: switch.ambivision
+
 ##########################################
 ########## PLAYSTATION 3 #################
 ##########################################

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<EventGhost Version="1722" Guid="{635390DD-2FBA-4628-B516-67C9E1EBCA38}" Time="1492161637.3">
+<EventGhost Version="1722" Guid="{31CE266D-A71B-4A48-B076-CA3BEBDE9AD1}" Time="1492324315.13">
     <Autostart Name="Autostart" Expanded="True">
         <Plugin Identifier="USB_UIRT" Guid="{36FD4F40-653C-4626-97CC-BE363C05F933}" File="USB-UIRT">
             gAIoiYmJiHRxAC4=
@@ -127,7 +127,7 @@
         </Macro>
     </Folder>
     <Folder Name="Bose Remote" Expanded="True">
-        <Macro Name="Power" Expanded="True">
+        <Macro Name="Power">
             <Event Name="USB_UIRT.Unknown.15DDFDDDF0" />
             <Event Name="USB_UIRT.Unknown.1577757778" />
             <Action>
@@ -143,7 +143,7 @@
                 MQTTthreads.publishMQTT(u'Toggle AV', u'192.168.1.3', 1883, u'device/eventghost/av_power', u'toggle', 0, False, '546420787736', True, u'username', u'42157406', False, u'')
             </Action>
         </Macro>
-        <Macro Name="Power - All Lights" id="53" Expanded="True">
+        <Macro Name="Power - All Lights" id="53">
             <Action>
                 EventGhost.Wait(0.20000000000000001)
             </Action>
@@ -384,25 +384,26 @@
                 USB_UIRT.TransmitIR(u'0000 006D 0022 0002 0156 00AC 0016 0015 0016 0040 0016 0015 0016 0015 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 05C2 0156 0057 0016 0E45', 4, 0)
             </Action>
         </Macro>
-        <Macro Name="input_cbl">
+        <Macro Name="input_cbl" Expanded="True">
             <Event Name="MQTT.device/eventghost/input_cbl" />
             <Action Name="av_source_cblsat">
                 USB_UIRT.TransmitIR(u'0000 006D 0022 0002 0156 00AC 0016 0015 0016 0040 0016 0015 0016 0015 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 05C2 0156 0057 0016 0E44', 4, 0)
             </Action>
         </Macro>
-        <Macro Name="led_standby">
-            <Event Name="Main.led_standby" />
+        <Macro Name="led_standby" Expanded="True">
+            <Event Name="MQTT.device/eventghost/led_standby" />
+            <Event Name="MQTT.device/eventghost/led_standby" />
             <Action Name="Standby">
                 USB_UIRT.TransmitIR(u'0000 0067 0000 000D 005E 0019 0018 0019 002F 0019 002F 0019 0018 0019 002F 0019 002F 0019 0018 0019 002F 0019 0018 0019 0018 0019 0018 0019 0018 03F0', 4, 0)
             </Action>
         </Macro>
-        <Macro Name="led_mode">
+        <Macro Name="led_mode" Expanded="True">
             <Event Name="Main.led_mode" />
             <Action Name="Mode">
                 USB_UIRT.TransmitIR(u'0000 0067 0000 0010 005E 0019 0018 0019 0018 0019 0018 0019 0018 0019 002F 0019 0018 0018 0018 0019 0018 0018 0018 0019 002F 0019 0018 0018 0018 0019 002F 0019 0018 0019 002F 0372', 4, 0)
             </Action>
         </Macro>
-        <Macro Name="led_submode">
+        <Macro Name="led_submode" Expanded="True">
             <Event Name="Main.led_submode" />
             <Action Name="Submode">
                 USB_UIRT.TransmitIR(u'0000 0067 0000 0010 005E 0018 002F 0019 0018 0019 002F 0019 002F 0019 002F 0018 002F 0018 0018 0019 0018 0018 0018 0019 002F 0019 0018 0018 0018 0019 002F 0019 0018 0018 002F 0315', 4, 0)

@@ -24,3 +24,7 @@
     payload_on: "ON"
     payload_off: "OFF"
     retain: true
+
+  - platform: mqtt
+    name: ambivision
+    command_topic: "device/eventghost/led_standby"
