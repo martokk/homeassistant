@@ -95,10 +95,10 @@
       - service: script.notify2
         data_template:
           telegram_message: |
-            New Device Found!
-            Host Name: {{trigger.event.data.host_name}}
-            entity_id: {{trigger.event.data.entity_id}}
-
+            *New Device Found!*
+            host_name     *{{trigger.event.data.host_name}}*
+            mac_address  *{{trigger.event.data.mac}}*
+            entity_id       {{trigger.event.data.entity_id}}
 ##########################################
 ########## TV ON/OFF #####################
 ##########################################
