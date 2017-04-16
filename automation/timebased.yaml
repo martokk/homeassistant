@@ -242,7 +242,7 @@
           flood_color: "red"
           delay: "00:00:10"
           next_scene: scene.night_computer_red
-
+      - service: script.entertainment_center_turn_off
 
 ##########################################
 ########## MORNING LIGHTS ################
@@ -262,6 +262,9 @@
     trigger:
       - platform: time
         after: "09:30:10"
+      - platform: sun
+        event: sunrise
+        offset: "01:00:00"
     action:
       - service: switch.turn_off
         entity_id: switch.sonoff_silver_lamp

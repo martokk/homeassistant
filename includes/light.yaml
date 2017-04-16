@@ -23,7 +23,7 @@
     optimistic: false
 
   - platform: mqtt
-    name: "Tables LED Strips"
+    name: "Tables LED Strip"
     command_topic: "device/tables/led1/power"
     state_topic: "device/tables/led1/power/pub"
     rgb_command_topic: "device/tables/led1/color"
@@ -33,7 +33,7 @@
     optimistic: false
 
   - platform: mqtt
-    name: "Entertainment Center LED Strips"
+    name: "Entertainment Center LED Strip"
     command_topic: "device/entertainment_center/led1/power"
     state_topic: "device/entertainment_center/led1/power/pub"
     rgb_command_topic: "device/entertainment_center/led1/color"
@@ -43,7 +43,7 @@
     optimistic: false
 
   - platform: mqtt
-    name: "Bedroom LED Strips"
+    name: "Bedroom LED Strip"
     command_topic: "device/bedroom/led1/power"
     state_topic: "device/bedroom/led1/power/pub"
     rgb_command_topic: "device/bedroom/led1/color"
