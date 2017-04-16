@@ -74,7 +74,7 @@
           script.notify2_do_nothing
         {% endif %}
       data_template:
-        message: "{{ telegram_message }}"
+        message: "{{ telegram_message | replace('_', '˷') }}"
 
     ## Telegram Picture Notifications
     - service_template: >
