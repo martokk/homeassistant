@@ -72,3 +72,19 @@
         #     {% elif random_number == 2 %}
         #     {% elif random_number == 3 %}
         #     {% endif %}
+
+##########################################
+##### DEFAULT MEDIA PLAYER - TURN OFF ####
+##########################################
+
+  - alias: "Default Media Player turn off"
+    trigger:
+      - platform: state
+        entity_id: media_player.vtv_chromecast
+        state: 'idle'
+    condition:
+      - condition: template
+        value_template: '{% if states.media_player.vtv_chromecast.attributes.app_name == "Default Media Player" %}true{%else%}false{%endif%}'
+    action:
+      - service: media_player.turn_off
+        entity_id: media_player.vtv_chromecast
