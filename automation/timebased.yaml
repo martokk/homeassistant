@@ -205,6 +205,18 @@
         data:
           flood_color: "magenta"
           delay: "00:00:10"
+          next_scene: scene.day
+
+### 7pm
+  - alias: flood_7pm
+    trigger:
+      - platform: time
+        after: "18:59:59"
+    action:
+      - service: script.notify2
+        data:
+          flood_color: "magenta"
+          delay: "00:00:10"
           next_scene: scene.night_cyan
 
 ### 9pm
