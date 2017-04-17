@@ -9,6 +9,23 @@
         state: 'off'
         for:
           minutes: 5
+      - platform: state
+        entity_id: input_select.var_ps3_on
+        state: 'off'
+        for:
+          minutes: 5
+      - platform: state
+        entity_id: media_player.entertainment_center
+        state: 'on'
+        for:
+          minutes: 15
+    condition:
+      - condition: state
+        entity_id: media_player.vtv_chromecast
+        state: 'off'
+      - condition: state
+        entity_id: input_select.var_ps3_on
+        state: 'off'
     action:
       - service: homeassistant.turn_on
         entity_id: input_boolean.var_chromecast_screensaver_ready
@@ -35,6 +52,9 @@
     condition:
       - condition: state
         entity_id: input_boolean.var_mike_home
+        state: 'on'
+      - condition: state
+        entity_id: switch.entertainment_center
         state: 'on'
       - condition: state
         entity_id: input_boolean.var_ps3_on
