@@ -17,7 +17,7 @@
     retain: true
 
   - platform: mqtt
-    name: sonoff_6e07
+    name: sonoff_indoor_fan1
     command_topic: "cmnd/sonoff_6e07/power"
     state_topic: "stat/sonoff_6e07/POWER"
     qos: 1

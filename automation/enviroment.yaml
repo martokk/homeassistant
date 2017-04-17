@@ -1,0 +1,24 @@
+##########################################
+########## INDOOR FAN ON/OFF  ############
+##########################################
+  - alias: indoor_fan1_turn_on
+    trigger:
+      - platform: state
+        entity_id: sensor.indoor_temperature
+    condition:
+      - condition: template
+        value_template: '{{ states.sensor.indoor_temperature.state | int >= states.input_slider.option_indoor_temp_hot.state | int }}'
+    action:
+      - service: switch_turn_on
+        entity_id: switch.sonoff_indoor_fan1
+
+  - alias: indoor_fan1_turn_off
+    trigger:
+      - platform: state
+        entity_id: sensor.indoor_temperature
+    condition:
+      - condition: template
+        value_template: '{{ states.sensor.indoor_temperature.state | int <= states.input_slider.option_indoor_temp_hot.state | int - 2}}'
+    action:
+      - service: switch_turn_off
+        entity_id: switch.sonoff_indoor_fan1
