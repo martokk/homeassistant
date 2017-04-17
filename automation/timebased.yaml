@@ -108,6 +108,21 @@
       service: scene.turn_on
       entity_id: scene.10m_night_cyan
 
+### Entertainment Off - 12:30am + every 5 min
+  - alias: Timebased_1230am_every_30m
+    trigger:
+      - platform: time
+        minutes: '/10'
+    condition:
+      - condition: time
+        after: "00:30:00"
+        before: "04:00:00"
+      - condition: state
+        entity_id: input_boolean.option_delay_timebased_off
+        state: 'off'
+    action:
+    - service: script.entertainment_center_turn_off
+
 ### 1am - OFF
   - alias: Timebased_1am_off
     trigger:
@@ -115,14 +130,14 @@
         after: "01:00:00"
     action:
     - condition: state
-      entity_id: input_boolean.option_timebased_light_scene
-      state: 'on'
-    - condition: state
       entity_id: input_boolean.option_delay_timebased_off
       state: 'off'
+    - service: script.entertainment_center_turn_off
+    - condition: state
+      entity_id: input_boolean.option_timebased_light_scene
+      state: 'on'
     - service: scene.turn_on
       entity_id: scene.10m_off
-    - service: script.entertainment_center_turn_off
 
 ### 2am - OFF
   - alias: Timebased_2am_off
@@ -131,14 +146,14 @@
         after: "02:00:00"
     action:
     - condition: state
-      entity_id: input_boolean.option_timebased_light_scene
-      state: 'on'
-    - condition: state
       entity_id: input_boolean.option_delay_timebased_off
       state: 'off'
+    - service: script.entertainment_center_turn_off
+    - condition: state
+      entity_id: input_boolean.option_timebased_light_scene
+      state: 'on'
     - service: scene.turn_on
       entity_id: scene.10m_off
-    - service: script.entertainment_center_turn_off
 
 ### 3am - OFF
   - alias: Timebased_3am_off
@@ -148,12 +163,12 @@
     action:
     - service: homeassistant.turn_off
       entity_id: input_boolean.option_delay_timebased_off
+    - service: script.entertainment_center_turn_off
     - condition: state
       entity_id: input_boolean.option_timebased_light_scene
       state: 'on'
     - service: scene.turn_on
       entity_id: scene.10m_off
-    - service: script.entertainment_center_turn_off
 
 ##########################################
 ########## FLOOD LIGHTS ##################

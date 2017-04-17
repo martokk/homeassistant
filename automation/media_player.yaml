@@ -76,13 +76,13 @@
         data_template:
           entity_id: >
             {% set hour = states.sensor.time.state[:2] | int %}
-            {% if hour | int < 1 %}
+            {% if hour | int < 5 %}
               script.media_scene_fireplace
-            {% elif hour | int < 16 %}
-              script.media_scene_space
-            {% elif hour | int < 21 %}
+            {% elif hour | int < 19 %}
               script.media_scene_magenta_blue_orbs_long
-            {% elif hour | int >= 21 %}
+            {% elif hour | int < 23 %}
+              script.media_scene_space
+            {% elif hour | int >= 23 %}
               script.media_scene_fireplace
             {% endif %}
         # data_template:

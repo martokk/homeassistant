@@ -41,15 +41,14 @@
       - service: switch.turn_on
         entity_id: switch.sonoff_entertainment_center
 
-  - alias: entertainment_center_turn_off
+  - alias: entertainment_center_turn_off_mike_not_home
     trigger:
       - platform: state
         entity_id: input_boolean.var_mike_home
         from: 'on'
         to: 'off'
       - platform: time
-        minutes: 20
-        seconds: 00
+        minutes: '/30' #every 30 min
     condition:
       - condition: state
         entity_id: input_boolean.var_mike_home
