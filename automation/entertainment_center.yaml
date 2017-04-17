@@ -74,10 +74,10 @@
     trigger:
       - platform: state
         entity_id: switch.sonoff_entertainment_center
-        from: 'off'
-        to: 'on'
+        from: 'on'
+        to: 'off'
     action:
-      - service: switch.turn_on
+      - service: switch.turn_off
         entity_id: switch.ambivision
 
 ##########################################
