@@ -118,6 +118,7 @@
   bedroom_lights:
     name: "Bedroom Room"
     entities:
+    - light.sonoff_silver_lamp
     - light.bedroom_led_strip
     - input_select.bedroom_led_effect
     - input_slider.bedroom_animation_speed
