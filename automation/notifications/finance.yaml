@@ -11,7 +11,7 @@
       - service: script.notify2
         data_template:
           telegram_message: |
-            Bitcoin: ${{ states.sensor.bitcoin.state | round(2) }};
+            *Bitcoin: ${{ states.sensor.bitcoin.state | round(2) }}*
             24h: {{ states.sensor.bitcoin_percent_change_24h.state | round(1) }}%
             7d:  {{ states.sensor.bitcoin_percent_change_7d.state | round(1) }}%
           telegram_url: http://bitcoincharts.com/charts/chart.png?width=848&height=480&m=bitstampUSD&SubmitButton=Draw&r=2&i=5-min&c=0&s=&e=&Prev=&Next=&t=C&b=&a1=&m1=10&a2=&m2=25&x=0&i1=&i2=&i3=&i4=&v=1&cv=0&ps=0&l=0&p=0&
@@ -31,7 +31,7 @@
       - service: script.notify2
         data_template:
           telegram_message: |
-            Bitcoin: ${{ states.sensor.bitcoin.state | round(2) }};
+            *Bitcoin: ${{ states.sensor.bitcoin.state | round(2) }}*
             24h: {{ states.sensor.bitcoin_percent_change_24h.state | round(1) }}%
             7d:  {{ states.sensor.bitcoin_percent_change_7d.state | round(1) }}%
           telegram_url: http://bitcoincharts.com/charts/chart.png?width=848&height=480&m=bitstampUSD&SubmitButton=Draw&r=2&i=5-min&c=0&s=&e=&Prev=&Next=&t=C&b=&a1=&m1=10&a2=&m2=25&x=0&i1=&i2=&i3=&i4=&v=1&cv=0&ps=0&l=0&p=0&

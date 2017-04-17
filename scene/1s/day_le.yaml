@@ -69,5 +69,7 @@ entities:
     transition: 1
     state: off
 
+  light.sonoff_silver_lamp:
+    state: off
   light.bedroom_led_strip:
       state: off

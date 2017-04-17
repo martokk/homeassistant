@@ -19,7 +19,7 @@
       - service: script.notify2
         data_template:
           telegram_message: |
-            Indoor Temp HOT: {{ states.sensor.indoor_temperature.state | round(1) }}°F
+            *Indoor Temp HOT: {{ states.sensor.indoor_temperature.state | round(1) }}°F*
             Kitchen: {{ states.sensor.kitchen_temperature.state | round(1) }}°F   |   Tables: {{ states.sensor.tables_temperature.state | round(1) }}°F   |   EC: {{ states.sensor.entertainment_center_temperature.state | round(1) }}°F    |   Bedroom: {{ states.sensor.bedroom_temperature.state | round(1) }}°F
           flood_color: "gold"
           blink_color: "white"
@@ -42,7 +42,7 @@
       - service: script.notify2
         data_template:
           telegram_message: |
-            Indoor Temp COLD: {{ states.sensor.indoor_temperature.state | round(1) }}°F
+            *Indoor Temp COLD: {{ states.sensor.indoor_temperature.state | round(1) }}°F*
             Kitchen: {{ states.sensor.kitchen_temperature.state | round(1) }}°F   |   Tables: {{ states.sensor.tables_temperature.state | round(1) }}°F   |   EC: {{ states.sensor.entertainment_center_temperature.state | round(1) }}°F    |   Bedroom: {{ states.sensor.bedroom_temperature.state | round(1) }}°F
           flood_color: "gold"
           blink_color: "white"

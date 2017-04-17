@@ -28,7 +28,7 @@
         blink_color: "blue"
         blink_color2: "green"
         telegram_message: |
-          {{ states("sensor.dark_sky_minutely_summary") }}
+          *{{ states("sensor.dark_sky_minutely_summary") }}*
           {{ states("sensor.dark_sky_hourly_summary") }}
 
   - alias: 'Rain_Stop'
@@ -61,8 +61,7 @@
         blink_color: "blue"
         blink_color2: "red"
         telegram_message: |
-          Rain Stopped!
-          {{ states("sensor.dark_sky_minutely_summary") }}
+          *{{ states("sensor.dark_sky_minutely_summary") }}*
           {{ states("sensor.dark_sky_hourly_summary") }}
 
 ##########################################
@@ -95,7 +94,7 @@
         blink_color: "cyan"
         blink_color2: "green"
         telegram_message: |
-          {{ states("sensor.dark_sky_minutely_summary") }}
+          *{{ states("sensor.dark_sky_minutely_summary") }}*
           {{ states("sensor.dark_sky_hourly_summary") }}
 
   - alias: 'Snow_Stop'
@@ -128,8 +127,7 @@
         blink_color: "cyan"
         blink_color2: "red"
         telegram_message: |
-          Snow stopped!
-          {{ states("sensor.dark_sky_minutely_summary") }}
+          *{{ states("sensor.dark_sky_minutely_summary") }}*
           {{ states("sensor.dark_sky_hourly_summary") }}
 
 ##########################################
@@ -160,7 +158,7 @@
       - service: script.notify2
         data_template:
           telegram_message: |
-            WEATHER ALERT!
+            *WEATHER ALERT!*
             {{ states("sensor.weather_alert") }}
             {{ states.sensor.pws_alerts.attributes.Message }}
           telegram_url: http://sirocco.accuweather.com/nxssa_r1_h_500x620d/r1h/inxr1kmkea_h.gif

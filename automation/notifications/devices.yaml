@@ -30,9 +30,9 @@
           {%endif%}
       - service: script.notify2
         data_template:
-          telegram_message: |
+          telegram_message: >
             Battery Low!
-            iPhone: {{ states("sensor.iphone6s_battery") | int }}%  |  Watch: {{ states("sensor.watch_battery") | int  }}%  |  iPad: {{ states("sensor.ipad_battery") | int  }}%;
+            {% if states("sensor.iphone6s_battery") | int < 25 %}*{% endif %}iPhone: {{ states("sensor.iphone6s_battery") | int }}%{% if states("sensor.iphone6s_battery") | int < 25 %}*{% endif %} |  {% if states("sensor.watch_battery") | int < 25 %}*{% endif %}Watch: {{ states("sensor.watch_battery") | int }}%{% if states("sensor.watch_battery") | int < 25 %}*{% endif %} | {% if states("sensor.ipad_battery") | int < 25 %}*{% endif %}iPad: {{ states("sensor.ipad_battery") | int }}%{% if states("sensor.ipad_battery") | int < 25 %}*{% endif %}
       - condition: template
         value_template: >
           {% if trigger.to_state.state | int <= 10 %}
@@ -40,27 +40,39 @@
           {% endif %}
       - service: script.notify2
         data_template:
-          telegram_message: |
-            Battery Low!
-            iPhone: {{ states("sensor.iphone6s_battery") | int  }}%  |  Watch: {{ states("sensor.watch_battery") | int  }}%  |  iPad: {{ states("sensor.ipad_battery") | int  }}%;
           flood_color: "cyan"
           blink_color: "blueviolet"
           blink_color2: "red"
 
 
-  - alias: 'Battery Fully Charged Email Only'
+  - alias: 'Battery Fully Charged Text Only'
     trigger:
       - platform: state
         entity_id:
           - sensor.iphone6s_battery
           - sensor.watch_battery
-        state: '100'
+        state: '100.0'
     action:
+      - condition: time
+        before: "22:59:59"
       - service: script.notify2
         data_template:
           telegram_message: |
             Battery Fully Charged!
-            iPhone: {{ states("sensor.iphone6s_battery") | int  }}%  |  Watch: {{ states("sensor.watch_battery") | int  }}%
+            {% if states("sensor.iphone6s_battery") | int == 100 %}*{% endif %}iPhone: {{ states("sensor.iphone6s_battery") | int }}%{% if states("sensor.iphone6s_battery") | int == 100 %}*{% endif %} |  {% if states("sensor.watch_battery") | int == 100 %}*{% endif %}Watch: {{ states("sensor.watch_battery") | int }}%{% if states("sensor.watch_battery") | int == 100 %}*{% endif %}
+
+  - alias: '10pm Charge Battery Reminder'
+    trigger:
+      - platform: time
+        after: '22:00:00'
+    action:
+      - condition: time
+        before: "22:59:59"
+      - service: script.notify2
+        data_template:
+          telegram_message: |
+            10pm Reminder -- Charge all device batteries!
+            {% if states("sensor.iphone6s_battery") | int == 100 %}*{% endif %}iPhone: {{ states("sensor.iphone6s_battery") | int }}%{% if states("sensor.iphone6s_battery") | int == 100 %}*{% endif %} |  {% if states("sensor.watch_battery") | int == 100 %}*{% endif %}Watch: {{ states("sensor.watch_battery") | int }}%{% if states("sensor.watch_battery") | int == 100 %}*{% endif %}
 
 
   - alias: 'Battery Fully Charged Notificaiton'
@@ -69,17 +81,17 @@
         entity_id:
           - sensor.iphone6s_battery
           - sensor.watch_battery
-        state: '100'
+        state: '100.0'
         for:
           hours: 2
     action:
       - condition: time
-        before: "23:59:59"
+        before: "22:59:59"
       - service: script.notify2
         data_template:
           telegram_message: |
             Battery Fully Charged!
-            iPhone: {{ states("sensor.iphone6s_battery") | int  }}%  |  Watch: {{ states("sensor.watch_battery") | int  }}%
+            {% if states("sensor.iphone6s_battery") | int == 100 %}*{% endif %}iPhone: {{ states("sensor.iphone6s_battery") | int }}%{% if states("sensor.iphone6s_battery") | int == 100 %}*{% endif %} |  {% if states("sensor.watch_battery") | int == 100 %}*{% endif %}Watch: {{ states("sensor.watch_battery") | int }}%{% if states("sensor.watch_battery") | int == 100 %}*{% endif %}
           flood_color: "cyan"
           blink_color: "blueviolet"
           blink_color2: "green"

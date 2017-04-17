@@ -19,9 +19,6 @@
     - group.scenes
     - group.scripts_lights
     - group.led_lights
-    - group.ambient_lights
-    - group.living_room_overhead_lights
-    - group.overhead_lights
 
   enviroment:
     name: "Enviroment"

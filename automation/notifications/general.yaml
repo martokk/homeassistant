@@ -18,3 +18,17 @@
 
               {%endif %}
             {% endfor %}
+
+
+##########################################
+############# DAILY ######################
+##########################################
+
+  - alias: "New Day Start"
+    trigger:
+      - platform: time
+        after: '05:30:00'
+    action:
+      - service: script.notify2
+        data_template:
+          telegram_message: "*############## {{ sensor.date }} ##############*"
