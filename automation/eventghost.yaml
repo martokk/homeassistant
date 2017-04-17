@@ -52,6 +52,19 @@
           flash_color: "cyan"
           entity_id: group.tv_lights
 
+  - alias: 'Toggle Stop'
+    trigger:
+      - platform: mqtt
+        topic: device/eventghost/stop
+        payload: "toggle"
+    action:
+      - service: media_player.media_stop
+        entity_id: media_player.vtv_chromecast
+      - service: script.flash_light
+        data:
+          flash_color: "cyan"
+          entity_id: group.tv_lights
+
   - alias: 'Toggle Chromecast Prev'
     trigger:
       - platform: mqtt
