@@ -141,3 +141,37 @@
         data:
           topic: "device/eventghost/input_cbl"
           payload: '1'
+
+##########################################
+########## VOLUME ADJUSTMENTS ############
+##########################################
+  - alias: fan_on_volume_up
+    trigger:
+      - platform: state
+        entity_id: switch.sonoff_indoor_fan1
+        state: 'on'
+    condition:
+      - condition: state
+        entity_id: switch.sonoff_entertainment_center
+        state: 'on'
+    action:
+      - service: mqtt.publish
+        data:
+          topic: "device/eventghost/vol_up_2"
+          payload: '1'
+
+
+  - alias: fan_off_volume_down
+    trigger:
+      - platform: state
+        entity_id: switch.sonoff_indoor_fan1
+        state: 'off'
+    condition:
+      - condition: state
+        entity_id: switch.sonoff_entertainment_center
+        state: 'on'
+    action:
+      - service: mqtt.publish
+        data:
+          topic: "device/eventghost/vol_down_2"
+          payload: '1'
