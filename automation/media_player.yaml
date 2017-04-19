@@ -111,3 +111,37 @@
     action:
       - service: media_player.turn_off
         entity_id: media_player.vtv_chromecast
+
+
+  - alias: "Chromecast - Pause video on source change"
+    trigger:
+      - platform: state
+        entity_id: input_select.var_ps3_on
+        state: 'on'
+    condition:
+      - condition: state
+        entity_id: media_player.vtv_chromecast
+        state: 'playing'
+      - condition: state
+        entity_id: input_select.var_ps3_on
+        state: 'on'
+    action:
+      - service: media_player.media_pause
+        entity_id: media_player.vtv_chromecast
+
+  - alias: "Chromecast - Resume video on source change"
+    trigger:
+      - platform: state
+        entity_id: input_select.var_ps3_on
+        from: 'on'
+        to: 'off'
+    condition:
+      - condition: state
+        entity_id: media_player.vtv_chromecast
+        state: 'paused'
+      - condition: state
+        entity_id: input_select.var_ps3_on
+        state: 'off'
+    action:
+      - service: media_player.media_play
+        entity_id: media_player.vtv_chromecast
