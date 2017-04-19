@@ -7,21 +7,20 @@
       entity_id: sensor.dark_sky_precip
       state: 'rain'
     condition:
-    - condition: time
-      after: '05:00'
-      before: '02:00'
-    action:
-    - condition: template
-      value_template: >
-        {% if states.automation.rain_start.attributes.last_triggered %}
-          {% if (as_timestamp(now())-as_timestamp(states.automation.rain_start.attributes.last_triggered)) > (2 * 60 * 60)  %}
+      - condition: template
+        value_template: '{{"rain" in states.sensor.dark_sky_minutely_summary.state | lower}}'
+      - condition: template
+        value_template: >
+          {% if states.automation.rain_start.attributes.last_triggered %}
+            {% if (as_timestamp(now())-as_timestamp(states.automation.rain_start.attributes.last_triggered)) > (2 * 60 * 60)  %}
+              true
+            {% else %}
+              false
+            {% endif %}
+          {%else%}
             true
-          {% else %}
-            false
-          {% endif %}
-        {%else%}
-          true
-        {%endif%}
+          {%endif%}
+    action:
     - service: script.notify2
       data_template:
         flood_color: "gold"
@@ -74,21 +73,20 @@
       entity_id: sensor.dark_sky_precip
       state: 'snow'
     condition:
-    - condition: time
-      after: '05:00'
-      before: '02:00'
-    action:
-    - condition: template
-      value_template: >
-        {% if states.automation.snow_start.attributes.last_triggered %}
-          {% if (as_timestamp(now())-as_timestamp(states.automation.snow_start.attributes.last_triggered)) > (2 * 60 * 60)  %}
+      - condition: template
+        value_template: '{{"snow" in states.sensor.dark_sky_minutely_summary.state | lower}}'
+      - condition: template
+        value_template: >
+          {% if states.automation.snow_start.attributes.last_triggered %}
+            {% if (as_timestamp(now())-as_timestamp(states.automation.snow_start.attributes.last_triggered)) > (2 * 60 * 60)  %}
+              true
+            {% else %}
+              false
+            {% endif %}
+          {%else%}
             true
-          {% else %}
-            false
-          {% endif %}
-        {%else%}
-          true
-        {%endif%}
+          {%endif%}
+    action:
     - service: script.notify2
       data_template:
         flood_color: "gold"
@@ -138,18 +136,15 @@
 
   - alias: "Weather Alert"
     trigger:
-      - platform: template
-        value_template: >
-          {% if states.sensor.weather_alert.state != "" %}
-            true
-          {%else%}
-            false
-          {%endif%}
-    action:
+      - platform: state
+        entity_id: sensor.weather_alerts
+    condition:
+      - condition: template
+        value_template: '{{"kenosha" in states.sensor.pws_alerts.attributes.message | lower }}'
       - condition: template
         value_template: >
           {% if states.automation.weather_alert.attributes.last_triggered %}
-            {% if (as_timestamp(now())-as_timestamp(states.automation.weather_alert.attributes.last_triggered)) > (8 * 60 * 60)  %}
+            {% if (as_timestamp(now())-as_timestamp(states.automation.weather_alert.attributes.last_triggered)) > (6 * 60 * 60)  %}
               true
             {% else %}
               false
@@ -157,6 +152,7 @@
           {%else%}
             true
           {%endif%}
+    action:
       - service: script.notify2
         data_template:
           telegram_message: |
