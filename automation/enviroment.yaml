@@ -7,7 +7,7 @@
         entity_id: sensor.indoor_temperature
     condition:
       - condition: template
-        value_template: '{{ states.sensor.indoor_temperature.state | int >= states.input_slider.option_indoor_temp_hot.state | int }}'
+        value_template: '{{ states.sensor.indoor_temperature.state | int >= states.input_slider.option_indoor_temp_hot.state | int + 1 }}'
     action:
       - service: input_boolean.turn_on
         entity_id: input_boolean.var_indoor_temp_hot
@@ -18,9 +18,9 @@
         entity_id: sensor.indoor_temperature
     condition:
       - condition: template
-        value_template: '{{ states.sensor.indoor_temperature.state | int <= states.input_slider.option_indoor_temp_hot.state | int - 2}}'
+        value_template: '{{ states.sensor.indoor_temperature.state | int <= states.input_slider.option_indoor_temp_hot.state | int - 1}}'
       - condition: template
-        value_template: '{{ states.sensor.indoor_temperature.state | int <= states.input_slider.option_indoor_temp_hot.state | int - 2}}'
+        value_template: '{{ states.sensor.indoor_temperature.state | int <= states.input_slider.option_indoor_temp_hot.state | int - 1}}'
     action:
       - service: input_boolean.turn_off
         entity_id: input_boolean.var_indoor_temp_hot

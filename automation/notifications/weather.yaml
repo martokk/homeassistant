@@ -168,7 +168,7 @@
           blink_color: "red"
           chromecast_entity_id: media_player.vtv_chromecast
           chromecast_link: https://sirocco.accuweather.com/nxssa_r1_h_500x620d/r1h/inxr1kmkea_h.gif
-      - delay: "00:00:10"
+      - delay: "00:00:15"
       - service: script.notify2
         data_template:
           telegram_url: http://static.lakana.com/mmm-wisctv-media-us-east-1/weather/Local_Radar_Loop.gif

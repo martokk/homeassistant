@@ -18,9 +18,12 @@
       - input_boolean.var_chromecast_screensaver_ready
       - input_boolean.var_ps3_on
       - input_boolean.var_kitchen_on
+      - input_boolean.var_indoor_temp_hot
+      - input_boolean.var_smoke_session_on
       - input_slider.var_kitchen_brightness
       - input_slider.var_kitchen_color_temp
       - input_slider.var_kitchen_delay
+
 
   stored_arrays:
     name: "Stored Arrays"
