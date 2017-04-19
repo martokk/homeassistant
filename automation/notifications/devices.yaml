@@ -116,7 +116,7 @@
   - alias: 'vCORE Device Restarted'
     trigger:
       - platform: mqtt
-        topic: device/#/device
+        topic: 'device/#/device'
         payload: "restarted"
     action:
       - service: script.notify2

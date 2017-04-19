@@ -62,6 +62,20 @@
         title: "{{ mlo_message }}"
         message: ""
 
+    ## First Telegram Notification of the Day
+    - service_template: >
+        {% if is_state('input_boolean.var_first_notificaiton_of_day', 'on') %}
+          {% if is_state('input_boolean.option_notify2_telegram', 'on') %}
+            notify.telegram
+          {% else %}
+            script.notify2_do_nothing
+          {% endif %}
+        {% else %}
+          script.notify2_do_nothing
+        {% endif %}
+      data_template:
+        message: "*############## {{ states.sensor.date.state }} ##############*"
+
     ## Telegram Notifications
     - service_template: >
         {% if telegram_message %}
