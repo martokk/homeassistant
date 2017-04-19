@@ -16,8 +16,13 @@
     initial: off
 
   var_indoor_temp_hot:
+    initial: off
 
   var_smoke_session_on:
+    initial: off
+
+  var_circulate_air_on:
+    initial: off
 
   var_start_notifications_1m:
     initial: off
@@ -27,7 +32,7 @@
 
   var_first_notificaiton_of_day:
     initial: off
-    
+
   var_chromecast_screensaver_ready:
     initial: off
 
@@ -85,4 +90,8 @@
 ##########################################
   option_temp_controlled_fans:
     name: "Temperature controlled fans"
+    initial: on
+
+  option_circulate_air:
+    name: "Circulate air every 3 hours"
     initial: on

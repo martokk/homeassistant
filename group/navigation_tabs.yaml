@@ -24,6 +24,7 @@
     name: "Enviroment"
     view: yes
     entities:
+    - group.fans
     - group.motion_sensors
     - group.humidity_sensors
     - group.temperature_sensors
