@@ -27,6 +27,7 @@
         flood_color: "gold"
         blink_color: "blue"
         blink_color2: "green"
+        telegram_url: http://static.lakana.com/mmm-wisctv-media-us-east-1/weather/Local_Radar_Loop.gif
         telegram_message: |
           *{{ states("sensor.dark_sky_minutely_summary") }}*
           {{ states("sensor.dark_sky_hourly_summary") }}
@@ -93,6 +94,7 @@
         flood_color: "gold"
         blink_color: "cyan"
         blink_color2: "green"
+        telegram_url: http://static.lakana.com/mmm-wisctv-media-us-east-1/weather/Local_Radar_Loop.gif
         telegram_message: |
           *{{ states("sensor.dark_sky_minutely_summary") }}*
           {{ states("sensor.dark_sky_hourly_summary") }}
