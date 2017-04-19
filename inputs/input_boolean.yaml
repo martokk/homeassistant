@@ -76,3 +76,10 @@
   option_notify2_lights:
     name: "Lights Notifications"
     initial: on
+
+##########################################
+########## OPTION - ENVIROMENT ## ########
+##########################################
+  option_temp_controlled_fans:
+    name: "Temperature controlled fans"
+    initial: on
