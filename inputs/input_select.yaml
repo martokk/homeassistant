@@ -54,6 +54,13 @@
       - "Night Computer Red"
       - "Off"
 
+  array_day_scenes:
+    name: Day Scenes
+    options:
+      - "Day"
+      - "Day Le"
+      - "Day Bright"
+
 ##########################################
 ########## LED EFFECTS ###################
 ##########################################

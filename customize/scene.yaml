@@ -7,6 +7,8 @@
     hidden: true
   scene.0s_day:
     hidden: true
+  scene.0s_day_bright:
+    hidden: true
   scene.0s_day_le:
     hidden: true
   scene.0s_night_cyan:
@@ -33,6 +35,8 @@
     entity_picture: http://192.168.1.82:8123/local/icons/chill_2.png
   scene.day:
     entity_picture: http://192.168.1.82:8123/local/icons/day.png
+  scene.day_bright:
+    entity_picture: http://192.168.1.82:8123/local/icons/day.png
   scene.day_le:
     entity_picture: http://192.168.1.82:8123/local/icons/day_le.png
   scene.night_cyan:
@@ -58,6 +62,8 @@
   scene.10m_chill_2:
     hidden: true
   scene.10m_day:
+    hidden: true
+  scene.10m_day_bright:
     hidden: true
   scene.10m_day_le:
     hidden: true

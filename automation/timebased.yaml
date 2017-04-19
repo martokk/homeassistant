@@ -38,7 +38,7 @@
     # NOTE: flood_hours uses hour 24 instead of 0 (midnight) since alert is at 59 sec, we subtract 1 hour
       value_template: >
         {% set hour = states.sensor.time.state[:2] | int %}
-        {% set flood_hours = [1,7,12,17,21,23]%}
+        {% set flood_hours = [1,7,12,17,19,21,23]%}
         {% if ( hour + 1) in flood_hours %}
           false
         {% else %}

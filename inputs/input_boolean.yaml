@@ -15,6 +15,10 @@
   var_kitchen_on:
     initial: off
 
+  var_indoor_temp_hot:
+
+  var_smoke_session_on:
+
   var_start_notifications_1m:
     initial: off
 

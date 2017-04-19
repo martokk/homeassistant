@@ -123,5 +123,5 @@
           {% elif button | int == 5  %}
             scene.off
           {% elif button | int == 6  %}
-            script.5m_flood_day
+            script.10m_flood_day_bright
           {% endif %}

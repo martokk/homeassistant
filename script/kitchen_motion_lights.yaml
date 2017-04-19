@@ -8,12 +8,6 @@
       - condition: state
         entity_id: input_boolean.var_kitchen_on
         state: 'off'
-      - condition: state
-        entity_id: light.kitchen_left
-        state: 'off'
-      - condition: state
-        entity_id: light.kitchen_right
-        state: 'off'
     - service: script.kitchen_lights_on
 
 
@@ -22,8 +16,11 @@
     - service: script.turn_on
       data_template:
         entity_id: >-
-          {% if is_state('input_select.var_last_known_scene', 'Day') or is_state('input_select.var_last_known_scene', 'Day Le') %}
+
+          {% if states.input_select.var_last_known_scene.state in states.input_select.array_day_scenes.attributes.options %}
             script.kitchen_lights_timer_day
+          {% elif states.input_select.var_last_known_scene.state in states.input_select.array_low_light_scenes.attributes.options  %}
+            script.kitchen_lights_timer_low_light
           {%else%}
             {% if states.automation.turn_off_kitch_lights_no_movement_7sec.attributes.last_triggered %}
               {% if (as_timestamp(now())-as_timestamp(states.automation.turn_off_kitch_lights_no_movement_7sec.attributes.last_triggered)) > 30  %}
@@ -102,6 +99,33 @@
       data:
         entity_id: input_slider.var_kitchen_brightness
         value: 135
+    - service: input_slider.select_value
+      data:
+        entity_id: input_slider.var_kitchen_color_temp
+        value: 250
+    - delay: '00:00:07'
+    - service: script.turn_on
+      entity_id: script.kitchen_lights_timer_bright_long
+
+  kitchen_lights_timer_low_light:
+    sequence:
+    - service: light.turn_on
+      data:
+        entity_id:
+          - light.kitchen_left
+          - light.kitchen_right
+        brightness: 75
+        rgb_color: [140, 140, 140]
+        color_temp: 250
+        transition: 0
+    - service: input_slider.select_value
+      data:
+        entity_id: input_slider.var_kitchen_delay
+        value: 1
+    - service: input_slider.select_value
+      data:
+        entity_id: input_slider.var_kitchen_brightness
+        value: 75
     - service: input_slider.select_value
       data:
         entity_id: input_slider.var_kitchen_color_temp

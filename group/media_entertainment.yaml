@@ -2,7 +2,7 @@
     name: "Entertainment Center"
     # control: hidden
     entities:
-    - switch.entertainment_center
+    - switch.sonoff_entertainment_center
     - cover.volume
     - binary_sensor.ps3
 

@@ -117,7 +117,7 @@
   - alias: 'TV Turned Off - Red Flash'
     trigger:
       platform: state
-      entity_id: switch.entertainment_center
+      entity_id: switch.sonoff_entertainment_center
       state: 'off'
     action:
       - service: script.notify2
@@ -128,7 +128,7 @@
   - alias: 'TV Turned On - Green Flash'
     trigger:
       platform: state
-      entity_id: switch.entertainment_center
+      entity_id: switch.sonoff_entertainment_center
       state: 'on'
     action:
       - service: script.notify2

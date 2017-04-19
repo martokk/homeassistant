@@ -9,7 +9,7 @@
         payload: "toggle"
     action:
       - service: switch.toggle
-        entity_id: switch.entertainment_center
+        entity_id: switch.sonoff_entertainment_center
       ## Toggles off lights if after 12pm
       - condition: time
         after: "00:00:00"
