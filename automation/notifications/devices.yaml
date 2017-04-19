@@ -112,19 +112,19 @@
             mac_address  *{{trigger.event.data.mac}}*
             entity_id       {{trigger.event.data.entity_id}}
 
-
-  - alias: 'vCORE Device Restarted'
-    trigger:
-      - platform: mqtt
-        topic: 'device/#/device'
-        payload: "restarted"
-    action:
-      - service: script.notify2
-        data_template:
-          telegram_message: |
-            *Device Reconnected*
-            topic     *{{trigger.event.data.topic}}*
-            payload  *{{trigger.event.data.payload}}*
+## BUG: Caused issue where MQTT from eventghost would not get triggered in HA. Has something to do with the "#" sign in the MQTT trigger.topic
+  # - alias: 'vCORE Device Restarted'
+  #   trigger:
+  #     - platform: mqtt
+  #       topic: 'device/#/device'
+  #       payload: "restarted"
+  #   action:
+  #     - service: script.notify2
+  #       data_template:
+  #         telegram_message: |
+  #           *Device Reconnected*
+  #           topic     *{{trigger.event.data.topic}}*
+  #           payload  *{{trigger.event.data.payload}}*
 
 
 ##########################################
