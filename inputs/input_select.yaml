@@ -48,19 +48,24 @@
 ########## STORED ARRAYS #################
 ##########################################
   array_low_light_scenes:
-    name: Low Light Scenes
     options:
       - "Night Computer"
       - "Night Computer Red"
       - "Off"
 
   array_day_scenes:
-    name: Day Scenes
     options:
       - "Day"
       - "Day Le"
       - "Day Bright"
 
+  array_chromecast_apps:
+    options:
+      - "Netflix"
+      - "YouTube"
+      - "Spotify"
+      - "Plex"
+      
 ##########################################
 ########## LED EFFECTS ###################
 ##########################################

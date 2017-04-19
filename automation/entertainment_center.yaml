@@ -32,18 +32,6 @@
       - platform: state
         entity_id: input_boolean.var_dan_home
         state: 'on'
-      - platform: state
-        entity_id: sensor.chromecast_playing_app
-        state: 'Spotify'
-      - platform: state
-        entity_id: sensor.chromecast_playing_app
-        state: 'YouTube'
-      - platform: state
-        entity_id: sensor.chromecast_playing_app
-        state: 'Netflix'
-      - platform: state
-        entity_id: sensor.chromecast_playing_app
-        state: 'Plex'
     condition:
       - condition: state
         entity_id: input_boolean.var_mike_home
@@ -51,6 +39,23 @@
       - condition: state
         entity_id: switch.sonoff_entertainment_center
         state: 'off'
+    action:
+      - service: switch.turn_on
+        entity_id: switch.sonoff_entertainment_center
+
+  - alias: entertainment_center_turn_on_chromecast_playing
+    trigger:
+      - platform: state
+        entity_id: sensor.chromecast_playing_app
+    condition:
+      - condition: state
+        entity_id: input_boolean.var_mike_home
+        state: 'on'
+      - condition: state
+        entity_id: switch.sonoff_entertainment_center
+        state: 'off'
+      - condition: template
+        value_template: '{{ states.sensor.chromecast_playing_app.state | lower in states.input_select.array_chromecast_apps.attributes.options | lower}}'
     action:
       - service: switch.turn_on
         entity_id: switch.sonoff_entertainment_center

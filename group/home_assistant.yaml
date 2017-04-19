@@ -29,6 +29,8 @@
     name: "Stored Arrays"
     entities:
       - input_select.array_low_light_scenes
+      - input_select.array_day_scenes
+      - input_select.array_chromecast_apps
 
   scripts_lights:
     name: "Scripts - Lights"
