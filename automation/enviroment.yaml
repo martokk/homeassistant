@@ -1,7 +1,7 @@
 ##########################################
 ########## INDOOR FAN ON/OFF  ############
 ##########################################
-  - alias: indoor_fan1_turn_on
+  - alias: indoor_temp_hot
     trigger:
       - platform: state
         entity_id: sensor.indoor_temperature
@@ -9,16 +9,51 @@
       - condition: template
         value_template: '{{ states.sensor.indoor_temperature.state | int >= states.input_slider.option_indoor_temp_hot.state | int }}'
     action:
-      - service: switch.turn_on
-        entity_id: switch.sonoff_indoor_fan1
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.var_indoor_temp_hot
 
-  - alias: indoor_fan1_turn_off
+  - alias: indoor_temp_ok
     trigger:
       - platform: state
         entity_id: sensor.indoor_temperature
     condition:
       - condition: template
         value_template: '{{ states.sensor.indoor_temperature.state | int <= states.input_slider.option_indoor_temp_hot.state | int - 2}}'
+      - condition: template
+        value_template: '{{ states.sensor.indoor_temperature.state | int <= states.input_slider.option_indoor_temp_hot.state | int - 2}}'
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_indoor_temp_hot
+
+
+
+  - alias: fans_turn_on
+    trigger:
+      - platform: state
+        entity_id: input_boolean.var_indoor_temp_hot
+        state: 'on'
+      - platform: state
+        entity_id: input_boolean.var_smoke_session_on
+        state: 'on'
+    action:
+      - service: switch.turn_on
+        entity_id: switch.sonoff_indoor_fan1
+
+  - alias: fans_turn_off
+    trigger:
+      - platform: state
+        entity_id: input_boolean.var_indoor_temp_hot
+        state: 'off'
+      - platform: state
+        entity_id: input_boolean.var_smoke_session_on
+        state: 'off'
+    condition:
+      - condition: state
+        entity_id: input_boolean.var_indoor_temp_hot
+        state: 'off'
+      - condition: state
+        entity_id: input_boolean.var_smoke_session_on
+        state: 'off'
     action:
       - service: switch.turn_off
         entity_id: switch.sonoff_indoor_fan1
