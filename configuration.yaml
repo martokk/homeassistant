@@ -58,6 +58,8 @@ sensor: !include_dir_merge_list sensor
 script: !include_dir_merge_named script
 automation: !include_dir_merge_list automation
 
+ios:
+
 google:
   client_id: !secret google_client_id
   client_secret: !secret google_client_secret

@@ -2,8 +2,6 @@
 ########## ALL LEDS ######################
 ##########################################
   - alias: "All LEDs Input Effect"
-    initial_state: True
-    hide_entity: False
     trigger:
       - platform: state
         entity_id: input_select.all_led_effect
@@ -22,8 +20,38 @@
           option: "{{ trigger.to_state.state }}"
       - service: input_select.select_option
         data_template:
-          entity_id: input_select.entertainment_ceneter_led_effect
+          entity_id: input_select.entertainment_center_led_effect
           option: "{{ trigger.to_state.state }}"
+      - service: input_select.select_option
+        data_template:
+          entity_id: input_select.bedroom_led_effect
+          option: "{{ trigger.to_state.state }}"
+
+  - alias: "All LEDs Animation Speed"
+    trigger:
+      - platform: state
+        entity_id: input_slider.all_leds_animation_speed
+    action:
+      - service: input_slider.select_value
+        data_template:
+          entity_id: input_slider.kitchen_animation_speed
+          value: "{{ trigger.to_state.state }}"
+      - service: input_slider.select_value
+        data_template:
+          entity_id: input_slider.bedroom_animation_speed
+          value: "{{ trigger.to_state.state }}"
+      - service: input_slider.select_value
+        data_template:
+          entity_id: input_slider.office_animation_speed
+          value: "{{ trigger.to_state.state }}"
+      - service: input_slider.select_value
+        data_template:
+          entity_id: input_slider.tables_animation_speed
+          value: "{{ trigger.to_state.state }}"
+      - service: input_slider.select_value
+        data_template:
+          entity_id: input_slider.entertainment_center_animation_speed
+          value: "{{ trigger.to_state.state }}"
 
 ##########################################
 ########## OFFICE LEDS ###################

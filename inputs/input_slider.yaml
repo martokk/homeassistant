@@ -1,6 +1,12 @@
 ##########################################
 ########## LED SPEED #####################
 ##########################################
+  all_leds_animation_speed:
+    name: All LEDs Animation Speed
+    initial: 230
+    min: 0
+    max: 255
+    step: 5
 
   office_animation_speed:
     name: Office Animation Speed

@@ -128,6 +128,7 @@
     name: "All LED Lights"
     entities:
     - input_select.all_led_effect
+    - input_slider.all_leds_animation_speed
     - light.kitchen_led_strip
     - light.office_led_strip
     - light.tables_led_strip

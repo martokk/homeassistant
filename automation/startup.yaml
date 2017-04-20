@@ -9,14 +9,9 @@
     action:
       - service: homeassistant.turn_off
         entity_id: input_boolean.var_start_notifications_1m
-      - service: homeassistant.turn_off
-        entity_id: input_boolean.var_start_notifications_5m
       - delay: "00:01:00"
       - service: homeassistant.turn_on
         entity_id: input_boolean.var_start_notifications_1m
-      - delay: "00:04:00"
-      - service: homeassistant.turn_on
-        entity_id: input_boolean.var_start_notifications_5m
 
 ##########################################
 ########## STARTUP #######################

@@ -27,9 +27,6 @@
   var_start_notifications_1m:
     initial: off
 
-  var_start_notifications_5m:
-    initial: off
-
   var_first_notificaiton_of_day:
     initial: off
 

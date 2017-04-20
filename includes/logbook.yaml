@@ -1,10 +1,12 @@
   exclude:
     entities:
       - group.ambient_lights
-      # - sensor.pihole_domains_blocked
-      # - sensor.pihole_percentage_today
-      # - sensor.pihole_queries_blocked_today
-      # - sensor.pihole_queries_today
-
+      - script.call_last_known_scene
+      - script.set_var_last_known_scene
+      - script.set_var_last_known_scene2
+      - binary_sensor.entertainment_motion_sensor
+      - binary_sensor.kitchen_motion_sensor
+      - binary_sensor.bedroom_motion_sensor
+      - binary_sensor.sink_motion_sensor
     domains:
       - light
