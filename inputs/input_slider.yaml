@@ -3,42 +3,36 @@
 ##########################################
   all_leds_animation_speed:
     name: All LEDs Animation Speed
-    initial: 230
     min: 0
     max: 255
     step: 5
 
   office_animation_speed:
     name: Office Animation Speed
-    initial: 230
     min: 0
     max: 255
     step: 5
 
   kitchen_animation_speed:
     name: Kitchen Animation Speed
-    initial: 230
     min: 0
     max: 255
     step: 5
 
   tables_animation_speed:
     name: Tables Animation Speed
-    initial: 230
     min: 0
     max: 255
     step: 5
 
   entertainment_center_animation_speed:
     name: Entertainment Center Animation Speed
-    initial: 230
     min: 0
     max: 255
     step: 5
 
   bedroom_animation_speed:
     name: Bedroom Animation Speed
-    initial: 230
     min: 0
     max: 255
     step: 5
@@ -54,14 +48,12 @@
     step: 1
 
   var_kitchen_brightness: #in Seconds
-    initial: 118
     min: 1
     max: 255
     step: 1
 
   var_kitchen_color_temp: #in Seconds
-    initial: 200
-    min: 0
+    min: 1
     max: 1000
     step: 1
 
@@ -77,6 +69,7 @@
 
   option_indoor_temp_cold:
     name: Indoor Temp (HIGH)
+    initial: 69
     min: 65
     max: 85
     step: 1
@@ -90,7 +83,7 @@
 
   option_notification_brightness_low:
     name: Notfication Brightness (LOW)
-    initial: 40
+    initial: 75
     min: 1
     max: 255
     step: 5

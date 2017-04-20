@@ -2,27 +2,20 @@
 ########## STORED VARIABLES ##############
 ##########################################
   var_mike_home:
-    initial: on
     icon: mdi:cellphone-iphone
 
   var_dan_home:
-    initial: off
     icon: mdi:cellphone-iphone
 
   var_ps3_on:
-    initial: off
 
   var_kitchen_on:
-    initial: off
 
   var_indoor_temp_hot:
-    initial: off
 
   var_smoke_session_on:
-    initial: off
 
   var_circulate_air_on:
-    initial: off
 
   var_start_notifications_1m:
     initial: off
@@ -38,57 +31,45 @@
 ##########################################
   option_delay_timebased_off:
     name: "Delay turning lights off until 3am"
-    initial: off
 
   option_timebased_light_scene:
     name: "Use Time-based light scenes"
-    initial: on
 
 ##########################################
 ########## OPTIONS - MEDIA ##############
 ##########################################
   option_chromecast_screensaver:
     name: "Chromecast Screensaver"
-    initial: on
 
 ##########################################
 ########## OPTION - NOTIFICATIONS ########
 ##########################################
   option_notify2_sms:
     name: "SMS Notifications"
-    initial: on
 
   option_notify2_email:
     name: "Email Notifications"
-    initial: on
 
   option_notify2_mlo:
     name: "MLO Notifications"
-    initial: on
 
   option_notify2_telegram:
     name: "Telegram Notifications"
-    initial: on
 
   option_notify2_tts:
     name: "TTS Notifications"
-    initial: on
 
   option_notify2_chromecast:
     name: "Chromecast Notifications"
-    initial: on
 
   option_notify2_lights:
     name: "Lights Notifications"
-    initial: on
 
 ##########################################
 ########## OPTION - ENVIROMENT ## ########
 ##########################################
   option_temp_controlled_fans:
     name: "Temperature controlled fans"
-    initial: on
 
   option_circulate_air:
     name: "Circulate air every 3 hours"
-    initial: on

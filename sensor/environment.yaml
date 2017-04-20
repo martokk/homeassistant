@@ -3,45 +3,53 @@
     state_topic: "device/kitchen/temperature"
     qos: 0
     unit_of_measurement: "ºF"
+    expire_after: 900
 
   - platform: mqtt
     name: "Kitchen Humidity"
     state_topic: "device/kitchen/humidity"
     qos: 0
     unit_of_measurement: "%"
+    expire_after: 900
 
   - platform: mqtt
     name: "Tables Temperature"
     state_topic: "device/tables/temperature"
     qos: 0
     unit_of_measurement: "ºF"
+    expire_after: 900
 
   - platform: mqtt
     name: "Tables Humidity"
     state_topic: "device/tables/humidity"
     qos: 0
     unit_of_measurement: "%"
+    expire_after: 900
 
   - platform: mqtt
     name: "Entertainment Center Temperature"
     state_topic: "device/entertainment_center/temperature"
     qos: 0
     unit_of_measurement: "ºF"
+    expire_after: 900
 
   - platform: mqtt
     name: "Entertainment Center Humidity"
     state_topic: "device/entertainment_center/humidity"
     qos: 0
     unit_of_measurement: "%"
+    expire_after: 900
 
   - platform: mqtt
     name: "Bedroom Temperature"
     state_topic: "device/bedroom/temperature"
     qos: 0
     unit_of_measurement: "ºF"
+    expire_after: 900
 
   - platform: mqtt
     name: "Bedroom Humidity"
     state_topic: "device/bedroom/humidity"
     qos: 0
     unit_of_measurement: "%"
+    expire_after: 900

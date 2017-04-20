@@ -1,4 +1,4 @@
-  - platform: lifx
+  - platform: lifx_legacy
     server: 192.168.1.82
     broadcast: 192.168.1.255
 
@@ -49,7 +49,7 @@
     optimistic: false
     payload_on: "ON"
     payload_off: "OFF"
-    
+
   - platform: mqtt
     name: "Bedroom LED Strip"
     command_topic: "device/bedroom/led1/power"

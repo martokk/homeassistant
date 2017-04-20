@@ -4,8 +4,8 @@
 
   - alias: 'Allow Notificaitons (after 1 min)'
     trigger:
-      platform: event
-      event_type: homeassistant_start
+      - platform: homeassistant
+        event: start
     action:
       - service: homeassistant.turn_off
         entity_id: input_boolean.var_start_notifications_1m
@@ -19,8 +19,8 @@
 
   - alias: 'HASS Startup'
     trigger:
-      platform: event
-      event_type: homeassistant_start
+      - platform: homeassistant
+        event: start
     action:
       - service: script.timebased_scene
       - service: script.notify2
