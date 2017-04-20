@@ -2,9 +2,9 @@ name: 0s_Night Red
 entities:
   light.living_room_overhead:
     state: on
-    brightness: 150
-    rgb_color: [199, 199, 199]
-    color_temp: 250
+    brightness: 91
+    rgb_color: [91, 91, 91]
+    color_temp: 285
     transition: 0
   light.end_table_left:
     state: on
@@ -28,15 +28,15 @@ entities:
 
   light.tv_overhead_right:
     state: on
-    brightness: 150
-    rgb_color: [129, 129, 129]
-    color_temp: 250
+    brightness: 91
+    rgb_color: [91, 91, 91]
+    color_temp: 285
     transition: 0
   light.tv_overhead_left:
     state: on
-    brightness: 150
-    rgb_color: [129, 129, 129]
-    color_temp: 250
+    brightness: 91
+    rgb_color: [91, 91, 91]
+    color_temp: 285
     transition: 0
   light.tv_floor_left:
     state: on
@@ -53,16 +53,16 @@ entities:
   light.entertainment_center_led_strip:
     state: on
     brightness: 90
-    rgb_color: [255, 175, 125]
+    rgb_color: [150, 1, 0]
     transition: 0
   input_select.entertainment_center_led_effect:
     option: 'vHome Breathe'
 
   light.office_right:
     state: on
-    brightness: 150
-    rgb_color: [101, 101, 101]
-    color_temp: 250
+    brightness: 91
+    rgb_color: [91, 91, 91]
+    color_temp: 285
     transition: 0
   light.office_center:
     state: on
