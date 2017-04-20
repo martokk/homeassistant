@@ -1,3 +1,6 @@
+##########################################
+########## vHOME v0.4.20 #################
+##########################################
 homeassistant:
   name: vHome
   latitude: !secret homeassistant_latitude
