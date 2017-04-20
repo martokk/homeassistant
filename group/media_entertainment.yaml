@@ -3,16 +3,8 @@
     # control: hidden
     entities:
     - switch.sonoff_entertainment_center
-    - cover.volume
+    - switch.ambivision
     - binary_sensor.ps3
-
-  ambivision:
-    name: "AmbiVision LEDs"
-    # control: hidden
-    entities:
-    - script.led_standby
-    - script.led_mode
-    - script.led_submode
 
   vtv:
     name: "vTV"

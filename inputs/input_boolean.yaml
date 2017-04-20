@@ -27,7 +27,7 @@
   var_start_notifications_1m:
     initial: off
 
-  var_first_notificaiton_of_day:
+  var_first_notification_of_day:
     initial: off
 
   var_chromecast_screensaver_ready:

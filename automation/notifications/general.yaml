@@ -30,7 +30,7 @@
         after: '04:30:00'
     action:
       - service: input_boolean.turn_on
-        entity_id: input_boolean.var_first_notificaiton_of_day
+        entity_id: input_boolean.var_first_notification_of_day
 
   - alias: dan_here_filler_task_reminder
     trigger:

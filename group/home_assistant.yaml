@@ -14,6 +14,7 @@
       - input_boolean.var_mike_home
       - input_boolean.var_dan_home
       - input_boolean.var_start_notifications_1m
+      - input_boolean.var_first_notification_of_day
       - input_boolean.var_chromecast_screensaver_ready
       - input_boolean.var_ps3_on
       - input_boolean.var_kitchen_on
