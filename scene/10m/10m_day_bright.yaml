@@ -78,5 +78,5 @@ entities:
       color_temp: 200
       transition: 60
 
-  light.sonoff_silver_lamp:
-    state: on
+  # light.sonoff_silver_lamp:
+  #   state: on

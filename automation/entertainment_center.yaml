@@ -148,7 +148,7 @@
   - alias: fan_on_volume_up
     trigger:
       - platform: state
-        entity_id: switch.sonoff_indoor_fan1
+        entity_id: switch.sonoff_small_desk_fan1
         state: 'on'
     condition:
       - condition: state
@@ -164,7 +164,7 @@
   - alias: fan_off_volume_down
     trigger:
       - platform: state
-        entity_id: switch.sonoff_indoor_fan1
+        entity_id: switch.sonoff_small_desk_fan1
         state: 'off'
     condition:
       - condition: state

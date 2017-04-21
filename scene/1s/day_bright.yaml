@@ -104,8 +104,8 @@ entities:
   input_select.kitchen_led_effect:
     option: 'Static'
 
-  light.sonoff_silver_lamp:
-    state: on
+  # light.sonoff_silver_lamp:
+  #   state: on
   light.bedroom_led_strip:
     state: on
     brightness: 255

@@ -8,9 +8,18 @@
     retain: true
 
   - platform: mqtt
-    name: sonoff_indoor_fan1
+    name: sonoff_small_desk_fan1
     command_topic: "cmnd/sonoff_6e07/power"
     state_topic: "stat/sonoff_6e07/POWER"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: true
+
+  - platform: mqtt
+    name: sonoff_box_fan1
+    command_topic: "cmnd/sonoff_2752/power"
+    state_topic: "stat/sonoff_2752/POWER"
     qos: 1
     payload_on: "ON"
     payload_off: "OFF"

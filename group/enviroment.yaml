@@ -29,4 +29,4 @@
   fans:
     name: "Fans"
     entities:
-    - switch.sonoff_indoor_fan1
+    - switch.sonoff_small_desk_fan1

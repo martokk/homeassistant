@@ -52,8 +52,8 @@ entities:
     transition: 0
     state: off
 
-  light.sonoff_silver_lamp:
-    state: off
+  # light.sonoff_silver_lamp:
+  #   state: off
   light.bedroom_led_strip:
     transition: 0
     state: off

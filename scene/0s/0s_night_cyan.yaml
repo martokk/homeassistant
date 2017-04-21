@@ -1,10 +1,10 @@
-name: 0s_Night Cyan
+name: Night Cyan
 entities:
   light.living_room_overhead:
     state: on
-    brightness: 248
-    rgb_color: [227, 227, 227]
-    color_temp: 225
+    brightness: 255
+    rgb_color: [255, 255, 255]
+    color_temp: 200
     transition: 0
   light.end_table_right:
     state: on
@@ -28,15 +28,15 @@ entities:
 
   light.tv_overhead_right:
     state: on
-    brightness: 150
-    rgb_color: [150, 150, 150]
-    color_temp: 225
+    brightness: 255
+    rgb_color: [255, 255, 255]
+    color_temp: 200
     transition: 0
   light.tv_overhead_left:
     state: on
-    brightness: 150
-    rgb_color: [150, 150, 150]
-    color_temp: 225
+    brightness: 255
+    rgb_color: [255, 255, 255]
+    color_temp: 200
     transition: 0
   light.tv_floor_left:
     state: on
@@ -60,9 +60,9 @@ entities:
 
   light.office_right:
     state: on
-    brightness: 200
-    rgb_color: [140, 140, 140]
-    color_temp: 225
+    brightness: 255
+    rgb_color: [255, 255, 255]
+    color_temp: 200
     transition: 0
   light.office_center:
     state: on

@@ -180,10 +180,10 @@ esp8266_test:
   track: false
   vendor: Espressif Inc.
 
-sonoff_silver_lamp: ## Silver Lamp Bedroom
+sonoff_box_fan1: ## Silver Lamp Bedroom
   hide_if_away: false
   mac: 5C:CF:7F:95:8A:C0
-  name: "Sonoff - Silver Lamp"
+  name: "Sonoff - Box Fan1"
   picture:
   track: true
   vendor: Espressif Inc.
@@ -196,10 +196,10 @@ sonoff_entertainment_center: ## TV & AV Receiver
   track: true
   vendor: Espressif Inc.
 
-sonoff_6e07:
+sonoff_small_desk_fan1:
   hide_if_away: false
   mac: 5C:CF:7F:97:6E:07
-  name: "Sonoff - 6e07"
+  name: "Sonoff - small Desk Fan1"
   picture:
   track: true
   vendor: Espressif Inc.
