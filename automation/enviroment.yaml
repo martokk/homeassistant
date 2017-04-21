@@ -37,7 +37,7 @@
   - alias: circulate_air_start
     trigger:
       - platform: time
-        hours: '/3'
+        hours: '/2'
         minutes: 00
         seconds: 00
     condition:
@@ -47,7 +47,7 @@
     action:
       - service: input_boolean.turn_on
         entity_id: input_boolean.var_circulate_air_on
-      - delay: '00:10:00'
+      - delay: '00:15:00'
       - service: input_boolean.turn_off
         entity_id: input_boolean.var_circulate_air_on
 

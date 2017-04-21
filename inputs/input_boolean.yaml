@@ -72,4 +72,4 @@
     name: "Temperature controlled fans"
 
   option_circulate_air:
-    name: "Circulate air every 3 hours"
+    name: "Circulate air every 2 hours (for 15m)"
