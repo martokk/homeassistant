@@ -385,3 +385,19 @@ galaxy_grand_prime: #Neighbor
 ##########################################
 ########## UNKNOWN #######################
 ##########################################
+
+ipad_2:
+  hide_if_away: false
+  mac: BT_C0:F2:FB:6F:80:C4
+  name: iPad
+  picture:
+  track: true
+  vendor: Apple, Inc.
+
+esp_d5dcb1:
+  hide_if_away: false
+  mac: 5C:CF:7F:D5:DC:B1
+  name: ESP D5DCB1
+  picture:
+  track: true
+  vendor: Espressif Inc.

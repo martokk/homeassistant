@@ -7,11 +7,28 @@
       - platform: homeassistant
         event: start
     action:
-      - service: homeassistant.turn_off
+      - delay: '00:01:00'
+      - service: input_boolean.turn_on
         entity_id: input_boolean.var_start_notifications_1m
-      - delay: "00:01:00"
-      - service: homeassistant.turn_on
+
+#Tempary Soltuiont to homeasstant start envent not triggering >> https://github.com/home-assistant/home-assistant/issues/7058
+  - alias: 'TEMPORARY_Allow Notificaitons (after 1 min)'
+    trigger:
+      - platform: time
+        minutes: '/1'
+        seconds: 00
+    condition:
+      condition: state
+      entity_id: input_boolean.var_start_notifications_1m
+      state: 'off'
+    action:
+      - delay: '00:01:00'
+      - service: input_boolean.turn_on
         entity_id: input_boolean.var_start_notifications_1m
+      - service: script.notify2
+        data_template:
+          flash_color: "gold"
+          entity_id: light.office_led_strip
 
 ##########################################
 ########## STARTUP #######################

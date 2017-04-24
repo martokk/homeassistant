@@ -50,7 +50,7 @@
     - service: light.turn_on
       data:
         entity_id: light.bedroom_led_strip
-        brightness: 75
+        brightness: 25
         rgb_color: [255, 175, 125]
 
 
@@ -60,16 +60,10 @@
       entity_id: binary_sensor.bedroom_motion_sensor
       from: 'on'
       to: 'off'
-      for:
-        minutes: 5
+      # for:
+      #   minutes: 5
     action:
-    # - service: light.turn_off
-    #   entity_id: light.sonoff_silver_lamp
-    - condition: state
-      entity_id: input_select.var_last_known_scene
-      state: 'Off'
-    - service: light.turn_off
-      entity_id: light.bedroom_center_led_strip
+    - service: script.call_last_known_scene
 
 ##########################################
 ########## ENTERTAINMENT CENTER MOTION ###
@@ -84,10 +78,6 @@
       condition: or
       conditions:
         - condition: template
-          value_template: '{% if states.input_select.var_last_known_scene.state == "Day" %} true {%endif%}'
-        - condition: template
-          value_template: '{% if states.input_select.var_last_known_scene.state == "Day Le" %} true {%endif%}'
-        - condition: template
           value_template: '{% if states.input_select.var_last_known_scene.state == "Off" %} true {%endif%}'
     action:
     - service: input_select.select_option
@@ -97,8 +87,8 @@
     - service: light.turn_on
       data:
         entity_id: light.entertainment_center_led_strip
-        brightness: 75
-        rgb_color: [255, 175, 125]
+        brightness: 50
+        rgb_color: [150, 1, 0]
     - service: input_select.select_option
       data:
         entity_id: input_select.tables_led_effect
@@ -106,9 +96,13 @@
     - service: light.turn_on
       data:
         entity_id: light.tables_led_strip
-        brightness: 75
-        rgb_color: [255, 175, 125]
-
+        brightness: 50
+        rgb_color: [150, 1, 0]
+    - service: light.turn_on
+      data:
+        entity_id: light.office_led_strip
+        brightness: 50
+        rgb_color: [150, 1, 0]
 
   - alias: entertainment_center_motion_turn_off_lights
     trigger:
@@ -122,16 +116,14 @@
       condition: or
       conditions:
         - condition: template
-          value_template: '{% if states.input_select.var_last_known_scene.state == "Day" %} true {%endif%}'
-        - condition: template
-          value_template: '{% if states.input_select.var_last_known_scene.state == "Day Le" %} true {%endif%}'
-        - condition: template
           value_template: '{% if states.input_select.var_last_known_scene.state == "Off" %} true {%endif%}'
     action:
     - service: light.turn_off
       entity_id: light.entertainment_center_led_strip
     - service: light.turn_off
       entity_id: light.tables_led_strip
+    - service: light.turn_off
+      entity_id: light.office_led_strip
 
 ##########################################
 ########## SET VARIABLES #################

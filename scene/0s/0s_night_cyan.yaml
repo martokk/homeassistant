@@ -1,4 +1,4 @@
-name: Night Cyan
+name: 0s_Night Cyan
 entities:
   light.living_room_overhead:
     state: on

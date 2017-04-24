@@ -1,6 +1,6 @@
-  - platform: lifx_legacy
-    server: 192.168.1.82
-    broadcast: 192.168.1.255
+  - platform: lifx
+    # server: 192.168.1.82
+    # broadcast: 192.168.1.255
 
   - platform: mqtt
     name: "Office LED Strip"

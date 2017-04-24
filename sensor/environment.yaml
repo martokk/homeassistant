@@ -13,6 +13,21 @@
     expire_after: 900
 
   - platform: mqtt
+    name: "Office Temperature"
+    state_topic: "device/office/temperature"
+    qos: 0
+    unit_of_measurement: "ºF"
+    expire_after: 900
+
+  - platform: mqtt
+    name: "Office Humidity"
+    state_topic: "device/office/humidity"
+    qos: 0
+    unit_of_measurement: "%"
+    expire_after: 900
+
+
+  - platform: mqtt
     name: "Tables Temperature"
     state_topic: "device/tables/temperature"
     qos: 0

@@ -1,4 +1,4 @@
-name: Night Computer
+name: 0s_Night Computer
 entities:
   light.living_room_overhead:
     state: on

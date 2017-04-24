@@ -97,4 +97,4 @@
         entity_id: input_boolean.var_start_notifications_1m
         state: 'on'
     action:
-      - service: script.call_last_known_led_scene
+      - service: script.call_last_known_scene

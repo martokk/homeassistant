@@ -33,6 +33,6 @@
     api_key: 371185092:AAGZifDwOUZLssxyEwzj7un9EG261Ve_eGg
     chat_id: 343498992
 
-  - name: ios_iphone6s
-    platform: ios
-    target: 'ef95be9c-abb9-3494-b2ec-16837a198b2f'
+  # - name: ios_iphone6s
+  #   platform: ios
+  #   target: 'ef95be9c-abb9-3494-b2ec-16837a198b2f'

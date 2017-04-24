@@ -20,6 +20,13 @@
     payload_off: "0"
 
   - platform: mqtt
+    name: "Office Motion Sensor"
+    state_topic: "device/office/pir1"
+    device_class: motion
+    payload_on: "1"
+    payload_off: "0"
+
+  - platform: mqtt
     name: "Sink Motion Sensor"
     state_topic: "device/kitchen/pir3"
     device_class: motion

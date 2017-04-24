@@ -19,10 +19,10 @@ logger: # Log Severities: notset, debug, info, warn, warning, error, fatal, crit
   # logs:
   #   homeassistant.components.mqtt: debug
 config:
-logbook: !include includes\logbook.yaml
+logbook: !include includes/logbook.yaml
 recorder:
   purge_days: 14
-panel_iframe: !include includes\panel_iframe.yaml
+panel_iframe: !include includes/panel_iframe.yaml
 
 mqtt:
   broker: 192.168.1.3
@@ -30,7 +30,7 @@ mqtt:
   client_id: home-assistant-1
   username: username
   password: 42157406
-  # keepalive: 60
+  keepalive: 60
 # mqtt:
 #   embedded:
 
@@ -39,29 +39,29 @@ http:
 ifttt:
   key: !secret ifttt_key
 
-light: !include includes\light.yaml
-input_boolean: !include inputs\input_boolean.yaml
-input_select: !include inputs\input_select.yaml
-input_slider: !include inputs\input_slider.yaml
+light: !include includes/light.yaml
+input_boolean: !include inputs/input_boolean.yaml
+input_select: !include inputs/input_select.yaml
+input_slider: !include inputs/input_slider.yaml
 binary_sensor: !include_dir_merge_list binary_sensor
-switch: !include includes\switch.yaml
-cover: !include includes\cover.yaml
+switch: !include includes/switch.yaml
+cover: !include includes/cover.yaml
 sun:
-media_player: !include includes\media_player.yaml
-device_tracker: !include includes\device_tracker.yaml
+media_player: !include includes/media_player.yaml
+device_tracker: !include includes/device_tracker.yaml
 
 scene: !include_dir_list scene
 group: !include_dir_merge_named group
 
-shell_command: !include includes\shell_command.yaml
-notify: !include includes\notify.yaml
+shell_command: !include includes/shell_command.yaml
+notify: !include includes/notify.yaml
 
 sensor: !include_dir_merge_list sensor
 
 script: !include_dir_merge_named script
 automation: !include_dir_merge_list automation
 
-ios:
+# ios:
 
 google:
   client_id: !secret google_client_id
@@ -70,12 +70,19 @@ google:
 tts:
   - platform: google
     cache: true
-    cache_dir: V:\hass\tmp\tts
+    # cache_dir: V:/hass/tmp/tts
     time_memory: 300
-
+#
+emulated_hue:
+  host_ip: 192.168.1.3
+  listen_port: 8300
+  expose_by_default: true
+  exposed_domains:
+    - light
+#
 # emulated_hue:
-#   listen_port: 8300
-#   # upnp_bind_multicast: false
-#   expose_by_default: true
+#   type: google_home
+#   host_ip: 192.168.XX.XX
+#   listen_port: 80
 #   exposed_domains:
 #     - light
