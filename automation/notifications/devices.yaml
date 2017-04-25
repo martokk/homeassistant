@@ -43,7 +43,13 @@
           flood_color: "cyan"
           blink_color: "blueviolet"
           blink_color2: "red"
-
+          tts_entity_id: media_player.vlc
+          tts_sound: 'intercom_tos.mp3'
+          tts_message: >
+            Battery low!
+            {% if states("sensor.iphone6s_battery") | int < 50 %}iPhone: {{ states("sensor.iphone6s_battery") | int }}%{% endif %}
+            {% if states("sensor.watch_battery") | int < 50 %}Watch: {{ states("sensor.watch_battery") | int }}%{% endif %}
+            {% if states("sensor.ipad_battery") | int < 50 %}iPad: {{ states("sensor.ipad_battery") | int }}%{% endif %}
 
   - alias: 'Battery Fully Charged Text Only'
     trigger:

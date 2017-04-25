@@ -11,7 +11,7 @@
     password: !secret ic_password
     account_name: !secret ic_account_name
 
-  - platform: bluetooth_tracker
-    track_new_devices: yes
-    interval_seconds: 10
-    consider_home: 900
+  # - platform: bluetooth_tracker
+  #   track_new_devices: yes
+  #   interval_seconds: 10
+  #   consider_home: 900

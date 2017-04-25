@@ -30,6 +30,9 @@
         telegram_message: |
           *{{ states("sensor.dark_sky_minutely_summary") }}*
           {{ states("sensor.dark_sky_hourly_summary") }}
+        tts_entity_id: media_player.vlc
+        tts_sound: 'intercom_tos.mp3'
+        tts_message: '{{ states("sensor.dark_sky_minutely_summary") }}'
 
   - alias: 'Rain_Stop'
     trigger:
@@ -63,6 +66,9 @@
         telegram_message: |
           *{{ states("sensor.dark_sky_minutely_summary") }}*
           {{ states("sensor.dark_sky_hourly_summary") }}
+        tts_entity_id: media_player.vlc
+        tts_sound: 'intercom_tos.mp3'
+        tts_message: '{{ states("sensor.dark_sky_minutely_summary") }} {{ states("sensor.dark_sky_hourly_summary") }}'
 
 ##########################################
 ########## SNOW ##########################
@@ -96,6 +102,9 @@
         telegram_message: |
           *{{ states("sensor.dark_sky_minutely_summary") }}*
           {{ states("sensor.dark_sky_hourly_summary") }}
+        tts_entity_id: media_player.vlc
+        tts_sound: 'intercom_tos.mp3'
+        tts_message: '{{ states("sensor.dark_sky_minutely_summary") }}'
 
   - alias: 'Snow_Stop'
     trigger:
@@ -129,6 +138,9 @@
         telegram_message: |
           *{{ states("sensor.dark_sky_minutely_summary") }}*
           {{ states("sensor.dark_sky_hourly_summary") }}
+        tts_entity_id: media_player.vlc
+        tts_sound: 'intercom_tos.mp3'
+        tts_message: '{{ states("sensor.dark_sky_minutely_summary") }} {{ states("sensor.dark_sky_hourly_summary") }}'
 
 ##########################################
 ########## WEATHER ALERTS ################
@@ -164,11 +176,14 @@
           blink_color: "red"
           chromecast_entity_id: media_player.vtv_chromecast
           chromecast_link: https://sirocco.accuweather.com/nxssa_r1_h_500x620d/r1h/inxr1kmkea_h.gif
-      - delay: "00:00:15"
+          tts_entity_id: media_player.vlc
+          tts_sound: 'intercom_tos.mp3'
+          tts_message: 'Weather Alert! {{ states("sensor.weather_alert") }} in Kanosha Wisconsin. Repeat. Weather Alert! {{ states("sensor.weather_alert") }} in Kanosha Wisconsin. '
+      - delay: "00:00:10"
       - service: script.notify2
         data_template:
           telegram_url: http://static.lakana.com/mmm-wisctv-media-us-east-1/weather/Local_Radar_Loop.gif
           flood_color: "yellow"
           blink_color: "red"
           chromecast_entity_id: media_player.vtv_chromecast
-          media_content_id: http://static.lakana.com/mmm-wisctv-media-us-east-1/weather/Local_Radar_Loop.gif
+          chromecast_link: http://static.lakana.com/mmm-wisctv-media-us-east-1/weather/Local_Radar_Loop.gif

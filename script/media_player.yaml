@@ -15,7 +15,7 @@
         data:
           entity_id: media_player.vtv_chromecast
           media_content_type: video/mp4
-          media_content_id: http://192.168.1.82:8123/local/battlestar_galactica_intro.mp4
+          media_content_id: http://192.168.1.3:8123/local/battlestar_galactica_intro.mp4
 
   media_scene_bushes_of_love:
     alias: "bushes_of_love"
@@ -24,7 +24,7 @@
         data:
           entity_id: media_player.vtv_chromecast
           media_content_type: video/mp4
-          media_content_id: http://192.168.1.82:8123/local/bushes_of_love.mp4
+          media_content_id: http://192.168.1.3:8123/local/bushes_of_love.mp4
 
   media_scene_whats_up_bitches:
     alias: "whats_up_bitches"
@@ -33,7 +33,7 @@
         data:
           entity_id: media_player.vtv_chromecast
           media_content_type: video/mp4
-          media_content_id: http://192.168.1.82:8123/local/whats_up_bitches.mp4
+          media_content_id: http://192.168.1.3:8123/local/whats_up_bitches.mp4
 
 ##########################################
 ########## SCREEN SAVERS #################
@@ -45,7 +45,7 @@
         data:
           entity_id: media_player.vtv_chromecast
           media_content_type: video/mp4
-          media_content_id: http://192.168.1.82:8123/local/magenta_blue_orbs_long.mp4
+          media_content_id: http://192.168.1.3:8123/local/magenta_blue_orbs_long.mp4
 
   media_scene_space:
     alias: "space"
@@ -54,7 +54,7 @@
         data:
           entity_id: media_player.vtv_chromecast
           media_content_type: video/mp4
-          media_content_id: http://192.168.1.82:8123/local/space.mp4
+          media_content_id: http://192.168.1.3:8123/local/space.mp4
 
   media_scene_fireplace:
     alias: "fireplace"
@@ -63,4 +63,4 @@
         data:
           entity_id: media_player.vtv_chromecast
           media_content_type: video/mp4
-          media_content_id: http://192.168.1.82:8123/local/fireplace.mp4
+          media_content_id: http://192.168.1.3:8123/local/fireplace.mp4

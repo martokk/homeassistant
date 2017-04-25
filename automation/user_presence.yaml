@@ -15,6 +15,10 @@
       entity_id: input_boolean.option_notify2_chromecast
     - service: homeassistant.turn_off
       entity_id: input_boolean.option_notify2_lights
+  #### TEMPORARY
+    - service: script.notify2
+      data:
+          telegram_message: "DEBUG: var_mike_home = 'off'"
 
   - alias: 'Mike Home - Automations'
     trigger:
@@ -32,7 +36,10 @@
       entity_id: input_boolean.option_notify2_lights
     - delay: "00:05:00"
     - service: script.timebased_scene
-
+  #### TEMPORARY
+    - service: script.notify2
+      data:
+          telegram_message: "DEBUG: var_mike_home = 'on'"
 
 ##########################################
 ########## 420 TIME ######################

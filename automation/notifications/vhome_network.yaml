@@ -9,6 +9,9 @@
       - service: script.notify2
         data_template:
           telegram_message: "There is a new update for Home Assistant! http://home-assistant.io/blog/categories/release-notes"
+          tts_entity_id: media_player.vlc
+          tts_sound: 'intercom_tos.mp3'
+          tts_message: "FYI: There is a new update for Home Assistant available!"
 
 ##########################################
 ########## NOTIFICATION OPTIONS ##########
@@ -52,9 +55,6 @@
           telegram_message: |
             Server Service Down! -
             {{ states.sensor.server_status_alert.state }}
-          flood_color: "red"
-          blink_color: "yellow"
-
 
   - alias: "Cloud Service Down"
     trigger:
@@ -71,9 +71,6 @@
           telegram_message: |
             Cloud Service Down! -
             {{ states.sensor.cloud_status_alert.state }}
-          flood_color: "red"
-          blink_color: "orange"
-
 
   - alias: "IoT Device Down"
     trigger:
@@ -90,9 +87,6 @@
           telegram_message: |
             IoT Device Down! -
             {{ states.sensor.iot_status_alert.state }}
-          flood_color: "red"
-          blink_color: "blueviolet"
-
 
   - alias: "Disk Space Low"
     trigger:
@@ -118,7 +112,9 @@
             {{ states.sensor.sabnzbd_disk_free.state }}GB Free
           flood_color: "red"
           blink_color: "magenta"
-
+          tts_entity_id: media_player.vlc
+          tts_sound: 'intercom_tos.mp3'
+          tts_message: "Warning Disk Space Low! There is only {{ states.sensor.sabnzbd_disk_free.state | int | round(0) }} gigs free on Dell Laptop's V drive."
 
   - alias: "SpeedTest Speed Low"
     trigger:
@@ -142,5 +138,3 @@
           telegram_message: |
             Speed Test LOW! -
             {{ states.sensor.speedtables_download.state }}Mbit/s
-          flood_color: "red"
-          blink_color: "cyan"

@@ -7,5 +7,4 @@
   - platform: plex
 
   - platform: vlc
-    name: speaker_1
     # arguments: '--alsa-audio-device=hw:1,0'

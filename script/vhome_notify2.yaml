@@ -16,9 +16,9 @@
   notify2:
     alias: "vHome Notify2"
     sequence:
-    - condition: state
-      entity_id: input_boolean.var_start_notifications_1m
-      state: 'on'
+    # - condition: state
+    #   entity_id: input_boolean.var_start_notifications_1m
+    #   state: 'on'
     ### SMS Notifications
     - service_template: >
         {% if sms_message %}
@@ -112,16 +112,6 @@
       entity_id: input_boolean.var_mike_home
       state: 'on'
 
-    ### TTS Notifications    #### INCOMEPLETE
-    # - service_template: >
-    #     {% if tts_message %}
-    #       {% if is_state('input_boolean.option_notify2_tts', 'on') %}
-    #         notify.tts
-    #       {% endif %}
-    #     {% endif %}
-    #   data_template:
-    #     tts_message: "{{ tts_message }}"
-
       ### Chromecast Media Notifications
     - service_template: >
         {% if chromecast_link %}
@@ -203,6 +193,37 @@
         entity_id: "{% if entity_id %}{{entity_id}}{% else %}group.all_lights{% endif %}"
         next_scene: "{{ next_scene }}"
 
+    ### TTS Notificaiton - Pre-Notification Sound Effect
+    - service_template: >
+        {% if tts_message or tts_sound %}
+          {% if is_state('input_boolean.option_notify2_tts', 'on') %}
+            media_player.play_media
+          {% else %}
+            script.notify2_do_nothing
+          {% endif %}
+        {% else %}
+          script.notify2_do_nothing
+        {% endif %}
+      data_template:
+        entity_id: "{% if tts_entity_id %} {{ tts_entity_id }} {% else %} media_player.vlc {% endif %}"
+        media_content_type: music
+        media_content_id: "{% if tts_sound %}http://192.168.1.3:8123/local/sounds/{{ tts_sound }}{% else %} http://192.168.1.3:8123/local/sounds/intercom_tos.mp3 {% endif %}"
+    - delay: '00:00:01'
+
+    ### TTS Notificaiton
+    - service_template: >
+        {% if tts_message %}
+          {% if is_state('input_boolean.option_notify2_tts', 'on') %}
+            tts.google_say
+          {% else %}
+            script.notify2_do_nothing
+          {% endif %}
+        {% else %}
+          script.notify2_do_nothing
+        {% endif %}
+      data_template:
+        entity_id: "{% if tts_entity_id %} {{ tts_entity_id }} {% else %} media_player.vlc {% endif %}"
+        message: '{{ tts_message }}'
 
   notify2_do_nothing:
     alias: "vHome Notify2: Do Nothing"
