@@ -64,9 +64,13 @@
 
     ## First Telegram Notification of the Day
     - service_template: >
-        {% if is_state('input_boolean.var_first_notification_of_day', 'on') %}
-          {% if is_state('input_boolean.option_notify2_telegram', 'on') %}
-            notify.telegram
+        {% if telegram_message %}
+          {% if is_state('input_boolean.var_first_notification_of_day', 'on') %}
+            {% if is_state('input_boolean.option_notify2_telegram', 'on') %}
+              notify.telegram
+            {% else %}
+              script.notify2_do_nothing
+            {% endif %}
           {% else %}
             script.notify2_do_nothing
           {% endif %}
@@ -75,6 +79,19 @@
         {% endif %}
       data_template:
         message: "*############## {{ states.sensor.date.state }} ##############*"
+    - service_template: >
+        {% if telegram_message %}
+          {% if is_state('input_boolean.var_first_notification_of_day', 'on') %}
+            input_boolean.turn_off
+          {% else %}
+            script.notify2_do_nothing
+          {% endif %}
+        {% else %}
+          script.notify2_do_nothing
+        {% endif %}
+      data:
+        entity_id: input_boolean.var_first_notification_of_day
+
 
     ## Telegram Notifications
     - service_template: >
