@@ -55,7 +55,7 @@
         entity_id: switch.sonoff_entertainment_center
         state: 'off'
       - condition: template
-        value_template: '{{ states.sensor.chromecast_playing_app.state | lower in states.input_select.array_chromecast_apps.attributes.options | lower}}'
+        value_template: '{{ states.sensor.chromecast_playing_app.state | lower in states.input_select.array_chromecast_playing_apps.attributes.options | lower}}'
     action:
       - service: switch.turn_on
         entity_id: switch.sonoff_entertainment_center

@@ -31,7 +31,8 @@
     entities:
       - input_select.array_low_light_scenes
       - input_select.array_day_scenes
-      - input_select.array_chromecast_apps
+      - input_select.array_chromecast_playing_apps
+      - input_select.array_chromecast_idle_apps
 
   scripts_lights:
     name: "Scripts - Lights"

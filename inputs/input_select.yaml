@@ -59,12 +59,17 @@
       - "Day Le"
       - "Day Bright"
 
-  array_chromecast_apps:
+  array_chromecast_playing_apps:
     options:
       - "Netflix"
       - "YouTube"
       - "Spotify"
       - "Plex"
+
+  array_chromecast_idle_apps:
+    options:
+      - "Backdrop"
+      - "Default Media Player"
 
 ##########################################
 ########## LED EFFECTS ###################
