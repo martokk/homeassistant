@@ -10,11 +10,11 @@
     entities:
     - sensor.server_modem
     - sensor.server_router
-    - sensor.server_mqtt
-    - sensor.server_sabnzbd
-    - sensor.server_qbittorrent
-    - sensor.server_sonarr
-    - sensor.server_couchpotato
+    # - sensor.server_mqtt
+    # - sensor.server_sabnzbd
+    # - sensor.server_qbittorrent
+    # - sensor.server_sonarr
+    # - sensor.server_couchpotato
 
   # cloud_status:
   #   name: "Cloud Status"

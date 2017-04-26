@@ -251,22 +251,22 @@
       #       {% else %}
       #           0
       #       {%- endif %}
-
-      server_sabnzbd:
-        friendly_name: "SABnzbd"
-        value_template: '{% if is_state("binary_sensor.sabnzbd", "on") %}online{% else %}OFFLINE{% endif %}'
-
-      server_qbittorrent:
-        friendly_name: "qBittorrent"
-        value_template: '{% if is_state("binary_sensor.qbittorrent", "on") %}online{% else %}OFFLINE{% endif %}'
-
-      server_sonarr:
-        friendly_name: "Sonarr"
-        value_template: '{% if is_state("binary_sensor.sonarr", "on") %}online{% else %}OFFLINE{% endif %}'
-
-      server_couchpotato:
-        friendly_name: "CouchPotato"
-        value_template: '{% if is_state("binary_sensor.couchpotato", "on") %}online{% else %}OFFLINE{% endif %}'
+      #
+      # server_sabnzbd:
+      #   friendly_name: "SABnzbd"
+      #   value_template: '{% if is_state("binary_sensor.sabnzbd", "on") %}online{% else %}OFFLINE{% endif %}'
+      #
+      # server_qbittorrent:
+      #   friendly_name: "qBittorrent"
+      #   value_template: '{% if is_state("binary_sensor.qbittorrent", "on") %}online{% else %}OFFLINE{% endif %}'
+      #
+      # server_sonarr:
+      #   friendly_name: "Sonarr"
+      #   value_template: '{% if is_state("binary_sensor.sonarr", "on") %}online{% else %}OFFLINE{% endif %}'
+      #
+      # server_couchpotato:
+      #   friendly_name: "CouchPotato"
+      #   value_template: '{% if is_state("binary_sensor.couchpotato", "on") %}online{% else %}OFFLINE{% endif %}'
 
       # server_pihole:
       #   friendly_name: "Pi-Hole"
@@ -280,9 +280,9 @@
         friendly_name: "Linksys DD-WRT Router"
         value_template: '{% if is_state("binary_sensor.linksys_ddwrt_router", "on") %}online{% else %}OFFLINE{% endif %}'
 
-      server_mqtt:
-        friendly_name: "MQTT Server"
-        value_template: '{% if is_state("binary_sensor.mqtt_server", "on") %}online{% else %}OFFLINE{% endif %}'
+      # server_mqtt:
+      #   friendly_name: "MQTT Server"
+      #   value_template: '{% if is_state("binary_sensor.mqtt_server", "on") %}online{% else %}OFFLINE{% endif %}'
 
       ##################################
       ######### CLOUD TEMPLATES ########
