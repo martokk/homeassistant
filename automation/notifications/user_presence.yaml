@@ -46,6 +46,9 @@
         flood_color: "green"
         entity_id: group.ambient_lights
         delay: "00:00:04"
+        tts_entity_id: media_player.vlc
+        tts_sound: 'intercom_tos.mp3'
+        tts_message: "Dan's Here!"
     - delay: "00:00:06"
     - service: script.notify2
       data_template:
