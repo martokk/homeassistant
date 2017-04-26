@@ -203,7 +203,7 @@
           delay: "00:00:10"
           tts_entity_id: media_player.vlc
           tts_sound: 'intercom_ds9.mp3'
-          tts_message: "The time, is 7am"
+          tts_message: "The time, is 7am. Time to check your MLO todo list."
 
 ### 12pm
   - alias: flood_12pm
@@ -217,7 +217,7 @@
           delay: "00:00:10"
           tts_entity_id: media_player.vlc
           tts_sound: 'intercom_ds9.mp3'
-          tts_message: "The time, is 12pm"
+          tts_message: "The time, is 12pm. Time to check your MLO todo list."
 
 ### 5pm
   - alias: flood_5pm
@@ -232,7 +232,7 @@
           next_scene: scene.day
           tts_entity_id: media_player.vlc
           tts_sound: 'intercom_ds9.mp3'
-          tts_message: "The time, is 5pm"
+          tts_message: "The time, is 5pm. Time to check your MLO todo list."
 
 ### 7pm
   - alias: flood_7pm
