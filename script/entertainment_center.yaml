@@ -6,12 +6,12 @@
     - condition: template
       value_template: >-
         {% if states.media_player.vtv_chromecast.state != "playing" %}
-        true
-        {%else%}
-          {% if states.sensor.chromecast_playing_app.state == "Default Media Receiver" or states.sensor.chromecast_playing_app.state == "Backdrop"  %}
           true
+        {%else%}
+          {% if states.media_player.vtv_chromecast.attributes.app_name | lower in states.input_select.array_chromecast_idle_apps | lower %}
+            true
           {%else%}
-          false
+            false
           {%endif%}
         {%endif%}
     - service: switch.turn_off

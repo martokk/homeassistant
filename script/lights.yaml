@@ -50,10 +50,10 @@
 
   call_last_known_led_scene:
     sequence:
-    - service: mqtt.publish
-      data_template:
-        topic: "device/office/led1/color"
-        payload: '{{ states.light.office_led_strip.attributes.rgb_color | replace("[", "") | replace("]", "") }}'
+    # - service: mqtt.publish
+    #   data_template:
+    #     topic: "device/office/led1/color"
+    #     payload: '{{ states.light.office_led_strip.attributes.rgb_color | replace("[", "") | replace("]", "") }}'
     - service: mqtt.publish
       data_template:
         topic: "device/office/led1/effect"
@@ -64,10 +64,10 @@
             {%endif%}
           {%- endfor -%}
 
-    - service: mqtt.publish
-      data_template:
-        topic: "device/kitchen/led1/color"
-        payload: '{{ states.light.kitchen_led_strip.attributes.rgb_color | replace("[", "") | replace("]", "") }}'
+    # - service: mqtt.publish
+    #   data_template:
+    #     topic: "device/kitchen/led1/color"
+    #     payload: '{{ states.light.kitchen_led_strip.attributes.rgb_color | replace("[", "") | replace("]", "") }}'
     - service: mqtt.publish
       data_template:
         topic: "device/kitchen/led1/effect"
@@ -78,10 +78,10 @@
             {%endif%}
           {%- endfor -%}
 
-    - service: mqtt.publish
-      data_template:
-        topic: "device/tables/led1/color"
-        payload: '{{ states.light.tables_led_strip.attributes.rgb_color | replace("[", "") | replace("]", "") }}'
+    # - service: mqtt.publish
+    #   data_template:
+    #     topic: "device/tables/led1/color"
+    #     payload: '{{ states.light.tables_led_strip.attributes.rgb_color | replace("[", "") | replace("]", "") }}'
     - service: mqtt.publish
       data_template:
         topic: "device/tables/led1/effect"
@@ -92,10 +92,10 @@
             {%endif%}
           {%- endfor -%}
 
-    - service: mqtt.publish
-      data_template:
-        topic: "device/entertainment_center/led1/color"
-        payload: '{{ states.light.entertainment_center_led_strip.attributes.rgb_color | replace("[", "") | replace("]", "") }}'
+    # - service: mqtt.publish
+    #   data_template:
+    #     topic: "device/entertainment_center/led1/color"
+    #     payload: '{{ states.light.entertainment_center_led_strip.attributes.rgb_color | replace("[", "") | replace("]", "") }}'
     - service: mqtt.publish
       data_template:
         topic: "device/entertainment_center/led1/effect"
@@ -106,10 +106,10 @@
             {%endif%}
           {%- endfor -%}
 
-    - service: mqtt.publish
-      data_template:
-        topic: "device/bedroom/led1/color"
-        payload: '{{ states.light.bedroom_led_strip.attributes.rgb_color | replace("[", "") | replace("]", "") }}'
+    # - service: mqtt.publish
+    #   data_template:
+    #     topic: "device/bedroom/led1/color"
+    #     payload: '{{ states.light.bedroom_led_strip.attributes.rgb_color | replace("[", "") | replace("]", "") }}'
     - service: mqtt.publish
       data_template:
         topic: "device/bedroom/led1/effect"

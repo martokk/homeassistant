@@ -69,6 +69,7 @@
   array_chromecast_idle_apps:
     options:
       - "Backdrop"
+      - "Default Media Receiver"
       - "Default Media Player"
 
 ##########################################

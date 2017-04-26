@@ -93,8 +93,8 @@
       - condition: state
         entity_id: input_boolean.var_mike_home
         state: 'on'
-      - condition: state
-        entity_id: input_boolean.var_start_notifications_1m
-        state: 'on'
     action:
       - service: script.call_last_known_scene
+      - service: script.notify2
+        data:
+          telegram_message: "ESP8266 device '{{ trigger.topic.split('/')[1] }}' connected."

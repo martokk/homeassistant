@@ -1,25 +1,28 @@
-##########################################
-############# BATTERY ####################
-##########################################
+# ##########################################
+# ############# BATTERY ####################
+# ##########################################
 
   - alias: 'Battery Low Notification'
     trigger:
-      - platform: numeric_state
-        entity_id:
-          - sensor.iphone6s_battery
-          - sensor.ipad_battery
-          - sensor.watch_battery
-        below: 25
-      - platform: numeric_state
-        entity_id:
-          - sensor.iphone6s_battery
-          - sensor.ipad_battery
-          - sensor.watch_battery
-        below: 10
+      #iPhone Battery
+      - platform: template
+        value_template: "{{ states('sensor.iphone6s_battery') | int < 25 }}"
+      - platform: template
+        value_template: "{{ states('sensor.iphone6s_battery') | int < 10 }}"
+      #iPad Battery
+      - platform: template
+        value_template: "{{ states('sensor.ipad_battery') | int < 25 }}"
+      - platform: template
+        value_template: "{{ states('sensor.ipad_battery') | int < 10 }}"
+      #Watch Battery
+      - platform: template
+        value_template: "{{ states('sensor.watch_battery') | int < 25 }}"
+      - platform: template
+        value_template: "{{ states('sensor.watch_battery') | int < 10 }}"
     action:
       - condition: template
         value_template: >
-          {% if states.automation.battery_low_notification.attributes.last_triggered %}
+          {% if states.automation.battery_low_notification.attributes.last_triggered and states.automation.battery_low_notification.attributes.last_triggered != 'None' %}
             {% if (as_timestamp(now())-as_timestamp(states.automation.battery_low_notification.attributes.last_triggered)) > (1 * 30 * 60)  %}
               true
             {% else %}
@@ -37,6 +40,8 @@
         value_template: >
           {% if trigger.to_state.state | int <= 10 %}
             true
+          {% else %}
+            false
           {% endif %}
       - service: script.notify2
         data_template:

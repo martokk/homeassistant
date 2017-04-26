@@ -137,7 +137,7 @@
           {% endif %}
           {% if is_state('input_boolean.option_notify2_chromecast', 'on') %}
             {% if not is_state('binary_sensor.ps3', 'on') %}
-              {% if (not is_state(chromecast_entity_id, 'playing') and not is_state(chromecast_entity_id, 'paused')) or is_state_attr(chromecast_entity_id, 'app_name', 'Default Media Receiver') %}
+              {% if (not is_state(chromecast_entity_id, 'playing') and not is_state(chromecast_entity_id, 'paused')) or states.media_player.vtv_chromecast.attributes.app_name | lower in states.input_select.array_chromecast_idle_apps | lower %}
                 media_player.play_media
               {% else %}
                 script.notify2_do_nothing

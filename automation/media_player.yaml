@@ -27,7 +27,7 @@
         entity_id: input_select.var_ps3_on
         state: 'off'
       - condition: state
-        entity_id: media_player.entertainment_center
+        entity_id: switch.sonoff_entertainment_center
         state: 'on'
     action:
       - service: homeassistant.turn_on
