@@ -163,21 +163,21 @@ esp8266_entertainment_center:
   picture:
   track: true
   vendor: Espressif Inc.
+#
+# esp8266_bedroom: ## Device died and is no longer being used
+#   hide_if_away: false
+#   mac: 5C:CF:7F:D5:E8:08
+#   name: "ESP8266 - Bedroom"
+#   picture:
+#   track: true
+#   vendor: Espressif Inc.
 
 esp8266_bedroom:
   hide_if_away: false
-  mac: 5C:CF:7F:D5:E8:08
+  mac: 5C:CF:7F:D5:20:C3
   name: "ESP8266 - Bedroom"
   picture:
   track: true
-  vendor: Espressif Inc.
-
-esp8266_test:
-  hide_if_away: false
-  mac: 5C:CF:7F:D5:20:C3
-  name: "ESP8266 - Test"
-  picture:
-  track: false
   vendor: Espressif Inc.
 
 sonoff_box_fan1: ## Silver Lamp Bedroom
