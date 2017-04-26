@@ -12,6 +12,7 @@
           tts_entity_id: media_player.vlc
           tts_sound: 'intercom_tos.mp3'
           tts_message: "FYI: There is a new update for Home Assistant available!"
+          mlo_message: "Update Home Assistant. New Release: http://home-assistant.io/blog/categories/release-notes"
 
 ##########################################
 ########## NOTIFICATION OPTIONS ##########
