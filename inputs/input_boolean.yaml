@@ -17,6 +17,9 @@
 
   var_circulate_air_on:
 
+  var_chromecast_interupt:
+    initial: off
+    
   var_start_notifications_1m:
     initial: off
 
