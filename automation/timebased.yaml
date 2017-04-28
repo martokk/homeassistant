@@ -316,23 +316,23 @@
 ########## MORNING LIGHTS ################
 ##########################################
 
-### Turn ON Silver Lamp at 5:30am
-  # - alias: timebased_530am_silver_lamp
-  #   trigger:
-  #     - platform: time
-  #       after: "05:30:10"
-  #   action:
-  #     - service: light.turn_on
-  #       entity_id: light.sonoff_silver_lamp
+## Turn ON Silver Lamp at 5:30am
+  - alias: timebased_530am_silver_lamp
+    trigger:
+      - platform: time
+        after: "05:30:10"
+    action:
+      - service: light.turn_on
+        entity_id: light.sonoff_silver_lamp
 
-### Turn OFF Silver Lamp at 9:30am
-  # - alias: timebased_930am_silver_lamp
-  #   trigger:
-  #     - platform: time
-  #       after: "09:30:10"
-  #     - platform: sun
-  #       event: sunrise
-  #       offset: "01:00:00"
-  #   action:
-  #     - service: light.turn_off
-  #       entity_id: light.sonoff_silver_lamp
+## Turn OFF Silver Lamp at 9:30am
+  - alias: timebased_930am_silver_lamp
+    trigger:
+      - platform: time
+        after: "09:30:10"
+      - platform: sun
+        event: sunrise
+        offset: "01:00:00"
+    action:
+      - service: light.turn_off
+        entity_id: light.sonoff_silver_lamp

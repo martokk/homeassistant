@@ -191,8 +191,9 @@
         after: '05:20:00'
     action:
       - service: media_player.volume_set
-        entity_id: media_player.vlc
-        volume_level: '{{ states.input_slider.option_tts_vol_high.state | int }}'
+        data:
+          entity_id: media_player.vlc
+          volume_level: '{{ states.input_slider.option_tts_vol_high.state | float }}'
 
   - alias: set_tts_vol_low
     trigger:
@@ -200,8 +201,9 @@
         after: '21:50:00'
     action:
       - service: media_player.volume_set
-        entity_id: media_player.vlc
-        volume_level: '{{ states.input_slider.option_tts_vol_low.state | int }}'
+        data:
+          entity_id: media_player.vlc
+          volume_level: '{{ states.input_slider.option_tts_vol_low.state | float }}'
 
 ##########################################
 ########## PLAYBACK INTERUPT #############

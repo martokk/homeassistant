@@ -90,14 +90,14 @@
 
   option_tts_vol_low:
     name: TTS Volume (LOW)
-    initial: 50
+    initial: 0.6
     min: 0
-    max: 100
-    step: 5
+    max: 1
+    step: 0.05
 
   option_tts_vol_high:
     name: TTS Volume (HIGH)
-    initial: 90
+    initial: 0.85
     min: 0
-    max: 100
-    step: 5
+    max: 1
+    step: 0.05

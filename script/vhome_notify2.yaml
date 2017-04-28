@@ -5,10 +5,8 @@
     sequence:
       - service: script.notify2
         data:
-          telegram_message: |
-            Remind Me to Buy Milk (Sent to MLO Cloud)
-          mlo_message: "Remind me to buy Milk (TEST: HA to MLO)"
-          blink_color: "red"
+          tts_message: "Remind me to buy Milk (TEST: HA to MLO)"
+
 
 ##########################################
 ##########  MAIN NOTIFY2 #################

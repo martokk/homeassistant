@@ -102,7 +102,7 @@
       - condition: state
         entity_id: input_boolean.var_circulate_air_on
         state: 'off'
-      - platform: state
+      - condition: state
         entity_id: input_boolean.option_turn_on_fans
         state: 'off'
     action:

@@ -78,4 +78,4 @@
         data_template:
           telegram_message: |
             Close bedroom window!
-            *Bedroom: {{} states.sensor.bedroom_temperature.state | round(1) }}°F*
+            *Bedroom: {{ states.sensor.bedroom_temperature.state | round(1) }}°F*

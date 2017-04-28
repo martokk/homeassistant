@@ -41,3 +41,9 @@
   - device_id: rev_20
     name: Rev 2.0
     track: true
+
+- cal_id: '#stardate@group.v.calendar.google.com'
+  entities:
+  - device_id: stardates
+    name: Stardates
+    track: true
