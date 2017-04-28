@@ -55,13 +55,7 @@
     action:
       - service: input_boolean.turn_on
         entity_id: input_boolean.var_smoke_session_on
-      - delay: '01:20:00'
-      - service: input_boolean.turn_off
-        entity_id: input_boolean.var_smoke_session_on
-      - delay: '02:00:00'
-      - service: input_boolean.turn_on
-        entity_id: input_boolean.var_smoke_session_on
-      - delay: '00:40:00'
+      - delay: '01:00:00'
       - service: input_boolean.turn_off
         entity_id: input_boolean.var_smoke_session_on
       - delay: '02:00:00'

@@ -14,7 +14,7 @@
         chromecast_entity_id: media_player.vtv_chromecast
         chromecast_link: http://192.168.1.3:8123/local/battlestar_galactica_intro.mp4
         tts_entity_id: media_player.vlc
-        tts_sound: 'intercom_tos.mp3'
+        tts_sound: 'intercom_ds9.mp3'
         tts_message: "Welcome home Mike!"
 
 ##########################################
@@ -41,15 +41,17 @@
           true
         {%endif%}
     - service: script.set_volume_14
+    - service: script.turn_off
+      entity_id: script.notify2
     - service: script.notify2
       data_template:
         flood_color: "green"
         entity_id: group.ambient_lights
         delay: "00:00:04"
         tts_entity_id: media_player.vlc
-        tts_sound: 'intercom_tos.mp3'
+        tts_sound: 'intercom_ds9.mp3'
         tts_message: "Dan's Here!"
-    - delay: "00:00:06"
+    - delay: "00:00:10"
     - service: script.notify2
       data_template:
         chromecast_entity_id: media_player.vtv_chromecast

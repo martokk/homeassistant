@@ -17,13 +17,16 @@
 
   var_circulate_air_on:
 
-  var_chromecast_interupt:
+  var_chromecast_interupt: #Activated when TTS is playing, turns off when TTS is idle
     initial: off
-    
-  var_start_notifications_1m:
+
+  var_start_notifications_1m: #Prevents notifications that may trigger during startup
     initial: off
 
   var_first_notification_of_day:
+
+  var_startup: #Turns off after startup.
+    initial: on
 
   var_chromecast_screensaver_ready:
 

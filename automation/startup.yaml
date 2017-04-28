@@ -43,3 +43,20 @@
       - service: script.notify2
         data:
           telegram_message: "Home Assistant Server Restarted!"
+
+#Tempary Soltuiont to homeasstant start envent not triggering >> https://github.com/home-assistant/home-assistant/issues/7058
+  - alias: 'TEMPORARY_HASS Startup'
+    trigger:
+      - platform: time
+        seconds: '/5'
+    condition:
+      - condition: state
+        entity_id: input_boolean.var_startup
+        state: 'on'
+    action:
+      - service: script.timebased_scene
+      - service: script.notify2
+        data:
+          telegram_message: "Home Assistant Server Restarted!"
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_startup

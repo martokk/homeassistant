@@ -97,4 +97,4 @@
       - service: script.call_last_known_scene
       - service: script.notify2
         data:
-          telegram_message: "ESP8266 device '{{ trigger.topic.split('/')[1] }}' connected."
+          telegram_message: "ESP8266 device {{ trigger.topic.split('/')[1] }} connected."

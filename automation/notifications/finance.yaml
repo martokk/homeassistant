@@ -21,7 +21,7 @@
           chromecast_entity_id: media_player.vtv_chromecast
           chromecast_link: http://bitcoincharts.com/charts/chart.png?width=848&height=480&m=bitstampUSD&SubmitButton=Draw&r=2&i=5-min&c=0&s=&e=&Prev=&Next=&t=C&b=&a1=&m1=10&a2=&m2=25&x=0&i1=&i2=&i3=&i4=&v=1&cv=0&ps=0&l=0&p=0&
           tts_entity_id: media_player.vlc
-          tts_sound: 'intercom_tos.mp3'
+          tts_sound: 'intercom_ds9.mp3'
           tts_message: "Bitcoin's up! The current bitcoin price is {{ states.sensor.bitcoin.state | round(0) }}"
 
   - alias: Bitcoin Down
@@ -43,5 +43,5 @@
           chromecast_entity_id: media_player.vtv_chromecast
           chromecast_link: http://bitcoincharts.com/charts/chart.png?width=848&height=480&m=bitstampUSD&SubmitButton=Draw&r=2&i=5-min&c=0&s=&e=&Prev=&Next=&t=C&b=&a1=&m1=10&a2=&m2=25&x=0&i1=&i2=&i3=&i4=&v=1&cv=0&ps=0&l=0&p=0&
           tts_entity_id: media_player.vlc
-          tts_sound: 'intercom_tos.mp3'
+          tts_sound: 'intercom_ds9.mp3'
           tts_message: "Bitcoin's down! The current bitcoin price is {{ states.sensor.bitcoin.state | round(0) }}"

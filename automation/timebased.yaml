@@ -214,7 +214,7 @@
       - service: script.notify2
         data:
           flood_color: "magenta"
-          delay: "00:00:10"
+          delay: "00:00:07"
           tts_entity_id: media_player.vlc
           tts_sound: 'intercom_ds9.mp3'
           tts_message: "The time, is 12pm. Time to check your MLO to do list."
@@ -228,7 +228,7 @@
       - service: script.notify2
         data:
           flood_color: "magenta"
-          delay: "00:00:10"
+          delay: "00:00:07"
           next_scene: scene.day
           tts_entity_id: media_player.vlc
           tts_sound: 'intercom_ds9.mp3'
@@ -243,7 +243,7 @@
       - service: script.notify2
         data:
           flood_color: "magenta"
-          delay: "00:00:10"
+          delay: "00:00:05"
           next_scene: scene.night_cyan
           tts_entity_id: media_player.vlc
           tts_sound: 'intercom_ds9.mp3'
@@ -258,7 +258,7 @@
       - service: script.notify2
         data:
           flood_color: "magenta"
-          delay: "00:00:10"
+          delay: "00:00:05"
           next_scene: scene.night_blue
           tts_entity_id: media_player.vlc
           tts_sound: 'intercom_ds9.mp3'
@@ -273,7 +273,7 @@
       - service: script.notify2
         data:
           flood_color: "red"
-          delay: "00:00:10"
+          delay: "00:00:05"
           next_scene: scene.night_red
           tts_entity_id: media_player.vlc
           tts_sound: 'intercom_ds9.mp3'
@@ -288,7 +288,7 @@
       - service: script.notify2
         data:
           flood_color: "red"
-          delay: "00:00:10"
+          delay: "00:00:07"
           next_scene: scene.night_computer_red
           tts_entity_id: media_player.vlc
           tts_sound: 'intercom_ds9.mp3'
@@ -305,7 +305,7 @@
       - service: script.notify2
         data:
           flood_color: "red"
-          delay: "00:00:10"
+          delay: "00:00:05"
           next_scene: scene.night_computer_red
           tts_entity_id: media_player.vlc
           tts_sound: 'intercom_ds9.mp3'

@@ -25,7 +25,7 @@
           blink_color: "white"
           blink_color2: "red"
           tts_entity_id: media_player.vlc
-          tts_sound: 'intercom_tos.mp3'
+          tts_sound: 'intercom_ds9.mp3'
           tts_message: "It's getting hot in here! The indoor temperature is {{ states.sensor.indoor_temperature.state | round(0) }}°F"
 
   - alias: Indoor Temp (Cold)
@@ -51,5 +51,5 @@
           blink_color: "white"
           blink_color2: "deepskyblue"
           tts_entity_id: media_player.vlc
-          tts_sound: 'intercom_tos.mp3'
+          tts_sound: 'intercom_ds9.mp3'
           tts_message: "It's getting cold in here! The indoor temperature is {{ states.sensor.indoor_temperature.state | round(0) }}°F"

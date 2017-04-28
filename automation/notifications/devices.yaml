@@ -49,7 +49,7 @@
           blink_color: "blueviolet"
           blink_color2: "red"
           tts_entity_id: media_player.vlc
-          tts_sound: 'intercom_tos.mp3'
+          tts_sound: 'intercom_ds9.mp3'
           tts_message: >
             Battery low!
             {% if states("sensor.iphone6s_battery") | int < 50 %}iPhone: {{ states("sensor.iphone6s_battery") | int }}%{% endif %}

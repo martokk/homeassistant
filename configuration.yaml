@@ -28,8 +28,8 @@ mqtt:
   broker: 192.168.1.3
   port: 1883
   client_id: home-assistant-1
-  username: username
-  password: 42157406
+  username: !secret mqtt_username
+  password: !secret mqtt_password
   keepalive: 60
 # mqtt:
 #   embedded:
@@ -70,7 +70,6 @@ google:
 tts:
   - platform: google
     cache: true
-    # cache_dir: V:/hass/tmp/tts
     time_memory: 300
 #
 emulated_hue:
@@ -80,10 +79,3 @@ emulated_hue:
   expose_by_default: true
   exposed_domains:
     - light
-#
-# emulated_hue:
-#   type: google_home
-#   host_ip: 192.168.XX.XX
-#   listen_port: 80
-#   exposed_domains:
-#     - light
