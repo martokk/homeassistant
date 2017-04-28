@@ -192,7 +192,7 @@
     action:
       - service: media_player.volume_set
         entity_id: media_player.vlc
-        volume_level: "{{ state.input_slider.option_tts_vol_high }}"
+        volume_level: '{{ states.input_slider.option_tts_vol_high.state | int }}'
 
   - alias: set_tts_vol_low
     trigger:
@@ -201,7 +201,7 @@
     action:
       - service: media_player.volume_set
         entity_id: media_player.vlc
-        volume_level: "{{ state.input_slider.option_tts_vol_low }}"
+        volume_level: '{{ states.input_slider.option_tts_vol_low.state | int }}'
 
 ##########################################
 ########## PLAYBACK INTERUPT #############
