@@ -41,8 +41,8 @@
   #     from: 'off'
   #     to: 'on'
   #   action:
-  #   # - service: light.turn_on
-  #   #   entity_id: light.sonoff_silver_lamp
+  #   - service: light.turn_on
+  #     entity_id: light.sonoff_silver_lamp
   #   - service: input_select.select_option
   #     data:
   #       entity_id: input_select.bedroom_led_effect

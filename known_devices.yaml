@@ -199,7 +199,15 @@ sonoff_entertainment_center: ## TV & AV Receiver
 sonoff_small_desk_fan1:
   hide_if_away: false
   mac: 5C:CF:7F:97:6E:07
-  name: "Sonoff - small Desk Fan1"
+  name: "Sonoff - Small Desk Fan1"
+  picture:
+  track: true
+  vendor: Espressif Inc.
+
+sonoff_silver_lamp:
+  hide_if_away: false
+  mac: 5C:CF:7F:A8:78:AA
+  name: Sonoff - Silver Lamp
   picture:
   track: true
   vendor: Espressif Inc.

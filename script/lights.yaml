@@ -21,17 +21,29 @@
 ##########################################
 ########## LAST KNOW SCENE ###############
 ##########################################
+  call_lks_kitchen:
+    sequence:
+    - condition: state
+      entity_id: input_boolean.var_kitchen_on
+      state: 'on'
+    - service: script.kitchen_lights_on
+
+  call_lks_bedroom:
+    sequence:
+    - condition: state
+      entity_id: input_boolean.var_bedroom_on
+      state: 'on'
+    - service: switch.turn_on
+      entity_id: switch.sonoff_silver_lamp
+
   call_last_known_scene:
     sequence:
     - service: scene.turn_on
       data_template:
         entity_id: 'scene.{{ states("input_select.var_last_known_scene") | replace(" ", "_") | lower }}'
     - service: script.call_last_known_led_scene
-    - condition: state
-      entity_id: input_boolean.var_kitchen_on
-      state: 'on'
-    - service: script.kitchen_lights_on
-
+    - service: script.call_lks_kitchen
+    - service: script.call_lks_bedroom
 
 
   call_last_known_scene_0s:
@@ -41,10 +53,8 @@
         entity_id: 'scene.0s_{{ states("input_select.var_last_known_scene") | replace(" ", "_") | lower }}'
     - delay: "00:00:00"
     - service: script.call_last_known_led_scene
-    - condition: state
-      entity_id: input_boolean.var_kitchen_on
-      state: 'on'
-    - service: script.kitchen_lights_on
+    - service: script.call_lks_kitchen
+    - service: script.call_lks_bedroom
 
 
 
