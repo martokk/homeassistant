@@ -41,6 +41,8 @@
         minutes: 00
         seconds: 00
     condition:
+      - condition: template
+        value_template: '{% if states.sensor.indoor_temperature.state | float > states.input_slider.option_indoor_temp_cold.state | float + 3  %}true{%endif%}'
       - condition: state
         entity_id: input_boolean.option_circulate_air
         state: 'on'

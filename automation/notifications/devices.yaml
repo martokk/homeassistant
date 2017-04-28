@@ -6,19 +6,19 @@
     trigger:
       #iPhone Battery
       - platform: template
-        value_template: "{{ states('sensor.iphone6s_battery') | int < 25 }}"
+        value_template: "{{ states('sensor.iphone6s_battery') | int < 25 and states('sensor.iphone6s_battery') | int > 0 }}"
       - platform: template
-        value_template: "{{ states('sensor.iphone6s_battery') | int < 10 }}"
+        value_template: "{{ states('sensor.iphone6s_battery') | int < 10 and states('sensor.iphone6s_battery') | int > 0 }}"
       #iPad Battery
       - platform: template
-        value_template: "{{ states('sensor.ipad_battery') | int < 25 }}"
+        value_template: "{{ states('sensor.ipad_battery') | int < 25 and states('sensor.ipad_battery') | int > 0 }}"
       - platform: template
-        value_template: "{{ states('sensor.ipad_battery') | int < 10 }}"
+        value_template: "{{ states('sensor.ipad_battery') | int < 10 and states('sensor.ipad_battery') | int > 0 }}"
       #Watch Battery
       - platform: template
-        value_template: "{{ states('sensor.watch_battery') | int < 25 }}"
+        value_template: "{{ states('sensor.watch_battery') | int < 25 and states('sensor.watch_battery') | int > 0 }}"
       - platform: template
-        value_template: "{{ states('sensor.watch_battery') | int < 10 }}"
+        value_template: "{{ states('sensor.watch_battery') | int < 10 and states('sensor.watch_battery') | int > 0 }}"
     action:
       - condition: template
         value_template: >
@@ -52,9 +52,9 @@
           tts_sound: 'intercom_ds9.mp3'
           tts_message: >
             Battery low!
-            {% if states("sensor.iphone6s_battery") | int < 50 %}iPhone: {{ states("sensor.iphone6s_battery") | int }}%{% endif %}
-            {% if states("sensor.watch_battery") | int < 50 %}Watch: {{ states("sensor.watch_battery") | int }}%{% endif %}
-            {% if states("sensor.ipad_battery") | int < 50 %}iPad: {{ states("sensor.ipad_battery") | int }}%{% endif %}
+            {% if states("sensor.iphone6s_battery") | int < 50 and states('sensor.iphone6s_battery') | int > 0 %}iPhone: {{ states("sensor.iphone6s_battery") | int }}%{% endif %}
+            {% if states("sensor.watch_battery") | int < 50 and states('sensor.watch_battery') | int > 0  %}Watch: {{ states("sensor.watch_battery") | int }}%{% endif %}
+            {% if states("sensor.ipad_battery") | int < 50 and states('sensor.ipad_battery') | int > 0 %}iPad: {{ states("sensor.ipad_battery") | int }}%{% endif %}
 
   - alias: 'Battery Fully Charged Text Only'
     trigger:
@@ -123,19 +123,19 @@
             mac_address  *{{trigger.event.data.mac}}*
             entity_id       {{trigger.event.data.entity_id}}
 
-## BUG: Caused issue where MQTT from eventghost would not get triggered in HA. Has something to do with the "#" sign in the MQTT trigger.topic
-  # - alias: 'vCORE Device Restarted'
-  #   trigger:
-  #     - platform: mqtt
-  #       topic: 'device/#/device'
-  #       payload: "restarted"
-  #   action:
-  #     - service: script.notify2
-  #       data_template:
-  #         telegram_message: |
-  #           *Device Reconnected*
-  #           topic     *{{trigger.event.data.topic}}*
-  #           payload  *{{trigger.event.data.payload}}*
+# BUG: Caused issue where MQTT from eventghost would not get triggered in HA. Has something to do with the "#" sign in the MQTT trigger.topic
+  - alias: 'vCORE Device Restarted'
+    trigger:
+      - platform: mqtt
+        topic: device/+/device
+        payload: "restarted"
+    action:
+      - service: script.notify2
+        data_template:
+          telegram_message: |
+            *Device Reconnected*
+            topic     *{{trigger.topic}}*
+            payload  *{{trigger.payload}}*
 
 
 ##########################################

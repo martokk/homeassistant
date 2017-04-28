@@ -15,7 +15,7 @@
         for:
           minutes: 5
       - platform: state
-        entity_id: media_player.entertainment_center
+        entity_id: switch.sonoff_entertainment_center
         state: 'on'
         for:
           minutes: 15
