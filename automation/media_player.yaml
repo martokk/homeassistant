@@ -183,6 +183,27 @@
         entity_id: input_boolean.var_chromecast_interupt
 
 ##########################################
+########## TTS ###########################
+##########################################
+  - alias: set_tts_vol_high
+    trigger:
+      - platform: time
+        after: '05:20:00'
+    action:
+      - service: media_player.volume_set
+        entity_id: media_player.vlc
+        volume_level: "{{ state.input_slider.option_tts_vol_high }}"
+
+  - alias: set_tts_vol_low
+    trigger:
+      - platform: time
+        after: '21:50:00'
+    action:
+      - service: media_player.volume_set
+        entity_id: media_player.vlc
+        volume_level: "{{ state.input_slider.option_tts_vol_low }}"
+
+##########################################
 ########## PLAYBACK INTERUPT #############
 ##########################################
   - alias: "Chromecast Interupt - Pause Video"

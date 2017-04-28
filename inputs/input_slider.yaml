@@ -87,3 +87,17 @@
     min: 1
     max: 255
     step: 5
+
+  option_tts_vol_low:
+    name: TTS Volume (LOW)
+    initial: 50
+    min: 0
+    max: 100
+    step: 5
+
+  option_tts_vol_high:
+    name: TTS Volume (HIGH)
+    initial: 90
+    min: 0
+    max: 100
+    step: 5
