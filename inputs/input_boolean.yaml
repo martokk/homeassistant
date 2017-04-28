@@ -88,3 +88,6 @@
   option_circulate_air:
     name: "Circulate air every 2 hours (for 15m)"
     initial: on
+
+  option_turn_on_fans:
+      name: "Turn on all fans (Overide)"

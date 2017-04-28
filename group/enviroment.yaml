@@ -32,5 +32,4 @@
   fans:
     name: "Fans"
     entities:
-    - switch.sonoff_small_desk_fan1
-    - switch.sonoff_box_fan1
+    - input_boolean.option_turn_on_fans

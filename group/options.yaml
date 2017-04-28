@@ -25,6 +25,7 @@
   options_environment:
     name: "Environment"
     entities:
+      - input_boolean.option_turn_on_fans
       - input_boolean.option_circulate_air
       - input_boolean.option_temp_controlled_fans
       - input_slider.option_indoor_temp_cold

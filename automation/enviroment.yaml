@@ -69,6 +69,9 @@
       - platform: state
         entity_id: input_boolean.var_circulate_air_on
         state: 'on'
+      - platform: state
+        entity_id: input_boolean.option_turn_on_fans
+        state: 'on'
     action:
       - service: switch.turn_on
         entity_id: switch.sonoff_small_desk_fan1
@@ -86,6 +89,9 @@
       - platform: state
         entity_id: input_boolean.var_circulate_air_on
         state: 'off'
+      - platform: state
+        entity_id: input_boolean.option_turn_on_fans
+        state: 'off'
     condition:
       - condition: state
         entity_id: input_boolean.var_indoor_temp_hot
@@ -95,6 +101,9 @@
         state: 'off'
       - condition: state
         entity_id: input_boolean.var_circulate_air_on
+        state: 'off'
+      - platform: state
+        entity_id: input_boolean.option_turn_on_fans
         state: 'off'
     action:
       - service: switch.turn_off
