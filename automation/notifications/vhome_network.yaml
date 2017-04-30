@@ -11,7 +11,7 @@
   #         telegram_message: |
   #           There is a new update for Home Assistant!
   #           http://home-assistant.io/blog/categories/release-notes
-  #         tts_entity_id: media_player.vlc
+  #         tts_entity_id: group.tts_devices
   #         tts_sound: 'intercom_ds9.mp3'
   #         tts_message: "FYI: There is a new update for Home Assistant available!"
   #         mlo_message: "Update Home Assistant. New Release: http://home-assistant.io/blog/categories/release-notes"
@@ -115,7 +115,7 @@
             {{ states.sensor.sabnzbd_disk_free.state }}GB Free
           flood_color: "red"
           blink_color: "magenta"
-          tts_entity_id: media_player.vlc
+          tts_entity_id: group.tts_devices
           tts_sound: 'intercom_ds9.mp3'
           tts_message: "Warning Disk Space Low! There is only {{ states.sensor.sabnzbd_disk_free.state | int | round(0) }} gigs free on Dell Laptop's V drive."
 

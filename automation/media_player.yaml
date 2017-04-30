@@ -83,6 +83,8 @@
               script.media_scene_fireplace
             {% elif hour | int < 19 %}
               script.media_scene_magenta_blue_orbs_long
+            {% elif hour | int < 21 %}
+              script.media_scene_lcars
             {% elif hour | int < 23 %}
               script.media_scene_space
             {% elif hour | int >= 23 %}
@@ -190,6 +192,9 @@
     trigger:
       - platform: time
         after: '05:20:00'
+    condition:
+      - condition: time
+        before: '21:50:00'
     action:
       - service: media_player.volume_set
         data:

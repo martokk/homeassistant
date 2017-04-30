@@ -25,3 +25,8 @@
     - script.media_scene_space
     - script.media_scene_bushes_of_love
     - script.media_scene_whats_up_bitches
+
+  tts_devices:
+    name: "TTS Devices"
+    entities:
+      - media_player.vlc

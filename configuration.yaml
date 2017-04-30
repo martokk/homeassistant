@@ -69,7 +69,7 @@ feedreader:
   urls:
     - https://home-assistant.io/atom.xml
 
-# ios:
+ios:
 
 google:
   client_id: !secret google_client_id

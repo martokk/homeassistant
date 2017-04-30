@@ -30,7 +30,7 @@
         telegram_message: |
           *{{ states("sensor.dark_sky_minutely_summary") }}*
           {{ states("sensor.dark_sky_hourly_summary") }}
-        tts_entity_id: media_player.vlc
+        tts_entity_id: group.tts_devices
         tts_sound: 'intercom_ds9.mp3'
         tts_message: '{{ states("sensor.dark_sky_minutely_summary") }}'
 
@@ -66,7 +66,7 @@
         telegram_message: |
           *{{ states("sensor.dark_sky_minutely_summary") }}*
           {{ states("sensor.dark_sky_hourly_summary") }}
-        tts_entity_id: media_player.vlc
+        tts_entity_id: group.tts_devices
         tts_sound: 'intercom_ds9.mp3'
         tts_message: '{{ states("sensor.dark_sky_minutely_summary") }} {{ states("sensor.dark_sky_hourly_summary") }}'
 
@@ -102,7 +102,7 @@
         telegram_message: |
           *{{ states("sensor.dark_sky_minutely_summary") }}*
           {{ states("sensor.dark_sky_hourly_summary") }}
-        tts_entity_id: media_player.vlc
+        tts_entity_id: group.tts_devices
         tts_sound: 'intercom_ds9.mp3'
         tts_message: '{{ states("sensor.dark_sky_minutely_summary") }}'
 
@@ -138,7 +138,7 @@
         telegram_message: |
           *{{ states("sensor.dark_sky_minutely_summary") }}*
           {{ states("sensor.dark_sky_hourly_summary") }}
-        tts_entity_id: media_player.vlc
+        tts_entity_id: group.tts_devices
         tts_sound: 'intercom_ds9.mp3'
         tts_message: '{{ states("sensor.dark_sky_minutely_summary") }} {{ states("sensor.dark_sky_hourly_summary") }}'
 
@@ -176,7 +176,7 @@
           blink_color: "red"
           chromecast_entity_id: media_player.vtv_chromecast
           chromecast_link: https://sirocco.accuweather.com/nxssa_r1_h_500x620d/r1h/inxr1kmkea_h.gif
-          tts_entity_id: media_player.vlc
+          tts_entity_id: group.tts_devices
           tts_sound: 'intercom_ds9.mp3'
           tts_message: 'Weather Alert! {{ states("sensor.weather_alert") }} in Kanosha Wisconsin. Repeat. Weather Alert! {{ states("sensor.weather_alert") }} in Kanosha Wisconsin. '
       - delay: "00:00:10"

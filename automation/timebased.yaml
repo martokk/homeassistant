@@ -187,7 +187,7 @@
           flood_color: "red"
           delay: "00:00:10"
           next_scene: scene.day
-          tts_entity_id: media_player.vlc
+          tts_entity_id: group.tts_devices
           tts_sound: 'intercom_ds9.mp3'
           tts_message: "The time, is 5:30am"
 
@@ -201,7 +201,7 @@
         data:
           flood_color: "magenta"
           delay: "00:00:10"
-          tts_entity_id: media_player.vlc
+          tts_entity_id: group.tts_devices
           tts_sound: 'intercom_ds9.mp3'
           tts_message: "The time, is 7am. Time to check your MLO to do list."
 
@@ -215,7 +215,7 @@
         data:
           flood_color: "magenta"
           delay: "00:00:07"
-          tts_entity_id: media_player.vlc
+          tts_entity_id: group.tts_devices
           tts_sound: 'intercom_ds9.mp3'
           tts_message: "The time, is 12pm. Time to check your MLO to do list."
 
@@ -230,7 +230,7 @@
           flood_color: "magenta"
           delay: "00:00:07"
           next_scene: scene.day
-          tts_entity_id: media_player.vlc
+          tts_entity_id: group.tts_devices
           tts_sound: 'intercom_ds9.mp3'
           tts_message: "The time, is 5pm. Time to check your MLO to do list."
 
@@ -245,7 +245,7 @@
           flood_color: "magenta"
           delay: "00:00:05"
           next_scene: scene.night_cyan
-          tts_entity_id: media_player.vlc
+          tts_entity_id: group.tts_devices
           tts_sound: 'intercom_ds9.mp3'
           tts_message: "The time, is 7pm"
 
@@ -260,7 +260,7 @@
           flood_color: "magenta"
           delay: "00:00:05"
           next_scene: scene.night_blue
-          tts_entity_id: media_player.vlc
+          tts_entity_id: group.tts_devices
           tts_sound: 'intercom_ds9.mp3'
           tts_message: "The time, is 9pm"
 
@@ -275,7 +275,7 @@
           flood_color: "red"
           delay: "00:00:05"
           next_scene: scene.night_red
-          tts_entity_id: media_player.vlc
+          tts_entity_id: group.tts_devices
           tts_sound: 'intercom_ds9.mp3'
           tts_message: "The time, is 11pm"
 
@@ -290,7 +290,7 @@
           flood_color: "red"
           delay: "00:00:07"
           next_scene: scene.night_computer_red
-          tts_entity_id: media_player.vlc
+          tts_entity_id: group.tts_devices
           tts_sound: 'intercom_ds9.mp3'
           tts_message: "The time, is 12:15am. The TV will turn off in 15 minutes."
       - service: script.entertainment_center_turn_off
@@ -307,7 +307,7 @@
           flood_color: "red"
           delay: "00:00:05"
           next_scene: scene.night_computer_red
-          tts_entity_id: media_player.vlc
+          tts_entity_id: group.tts_devices
           tts_sound: 'intercom_ds9.mp3'
           tts_message: "The time, is 12:30am"
       - service: script.entertainment_center_turn_off
