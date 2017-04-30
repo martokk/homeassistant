@@ -15,6 +15,7 @@
     - media_player.plex
     - sensor.chromecast_playing_app
     - media_player.vlc
+    - media_player.spotify
 
   media_scenes:
     name: "Media Scenes"
