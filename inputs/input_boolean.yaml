@@ -32,6 +32,8 @@
 
   var_chromecast_screensaver_ready:
 
+  var_alarm_530am_silver_lamp_on: #state of alarm. The "OPTION" variable triggers if the alarm will run or not.
+
 ##########################################
 ########## OPTIONS - LIGHTS ##############
 ##########################################
@@ -93,3 +95,10 @@
 
   option_turn_on_fans:
       name: "Turn on all fans (Overide)"
+
+##########################################
+########## OPTION - ALARMS ###############
+##########################################
+  option_alarm_530am_silver_lamp:
+    name: "Alarm: 5:30am: Silver Lamp Blinking"
+    initial: on

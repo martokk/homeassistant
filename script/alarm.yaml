@@ -1,0 +1,25 @@
+  alarm_530am_silver_lamp_turn_on:
+    sequence:
+    - service: script.turn_off
+      entity_id: script.alarm_530am_silver_lamp_turn_off
+    - condition: state
+      entity_id: input_boolean.var_alarm_530am_silver_lamp_on
+      state: 'on'
+    - service: light.turn_on
+      entity_id: light.sonoff_silver_lamp
+    - service: script.turn_on
+      entity_id: script.alarm_530am_silver_lamp_turn_off
+
+  alarm_530am_silver_lamp_turn_off:
+    sequence:
+    - service: script.turn_off
+      entity_id: script.alarm_530am_silver_lamp_turn_on
+    - delay: "00:00:01"
+    - service: light.turn_off
+      entity_id: light.sonoff_silver_lamp
+    - delay: "00:00:01"
+    - condition: state
+      entity_id: input_boolean.var_alarm_530am_silver_lamp_on
+      state: 'on'
+    - service: script.turn_on
+      entity_id: script.alarm_530am_silver_lamp_turn_on
