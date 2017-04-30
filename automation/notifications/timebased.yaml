@@ -1,0 +1,9 @@
+
+  - alias: 'Morning & Afternoon Briefings'
+    trigger:
+      - platform: time
+        after: '05:30:00'
+      - platform: time
+        after: '17:00:00'
+    action:
+      - service: script.morning_telegram_briefing_test

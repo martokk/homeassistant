@@ -17,6 +17,47 @@
     # - condition: state
     #   entity_id: input_boolean.var_start_notifications_1m
     #   state: 'on'
+    - service: script.notify2_sms
+      data_template:
+        sms_message: "{{ sms_message }}"
+    - service: script.notify2_email
+      data_template:
+        email_message: "{{ email_message }}"
+    - service: script.notify2_mlo
+      data_template:
+        mlo_message: "{{ mlo_message }}"
+    - service: script.notify2_telegram_first_notification_of_day
+    - service: script.notify2_telegram
+      data_template:
+        telegram_message: "{{ telegram_message }}"
+        telegram_url: "{{ telegram_url }}"
+    ### CONDITION: MIKE is HOME
+    - condition: state
+      entity_id: input_boolean.var_mike_home
+      state: 'on'
+    - service: script.notify2_chromecast
+      data_template:
+        chromecast_link: "{{ chromecast_link }}"
+        chromecast_entity_id: "{{ chromecast_entity_id }}"
+    - service: script.notify2_lights
+      data_template:
+        blink_color: "{{ blink_color }}"
+        blink_color2: "{{ blink_color2 }}"
+        breathe_color: "{{ breathe_color }}"
+        flash_color: "{{ flash_color }}"
+        flood_color: "{{ flood_color }}"
+        flood_scene: "{{ flood_scene }}"
+        delay: "{{ delay }}"
+        entity_id: "{{entity_id}}"
+        next_scene: "{{ next_scene }}"
+    - service: script.notify2_tts
+      data_template:
+        tts_message: "{{ tts_message }}"
+        tts_entity_id: "{{ tts_entity_id }}"
+        tts_sound: "{{ tts_sound }}"
+
+  notify2_sms:
+    sequence:
     ### SMS Notifications
     - service_template: >
         {% if sms_message %}
@@ -31,6 +72,10 @@
       data_template:
         message: "{{ sms_message }}"
 
+
+
+  notify2_email:
+    sequence:
     ### Email Notifications
     - service_template: >
         {% if email_message %}
@@ -45,6 +90,10 @@
       data_template:
         message: "{{ email_message }}"
 
+
+
+  notify2_mlo:
+    sequence:
     ### MLO Notifications
     - service_template: >
         {% if mlo_message %}
@@ -60,6 +109,10 @@
         title: "{{ mlo_message }}"
         message: ""
 
+
+
+  notify2_telegram_first_notification_of_day:
+    sequence:
     ## First Telegram Notification of the Day
     - service_template: >
         {% if telegram_message %}
@@ -91,6 +144,9 @@
         entity_id: input_boolean.var_first_notification_of_day
 
 
+
+  notify2_telegram:
+    sequence:
     ## Telegram Notifications
     - service_template: >
         {% if telegram_message %}
@@ -122,11 +178,11 @@
           photo:
             url: "{{ telegram_url }}"
 
-    ### CONDITION: MIKE is HOME
-    - condition: state
-      entity_id: input_boolean.var_mike_home
-      state: 'on'
 
+
+
+  notify2_chromecast:
+    sequence:
       ### Chromecast Media Notifications
     - service_template: >
         {% if chromecast_link %}
@@ -154,6 +210,11 @@
         media_content_type: video
         media_content_id: "{{ chromecast_link }}"
 
+
+
+
+  notify2_lights:
+    sequence:
     ### Light Notifications
     - service_template: >
         {% if is_state('input_boolean.option_notify2_lights', 'on') %}
@@ -208,6 +269,11 @@
         entity_id: "{% if entity_id %}{{entity_id}}{% else %}group.all_lights{% endif %}"
         next_scene: "{{ next_scene }}"
 
+
+
+
+  notify2_tts:
+    sequence:
     ### TTS Notificaiton - Pause Chromecast if playing
     - service_template: >
         {% if tts_message %}
