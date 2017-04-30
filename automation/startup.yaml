@@ -58,5 +58,6 @@
       - service: script.notify2
         data:
           telegram_message: "Home Assistant Server Restarted!"
+          tts_sound: sounds/startup/startup_ds9.wav
       - service: input_boolean.turn_off
         entity_id: input_boolean.var_startup

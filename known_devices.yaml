@@ -397,6 +397,13 @@ galaxy_grand_prime: #Neighbor
   picture:
   track: false
   vendor: Samsung Electronics Co.,Ltd
+iahb6: # Unknown Neighbor Device
+  hide_if_away: false
+  mac: BT_0A:D7:68:D4:F1:7A
+  name: IAHB6
+  picture:
+  track: false
+  vendor: unknown
 
 ##########################################
 ########## UNKNOWN #######################
