@@ -64,6 +64,9 @@ sensor: !include_dir_merge_list sensor
 
 script: !include_dir_merge_named script
 automation: !include_dir_merge_list automation
+feedreader:
+  urls:
+    - https://home-assistant.io/atom.xml
 
 # ios:
 
