@@ -1,0 +1,490 @@
+homeassistant:
+  customize:
+    script.timebased_sunrise:
+      hidden: true
+    script.timebased_pre_sunset_day:
+      hidden: true
+    script.timebased_5pm:
+      hidden: true
+    script.timebased_9pm:
+      hidden: true
+    script.timebased_11pm:
+      hidden: true
+    script.timebased_12am:
+      hidden: true
+    script.timebased_off:
+      hidden: true
+# switch:
+# lights:
+# binary_sensor:
+# sensor:
+
+automation:
+##########################################
+########## NOTIFICATIONS #################
+##########################################
+
+#********** Hourly Flash Lights ***************************************#
+  - alias: hourly_flash_lights
+    trigger:
+    - platform: time
+      minutes: 00
+      seconds: 00
+    condition:
+    - condition: state
+      entity_id: input_boolean.var_mike_home
+      state: 'on'
+    - condition: state
+      entity_id: script.flood_and_change_scene
+      state: 'off'
+    - condition: state
+      entity_id: script.flood_light
+      state: 'off'
+    - condition: state
+      entity_id: script.flood_scene
+      state: 'off'
+    - condition: state
+      entity_id: script.flood_and_breathe
+      state: 'off'
+    - condition: state
+      entity_id: script.flood_and_blink
+      state: 'off'
+    - condition: state
+      entity_id: script.flood_and_blink2
+      state: 'off'
+    - condition: state
+      entity_id: script.notify2
+      state: 'off'
+    - condition: state
+      entity_id: script.notify2_lights
+      state: 'off'
+    action:
+    - service: script.notify2
+      data:
+        flash_color: "magenta"
+        entity_id: group.timebased_hourly_flash_lights
+        tts_sound: 'intercom_ds9.mp3'
+
+
+
+
+##########################################
+########## TIMEBASED SCENE CHANGE ########
+##########################################
+### SUNRISE
+  - alias: Timebased_Sunrise
+    trigger:
+      - platform: time
+        after: '05:30:00'
+    condition:
+      - condition: time
+        before: '07:30:00'
+      - condition: state
+        entity_id: input_boolean.option_timebased_light_scene
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.var_mike_home
+        state: 'on'
+      - condition: state
+        entity_id: input_select.var_last_known_scene
+        state: 'Off'
+    action:
+      service: scene.turn_on
+      entity_id: scene.10m_day
+
+### SUNSET (-3hr offset)
+  - alias: Timebased_Day
+    trigger:
+      - platform: sun
+        event: sunset
+        offset: "-03:45:00"
+    condition:
+      - condition: state
+        entity_id: input_boolean.option_timebased_light_scene
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.var_mike_home
+        state: 'on'
+    action:
+      service: scene.turn_on
+      entity_id: scene.10m_day
+
+
+### SUNSET
+  - alias: Timebased_Sunset
+    trigger:
+      - platform: sun
+        event: sunset
+        offset: "-00:30:00"
+    condition:
+      - condition: state
+        entity_id: input_boolean.option_timebased_light_scene
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.var_mike_home
+        state: 'on'
+    action:
+      service: scene.turn_on
+      entity_id: scene.10m_night_cyan
+
+### Entertainment Off - 12:30am + every 5 min
+  - alias: Timebased_1230am_every_30m
+    trigger:
+      - platform: time
+        minutes: '/10'
+        seconds: 15
+    condition:
+      - condition: time
+        after: "00:30:00"
+        before: "05:00:00"
+      - condition: state
+        entity_id: input_boolean.option_delay_timebased_off
+        state: 'off'
+    action:
+    - service: script.entertainment_center_turn_off
+
+### 1am - OFF
+  - alias: Timebased_1am_off
+    trigger:
+      - platform: time
+        after: "01:00:00"
+    action:
+    - condition: state
+      entity_id: input_boolean.option_delay_timebased_off
+      state: 'off'
+    - service: script.entertainment_center_turn_off
+    - condition: state
+      entity_id: input_boolean.option_timebased_light_scene
+      state: 'on'
+    - service: scene.turn_on
+      entity_id: scene.10m_off
+
+### 2am - OFF
+  - alias: Timebased_2am_off
+    trigger:
+      - platform: time
+        after: "02:00:00"
+    action:
+    - condition: state
+      entity_id: input_boolean.option_delay_timebased_off
+      state: 'off'
+    - service: script.entertainment_center_turn_off
+    - condition: state
+      entity_id: input_boolean.option_timebased_light_scene
+      state: 'on'
+    - service: scene.turn_on
+      entity_id: scene.10m_off
+
+### 3am - OFF
+  - alias: Timebased_3am_off
+    trigger:
+      - platform: time
+        after: "03:00:00"
+    action:
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.option_delay_timebased_off
+    - service: script.entertainment_center_turn_off
+    - condition: state
+      entity_id: input_boolean.option_timebased_light_scene
+      state: 'on'
+    - service: scene.turn_on
+      entity_id: scene.10m_off
+
+
+
+
+##########################################
+########## FLOOD LIGHTS ##################
+##########################################
+
+### 5:30am Red
+  - alias: flood_530am
+    trigger:
+      - platform: time
+        after: "05:29:59"
+    action:
+      - service: script.notify2
+        data:
+          flood_color: "red"
+          entity_id: group.timebased_flood_lights
+          delay: "00:00:10"
+          next_scene: scene.day
+          tts_entity_id: group.tts_devices
+          tts_sound: 'intercom_ds9.mp3'
+          tts_message: "The time, is 5:30am"
+
+### 7am Red
+  - alias: flood_7am
+    trigger:
+      - platform: time
+        after: "06:59:59"
+    action:
+      - service: script.notify2
+        data:
+          flood_color: "magenta"
+          entity_id: group.timebased_flood_lights
+          delay: "00:00:10"
+          tts_entity_id: group.tts_devices
+          tts_sound: 'intercom_ds9.mp3'
+          tts_message: "The time, is 7am. Get ready to leave in 30 minutes."
+
+### 12pm
+  - alias: flood_12pm
+    trigger:
+      - platform: time
+        after: "11:59:59"
+    action:
+      - service: script.notify2
+        data:
+          flood_color: "magenta"
+          entity_id: group.timebased_flood_lights
+          delay: "00:00:06"
+          tts_entity_id: group.tts_devices
+          tts_sound: 'intercom_ds9.mp3'
+          tts_message: "The time, is 12pm. Time to check your MLO to do list."
+
+### 5pm
+  - alias: flood_5pm
+    trigger:
+      - platform: time
+        after: "16:59:59"
+    action:
+      - service: script.notify2
+        data:
+          flood_color: "magenta"
+          entity_id: group.timebased_flood_lights
+          delay: "00:00:05"
+          next_scene: scene.night_cyan
+          tts_entity_id: group.tts_devices
+          tts_sound: 'intercom_ds9.mp3'
+          tts_message: "The time, is 5pm. Time to check your MLO to do list."
+
+### 7pm
+  - alias: flood_7pm
+    trigger:
+      - platform: time
+        after: "18:59:59"
+    action:
+      - service: script.notify2
+        data:
+          flood_color: "magenta"
+          entity_id: group.timebased_flood_lights
+          delay: "00:00:05"
+          next_scene: scene.night_blue
+          tts_entity_id: group.tts_devices
+          tts_sound: 'intercom_ds9.mp3'
+          tts_message: "The time, is 7pm"
+
+
+### 9pm
+  - alias: flood_9pm
+    trigger:
+      - platform: time
+        after: "20:59:59"
+    action:
+      - service: script.notify2
+        data:
+          flood_color: "red"
+          entity_id: group.timebased_flood_lights
+          delay: "00:00:05"
+          next_scene: scene.night_red
+          tts_entity_id: group.tts_devices
+          tts_sound: 'intercom_ds9.mp3'
+          tts_message: "9pm"
+      - delay: '00:00:15'
+      - service: script.entertainment_center_turn_off
+
+### 11pm
+  - alias: flood_11pm
+    trigger:
+      - platform: time
+        after: "22:59:59"
+    action:
+      - service: script.notify2
+        data:
+          flood_color: "red"
+          entity_id: group.timebased_flood_lights
+          delay: "00:00:05"
+          next_scene: scene.night_computer_red
+          tts_entity_id: group.tts_devices
+          tts_sound: 'intercom_ds9.mp3'
+          tts_message: "11pm."
+      - delay: '00:00:15'
+      - service: script.entertainment_center_turn_off
+
+
+### 12am
+  - alias: flood_12am
+    trigger:
+      - platform: time
+        after: "23:59:58"
+    action:
+      - service: script.notify2
+        data:
+          flood_color: "red"
+          entity_id: group.timebased_flood_lights
+          delay: "00:00:03"
+          next_scene: scene.night_computer_red
+          tts_entity_id: group.tts_devices
+          tts_sound: 'intercom_ds9.mp3'
+          tts_message: "12am"
+      - delay: '00:00:15'
+      - service: script.entertainment_center_turn_off
+
+
+
+
+##########################################
+########## AUTOMATIONS ###################
+##########################################
+
+#********** Timebased Option Automations ****************************#
+# Due to code limitation... turning off timebased scenese will also turn off light notifications. (Light notificaitons need LKS to work)
+  - alias: timebased_light_scene_turn_off
+    trigger:
+      - platform: state
+        entity_id: input_boolean.option_timebased_light_scene
+        state: 'off'
+    action:
+      - service: homeassistant.turn_off
+        entity_id: input_boolean.option_notify2_lights
+
+  - alias: timebased_light_scene_turn_on
+    trigger:
+      - platform: state
+        entity_id: input_boolean.option_timebased_light_scene
+        state: 'on'
+    action:
+      - service: homeassistant.turn_on
+        entity_id: input_boolean.option_notify2_lights
+
+##########################################
+########## SCRIPTS #######################
+##########################################
+script:
+
+#Find all
+  timebased_scene:
+    alias: "Time-based Scene"
+    sequence:
+      - service: script.timebased_sunrise
+      - service: script.timebased_pre_sunset_day
+      - service: script.timebased_5pm
+      - service: script.timebased_7pm
+      - service: script.timebased_9pm
+      - service: script.timebased_11pm
+      - service: script.timebased_off
+
+# Sunrise to Pre-Sunset
+  timebased_sunrise:
+    sequence:
+      - condition: time
+        after: '05:30:00'
+        before: '07:30:00'
+      - condition: sun
+        before: sunset
+        before_offset: "-03:45:00"
+      - service: scene.turn_on
+        entity_id: 'scene.day'
+      - service: script.turn_off
+        entity_id: script.timebased_scene
+
+# Sunrise to Pre-Sunset
+  timebased_day:
+    sequence:
+      - condition: time
+        after: '07:30:00'
+        before: '19:00:00'
+      - condition: sun
+        before: sunset
+        before_offset: "-03:45:00"
+      - service: scene.turn_on
+        entity_id: 'scene.day_le'
+      - service: script.turn_off
+        entity_id: script.timebased_scene
+
+# Sunrise to Pre-Sunset
+  timebased_pre_sunset_day:
+    sequence:
+      - condition: time
+        after: '05:30:00'
+        before: '19:00:00'
+      - condition: sun
+        before: sunset
+      - condition: sun
+        after: sunset
+        after_offset: "-03:45:00"
+      - service: scene.turn_on
+        entity_id: 'scene.day'
+      - service: script.turn_off
+        entity_id: script.timebased_scene
+
+# 5pm
+  timebased_5pm:
+    sequence:
+      - condition: time
+        after: '17:00:00'
+        before: '18:59:59'
+      - service: scene.turn_on
+        entity_id: scene.night_cyan
+      - service: script.turn_off
+        entity_id: script.timebased_scene
+
+# 7pm
+  timebased_7pm:
+    sequence:
+      - condition: time
+        after: '19:00:00'
+        before: '20:59:59'
+      - service: scene.turn_on
+        entity_id: scene.night_blue
+      - service: script.turn_off
+        entity_id: script.timebased_scene
+
+
+# 9pm
+  timebased_9pm:
+    sequence:
+      - condition: time
+        after: '21:00:00'
+      - service: scene.turn_on
+        entity_id: scene.night_red
+      - service: script.turn_off
+        entity_id: script.timebased_scene
+
+# 11pm
+  timebased_11pm:
+    sequence:
+      - condition: time
+        after: '23:00:00'
+      - service: scene.turn_on
+        entity_id: scene.night_computer_red
+      - service: script.turn_off
+        entity_id: script.timebased_scene
+
+# 00:00 PM to 5:30 AM
+  timebased_off:
+    sequence:
+      - condition: time
+        after: '00:00:00'
+        before: '05:29:00'
+      - service: scene.turn_on
+        entity_id: scene.off
+      - service: script.turn_off
+        entity_id: script.timebased_scene
+
+
+input_boolean:
+##########################################
+########## STORED VARIABLES ##############
+##########################################
+
+##########################################
+########## OPTIONS #######################
+##########################################
+  option_delay_timebased_off:
+    name: "Delay turning lights off until 3am"
+
+  option_timebased_light_scene:
+    name: "Use Time-based light scenes"
+    initial: on

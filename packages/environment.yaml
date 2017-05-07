@@ -1,0 +1,310 @@
+##########################################
+########## SENSORS #######################
+##########################################
+sensor:
+  - platform: template
+    sensors:
+      indoor_temperature:
+        friendly_name: "Indoor Temperature"
+        unit_of_measurement: 'ºF'
+        value_template: >-
+          {% set temp = 0.0 %}
+          {% set c = 0 %}
+          {% if states.sensor.kitchen_temperature %}
+            {% if states.sensor.kitchen_temperature.state | float > 1.0 %}
+              {% if (as_timestamp(now())-as_timestamp(states.sensor.kitchen_temperature.last_changed)) < (2 * 60 * 60)  %}
+                {% set temp = temp + states.sensor.kitchen_temperature.state | float %}
+                {% set c = c + 1 %}
+              {% endif %}
+            {% endif %}
+          {% endif %}
+          {% if states.sensor.tables_temperature %}
+            {% if states.sensor.tables_temperature.state | float > 1.0 %}
+              {% if (as_timestamp(now())-as_timestamp(states.sensor.tables_temperature.last_changed)) < (2 * 60 * 60)  %}
+                {% set temp = temp + states.sensor.tables_temperature.state | float %}
+                {% set c = c + 1 %}
+              {% endif %}
+            {% endif %}
+          {% endif %}
+          {% if states.sensor.bedroom_temperature %}
+            {% if (as_timestamp(now())-as_timestamp(states.sensor.bedroom_temperature.last_changed)) < (2 * 60 * 60)  %}
+              {% if states.sensor.bedroom_temperature.state | float > 1.0 %}
+                {% set temp = temp + states.sensor.bedroom_temperature.state | float %}
+                {% set c = c + 1 %}
+              {% endif %}
+            {% endif %}
+          {% endif %}
+          {% if states.sensor.office_temperature %}
+            {% if (as_timestamp(now())-as_timestamp(states.sensor.office_temperature.last_changed)) < (2 * 60 * 60)  %}
+              {% if states.sensor.office_temperature.state | float > 1.0 %}
+                {% set temp = temp + states.sensor.office_temperature.state | float %}
+                {% set c = c + 1 %}
+              {% endif %}
+            {% endif %}
+          {% endif %}
+          {% if c > 0 %}
+           {{ (temp / c) | round(1) | float }}
+          {% endif %}
+
+      indoor_humidity:
+        friendly_name: "Indoor Humidity"
+        unit_of_measurement: '%'
+        value_template: >-
+          {% set humidity = 0.0 %}
+          {% set c = 0 %}
+          {% if states.sensor.kitchen_humidity %}
+            {% if states.sensor.kitchen_humidity.state | float > 1.0 %}
+              {% if (as_timestamp(now())-as_timestamp(states.sensor.kitchen_humidity.last_changed)) < (60 * 60)  %}
+                {% set humidity = humidity + states.sensor.kitchen_humidity.state | float %}
+                {% set c = c + 1 %}
+              {% endif %}
+            {% endif %}
+          {% endif %}
+          {% if states.sensor.tables_humidity %}
+            {% if states.sensor.tables_humidity.state | float > 1.0 %}
+              {% if (as_timestamp(now())-as_timestamp(states.sensor.tables_humidity.last_changed)) < (60 * 60)  %}
+                {% set humidity = humidity + states.sensor.tables_humidity.state | float %}
+                {% set c = c + 1 %}
+              {% endif %}
+            {% endif %}
+          {% endif %}
+          {% if states.sensor.bedroom_humidity %}
+            {% if states.sensor.bedroom_humidity.state | float > 1.0 %}
+              {% if (as_timestamp(now())-as_timestamp(states.sensor.bedroom_humidity.last_changed)) < (60 * 60)  %}
+                {% set humidity = humidity + states.sensor.bedroom_humidity.state | float %}
+                {% set c = c + 1 %}
+              {% endif %}
+            {% endif %}
+          {% endif %}
+          {% if c > 0 %}
+           {{ (humidity / c) | round(1) | float }}
+          {% endif %}
+
+automation:
+##########################################
+############## NOTIFICATIONS #############
+##########################################
+  - alias: Indoor Temp (Hot)
+    trigger:
+      - platform: template
+        value_template: "{% if states.sensor.indoor_temperature.state | int > states.input_slider.option_indoor_temp_hot.state | int %}true{%endif%}"
+    action:
+      - condition: template
+        value_template: >
+          {% if states.automation.indoor_temp_hot.attributes.last_triggered %}
+            {% if (as_timestamp(now())-as_timestamp(states.automation.indoor_temp_hot.attributes.last_triggered)) > (2 * 60 * 60)  %}
+              true
+            {% endif %}
+          {%else%}
+            true
+          {%endif%}
+      - service: script.notify2
+        data_template:
+          telegram_message: |
+            *Indoor Temp HOT: {{ states.sensor.indoor_temperature.state | round(1) }}°F*
+            Kitchen: {{ states.sensor.kitchen_temperature.state | round(1) }}°F   |   Tables: {{ states.sensor.tables_temperature.state | round(1) }}°F   |   EC: {{ states.sensor.entertainment_center_temperature.state | round(1) }}°F    |   Bedroom: {{ states.sensor.bedroom_temperature.state | round(1) }}°F
+          flood_color: "gold"
+          blink_color: "white"
+          blink_color2: "red"
+          tts_entity_id: group.tts_devices
+          tts_sound: 'intercom_ds9.mp3'
+          tts_message: "It's getting hot in here! The indoor temperature is {{ states.sensor.indoor_temperature.state | round(0) }}°F"
+
+  - alias: Indoor Temp (Cold)
+    trigger:
+      - platform: template
+        value_template: "{% if states.sensor.indoor_temperature.state | int < states.input_slider.option_indoor_temp_cold.state | int %}true{%endif%}"
+    action:
+      - condition: template
+        value_template: >
+          {% if states.automation.indoor_temp_cold.attributes.last_triggered %}
+            {% if (as_timestamp(now())-as_timestamp(states.automation.indoor_temp_cold.attributes.last_triggered)) > (2 * 60 * 60)  %}
+              true
+            {% endif %}
+          {%else%}
+            true
+          {%endif%}
+      - service: script.notify2
+        data_template:
+          telegram_message: |
+            *Indoor Temp COLD: {{ states.sensor.indoor_temperature.state | round(1) }}°F*
+            Kitchen: {{ states.sensor.kitchen_temperature.state | round(1) }}°F   |   Tables: {{ states.sensor.tables_temperature.state | round(1) }}°F   |   EC: {{ states.sensor.entertainment_center_temperature.state | round(1) }}°F    |   Bedroom: {{ states.sensor.bedroom_temperature.state | round(1) }}°F
+          flood_color: "gold"
+          blink_color: "white"
+          blink_color2: "deepskyblue"
+          tts_entity_id: group.tts_devices
+          tts_sound: 'intercom_ds9.mp3'
+          tts_message: "It's getting cold in here! The indoor temperature is {{ states.sensor.indoor_temperature.state | round(0) }}°F"
+
+  - alias: bedroom_temperature_cold_after_9pm
+    trigger:
+      - platform: template
+        value_template: "{% if states.sensor.bedroom_temperature.state | int < states.input_slider.option_indoor_temp_cold.state | int and states.sensor.bedroom_temperature.state | int > 1 %}true{%endif%}"
+    condition:
+      - condition: state
+        entity_id: input_boolean.var_mike_home
+        state: 'on'
+      - condition: time
+        after: '21:00:00'
+    action:
+      - condition: template
+        value_template: >
+          {% if states.automation.indoor_temp_cold.attributes.last_triggered %}
+            {% if (as_timestamp(now())-as_timestamp(states.automation.indoor_temp_cold.attributes.last_triggered)) > (0 * 30 * 60)  %}
+              true
+            {% endif %}
+          {%else%}
+            true
+          {%endif%}
+      - service: script.notify2
+        data_template:
+          telegram_message: |
+            Close bedroom window!
+            *Bedroom: {{ states.sensor.bedroom_temperature.state | round(1) }}°F*
+
+##########################################
+########## AUTOMATIONS ###################
+##########################################
+
+  #********** Indoor Temp ***************************************#
+  - alias: indoor_temp_hot
+    trigger:
+      - platform: template
+        value_template: '{% if states.sensor.indoor_temperature.state | float > states.input_slider.option_indoor_temp_hot.state | float %}true{%endif%}'
+    condition:
+      - condition: state
+        entity_id: input_boolean.option_temp_controlled_fans
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.var_indoor_temp_hot
+        state: 'off'
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.var_indoor_temp_hot
+
+  - alias: indoor_temp_ok
+    trigger:
+      - platform: template
+        value_template: '{% if states.sensor.indoor_temperature.state | float < states.input_slider.option_indoor_temp_hot.state | float - 1  %}true{%endif%}'
+    condition:
+      - condition: state
+        entity_id: input_boolean.option_temp_controlled_fans
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.var_indoor_temp_hot
+        state: 'on'
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_indoor_temp_hot
+
+  - alias: circulate_air_start
+    trigger:
+      - platform: time
+        hours: '/1'
+        minutes: 30
+        seconds: 00
+    condition:
+      - condition: template
+        value_template: '{% if states.sensor.indoor_temperature.state | float > states.input_slider.option_indoor_temp_cold.state | float + 3  %}true{%endif%}'
+      - condition: state
+        entity_id: input_boolean.option_circulate_air
+        state: 'on'
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.var_circulate_air_on
+      - delay: '00:05:00'
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_circulate_air_on
+
+  #********** Fans On/Off ***************************************#
+  - alias: fans_turn_on
+    trigger:
+      - platform: state
+        entity_id: input_boolean.var_indoor_temp_hot
+        state: 'on'
+      - platform: state
+        entity_id: input_boolean.var_smoke_session_on
+        state: 'on'
+      - platform: state
+        entity_id: input_boolean.var_circulate_air_on
+        state: 'on'
+      - platform: state
+        entity_id: input_boolean.option_turn_on_fans
+        state: 'on'
+    action:
+      - service: switch.turn_on
+        entity_id: switch.sonoff_small_desk_fan1
+      - service: switch.turn_on
+        entity_id: switch.sonoff_box_fan1
+
+  - alias: fans_turn_off
+    trigger:
+      - platform: state
+        entity_id: input_boolean.var_indoor_temp_hot
+        state: 'off'
+      - platform: state
+        entity_id: input_boolean.var_smoke_session_on
+        state: 'off'
+      - platform: state
+        entity_id: input_boolean.var_circulate_air_on
+        state: 'off'
+      - platform: state
+        entity_id: input_boolean.option_turn_on_fans
+        state: 'off'
+    condition:
+      - condition: state
+        entity_id: input_boolean.var_indoor_temp_hot
+        state: 'off'
+      - condition: state
+        entity_id: input_boolean.var_smoke_session_on
+        state: 'off'
+      - condition: state
+        entity_id: input_boolean.var_circulate_air_on
+        state: 'off'
+      - condition: state
+        entity_id: input_boolean.option_turn_on_fans
+        state: 'off'
+    action:
+      - service: switch.turn_off
+        entity_id: switch.sonoff_small_desk_fan1
+      - service: switch.turn_off
+        entity_id: switch.sonoff_box_fan1
+
+
+
+##########################################
+########## STORED VARIABLES ##############
+##########################################
+input_boolean:
+  var_indoor_temp_hot:
+  var_smoke_session_on:
+  var_circulate_air_on:
+
+##########################################
+########## OPTIONS - ENVIRONMENT #########
+##########################################
+  option_temp_controlled_fans:
+    name: "Temperature controlled fans"
+    initial: on
+
+  option_circulate_air:
+    name: "Circulate air every 2 hours (for 15m)"
+    initial: on
+
+  option_turn_on_fans:
+      name: "Turn on all fans (Overide)"
+
+input_slider:
+  option_indoor_temp_hot:
+    name: Indoor Temp (HOT)
+    initial: 80
+    min: 65
+    max: 85
+    step: 1
+
+  option_indoor_temp_cold:
+    name: Indoor Temp (COLD)
+    initial: 68
+    min: 65
+    max: 85
+    step: 1

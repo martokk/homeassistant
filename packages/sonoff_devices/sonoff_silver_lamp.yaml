@@ -1,0 +1,9 @@
+light:
+  - platform: mqtt
+    name: sonoff_silver_lamp
+    command_topic: "cmnd/sonoff_78aa/power"
+    state_topic: "stat/sonoff_78aa/POWER"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: true

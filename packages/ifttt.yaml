@@ -1,0 +1,52 @@
+# homeassistant:
+#   customize:
+ifttt:
+  key: !secret ifttt_key
+
+# automation:
+##########################################
+########## NOTIFICATIONS #################
+##########################################
+
+
+
+##########################################
+########## AUTOMATIONS ###################
+##########################################
+
+
+
+
+##########################################
+########## SCRIPTS #######################
+##########################################
+script:
+  find_my_phone:
+    alias: "Find My Phone"
+    sequence:
+    - service: ifttt.trigger
+      data:
+        event: "find_my_phone"
+    - service: script.breathe_light
+      data:
+        breathe_color: "cyan"
+        entity_id: group.all_lights
+    - delay: "00:00:07"
+    - service: script.flood_light
+      data:
+        flood_color: "white"
+        entity_id: group.all_lights
+        delay: "00:00:20"
+
+
+
+# input_boolean:
+##########################################
+########## STORED VARIABLES ##############
+##########################################
+
+
+
+##########################################
+########## OPTIONS #######################
+##########################################

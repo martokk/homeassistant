@@ -55,7 +55,7 @@ entities:
     brightness: 45
     rgb_color: [105, 1, 0]
     transition: 0
-  input_select.entertainment_center_led_strip:
+  input_select.entertainment_center_led_effect:
     option: 'vHome Breathe'
 
   light.office_right:

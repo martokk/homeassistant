@@ -1,0 +1,121 @@
+light:
+  - platform: mqtt
+    name: "Tables LED Strip"
+    command_topic: "device/tables/led1/power"
+    state_topic: "device/tables/led1/power/pub"
+    rgb_command_topic: "device/tables/led1/color"
+    rgb_state_topic: "device/tables/led1/color/pub"
+    brightness_command_topic: "device/tables/led1/brightness"
+    brightness_state_topic: "device/tables/led1/brightness/pub"
+    optimistic: false
+    payload_on: "ON"
+    payload_off: "OFF"
+
+sensor:
+  - platform: mqtt
+    name: "Tables Temperature"
+    state_topic: "device/tables/temperature"
+    qos: 0
+    unit_of_measurement: "ºF"
+    expire_after: 900
+
+  - platform: mqtt
+    name: "Tables Humidity"
+    state_topic: "device/tables/humidity"
+    qos: 0
+    unit_of_measurement: "%"
+    expire_after: 900
+
+input_slider:
+  tables_animation_speed:
+    name: Tables Animation Speed
+    min: 0
+    max: 255
+    step: 5
+
+input_select:
+  tables_led_effect:
+    name: Tables LED Effect
+    options:
+      - "Static"
+      - "Blink"
+      - "Breath"
+      - "Color Wipe"
+      - "Color Wipe Random"
+      - "Random Color"
+      - "Single Dynamic"
+      - "Multi Dynamic"
+      - "Rainbow"
+      - "Rainbow Cycle"
+      - "Scan"
+      - "Dual Scan"
+      - "Fade"
+      - "Theater Chase"
+      - "Theater Chase Rainbow"
+      - "Running Lights"
+      - "Twinkle"
+      - "Twinkle Random"
+      - "Twinkle Fade"
+      - "Twinkle Fade Random"
+      - "Sparkle"
+      - "Flash Sparkle"
+      - "Hyper Sparkle"
+      - "Strobe"
+      - "Strobe Rainbow"
+      - "Multi Strobe"
+      - "Blink Rainbow"
+      - "Chase White"
+      - "Chase Color"
+      - "Chase Random"
+      - "Chase Rainbow"
+      - "Chase Flash"
+      - "Chase Flash Random"
+      - "Chase Rainbow White"
+      - "Chase Blackout"
+      - "Chase Blackout Rainbow"
+      - "Color Sweep Random"
+      - "Running Color"
+      - "Running Red Blue"
+      - "Running Random"
+      - "Larson Scanner"
+      - "Comet"
+      - "Fireworks"
+      - "Fireworks Random"
+      - "Merry Christmas"
+      - "Fire Flicker"
+      - "Fire Flicker (soft)"
+      - "vHome Wipe to Random"
+      - "vHome Wipe to White"
+      - "vHome Breathe"
+    initial: "Static"
+
+
+automation:
+  - alias: "Tables LEDs Input Effect"
+    initial_state: True
+    hide_entity: False
+    trigger:
+      - platform: state
+        entity_id: input_select.tables_led_effect
+    action:
+      - service: mqtt.publish
+        data_template:
+          topic: "device/tables/led1/effect"
+          payload: >
+            {% for opt in states.input_select.tables_led_effect.attributes.options -%}
+              {% if trigger.to_state.state | string == opt %}
+                {{loop.index - 1}}
+              {%endif%}
+            {%- endfor -%}
+
+  - alias: "Tables LEDs Animation Speed"
+    initial_state: True
+    hide_entity: False
+    trigger:
+      - platform: state
+        entity_id: input_slider.tables_animation_speed
+    action:
+      - service: mqtt.publish
+        data_template:
+          topic: "device/tables/led1/speed"
+          payload: '{{ trigger.to_state.state | int }}'

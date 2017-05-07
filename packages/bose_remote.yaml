@@ -1,0 +1,212 @@
+# homeassistant:
+#   customize:
+# switch:
+# lights:
+# binary_sensor:
+# sensor:
+
+automation:
+##########################################
+########## MQTT SUBSCRIPTIONS ############
+##########################################
+
+  - alias: 'Toggle MQTT Entertainment Center Power'
+    trigger:
+      - platform: mqtt
+        topic: device/eventghost/ec_power
+        payload: "toggle"
+    action:
+      - service: switch.toggle
+        entity_id: switch.sonoff_entertainment_center
+      ## Toggles off lights if after 12pm
+      - condition: time
+        after: "00:00:00"
+      - condition: sun
+        before: sunrise
+      - delay: "00:00:02"
+      - service: light.turn_off
+        entity_id: group.ambient_lights
+      - delay: "00:00:05"
+      - service: scene.turn_on
+        entity_id: scene.10m_off
+
+
+
+  - alias: 'Toggle MQTT Chromecast Play/Pause'
+    trigger:
+      - platform: mqtt
+        topic: device/eventghost/play_pause
+        payload: "toggle"
+    action:
+      - service: media_player.media_play_pause
+        entity_id: media_player.vtv_chromecast
+      - service: script.flash_light
+        data:
+          flash_color: "cyan"
+          entity_id: group.tv_lights
+
+
+
+  - alias: 'Toggle MQTT Chromecast Stop'
+    trigger:
+      - platform: mqtt
+        topic: device/eventghost/stop
+        payload: "toggle"
+    action:
+      - service: media_player.media_stop
+        entity_id: media_player.vtv_chromecast
+      - service: script.flash_light
+        data:
+          flash_color: "cyan"
+          entity_id: group.tv_lights
+
+
+
+  - alias: 'Toggle MQTT Chromecast Prev'
+    trigger:
+      - platform: mqtt
+        topic: device/eventghost/prev
+        payload: "1"
+    action:
+      - service: media_player.media_previous_track
+        entity_id: media_player.vtv_chromecast
+      - service: script.flash_light
+        data:
+          flash_color: "cyan"
+          entity_id: group.tv_lights
+
+
+
+  - alias: 'Toggle MQTT Chromecast Next'
+    trigger:
+      - platform: mqtt
+        topic: device/eventghost/next
+        payload: "1"
+    action:
+      - service: media_player.media_next_track
+        entity_id: media_player.vtv_chromecast
+      - service: script.flash_light
+        data:
+          flash_color: "cyan"
+          entity_id: group.tv_lights
+
+
+
+  - alias: 'MQTT Flash Cyan'
+    trigger:
+      - platform: mqtt
+        topic: device/hass/breathe_light
+        payload: "1"
+    action:
+      - service: script.flash_light
+        data:
+          flash_color: "cyan"
+          entity_id: group.tv_lights
+
+
+
+  - alias: 'Button'
+    trigger:
+    - platform: mqtt
+      topic: device/eventghost/button
+    action:
+    - service: script.eventghost_button
+      data_template:
+        button: '{{ trigger.payload }}'
+  - alias: 'Button_Long'
+    trigger:
+    - platform: mqtt
+      topic: device/eventghost/button_long
+    action:
+    - service: script.eventghost_button_long
+      data_template:
+        button: '{{ trigger.payload }}'
+
+##########################################
+########## AUTOMATIONS ###################
+##########################################
+
+
+
+
+##########################################
+########## SCRIPTS #######################
+##########################################
+script:
+  eventghost_button:
+    sequence:
+    - service_template: >
+        {% if button | int == 1 %}
+          scene.turn_on
+        {% elif button | int == 2  %}
+          scene.turn_on
+        {% elif button | int == 3  %}
+          scene.turn_on
+        {% elif button | int == 4  %}
+          scene.turn_on
+        {% elif button | int == 5  %}
+          scene.turn_on
+        {% elif button | int == 6  %}
+          scene.turn_on
+        {% endif %}
+      data_template:
+        entity_id: >
+          {% if button | int == 1 %}
+            scene.day
+          {% elif button | int == 2  %}
+            scene.night_cyan
+          {% elif button | int == 3  %}
+            scene.night_blue
+          {% elif button | int == 4  %}
+            scene.night_red
+          {% elif button | int == 5  %}
+            scene.chill
+          {% elif button | int == 6  %}
+            scene.chill_2
+          {% endif %}
+
+
+  eventghost_button_long:
+    sequence:
+    - service_template: >
+        {% if button | int == 1 %}
+          scene.turn_on
+        {% elif button | int == 2  %}
+          scene.turn_on
+        {% elif button | int == 3  %}
+          scene.turn_on
+        {% elif button | int == 4  %}
+          scene.turn_on
+        {% elif button | int == 5  %}
+          scene.turn_on
+        {% elif button | int == 6  %}
+          script.turn_on
+        {% endif %}
+      data_template:
+        entity_id: >
+          {% if button | int == 1 %}
+            scene.off
+          {% elif button | int == 2  %}
+            scene.night_computer
+          {% elif button | int == 3  %}
+            scene.night_computer_red
+          {% elif button | int == 4  %}
+            scene.off
+          {% elif button | int == 5  %}
+            scene.off
+          {% elif button | int == 6  %}
+            script.10m_flood_day_bright
+          {% endif %}
+
+
+
+# input_boolean:
+##########################################
+########## STORED VARIABLES ##############
+##########################################
+
+
+
+##########################################
+########## OPTIONS #######################
+##########################################

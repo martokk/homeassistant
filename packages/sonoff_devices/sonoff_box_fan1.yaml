@@ -1,0 +1,42 @@
+switch:
+  - platform: mqtt
+    name: sonoff_box_fan1
+    command_topic: "cmnd/sonoff_2752/power"
+    state_topic: "stat/sonoff_2752/POWER"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: true
+
+automation:
+  #********** Volume Adjustment ***************************************#
+  - alias: fan_on_chromecast_volume_up
+    trigger:
+      - platform: state
+        entity_id: switch.sonoff_small_desk_fan1
+        state: 'on'
+    condition:
+      - condition: state
+        entity_id: switch.sonoff_entertainment_center
+        state: 'on'
+    action:
+      - service: mqtt.publish
+        data:
+          topic: "device/eventghost/vol_up_2"
+          payload: '1'
+
+
+  - alias: fan_off_chromecast_volume_down
+    trigger:
+      - platform: state
+        entity_id: switch.sonoff_small_desk_fan1
+        state: 'off'
+    condition:
+      - condition: state
+        entity_id: switch.sonoff_entertainment_center
+        state: 'on'
+    action:
+      - service: mqtt.publish
+        data:
+          topic: "device/eventghost/vol_down_2"
+          payload: '1'

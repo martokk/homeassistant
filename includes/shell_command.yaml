@@ -1,9 +1,0 @@
-  scenegen: 'python v:/hass/scenegen/scenegen.py http://localhost:8123 -k 42157406 > v:/hass/scene/scenegen.yaml'
-
-  turn_off_monitors: psexec \\Desktop-PC C:\Windows\System32\scrnsave.scr /s
-
-  kill_eventghost: 'taskkill /F /T /IM EventGhost.exe'
-  start_eventghost: '"C:/Program Files (x86)/EventGhost/EventGhost.exe"'
-
-  restart_hass: 'V:/hass/_shellscripts/hass_restart.bat'
-  update_hass: 'V:/hass/_shellscripts/hass_restart.bat'

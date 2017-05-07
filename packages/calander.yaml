@@ -1,0 +1,53 @@
+sensor:
+  - platform: template
+    sensors:
+      upcoming_packers_event:
+        friendly_name: 'Packers Game'
+        value_template: >-
+            {%- if states.calendar.green_bay_packers %}
+                {{ states.calendar.green_bay_packers.attributes.message }}
+            {% else %}
+
+            {%- endif %}
+
+      upcoming_packers_start_time:
+        value_template: >-
+            {%- if states.calendar.green_bay_packer %}
+                {{ states.calendar.green_bay_packers.attributes.start_time }}
+            {% else %}
+
+            {%- endif %}
+
+      upcoming_bears_event:
+        friendly_name: 'Bears Game'
+        value_template: >-
+            {%- if states.calendar.chicago_bears %}
+                {{ states.calendar.chicago_bears.attributes.message }}
+            {% else %}
+
+            {%- endif %}
+
+      upcoming_bears_start_time:
+        value_template: >-
+            {%- if states.calendar.chicago_bears %}
+                {{ states.calendar.chicago_bears.attributes.start_time }}
+            {% else %}
+
+            {%- endif %}
+
+      upcoming_twit_event:
+        friendly_name: 'Twit.tv '
+        value_template: >-
+            {%- if states.calendar.twit_live_schedule %}
+                {{ states.calendar.twit_live_schedule.attributes.message }}
+            {% else %}
+
+            {%- endif %}
+
+      upcoming_twit_start_time:
+        value_template: >-
+            {%- if states.calendar.twit_live_schedule %}
+                {{ states.calendar.twit_live_schedule.attributes.start_time }}
+            {% else %}
+
+            {%- endif %}

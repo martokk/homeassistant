@@ -72,6 +72,7 @@
     - group.options_notify2
     - group.options_environment
     - group.options_system
+    - group.options_alarms
 
   all:
     name: "All"

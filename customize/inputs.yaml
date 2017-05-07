@@ -1,6 +1,0 @@
-##########################################
-########## INPUT BOOLEAN ##################
-##########################################
-  input_boolean.var_mike_home:
-    emulated_hue: true
-    emulated_hue_name: "Mike's Home"

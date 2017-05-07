@@ -1,0 +1,541 @@
+homeassistant:
+  customize:
+    # binary_sensor.mqtt_server:
+    #   hidden: true
+    binary_sensor.arris_modem:
+      hidden: true
+    binary_sensor.linksys_ddwrt_router:
+      hidden: true
+    # binary_sensor.sabnzbd:
+    #   hidden: true
+    # binary_sensor.qbittorrent:
+    #   hidden: true
+    # binary_sensor.sonarr:
+    #   hidden: true
+    # binary_sensor.couchpotato:
+    #   hidden: true
+    binary_sensor.ps3_ping:
+      hidden: true
+    sensor.time:
+      hidden: true
+    sensor.date:
+      hidden: true
+    sensor.ifttt_status:
+      hidden: true
+    sensor.lifx_status:
+      hidden: true
+
+panel_iframe:
+  modem:
+    title: 'Modem'
+    url: 'http://192.168.1.1'
+    icon: mdi:wan
+
+  router:
+    title: 'Router'
+    url: 'http://192.168.1.2'
+    icon: mdi:access-point-network
+
+# shell_command:
+  # scenegen: 'python v:/hass/scenegen/scenegen.py http://localhost:8123 -k 42157406 > v:/hass/scene/scenegen.yaml'
+  #
+  # turn_off_monitors: psexec \\Desktop-PC C:\Windows\System32\scrnsave.scr /s
+  #
+  # kill_eventghost: 'taskkill /F /T /IM EventGhost.exe'
+  # start_eventghost: '"C:/Program Files (x86)/EventGhost/EventGhost.exe"'
+  
+binary_sensor:
+  # - platform: command_line
+  #   command: netstat -na | find "8085" | find /c "LISTENING" > nul && (echo 1) || (echo 0)
+  #   name: "qBittorrent"
+  #   device_class: connectivity
+  #   payload_on: 1
+  #   payload_off: 0
+  #
+  # - platform: command_line
+  #   command: netstat -na | find "8090" | find /c "LISTENING" > nul && (echo 1) || (echo 0)
+  #   name: "SABnzbd"
+  #   device_class: connectivity
+  #   payload_on: 1
+  #   payload_off: 0
+  #
+  # - platform: command_line
+  #   command: netstat -na | find "8989" | find /c "LISTENING" > nul && (echo 1) || (echo 0)
+  #   name: "sonarr"
+  #   device_class: connectivity
+  #   payload_on: 1
+  #   payload_off: 0
+  #
+  # - platform: command_line
+  #   command: netstat -na | find "5050" | find /c "LISTENING" > nul && (echo 1) || (echo 0)
+  #   name: "CouchPotato"
+  #   device_class: connectivity
+  #   payload_on: 1
+  #   payload_off: 0
+  #
+  # - platform: command_line
+  #   command: netstat -na | find "1883" | find /c "ESTABLISHED" > nul && (echo 1) || (echo 0)
+  #   name: "MQTT Server"
+  #   device_class: connectivity
+  #   payload_on: 1
+  #   payload_off: 0
+  #   hidden: true
+
+  - platform: ping
+    host: 192.168.1.1
+    name: "ARRIS Modem"
+
+  - platform: ping
+    host: 192.168.1.2
+    name: "Linksys DDWRT Router"
+
+  - platform: ping
+    host: 192.168.1.50
+    name: "PS3 Ping"
+
+
+sensor:
+  #********** PI HOLE ***************************************#
+  # - platform: pi_hole
+  #   host: 192.168.1.3
+
+  #********** SABNZBD ***************************************#
+  - platform: sabnzbd
+    host: 192.168.1.82
+    port: 8090
+    api_key: !secret sabnzbd_api_key
+    monitored_variables:
+    - current_status
+    - speed
+    - queue_size
+    - queue_remaining
+    - disk_size
+    - disk_free
+
+  #********** SONARR ***************************************#
+  - platform: sonarr
+    api_key: !secret sonarr_api_key
+    host: 192.168.1.82
+    port: 8989
+    monitored_conditions:
+      - upcoming     #   The number of upcoming episodes.
+      - diskspace    #   Available disk space.
+    days: 1          #   How many days to look ahead for the upcoming sensor, 1 means today only (Default: 1).
+    unit: TB           #    (Optional): The unit to display disk space in (Default: GB).
+
+  #********** IFTTT CLOUD ***************************************#
+  # - platform: scrape
+  #   resource: http://status.ifttt.com/
+  #   name: "IFTTT Status"
+  #   select: '.component-status'
+  #   scan_interval: 300
+
+  #********** SPEED TEST ***************************************#
+  - platform: speedtest
+    minute:
+      - 0
+      - 30
+    monitored_conditions:
+      # - ping
+      - download
+      - upload
+
+  #********** System Monitor ***************************************#
+  # - platform: systemmonitor
+  #   resources:
+  #     - type: disk_free
+  #       arg: /v
+  #     - type: memory_free
+  #     - type: processor_use
+  #     - type: since_last_boot
+  #     - type: last_boot
+  #     - type: processor_use
+  #     - type: memory_use_percent
+
+  #********** Time & Date ***************************************#
+  - platform: time_date
+    display_options:
+      - 'time'
+      - 'date'
+
+  #********** Templates ***************************************#
+  - platform: template
+    sensors:
+      # pihole_queries_blocked_today:
+      #   friendly_name: "DNS Queries Blocked Today"
+      #   value_template: >-
+      #       {%- if states.sensor.pihole.state %}
+      #           {{ states.sensor.pihole.state }}
+      #       {% else %}
+      #           0
+      #       {%- endif %}
+      #
+      # pihole_queries_today:
+      #   friendly_name: "DNS Queries Today"
+      #   value_template: >-
+      #       {%- if states.sensor.pihole.attributes.queries_today  %}
+      #           {{ states.sensor.pihole.attributes.queries_today }}
+      #       {% else %}
+      #           0
+      #       {%- endif %}
+      #
+      # pihole_percentage_today:
+      #   friendly_name: "Today's Percentaged Blocked"
+      #   unit_of_measurement: '%'
+      #   value_template: >-
+      #       {%- if states.sensor.pihole.attributes.percentage_today %}
+      #           {{ states.sensor.pihole.attributes.percentage_today }}
+      #       {% else %}
+      #           0
+      #       {%- endif %}
+      #
+      # pihole_domains_blocked:
+      #   friendly_name: "Domains Being Blocked"
+      #   value_template: >-
+      #       {%- if states.sensor.pihole.attributes.domains_blocked %}
+      #           {{ states.sensor.pihole.attributes.domains_blocked }}
+      #       {% else %}
+      #           0
+      #       {%- endif %}
+      #
+      # server_sabnzbd:
+      #   friendly_name: "SABnzbd"
+      #   value_template: '{% if is_state("binary_sensor.sabnzbd", "on") %}online{% else %}OFFLINE{% endif %}'
+      #
+      # server_qbittorrent:
+      #   friendly_name: "qBittorrent"
+      #   value_template: '{% if is_state("binary_sensor.qbittorrent", "on") %}online{% else %}OFFLINE{% endif %}'
+      #
+      # server_sonarr:
+      #   friendly_name: "Sonarr"
+      #   value_template: '{% if is_state("binary_sensor.sonarr", "on") %}online{% else %}OFFLINE{% endif %}'
+      #
+      # server_couchpotato:
+      #   friendly_name: "CouchPotato"
+      #   value_template: '{% if is_state("binary_sensor.couchpotato", "on") %}online{% else %}OFFLINE{% endif %}'
+
+      # server_pihole:
+      #   friendly_name: "Pi-Hole"
+      #   value_template: '{% if is_state("device_tracker.pihole", "home") %}online{% else %}OFFLINE{% endif %}'
+
+      server_modem:
+        friendly_name: "ARRIS Modem"
+        value_template: '{% if is_state("binary_sensor.arris_modem", "on") %}online{% else %}OFFLINE{% endif %}'
+
+      server_router:
+        friendly_name: "Linksys DD-WRT Router"
+        value_template: '{% if is_state("binary_sensor.linksys_ddwrt_router", "on") %}online{% else %}OFFLINE{% endif %}'
+
+      # server_mqtt:
+      #   friendly_name: "MQTT Server"
+      #   value_template: '{% if is_state("binary_sensor.mqtt_server", "on") %}online{% else %}OFFLINE{% endif %}'
+
+      ##################################
+      ######### CLOUD TEMPLATES ########
+      ##################################
+
+      # cloud_ifttt:
+      #   friendly_name: "IFTTT Cloud"
+      #   value_template: '{% if "Operational" in states("sensor.ifttt_status") %}online{% else %}Unknown{% endif %}'
+
+      ##################################
+      ########### IOT TEMPLATES ########
+      ##################################
+
+      iot_echo_dot:
+        friendly_name: "Echo Dot"
+        value_template: '{% if is_state("device_tracker.echo_dot", "home") %}online{% else %}OFFLINE{% endif %}'
+
+      iot_esp8266_kitchen:
+        friendly_name: "ESP8266 - Kitchen"
+        value_template: '{% if is_state("device_tracker.esp8266_kitchen", "home") %}online{% else %}OFFLINE{% endif %}'
+
+      iot_esp8266_office:
+        friendly_name: "ESP8266 - Office"
+        value_template: '{% if is_state("device_tracker.esp8266_office", "home") %}online{% else %}OFFLINE{% endif %}'
+
+      iot_esp8266_tables:
+        friendly_name: "ESP8266 - Tables"
+        value_template: '{% if is_state("device_tracker.esp8266_tables", "home") %}online{% else %}OFFLINE{% endif %}'
+
+      iot_esp8266_entertainment_center:
+        friendly_name: "ESP8266 - Entertainment Center"
+        value_template: '{% if is_state("device_tracker.esp8266_entertainment_center", "home") %}online{% else %}OFFLINE{% endif %}'
+
+      iot_esp8266_bedroom:
+        friendly_name: "ESP8266 - Bedroom"
+        value_template: '{% if is_state("device_tracker.esp8266_bedroom", "home") %}online{% else %}OFFLINE{% endif %}'
+
+      ###############################
+      #### VHOME STATUS ALERTS ######
+      ###############################
+
+      server_status_alert:
+        friendly_name: 'Server Status'
+        value_template: >
+          {% for server in states.group.server_status.attributes.entity_id -%}
+            {%if is_state(server, "online") %}
+            {%else%}
+              {{ server }} - {{ states(server) }};
+            {%endif%}
+          {%- endfor -%}
+
+      # cloud_status_alert:
+      #   friendly_name: 'Cloud Status'
+      #   value_template: >
+      #     {% for cloud in states.group.cloud_status.attributes.entity_id -%}
+      #       {%if is_state(cloud, "online") %}
+      #       {%else%}
+      #         {{ cloud }} - {{ states(cloud) }};
+      #       {%endif%}
+      #     {%- endfor -%}
+
+      iot_status_alert:
+        friendly_name: 'IoT Status'
+        value_template: >
+          {% for iot in states.group.iot_status.attributes.entity_id -%}
+            {%if is_state(iot, "online") %}
+            {%else%}
+              {{ iot }} - {{ states(iot) }};
+            {%endif%}
+          {%- endfor -%}
+
+      sonarr_upcoming_episodes:
+        friendly_name: "Upcoming Episodes"
+        value_template: >
+          {% if states.sensor.sonarr_upcoming %}
+            {% if states.sensor.sonarr_upcoming.state | int > 0 %}
+              {% for episode in states.sensor.sonarr_upcoming.attributes %}
+                {% if "icon" not in episode | string and "unit_of_measurement" not in episode | string  and "friendly_name"  not in episode | string %}
+                  {{episode}} |
+                {%endif %}
+              {% endfor %}
+            {% endif %}
+          {% endif %}
+
+automation:
+##########################################
+########## NOTIFICATIONS #################
+##########################################
+
+  #********** Home Assistant Update ***************************************#
+  # - alias: HOME ASSISTANT Update Notificaiton
+  #   trigger:
+  #     - platform: state
+  #       entity_id: updater.updater
+  #   action:
+  #     - service: script.notify2
+  #       data_template:
+  #         telegram_message: |
+  #           Home Assistant updated to v{{ states.updater.updater.state}}
+  #           {{ states.updater.updater.attributes.release_notes }}
+  #         tts_entity_id: group.tts_devices
+  #         tts_sound: 'intercom_ds9.mp3'
+  #         tts_message: "FYI: There is a new update for Home Assistant available!"
+  #         mlo_message: "Update Home Assistant to {{ states.updater.updater.state}}.  {{ states.updater.updater.attributes.release_notes }}"
+
+
+  #********** HASS Startup ***************************************#
+  # - alias: 'HASS Startup'
+  #   trigger:
+  #     - platform: homeassistant
+  #       event: start
+  #   action:
+  #     - service: script.timebased_scene
+  #     - service: script.notify2
+  #       data:
+  #         telegram_message: "Home Assistant Server Restarted!"
+  #         tts_sound: startup/startup_ds9.wav
+
+  #Temporary Soltuion to homeasstant start event not triggering >> https://github.com/home-assistant/home-assistant/issues/7058
+  - alias: 'TEMPORARY_HASS Startup'
+    trigger:
+      - platform: time
+        seconds: '/5'
+    condition:
+      - condition: state
+        entity_id: input_boolean.var_startup
+        state: 'on'
+    action:
+      - service: script.timebased_scene
+      - service: script.notify2
+        data:
+          telegram_message: "Home Assistant Server Restarted!"
+          tts_sound: startup/startup_ds9.wav
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_startup
+
+
+  #********** Server Service Down ***************************************#
+  - alias: "Server Service Down"
+    trigger:
+      - platform: template
+        value_template: >
+          {% if states.sensor.server_status_alert.state != "" %}
+            true
+          {%else%}
+            false
+          {%endif%}
+    action:
+      - service: script.notify2
+        data_template:
+          telegram_message: |
+            Server Service Down! -
+            {{ states.sensor.server_status_alert.state }}
+
+
+  - alias: "Cloud Service Down"
+    trigger:
+      - platform: template
+        value_template: >
+          {% if states.sensor.cloud_status_alert.state != "" %}
+            true
+          {%else%}
+            false
+          {%endif%}
+    action:
+      - service: script.notify2
+        data_template:
+          telegram_message: |
+            Cloud Service Down! -
+            {{ states.sensor.cloud_status_alert.state }}
+
+
+  - alias: "IoT Device Down"
+    trigger:
+      - platform: template
+        value_template: >
+          {% if states.sensor.iot_status_alert.state != "" %}
+            true
+          {%else%}
+            false
+          {%endif%}
+    action:
+      - service: script.notify2
+        data_template:
+          telegram_message: |
+            IoT Device Down! -
+            {{ states.sensor.iot_status_alert.state }}
+
+
+  #********** Sonarr Notifications ***************************************#
+  - alias: "Upcoming Episodes"
+    trigger:
+      - platform: numeric_state
+        entity_id: sensor.sonarr_upcoming
+        above: 0
+    action:
+      - service: script.notify2
+        data_template:
+          email_message: |
+            Upcoming Episodes! -
+            {% for episode in states.sensor.sonarr_upcoming.attributes %}
+              {% if "icon" not in episode | string and "unit_of_measurement" not in episode | string  and "friendly_name"  not in episode | string %}
+                {{episode}} |
+
+              {%endif %}
+            {% endfor %}
+
+  #********** Server ***************************************#
+  - alias: "Disk Space Low"
+    trigger:
+      - platform: numeric_state
+        entity_id: sensor.sabnzbd_disk_free
+        below: 8
+    action:
+      - condition: template
+        value_template: >
+          {% if states.automation.disk_space_low.attributes.last_triggered %}
+            {% if (as_timestamp(now())-as_timestamp(states.automation.disk_space_low.attributes.last_triggered)) > (2 * 60 * 60)  %}
+              true
+            {% else %}
+              false
+            {% endif %}
+          {%else%}
+            true
+          {%endif%}
+      - service: script.notify2
+        data_template:
+          telegram_message: |
+            V: Disk Space Low! -
+            {{ states.sensor.sabnzbd_disk_free.state }}GB Free
+          flood_color: "red"
+          blink_color: "magenta"
+          tts_entity_id: group.tts_devices
+          tts_sound: 'intercom_ds9.mp3'
+          tts_message: "Warning Disk Space Low! There is only {{ states.sensor.sabnzbd_disk_free.state | int | round(0) }} gigs free on Dell Laptop's V drive."
+
+  #********** Logger ***************************************#
+  - alias: Log Level
+    trigger:
+      platform: state
+      entity_id: input_select.option_log_level
+    action:
+      service: logger.set_level
+      data_template:
+        homeassistant.components: "{{ trigger.to_state.state }}"
+
+
+  #********** SpeetTest Notification ***************************************#
+  - alias: "SpeedTest Speed Low"
+    trigger:
+      - platform: numeric_state
+        entity_id: sensor.speedtables_download
+        below: 15
+    action:
+      - condition: template
+        value_template: >
+          {% if states.automation.speedtables_speed_low.attributes.last_triggered %}
+            {% if (as_timestamp(now())-as_timestamp(states.automation.speedtables_speed_low.attributes.last_triggered)) > (2 * 60 * 60)  %}
+              true
+            {% else %}
+              false
+            {% endif %}
+          {%else%}
+            true
+          {%endif%}
+      - service: script.notify2
+        data_template:
+          telegram_message: |
+            Speed Test LOW! -
+            {{ states.sensor.speedtables_download.state }}Mbit/s
+
+
+##########################################
+########## AUTOMATIONS ###################
+##########################################
+
+
+##########################################
+########## SCRIPTS #######################
+##########################################
+script:
+  restart_eventghost:
+    alias: "Restart EventGhost"
+    sequence:
+    - service: shell_command.kill_eventghost
+    - service: shell_command.start_eventghost
+
+input_boolean:
+##########################################
+########## STORED VARIABLES ##############
+##########################################
+  var_startup: #Turns off after startup.
+    initial: on
+
+##########################################
+########## OPTIONS #######################
+##########################################
+input_select:
+  option_log_level:
+    name: Error Log Level
+    options:
+      - critical
+      - fatal
+      - error
+      - warning
+      - warn
+      - info
+      - debug
+      - notset
+    initial: warn

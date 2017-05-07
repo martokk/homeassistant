@@ -1,0 +1,265 @@
+# homeassistant:
+#   customize:
+switch:
+  - platform: mqtt
+    name: ambivision
+    command_topic: "device/eventghost/led_standby"
+    
+# lights:
+binary_sensor:
+  - platform: mqtt
+    name: "PS3"
+    state_topic: "device/ps3/power"
+    device_class: connectivity
+    payload_on: "1"
+    payload_off: "0"
+
+# sensor:
+
+automation:
+##########################################
+########## NOTIFICATIONS #################
+##########################################
+
+
+##########################################
+########## AUTOMATIONS ###################
+##########################################
+
+  #********** Entertainment Center On/Off ***************************************#
+  - alias: entertainment_center_turn_on_every_15m
+    trigger:
+      - platform: state
+        entity_id: input_boolean.var_mike_home
+        state: 'on'
+      - platform: time
+        minutes: 15
+        seconds: 00
+    condition:
+      - condition: state
+        entity_id: input_boolean.var_mike_home
+        state: 'on'
+      - condition: state
+        entity_id: switch.sonoff_entertainment_center
+        state: 'off'
+      - condition: time
+        after: '12:00:00'
+        before: '21:00:00'
+    action:
+      - service: switch.turn_on
+        entity_id: switch.sonoff_entertainment_center
+
+
+  - alias: entertainment_center_turn_on
+    trigger:
+      - platform: state
+        entity_id: input_boolean.var_ps3_on
+        state: 'on'
+      - platform: state
+        entity_id: input_boolean.var_dan_home
+        state: 'on'
+    condition:
+      - condition: state
+        entity_id: input_boolean.var_mike_home
+        state: 'on'
+      - condition: state
+        entity_id: switch.sonoff_entertainment_center
+        state: 'off'
+    action:
+      - service: switch.turn_on
+        entity_id: switch.sonoff_entertainment_center
+
+
+  - alias: entertainment_center_turn_on_chromecast_playing
+    trigger:
+      - platform: state
+        entity_id: sensor.chromecast_playing_app
+    condition:
+      - condition: state
+        entity_id: input_boolean.var_mike_home
+        state: 'on'
+      - condition: state
+        entity_id: switch.sonoff_entertainment_center
+        state: 'off'
+      - condition: template
+        value_template: '{{ states.sensor.chromecast_playing_app.state | lower in states.input_select.array_chromecast_playing_apps.attributes.options | lower}}'
+    action:
+      - service: switch.turn_on
+        entity_id: switch.sonoff_entertainment_center
+
+
+  - alias: entertainment_center_turn_off_mike_not_home
+    trigger:
+      - platform: state
+        entity_id: input_boolean.var_mike_home
+        from: 'on'
+        to: 'off'
+      - platform: time
+        minutes: '/30' #every 30 min
+    condition:
+      - condition: state
+        entity_id: input_boolean.var_mike_home
+        state: 'off'
+      - condition: state
+        entity_id: switch.sonoff_entertainment_center
+        state: 'on'
+    action:
+      - service: script.entertainment_center_turn_off
+
+
+  - alias: 'TV Turned Off - Red Flash'
+    trigger:
+      platform: state
+      entity_id: switch.sonoff_entertainment_center
+      state: 'off'
+    action:
+      - service: script.notify2
+        data_template:
+          flash_color: "red"
+          entity_id: group.tv_lights
+
+
+  - alias: 'TV Turned On - Green Flash'
+    trigger:
+      platform: state
+      entity_id: switch.sonoff_entertainment_center
+      state: 'on'
+    action:
+      - service: script.notify2
+        data_template:
+          flash_color: "green"
+          entity_id: group.tv_lights
+
+
+  #********** Ambivision On/Off ***************************************#
+  - alias: ambivision_turn_on
+    trigger:
+      - platform: state
+        entity_id: switch.sonoff_entertainment_center
+        from: 'off'
+        to: 'on'
+    action:
+      - service: switch.turn_on
+        entity_id: switch.ambivision
+
+  - alias: ambivision_turn_off
+    trigger:
+      - platform: state
+        entity_id: switch.sonoff_entertainment_center
+        from: 'on'
+        to: 'off'
+    action:
+      - service: switch.turn_off
+        entity_id: switch.ambivision
+
+
+  #********** PS3 ***************************************#
+  - alias: ps3_turn_on
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.ps3
+        state: 'on'
+      - platform: state
+        entity_id: binary_sensor.ps3_ping
+        state: 'on'
+    condition:
+      - condition: state
+        entity_id: input_boolean.var_ps3_on
+        state: 'off'
+    action:
+      - service: homeassistant.turn_on
+        entity_id: input_boolean.var_ps3_on
+      - service: mqtt.publish
+        data:
+          topic: "device/eventghost/input_game"
+          payload: '1'
+
+  - alias: ps3_turn_off
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.ps3
+        state: 'off'
+      - platform: state
+        entity_id: binary_sensor.ps3_ping
+        state: 'off'
+    condition:
+      - condition: state
+        entity_id: input_boolean.var_ps3_on
+        state: 'on'
+    action:
+      - service: homeassistant.turn_off
+        entity_id: input_boolean.var_ps3_on
+      - service: mqtt.publish
+        data:
+          topic: "device/eventghost/input_cbl"
+          payload: '1'
+
+
+##########################################
+########## SCRIPTS #######################
+##########################################
+script:
+  entertainment_center_turn_off:
+    sequence:
+    - condition: state
+      entity_id: input_boolean.var_ps3_on
+      state: 'off'
+    - condition: template
+      value_template: >-
+        {% if states.media_player.vtv_chromecast.state != "playing" %}
+          true
+        {%else%}
+          {% if states.media_player.vtv_chromecast.attributes.app_name | lower in states.input_select.array_chromecast_idle_apps | lower %}
+            true
+          {%else%}
+            false
+          {%endif%}
+        {%endif%}
+    - service: switch.turn_off
+      entity_id: switch.sonoff_entertainment_center
+
+
+  set_volume_4:
+    alias: "Set Volume (4)"
+    sequence:
+    - condition: state
+      entity_id: binary_sensor.ps3
+      state: 'off'
+    - service: mqtt.publish
+      data_template:
+        topic: "device/eventghost/set_vol_4"
+        payload: '1'
+
+
+  set_volume_9:
+    alias: "Set Volume (9)"
+    sequence:
+    - condition: state
+      entity_id: binary_sensor.ps3
+      state: 'off'
+    - service: mqtt.publish
+      data_template:
+        topic: "device/eventghost/set_vol_9"
+        payload: '1'
+
+
+  set_volume_14:
+    alias: "Set Volume (14)"
+    sequence:
+    - condition: state
+      entity_id: binary_sensor.ps3
+      state: 'off'
+    - service: mqtt.publish
+      data_template:
+        topic: "device/eventghost/set_vol_14"
+        payload: '1'
+
+input_boolean:
+##########################################
+########## STORED VARIABLES ##############
+##########################################
+  var_ps3_on:
+
+##########################################
+########## OPTIONS #######################
+##########################################

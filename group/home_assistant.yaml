@@ -13,8 +13,6 @@
       - input_select.var_last_known_scene_helper
       - input_boolean.var_mike_home
       - input_boolean.var_dan_home
-      - input_boolean.var_start_notifications_1m
-      - input_boolean.var_first_notification_of_day
       - input_boolean.var_chromecast_screensaver_ready
       - input_boolean.var_ps3_on
       - input_boolean.var_kitchen_on
@@ -23,7 +21,7 @@
       - input_boolean.var_smoke_session_on
       - input_boolean.var_circulate_air_on
       - input_boolean.var_chromecast_interupt
-      - input_boolean.var_alarm_530am_silver_lamp_on
+      - input_boolean.var_morning_alarm_on
       - input_slider.var_kitchen_brightness
       - input_slider.var_kitchen_color_temp
       - input_slider.var_kitchen_delay
@@ -36,6 +34,7 @@
       - input_select.array_day_scenes
       - input_select.array_chromecast_playing_apps
       - input_select.array_chromecast_idle_apps
+      - input_select.array_timebased_telegram_summary_times
 
   scripts_lights:
     name: "Scripts - Lights"

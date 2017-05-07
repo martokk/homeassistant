@@ -97,6 +97,28 @@
     - light.kitchen_right
     - light.bedroom_led_strip
 
+  timebased_flood_lights:
+    name: "Timebased - Hourly Flash Lights"
+    entities:
+    - light.living_room_overhead
+    - light.tv_overhead_left
+    - light.tv_overhead_right
+    - light.office_left
+    - light.office_center
+    - light.office_right
+    - light.kitchen_left
+    - light.kitchen_right
+    - light.bedroom_led_strip
+    - light.end_table_left
+    - light.end_table_right
+    - light.tv_floor_left
+    - light.tv_floor_right
+    - light.tables_led_strip
+    - light.entertainment_center_led_strip
+    - light.office_led_strip
+    - light.kitchen_led_strip
+
+
   office_lights:
     name: "Office"
     entities:

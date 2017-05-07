@@ -1,0 +1,80 @@
+#********** Timebased Telegram Summary ***************************************#
+script:
+  timebased_telegram_summary:
+    sequence:
+      ### HEADER
+      - service: script.notify2
+        data_template:
+          telegram_message: |
+            *##########################*
+            *######### {{ states.sensor.date.state }} ########*
+      ### WEATHER
+      - service: script.notify2
+        data_template:
+          telegram_message: |
+            *WEATHER*
+            *Indoor:* {{ states.sensor.indoor_temperature.state | round(0) }}°F   *Outdoor:* {{ states.sensor.dark_sky_temperature.state | round(0) }}°F
+            *Now:* {{ states.sensor.dark_sky_summary.state }}
+            *This Hour:* {{ states.sensor.dark_sky_minutely_summary.state }}
+            *Today:* {{ states.sensor.dark_sky_hourly_summary.state }}
+      - service: script.notify2
+        data:
+          telegram_url: http://sirocco.accuweather.com/nxssa_r1_h_500x620d/r1h/inxr1kmkea_h.gif
+      ### DEVICE BATTERIES
+      - service: script.notify2
+        data_template:
+          telegram_message: |
+            *DEVICE BATTERIES*
+            *iPhone:* {{ states.sensor.iphone6s_battery.state | round(0) }}%   *Watch:* {{ states.sensor.watch_battery.state | round(0) }}%   *iPad:* {{ states.sensor.ipad_battery.state | round(0) }}%
+      ### BITCOIN
+      - service: script.notify2
+        data_template:
+          telegram_message: |
+            *BITCOIN*
+            *Bitcoin:* ${{ states.sensor.bitcoin.state | round(0) }}
+            *24h:* {{ states.sensor.bitcoin_percent_change_24h.state | round(1) }}%
+            *7Day:* {{ states.sensor.bitcoin_percent_change_7d.state | round(1) }}%
+      - service: script.notify2
+        data:
+          telegram_url: http://bitcoincharts.com/charts/chart.png?width=848&height=480&m=bitstampUSD&SubmitButton=Draw&r=2&i=5-min&c=0&s=&e=&Prev=&Next=&t=C&b=&a1=&m1=10&a2=&m2=25&x=0&i1=&i2=&i3=&i4=&v=1&cv=0&ps=0&l=0&p=0&
+      ### ENDING
+      - service: script.notify2
+        data_template:
+          telegram_message: |
+            *######### END ###############*
+            *#############################*
+
+
+
+
+#********** Automation Trigger ***************************************#
+automation:
+  - alias: 'Timebased Telegram Summary'
+    trigger:
+      # - platform: template
+      #   value_template: '{{ states.sensor.time.state | string in states.input_select.array_timebased_telegram_summary_times.attributes.options | string }}'
+     - platform: time
+       minutes: '/1'
+       seconds: 00
+    condition:
+      - condition: template
+        value_template: '{{ states.sensor.time.state | string in states.input_select.array_timebased_telegram_summary_times.attributes.options | string }}'
+      - condition: state
+        entity_id: input_boolean.option_timebased_telegram_summary
+        state: 'on'
+    action:
+      - service: script.timebased_telegram_summary
+
+
+#********** Options - Alarms ***************************************#
+input_boolean:
+  option_timebased_telegram_summary:
+    name: "Timebased Telegram Summary"
+    initial: on
+
+input_select:
+  array_timebased_telegram_summary_times:
+    options:
+      - "05:30"
+      - "17:00"
+      - "21:00"

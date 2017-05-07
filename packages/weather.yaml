@@ -1,0 +1,380 @@
+homeassistant:
+  customize:
+    sensor.dark_sky_apparent_temperature:
+        friendly_name: "Outdoor Temperature (Apparent)"
+    sensor.dark_sky_cloud_coverage:
+        friendly_name: "Cloud Coverage"
+    sensor.dark_sky_daily_high_apparent_temperature:
+        friendly_name: "Temp. High (Apparent)"
+    sensor.dark_sky_daily_high_temperature:
+        friendly_name: "Temp. High"
+    sensor.dark_sky_daily_low_apparent_temperature:
+        friendly_name: "Temp. Low (Apparent)"
+    sensor.dark_sky_daily_low_temperature:
+        friendly_name: "Temp. Low"
+    sensor.dark_sky_daily_max_precip_intensity:
+        friendly_name: "Precipitation Intensity"
+    sensor.dark_sky_daily_summary:
+        friendly_name: "This Week"
+    sensor.dark_sky_dew_point:
+        friendly_name: "Dew Point"
+    sensor.dark_sky_hourly_summary:
+        friendly_name: "Today"
+    sensor.dark_sky_humidity:
+        friendly_name: "Outdoor Humidity"
+    sensor.dark_sky_icon:
+        friendly_name: "Icon"
+        icon: '{{ "mdi:"+states("sensor.dark_sky_icon") }}'
+    sensor.dark_sky_minutely_summary:
+        friendly_name: "This Hour"
+    sensor.dark_sky_nearest_storm_bearing:
+        friendly_name: "Storm Bearing"
+    sensor.dark_sky_nearest_storm_distance:
+        friendly_name: "Storm Distance"
+    sensor.dark_sky_ozone:
+        friendly_name: Ozone
+    sensor.dark_sky_precip:
+        friendly_name: Precipitation Type
+    sensor.dark_sky_precip_intensity:
+        friendly_name: "Precipitation Intensity"
+    sensor.dark_sky_precip_probability:
+        friendly_name: "Precipitation Probability"
+    sensor.dark_sky_pressure:
+        friendly_name: Pressure
+    sensor.dark_sky_summary:
+        friendly_name: Now
+    sensor.dark_sky_temperature:
+        friendly_name: Outdoor Temperature
+    sensor.dark_sky_visibility:
+        friendly_name: Visibility
+    sensor.dark_sky_wind_bearing:
+        friendly_name: "Wind Bearing"
+    sensor.dark_sky_wind_speed:
+        friendly_name: "Wind Speed"
+
+sensor:
+  - platform: darksky
+    api_key: !secret darksky_api_key
+    monitored_conditions:
+      - summary
+      - icon
+      - nearest_storm_distance
+      - nearest_storm_bearing
+      - precip_type
+      - precip_intensity
+      - precip_probability
+      - temperature
+      - apparent_temperature
+      - cloud_cover
+      - humidity
+      - minutely_summary
+      - hourly_summary
+      - daily_summary
+      - temperature_max
+      - temperature_min
+      - apparent_temperature_max
+      - apparent_temperature_min
+      - precip_intensity_max
+
+  - platform: wunderground
+    api_key: f8ca5a2fd45a109d
+    # pws_id: KLAAMITE2
+    monitored_conditions:
+      - alerts
+
+  - platform: template
+    sensors:
+      weather_alert:
+        friendly_name: 'Weather Alerts'
+        value_template: >-
+          {% set criteria = ["Tornado Warning", "Tornado Watch", "Severe Thunderstorm Warning", "Flood Warning", "Severe Weather Statement", "Severe Thunderstorm Watch", "HUR", "TOR", "TOW", "WRN", "SEW", "FLO", "WAT", "SVR"] %}
+          {% if states.sensor.pws_alerts %}
+            {% for state in states.sensor.pws_alerts.attributes -%}
+              {% if "Description" in state | string %}
+                {% set description = states.sensor.pws_alerts.attributes[state] | string %}
+                {% for item in criteria %}
+                  {% if item in description %}
+                    {{ description }}
+                  {% else %}
+                  {% endif -%}
+                {%endfor%}
+              {%endif%}
+            {%- endfor -%}
+          {% endif %}
+
+
+##########################################
+########## NOTIFICATIONS #################
+##########################################
+automation:
+  #********** Rain ***************************************#
+  - alias: 'Rain_Start'
+    trigger:
+    - platform: state
+      entity_id: sensor.dark_sky_precip
+      state: 'rain'
+    condition:
+      - condition: template
+        value_template: '{{"rain" in states.sensor.dark_sky_minutely_summary.state | lower}}'
+      - condition: template
+        value_template: >
+          {% if states.automation.rain_start.attributes.last_triggered %}
+            {% if (as_timestamp(now())-as_timestamp(states.automation.rain_start.attributes.last_triggered)) > (2 * 60 * 60)  %}
+              true
+            {% else %}
+              false
+            {% endif %}
+          {%else%}
+            true
+          {%endif%}
+    action:
+    - service: script.notify2
+      data_template:
+        flood_color: "gold"
+        blink_color: "blue"
+        blink_color2: "green"
+        telegram_url: http://static.lakana.com/mmm-wisctv-media-us-east-1/weather/Local_Radar_Loop.gif
+        telegram_message: |
+          *{{ states("sensor.dark_sky_minutely_summary") }}*
+          {{ states("sensor.dark_sky_hourly_summary") }}
+        tts_entity_id: group.tts_devices
+        tts_sound: 'intercom_ds9.mp3'
+        tts_message: '{{ states("sensor.dark_sky_minutely_summary") }}'
+
+  - alias: 'Rain_Stop'
+    trigger:
+    - platform: state
+      entity_id: sensor.dark_sky_precip
+      from: 'rain'
+      to: 'unknown'
+      for:
+        minutes: 10
+    condition:
+    - condition: time
+      after: '05:00:00'
+      before: '02:00:00'
+    action:
+    - condition: template
+      value_template: >
+        {% if states.automation.rain_stop.attributes.last_triggered %}
+          {% if (as_timestamp(now())-as_timestamp(states.automation.rain_stop.attributes.last_triggered)) > (2 * 60 * 60)  %}
+            true
+          {% else %}
+            false
+          {% endif %}
+        {%else%}
+          true
+        {%endif%}
+    - service: script.notify2
+      data_template:
+        flood_color: "gold"
+        blink_color: "blue"
+        blink_color2: "red"
+        telegram_message: |
+          *{{ states("sensor.dark_sky_minutely_summary") }}*
+          {{ states("sensor.dark_sky_hourly_summary") }}
+        tts_entity_id: group.tts_devices
+        tts_sound: 'intercom_ds9.mp3'
+        tts_message: '{{ states("sensor.dark_sky_minutely_summary") }} {{ states("sensor.dark_sky_hourly_summary") }}'
+
+  #********** Snow ***************************************#
+  - alias: 'Snow_Start'
+    trigger:
+    - platform: state
+      entity_id: sensor.dark_sky_precip
+      state: 'snow'
+    condition:
+      - condition: template
+        value_template: '{{"snow" in states.sensor.dark_sky_minutely_summary.state | lower}}'
+      - condition: template
+        value_template: >
+          {% if states.automation.snow_start.attributes.last_triggered %}
+            {% if (as_timestamp(now())-as_timestamp(states.automation.snow_start.attributes.last_triggered)) > (2 * 60 * 60)  %}
+              true
+            {% else %}
+              false
+            {% endif %}
+          {%else%}
+            true
+          {%endif%}
+    action:
+    - service: script.notify2
+      data_template:
+        flood_color: "gold"
+        blink_color: "cyan"
+        blink_color2: "green"
+        telegram_url: http://static.lakana.com/mmm-wisctv-media-us-east-1/weather/Local_Radar_Loop.gif
+        telegram_message: |
+          *{{ states("sensor.dark_sky_minutely_summary") }}*
+          {{ states("sensor.dark_sky_hourly_summary") }}
+        tts_entity_id: group.tts_devices
+        tts_sound: 'intercom_ds9.mp3'
+        tts_message: '{{ states("sensor.dark_sky_minutely_summary") }}'
+
+  - alias: 'Snow_Stop'
+    trigger:
+    - platform: state
+      entity_id: sensor.dark_sky_precip
+      from: 'snow'
+      to: 'unknown'
+      for:
+        minutes: 10
+    condition:
+    - condition: time
+      after: '05:00:00'
+      before: '02:00:00'
+    action:
+    - condition: template
+      value_template: >
+        {% if states.automation.snow_stop.attributes.last_triggered %}
+          {% if (as_timestamp(now())-as_timestamp(states.automation.snow_stop.attributes.last_triggered)) > (2 * 60 * 60)  %}
+            true
+          {% else %}
+            false
+          {% endif %}
+        {%else%}
+          true
+        {%endif%}
+    - service: script.notify2
+      data_template:
+        flood_color: "gold"
+        blink_color: "cyan"
+        blink_color2: "red"
+        telegram_message: |
+          *{{ states("sensor.dark_sky_minutely_summary") }}*
+          {{ states("sensor.dark_sky_hourly_summary") }}
+        tts_entity_id: group.tts_devices
+        tts_sound: 'intercom_ds9.mp3'
+        tts_message: '{{ states("sensor.dark_sky_minutely_summary") }} {{ states("sensor.dark_sky_hourly_summary") }}'
+
+  #********** Weather Alerts ***************************************#
+  - alias: "Weather Alert"
+    trigger:
+      - platform: state
+        entity_id: sensor.weather_alerts
+    condition:
+      - condition: template
+        value_template: '{{"kenosha" in states.sensor.pws_alerts.attributes.message | lower }}'
+      - condition: template
+        value_template: >
+          {% if states.automation.weather_alert.attributes.last_triggered %}
+            {% if (as_timestamp(now())-as_timestamp(states.automation.weather_alert.attributes.last_triggered)) > (6 * 60 * 60)  %}
+              true
+            {% else %}
+              false
+            {% endif %}
+          {%else%}
+            true
+          {%endif%}
+    action:
+      - service: script.notify2
+        data_template:
+          telegram_message: |
+            *WEATHER ALERT!*
+            {{ states("sensor.weather_alert") }}
+            {{ states.sensor.pws_alerts.attributes.Message }}
+          telegram_url: http://sirocco.accuweather.com/nxssa_r1_h_500x620d/r1h/inxr1kmkea_h.gif
+          flood_color: "yellow"
+          blink_color: "red"
+          chromecast_entity_id: media_player.vtv_chromecast
+          chromecast_link: https://sirocco.accuweather.com/nxssa_r1_h_500x620d/r1h/inxr1kmkea_h.gif
+          tts_entity_id: group.tts_devices
+          tts_sound: 'intercom_ds9.mp3'
+          tts_message: 'Weather Alert! {{ states("sensor.weather_alert") }} in Kanosha Wisconsin. Repeat. Weather Alert! {{ states("sensor.weather_alert") }} in Kanosha Wisconsin. '
+      - delay: "00:00:10"
+      - service: script.notify2
+        data_template:
+          telegram_url: http://static.lakana.com/mmm-wisctv-media-us-east-1/weather/Local_Radar_Loop.gif
+          flood_color: "yellow"
+          blink_color: "red"
+          chromecast_entity_id: media_player.vtv_chromecast
+          chromecast_link: http://static.lakana.com/mmm-wisctv-media-us-east-1/weather/Local_Radar_Loop.gif
+
+##########################################
+########## AUTOMATIONS ###################
+##########################################
+
+  #********** 'Day Le' or 'Day' scene ***************************************#
+  - alias: 'Weather based - Day LE'
+    trigger:
+    - platform: state
+      entity_id: sensor.dark_sky_icon
+    - platform: state
+      entity_id: input_select.var_last_known_scene
+      state: 'Day'
+      for:
+        seconds: 30
+    condition:
+    - condition: state
+      entity_id: input_boolean.var_mike_home
+      state: 'on'
+    - condition: state
+      entity_id: input_select.var_last_known_scene
+      state: 'Day'
+    - condition: time
+      after: '07:30:00'
+    - condition: sun
+      before: sunset
+      before_offset: "-03:45:00"
+    - condition: template
+      value_template: >
+        {% if states.sensor.dark_sky_icon %}
+          {% if "clear" in states.sensor.dark_sky_icon.state  %}
+            true
+          {% else %}
+            false
+          {% endif %}
+        {% endif %}
+
+    action:
+    - service: scene.turn_on
+      entity_id: scene.10m_day_le
+
+  - alias: 'Weather based - Day'
+    trigger:
+    - platform: state
+      entity_id: sensor.dark_sky_icon
+    - platform: state
+      entity_id: input_select.var_last_known_scene
+      state: 'Day Le'
+      for:
+        seconds: 30
+    condition:
+    - condition: state
+      entity_id: input_boolean.var_mike_home
+      state: 'on'
+    - condition: state
+      entity_id: input_select.var_last_known_scene
+      state: 'Day Le'
+    - condition: sun
+      before: sunset
+      before_offset: "-03:45:00"
+    - condition: template
+      value_template: >
+        {% if states.sensor.dark_sky_icon %}
+          {% if "cloudy" in states.sensor.dark_sky_icon.state or "snow" in states.sensor.dark_sky_icon.state  or "sleet" in states.sensor.dark_sky_icon.state  or "rain" in states.sensor.dark_sky_icon.state  or "hail" in states.sensor.dark_sky_icon.state or "tornado" in states.sensor.dark_sky_icon.state or "fog" in states.sensor.dark_sky_icon.state or "thunderstorm" in states.sensor.dark_sky_icon.state %}
+            true
+          {% else %}
+            false
+          {% endif %}
+        {% endif %}
+
+    action:
+    - service: scene.turn_on
+      entity_id: scene.10m_day
+# Clear; Partly Cloudy; Mostly Cloudy; Light Snow; Snow; Heavy Snow; Drizzle; Light Rain; Rain; Heavy Rain; Overcast; Foggy; Windy and Overcast
+
+##########################################
+########## SCRIPTS #######################
+##########################################
+# script:
+
+
+# input_boolean:
+##########################################
+########## STORED VARIABLES ##############
+##########################################
+
+##########################################
+########## OPTIONS #######################
+##########################################

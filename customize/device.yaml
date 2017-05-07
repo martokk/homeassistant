@@ -1,7 +1,0 @@
-##########################################
-########## DEVICE TRACKERS ###############
-##########################################
-  device_tracker.ipad:
-    hidden: true
-  device_tracker.dans_iphone6:
-    hidden: true

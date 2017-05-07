@@ -1,0 +1,415 @@
+# homeassistant:
+#   customize:
+# switch:
+# lights:
+# binary_sensor:
+sensor:
+  - platform: template
+    sensors:
+      chromecast_playing_app:
+        friendly_name: "Chromecast Playing App"
+        value_template: '{% if states.media_player.vtv_chromecast.attributes.app_name %}{{ states.media_player.vtv_chromecast.attributes.app_name }}{% else %}Off{% endif %}'
+
+media_player:
+  - platform: cast
+    host: 192.168.1.98
+
+  - platform: cast
+    host: 192.168.1.99
+
+  - platform: plex
+
+  - platform: vlc
+    # arguments: '--alsa-audio-device=hw:1,0'
+
+  - platform: spotify
+    client_id: "d5f86e28ff034ae6b1dc45710b8ef05c"
+    client_secret: "d7c5475cee02426c92c202a972bbedfe"
+
+automation:
+##########################################
+########## NOTIFICATIONS #################
+##########################################
+
+
+##########################################
+########## AUTOMATIONS ###################
+##########################################
+
+  #********** Screen Saver ***************************************#
+  - alias: "Chromecast Screen Saver (Mark as Ready)"
+    trigger:
+      - platform: state
+        entity_id: media_player.vtv_chromecast
+        state: 'off'
+        for:
+          minutes: 5
+      - platform: state
+        entity_id: input_boolean.var_ps3_on
+        state: 'off'
+        for:
+          minutes: 5
+      - platform: state
+        entity_id: switch.sonoff_entertainment_center
+        state: 'on'
+        for:
+          minutes: 15
+    condition:
+      - condition: state
+        entity_id: media_player.vtv_chromecast
+        state: 'off'
+      - condition: state
+        entity_id: input_boolean.var_ps3_on
+        state: 'off'
+      - condition: state
+        entity_id: switch.sonoff_entertainment_center
+        state: 'on'
+    action:
+      - service: homeassistant.turn_on
+        entity_id: input_boolean.var_chromecast_screensaver_ready
+
+
+  - alias: "Chromecast Screen Saver (Mark as NOT Ready)"
+    trigger:
+      - platform: state
+        entity_id: media_player.vtv_chromecast
+        from: 'off'
+      - platform: state
+        entity_id: input_boolean.var_ps3_on
+        state: 'off'
+      - platform: homeassistant
+        event: start
+    action:
+      - service: homeassistant.turn_off
+        entity_id: input_boolean.var_chromecast_screensaver_ready
+
+
+  - alias: "Chromecast Screen Saver"
+    trigger:
+      - platform: state
+        entity_id: input_boolean.var_chromecast_screensaver_ready
+        state: 'on'
+    condition:
+      - condition: state
+        entity_id: input_boolean.var_mike_home
+        state: 'on'
+      - condition: state
+        entity_id: switch.sonoff_entertainment_center
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.var_ps3_on
+        state: 'off'
+      - condition: state
+        entity_id: media_player.vtv_chromecast
+        state: 'off'
+      - condition: state
+        entity_id: input_boolean.option_chromecast_screensaver
+        state: 'on'
+    action:
+      - service: script.set_volume_4
+      - service: script.turn_on
+        data_template:
+          entity_id: >
+            {% set hour = states.sensor.time.state[:2] | int %}
+
+            {# 12AM TO 5AM #}
+            {% if hour | int < 5 %}
+              script.media_scene_fireplace
+
+            {# 5AM TO 6PM #}
+            {% elif hour | int < 18 %}
+              script.media_scene_space
+
+            {# 6PM TO 8PM #}
+            {% elif hour | int < 20 %}
+              script.media_scene_magenta_blue_orbs_long
+
+            {# 8PM TO 11PM #}
+            {% elif hour | int < 23 %}
+              script.media_scene_lcars
+
+
+            {# 11PM TO 12AM #}
+            {% elif hour | int >= 23 %}
+              script.media_scene_fireplace
+            {% endif %}
+
+
+  #********** Default Media Player ***************************************#
+  - alias: "Default Media Player turn off"
+    trigger:
+      - platform: state
+        entity_id: media_player.vtv_chromecast
+        from: 'playing'
+        to: 'idle'
+    condition:
+      - condition: template
+        value_template: '{% if states.media_player.vtv_chromecast.attributes.app_name | lower in states.input_select.array_chromecast_idle_apps | lower %}true{%else%}false{%endif%}'
+    action:
+      - service: media_player.turn_off
+        entity_id: media_player.vtv_chromecast
+
+
+  #********** Source Change ***************************************#
+  - alias: "Chromecast - Pause video on source change"
+    trigger:
+      - platform: state
+        entity_id: input_boolean.var_ps3_on
+        state: 'on'
+    condition:
+      - condition: state
+        entity_id: media_player.vtv_chromecast
+        state: 'playing'
+      - condition: state
+        entity_id: input_boolean.var_ps3_on
+        state: 'on'
+    action:
+      - service: media_player.media_pause
+        entity_id: media_player.vtv_chromecast
+
+  - alias: "Chromecast - Resume video on source change"
+    trigger:
+      - platform: state
+        entity_id: input_boolean.var_ps3_on
+        from: 'on'
+        to: 'off'
+    condition:
+      - condition: state
+        entity_id: media_player.vtv_chromecast
+        state: 'paused'
+      - condition: state
+        entity_id: input_boolean.var_ps3_on
+        state: 'off'
+    action:
+      - service: media_player.media_play
+        entity_id: media_player.vtv_chromecast
+
+  #********** TTS Interupt ***************************************#
+  - alias: "TTS Started - Pause Video"
+    trigger:
+      - platform: state
+        entity_id: media_player.vlc
+        state: 'playing'
+    condition:
+      - condition: state
+        entity_id: media_player.vtv_chromecast
+        state: 'playing'
+      - condition: state
+        entity_id: input_boolean.var_chromecast_interupt
+        state: 'off'
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.var_chromecast_interupt
+
+  - alias: "TTS Complete - Resume Video"
+    trigger:
+      - platform: state
+        entity_id: media_player.vlc
+        from: 'playing'
+        to: 'idle'
+    condition:
+      - condition: state
+        entity_id: media_player.vtv_chromecast
+        state: 'paused'
+      - condition: state
+        entity_id: input_boolean.var_chromecast_interupt
+        state: 'on'
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_chromecast_interupt
+
+  #********** Chromecast Interupt ***************************************#
+  - alias: "Chromecast Interupt - Pause Video"
+    trigger:
+      - platform: state
+        entity_id: input_boolean.var_chromecast_interupt
+        from: 'off'
+        to: 'on'
+    condition:
+      - condition: state
+        entity_id: media_player.vtv_chromecast
+        state: 'playing'
+    action:
+      - service: media_player.media_pause
+        entity_id: media_player.vtv_chromecast
+
+  - alias: "Chromecast Interupt - Resume Video"
+    trigger:
+      - platform: state
+        entity_id: input_boolean.var_chromecast_interupt
+        from: 'on'
+        to: 'off'
+    condition:
+      - condition: state
+        entity_id: media_player.vtv_chromecast
+        state: 'paused'
+    action:
+      - service: media_player.media_play
+        entity_id: media_player.vtv_chromecast
+
+  #********** TTS Volume Levels ***************************************#
+  - alias: set_tts_vol_high
+    trigger:
+      - platform: time
+        after: '06:00:00'
+      - platform: homeassistant
+        event: start
+    condition:
+      - condition: time
+        before: '20:50:00'
+      - condition: time
+        after: '06:00:00'
+    action:
+      - service: media_player.volume_set
+        data:
+          entity_id: media_player.vlc
+          volume_level: 1
+
+  - alias: set_tts_vol_low
+    trigger:
+      - platform: time
+        after: '20:50:00'
+      - platform: homeassistant
+        event: start
+    condition:
+      - condition: time
+        after: '20:50:00'
+    action:
+      - service: media_player.volume_set
+        data:
+          entity_id: media_player.vlc
+          volume_level: 0.7
+
+  - alias: set_tts_vol_low2
+    trigger:
+      - platform: time
+        after: '00:00:00'
+      - platform: homeassistant
+        event: start
+    condition:
+      - condition: time
+        before: '06:00:00'
+    action:
+      - service: media_player.volume_set
+        data:
+          entity_id: media_player.vlc
+          volume_level: 0.7
+
+##########################################
+########## SPOTIFY #######################
+##########################################
+script:
+  test_spotify:
+    sequence:
+      - service: media_player.select_source
+        data:
+          entity_id: media_player.spotify
+          source: 'vTV Chromecast'
+      - service: media_player.play_media
+        data:
+          entity_id: media_player.spotify
+          media_content_type: playlist
+          media_content_id: spotify:user:techv76:playlist:6olCTXXKum4I5AifEaXNnT
+
+##########################################
+########## MEDIA SCENE ###################
+##########################################
+  media_scene_battlestar_galactica_intro:
+    alias: "battlestar_galactica_intro"
+    sequence:
+      - service: media_player.play_media
+        data:
+          entity_id: media_player.vtv_chromecast
+          media_content_type: video/mp4
+          media_content_id: http://192.168.1.3:8123/local/battlestar_galactica_intro.mp4
+
+  media_scene_bushes_of_love:
+    alias: "bushes_of_love"
+    sequence:
+      - service: media_player.play_media
+        data:
+          entity_id: media_player.vtv_chromecast
+          media_content_type: video/mp4
+          media_content_id: http://192.168.1.3:8123/local/bushes_of_love.mp4
+
+  media_scene_whats_up_bitches:
+    alias: "whats_up_bitches"
+    sequence:
+      - service: media_player.play_media
+        data:
+          entity_id: media_player.vtv_chromecast
+          media_content_type: video/mp4
+          media_content_id: http://192.168.1.3:8123/local/whats_up_bitches.mp4
+
+##########################################
+########## SCREEN SAVERS #################
+##########################################
+  media_scene_magenta_blue_orbs_long:
+    alias: "magenta_blue_orbs_long"
+    sequence:
+      - service: media_player.play_media
+        data:
+          entity_id: media_player.vtv_chromecast
+          media_content_type: video/mp4
+          media_content_id: http://192.168.1.3:8123/local/magenta_blue_orbs_long.mp4
+
+  media_scene_space:
+    alias: "space"
+    sequence:
+      - service: media_player.play_media
+        data:
+          entity_id: media_player.vtv_chromecast
+          media_content_type: video/mp4
+          media_content_id: http://192.168.1.3:8123/local/space.mp4
+
+  media_scene_fireplace:
+    alias: "fireplace"
+    sequence:
+      - service: media_player.play_media
+        data:
+          entity_id: media_player.vtv_chromecast
+          media_content_type: video/mp4
+          media_content_id: http://192.168.1.3:8123/local/fireplace.mp4
+
+  media_scene_lcars:
+    alias: "LCARS"
+    sequence:
+      - service: media_player.play_media
+        data:
+          entity_id: media_player.vtv_chromecast
+          media_content_type: video/mp4
+          media_content_id: http://192.168.1.3:8123/local/lcars_720p.mp4
+
+
+
+input_boolean:
+##########################################
+########## STORED VARIABLES ##############
+##########################################
+  var_chromecast_interupt: #Activated when TTS is playing, turns off when TTS is idle
+    initial: off
+  var_chromecast_screensaver_ready:
+
+##########################################
+########## OPTIONS #######################
+##########################################
+  option_chromecast_screensaver:
+    name: "Chromecast Screensaver"
+    initial: on
+
+input_select:
+##########################################
+########## STORED ARRAYS #################
+##########################################
+  array_chromecast_playing_apps:
+    options:
+      - "Netflix"
+      - "YouTube"
+      - "Spotify"
+      - "Plex"
+
+  array_chromecast_idle_apps:
+    options:
+      - "Backdrop"
+      - "Default Media Receiver"
+      - "Default Media Player"

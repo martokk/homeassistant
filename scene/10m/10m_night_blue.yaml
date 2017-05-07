@@ -2,7 +2,7 @@ name: 10m_Night Blue
 entities:
   light.living_room_overhead:
     state: on
-    brightness: 150
+    brightness: 180
     rgb_color: [199, 199, 199]
     color_temp: 250
     transition: 780
@@ -21,13 +21,13 @@ entities:
 
   light.tv_overhead_right:
     state: on
-    brightness: 150
+    brightness: 180
     rgb_color: [129, 129, 129]
     color_temp: 250
     transition: 780
   light.tv_overhead_left:
     state: on
-    brightness: 150
+    brightness: 180
     rgb_color: [129, 129, 129]
     color_temp: 250
     transition: 780
@@ -46,7 +46,7 @@ entities:
 
   light.office_right:
     state: on
-    brightness: 150
+    brightness: 180
     rgb_color: [101, 101, 101]
     color_temp: 250
     transition: 780

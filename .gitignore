@@ -1,0 +1,21 @@
+deps/
+tmp/
+icloud/
+www/
+deps - Copy/
+tts/
+
+home-assistant.log
+home-assistant_v2.db
+home-assistant_v2.db-journal
+home-assistant_v2.db-wal
+home-assistant_v2.db-shm
+
+.uuid
+.google.token
+.HA_VERSION
+.log
+.db*
+.spotify-token-cache
+
+ios.conf

@@ -73,8 +73,8 @@ entities:
   light.office_left:
     state: on
     brightness: 133
-    rgb_color: [4, 113, 17]
-    color_temp: 211
+    rgb_color: [0, 176, 143]
+    color_temp: 207
     transition: 1
   light.office_led_strip:
     state: on

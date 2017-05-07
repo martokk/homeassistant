@@ -15,3 +15,17 @@
     hidden: false
   group.all_switches:
     hidden: false
+
+##########################################
+########## DASHBOARD ORDERING ############
+##########################################
+  group.scenes:
+    order: 1
+  group.today:
+    order: 2
+  group.bitcoin:
+    order: 3
+  group.batteries:
+    order: 4
+  group.upcoming_events:
+    order: 5

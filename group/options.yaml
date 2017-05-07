@@ -4,6 +4,12 @@
       - input_boolean.option_delay_timebased_off
       - input_boolean.option_timebased_light_scene
 
+  options_alarms:
+      - input_boolean.option_morning_alarm
+      - input_select.option_morning_alarm_time
+      - input_boolean.option_timebased_telegram_summary
+
+
   options_media:
     name: "Media"
     entities:
