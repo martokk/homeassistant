@@ -6,15 +6,18 @@ script:
       - service: script.notify2
         data_template:
           telegram_message: |
-            *##########################*
-            *######### {{ states.sensor.date.state }} ########*
+            *################## {{ states.sensor.date.state }} #################*
       ### WEATHER
       - service: script.notify2
         data_template:
           telegram_message: |
-            *WEATHER*
-            *Indoor:* {{ states.sensor.indoor_temperature.state | round(0) }}°F   *Outdoor:* {{ states.sensor.dark_sky_temperature.state | round(0) }}°F
-            *Now:* {{ states.sensor.dark_sky_summary.state }}
+            *CURRENT*
+            *Indoor:* {{ states.sensor.indoor_temperature.state | round(0) }}°F
+            *Outdoor:* {{ states.sensor.dark_sky_temperature.state | round(0) }}°F
+            *Current:* {{ states.sensor.dark_sky_summary.state }}
+
+            *TODAY*
+            *High/Low:* {{ states.sensor.dark_sky_daily_high_temperature.state | round(0) }}° ⁄ {{ states.sensor.dark_sky_daily_low_temperature.state | round(0) }}°
             *This Hour:* {{ states.sensor.dark_sky_minutely_summary.state }}
             *Today:* {{ states.sensor.dark_sky_hourly_summary.state }}
       - service: script.notify2
@@ -25,24 +28,21 @@ script:
         data_template:
           telegram_message: |
             *DEVICE BATTERIES*
-            *iPhone:* {{ states.sensor.iphone6s_battery.state | round(0) }}%   *Watch:* {{ states.sensor.watch_battery.state | round(0) }}%   *iPad:* {{ states.sensor.ipad_battery.state | round(0) }}%
+            *iPhone:* {{ states.sensor.iphone6s_battery.state | round(0) }}%
+            *Watch:* {{ states.sensor.watch_battery.state | round(0) }}%
+            *iPad:* {{ states.sensor.ipad_battery.state | round(0) }}%
       ### BITCOIN
       - service: script.notify2
         data_template:
           telegram_message: |
             *BITCOIN*
-            *Bitcoin:* ${{ states.sensor.bitcoin.state | round(0) }}
+            *BTC/USD:* ${{ states.sensor.bitcoin.state | round(0) }}
             *24h:* {{ states.sensor.bitcoin_percent_change_24h.state | round(1) }}%
             *7Day:* {{ states.sensor.bitcoin_percent_change_7d.state | round(1) }}%
       - service: script.notify2
         data:
           telegram_url: http://bitcoincharts.com/charts/chart.png?width=848&height=480&m=bitstampUSD&SubmitButton=Draw&r=2&i=5-min&c=0&s=&e=&Prev=&Next=&t=C&b=&a1=&m1=10&a2=&m2=25&x=0&i1=&i2=&i3=&i4=&v=1&cv=0&ps=0&l=0&p=0&
-      ### ENDING
-      - service: script.notify2
-        data_template:
-          telegram_message: |
-            *######### END ###############*
-            *#############################*
+
 
 
 
