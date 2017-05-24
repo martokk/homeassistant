@@ -279,6 +279,14 @@ acer_laptop:
   track: false
   vendor: Liteon Technology Corporation
 
+dell_laptop:
+  hide_if_away: false
+  mac: 28:E3:47:6B:C2:58
+  name: 28e3476bc258
+  picture:
+  track: false
+  vendor: Liteon Technology Corporation
+
 # ps3: # can't get this working with ddwrt for some reason. If possible remove ping via binary_sensor and replace with this (via device_tracker)
 #   hide_if_away: false
 #   mac: FC:0F:E6:3A:6C:FA

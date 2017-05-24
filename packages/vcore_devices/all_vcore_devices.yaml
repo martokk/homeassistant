@@ -146,3 +146,5 @@ input_boolean:
 ########## OPTIONS #######################
 ##########################################
   option_send_device_reconnect_notification:
+    name: "vCore Device Reconnect Notification"
+    initial: off

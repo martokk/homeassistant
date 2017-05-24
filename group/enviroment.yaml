@@ -33,3 +33,5 @@
     name: "Fans"
     entities:
     - input_boolean.option_turn_on_fans
+    - switch.sonoff_box_fan1
+    - switch.sonoff_small_desk_fan1

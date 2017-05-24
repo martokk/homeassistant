@@ -47,10 +47,10 @@ device_tracker:
     password: !secret ic_password
     account_name: !secret ic_account_name
 
-  - platform: bluetooth_tracker
-    track_new_devices: yes
-    interval_seconds: 10
-    consider_home: 900
+  # - platform: bluetooth_tracker
+  #   track_new_devices: yes
+  #   interval_seconds: 10
+  #   consider_home: 900
 
 automation:
 ##########################################
@@ -142,28 +142,6 @@ automation:
             {% if states("sensor.iphone6s_battery") | int == 100 %}*{% endif %}iPhone: {{ states("sensor.iphone6s_battery") | int }}%{% if states("sensor.iphone6s_battery") | int == 100 %}*{% endif %} |  {% if states("sensor.watch_battery") | int == 100 %}*{% endif %}Watch: {{ states("sensor.watch_battery") | int }}%{% if states("sensor.watch_battery") | int == 100 %}*{% endif %}
 
 
-  - alias: 'Battery Fully Charged Notificaiton'
-    trigger:
-      - platform: state
-        entity_id:
-          - sensor.iphone6s_battery
-          - sensor.watch_battery
-        state: '100.0'
-        for:
-          hours: 2
-    action:
-      - condition: time
-        before: "22:59:59"
-      - service: script.notify2
-        data_template:
-          telegram_message: |
-            Battery Fully Charged!
-            {% if states("sensor.iphone6s_battery") | int == 100 %}*{% endif %}iPhone: {{ states("sensor.iphone6s_battery") | int }}%{% if states("sensor.iphone6s_battery") | int == 100 %}*{% endif %} |  {% if states("sensor.watch_battery") | int == 100 %}*{% endif %}Watch: {{ states("sensor.watch_battery") | int }}%{% if states("sensor.watch_battery") | int == 100 %}*{% endif %}
-          flood_color: "cyan"
-          blink_color: "blueviolet"
-          blink_color2: "green"
-
-
   #********** Device Connected ***************************************#
   - alias: 'New Device Found'
     trigger:
@@ -182,7 +160,7 @@ automation:
 ##########################################
 ########## AUTOMATIONS ###################
 ##########################################
-  #********** Mike Presence ***************************************#
+  #********** Mike Presence ***********#
   - alias: 'Mike Away'
     trigger:
       - platform: state

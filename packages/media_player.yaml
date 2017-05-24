@@ -17,14 +17,14 @@ media_player:
   - platform: cast
     host: 192.168.1.99
 
-  - platform: plex
+  # - platform: plex
 
   - platform: vlc
-    # arguments: '--alsa-audio-device=hw:1,0'
-
-  - platform: spotify
-    client_id: "d5f86e28ff034ae6b1dc45710b8ef05c"
-    client_secret: "d7c5475cee02426c92c202a972bbedfe"
+    arguments: '--alsa-audio-device=hw:1,0'
+  #
+  # - platform: spotify
+  #   client_id: "d5f86e28ff034ae6b1dc45710b8ef05c"
+  #   client_secret: "d7c5475cee02426c92c202a972bbedfe"
 
 automation:
 ##########################################
@@ -116,18 +116,21 @@ automation:
             {% if hour | int < 5 %}
               script.media_scene_fireplace
 
-            {# 5AM TO 6PM #}
-            {% elif hour | int < 18 %}
+            {# 5AM TO 5PM #}
+            {% elif hour | int < 17 %}
               script.media_scene_space
 
-            {# 6PM TO 8PM #}
-            {% elif hour | int < 20 %}
+            {# 5PM TO 7PM #}
+            {% elif hour | int < 19 %}
               script.media_scene_magenta_blue_orbs_long
 
-            {# 8PM TO 11PM #}
-            {% elif hour | int < 23 %}
+            {# 7PM TO 9PM #}
+            {% elif hour | int < 21 %}
               script.media_scene_lcars
 
+            {# 7PM TO 9PM #}
+            {% elif hour | int < 23 %}
+              script.media_scene_fireplace
 
             {# 11PM TO 12AM #}
             {% elif hour | int >= 23 %}
@@ -321,7 +324,7 @@ script:
         data:
           entity_id: media_player.vtv_chromecast
           media_content_type: video/mp4
-          media_content_id: http://192.168.1.3:8123/local/battlestar_galactica_intro.mp4
+          media_content_id: http://vserver:8123/local/battlestar_galactica_intro.mp4
 
   media_scene_bushes_of_love:
     alias: "bushes_of_love"
@@ -330,7 +333,7 @@ script:
         data:
           entity_id: media_player.vtv_chromecast
           media_content_type: video/mp4
-          media_content_id: http://192.168.1.3:8123/local/bushes_of_love.mp4
+          media_content_id: http://vserver:8123/local/bushes_of_love.mp4
 
   media_scene_whats_up_bitches:
     alias: "whats_up_bitches"
@@ -339,7 +342,7 @@ script:
         data:
           entity_id: media_player.vtv_chromecast
           media_content_type: video/mp4
-          media_content_id: http://192.168.1.3:8123/local/whats_up_bitches.mp4
+          media_content_id: http://vserver:8123/local/whats_up_bitches.mp4
 
 ##########################################
 ########## SCREEN SAVERS #################
@@ -351,7 +354,7 @@ script:
         data:
           entity_id: media_player.vtv_chromecast
           media_content_type: video/mp4
-          media_content_id: http://192.168.1.3:8123/local/magenta_blue_orbs_long.mp4
+          media_content_id: http://vserver:8123/local/magenta_blue_orbs_long.mp4
 
   media_scene_space:
     alias: "space"
@@ -360,7 +363,7 @@ script:
         data:
           entity_id: media_player.vtv_chromecast
           media_content_type: video/mp4
-          media_content_id: http://192.168.1.3:8123/local/space.mp4
+          media_content_id: http://vserver:8123/local/space.mp4
 
   media_scene_fireplace:
     alias: "fireplace"
@@ -369,7 +372,7 @@ script:
         data:
           entity_id: media_player.vtv_chromecast
           media_content_type: video/mp4
-          media_content_id: http://192.168.1.3:8123/local/fireplace.mp4
+          media_content_id: http://vserver:8123/local/fireplace.mp4
 
   media_scene_lcars:
     alias: "LCARS"
@@ -378,7 +381,7 @@ script:
         data:
           entity_id: media_player.vtv_chromecast
           media_content_type: video/mp4
-          media_content_id: http://192.168.1.3:8123/local/lcars_720p.mp4
+          media_content_id: http://vserver:8123/local/lcars_720p.mp4
 
 
 

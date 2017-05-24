@@ -31,7 +31,6 @@ notify:
 
   - name: telegram
     platform: telegram
-    api_key: 371185092:AAGZifDwOUZLssxyEwzj7un9EG261Ve_eGg
     chat_id: 343498992
 
   # - name: ios_iphone6s

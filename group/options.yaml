@@ -43,3 +43,4 @@
     name: "System"
     entities:
       - input_select.option_log_level
+      - input_boolean.option_send_device_reconnect_notification

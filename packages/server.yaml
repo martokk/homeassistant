@@ -43,7 +43,7 @@ panel_iframe:
   #
   # kill_eventghost: 'taskkill /F /T /IM EventGhost.exe'
   # start_eventghost: '"C:/Program Files (x86)/EventGhost/EventGhost.exe"'
-  
+
 binary_sensor:
   # - platform: command_line
   #   command: netstat -na | find "8085" | find /c "LISTENING" > nul && (echo 1) || (echo 0)
@@ -100,28 +100,28 @@ sensor:
   #   host: 192.168.1.3
 
   #********** SABNZBD ***************************************#
-  - platform: sabnzbd
-    host: 192.168.1.82
-    port: 8090
-    api_key: !secret sabnzbd_api_key
-    monitored_variables:
-    - current_status
-    - speed
-    - queue_size
-    - queue_remaining
-    - disk_size
-    - disk_free
+  # - platform: sabnzbd
+  #   host: 192.168.1.3
+  #   port: 8090
+  #   api_key: !secret sabnzbd_api_key
+  #   monitored_variables:
+  #   - current_status
+  #   - speed
+  #   - queue_size
+  #   - queue_remaining
+  #   - disk_size
+  #   - disk_free
 
   #********** SONARR ***************************************#
-  - platform: sonarr
-    api_key: !secret sonarr_api_key
-    host: 192.168.1.82
-    port: 8989
-    monitored_conditions:
-      - upcoming     #   The number of upcoming episodes.
-      - diskspace    #   Available disk space.
-    days: 1          #   How many days to look ahead for the upcoming sensor, 1 means today only (Default: 1).
-    unit: TB           #    (Optional): The unit to display disk space in (Default: GB).
+  # - platform: sonarr
+  #   api_key: !secret sonarr_api_key
+  #   host: 192.168.1.3
+  #   port: 8989
+  #   monitored_conditions:
+  #     - upcoming     #   The number of upcoming episodes.
+  #     - diskspace    #   Available disk space.
+  #   days: 1          #   How many days to look ahead for the upcoming sensor, 1 means today only (Default: 1).
+  #   unit: TB           #    (Optional): The unit to display disk space in (Default: GB).
 
   #********** IFTTT CLOUD ***************************************#
   # - platform: scrape
@@ -300,18 +300,18 @@ sensor:
             {%endif%}
           {%- endfor -%}
 
-      sonarr_upcoming_episodes:
-        friendly_name: "Upcoming Episodes"
-        value_template: >
-          {% if states.sensor.sonarr_upcoming %}
-            {% if states.sensor.sonarr_upcoming.state | int > 0 %}
-              {% for episode in states.sensor.sonarr_upcoming.attributes %}
-                {% if "icon" not in episode | string and "unit_of_measurement" not in episode | string  and "friendly_name"  not in episode | string %}
-                  {{episode}} |
-                {%endif %}
-              {% endfor %}
-            {% endif %}
-          {% endif %}
+      # sonarr_upcoming_episodes:
+      #   friendly_name: "Upcoming Episodes"
+      #   value_template: >
+      #     {% if states.sensor.sonarr_upcoming %}
+      #       {% if states.sensor.sonarr_upcoming.state | int > 0 %}
+      #         {% for episode in states.sensor.sonarr_upcoming.attributes %}
+      #           {% if "icon" not in episode | string and "unit_of_measurement" not in episode | string  and "friendly_name"  not in episode | string %}
+      #             {{episode}} |
+      #           {%endif %}
+      #         {% endfor %}
+      #       {% endif %}
+      #     {% endif %}
 
 automation:
 ##########################################
@@ -419,51 +419,51 @@ automation:
 
 
   #********** Sonarr Notifications ***************************************#
-  - alias: "Upcoming Episodes"
-    trigger:
-      - platform: numeric_state
-        entity_id: sensor.sonarr_upcoming
-        above: 0
-    action:
-      - service: script.notify2
-        data_template:
-          email_message: |
-            Upcoming Episodes! -
-            {% for episode in states.sensor.sonarr_upcoming.attributes %}
-              {% if "icon" not in episode | string and "unit_of_measurement" not in episode | string  and "friendly_name"  not in episode | string %}
-                {{episode}} |
-
-              {%endif %}
-            {% endfor %}
+  # - alias: "Upcoming Episodes"
+  #   trigger:
+  #     - platform: numeric_state
+  #       entity_id: sensor.sonarr_upcoming
+  #       above: 0
+  #   action:
+  #     - service: script.notify2
+  #       data_template:
+  #         email_message: |
+  #           Upcoming Episodes! -
+  #           {% for episode in states.sensor.sonarr_upcoming.attributes %}
+  #             {% if "icon" not in episode | string and "unit_of_measurement" not in episode | string  and "friendly_name"  not in episode | string %}
+  #               {{episode}} |
+  #
+  #             {%endif %}
+  #           {% endfor %}
 
   #********** Server ***************************************#
-  - alias: "Disk Space Low"
-    trigger:
-      - platform: numeric_state
-        entity_id: sensor.sabnzbd_disk_free
-        below: 8
-    action:
-      - condition: template
-        value_template: >
-          {% if states.automation.disk_space_low.attributes.last_triggered %}
-            {% if (as_timestamp(now())-as_timestamp(states.automation.disk_space_low.attributes.last_triggered)) > (2 * 60 * 60)  %}
-              true
-            {% else %}
-              false
-            {% endif %}
-          {%else%}
-            true
-          {%endif%}
-      - service: script.notify2
-        data_template:
-          telegram_message: |
-            V: Disk Space Low! -
-            {{ states.sensor.sabnzbd_disk_free.state }}GB Free
-          flood_color: "red"
-          blink_color: "magenta"
-          tts_entity_id: group.tts_devices
-          tts_sound: 'intercom_ds9.mp3'
-          tts_message: "Warning Disk Space Low! There is only {{ states.sensor.sabnzbd_disk_free.state | int | round(0) }} gigs free on Dell Laptop's V drive."
+  # - alias: "Disk Space Low"
+  #   trigger:
+  #     - platform: numeric_state
+  #       entity_id: sensor.sabnzbd_disk_free
+  #       below: 8
+  #   action:
+  #     - condition: template
+  #       value_template: >
+  #         {% if states.automation.disk_space_low.attributes.last_triggered %}
+  #           {% if (as_timestamp(now())-as_timestamp(states.automation.disk_space_low.attributes.last_triggered)) > (2 * 60 * 60)  %}
+  #             true
+  #           {% else %}
+  #             false
+  #           {% endif %}
+  #         {%else%}
+  #           true
+  #         {%endif%}
+  #     - service: script.notify2
+  #       data_template:
+  #         telegram_message: |
+  #           V: Disk Space Low! -
+  #           {{ states.sensor.sabnzbd_disk_free.state }}GB Free
+  #         flood_color: "red"
+  #         blink_color: "magenta"
+  #         tts_entity_id: group.tts_devices
+  #         tts_sound: 'intercom_ds9.mp3'
+  #         tts_message: "Warning Disk Space Low! There is only {{ states.sensor.sabnzbd_disk_free.state | int | round(0) }} gigs free on Dell Laptop's V drive."
 
   #********** Logger ***************************************#
   - alias: Log Level

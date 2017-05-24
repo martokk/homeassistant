@@ -63,7 +63,7 @@ automation:
       data:
         flash_color: "magenta"
         entity_id: group.timebased_hourly_flash_lights
-        tts_sound: 'intercom_ds9.mp3'
+        tts_sound: 'st_notifications/st_notification2.wav'
 
 
 
@@ -108,24 +108,6 @@ automation:
     action:
       service: scene.turn_on
       entity_id: scene.10m_day
-
-
-### SUNSET
-  - alias: Timebased_Sunset
-    trigger:
-      - platform: sun
-        event: sunset
-        offset: "-00:30:00"
-    condition:
-      - condition: state
-        entity_id: input_boolean.option_timebased_light_scene
-        state: 'on'
-      - condition: state
-        entity_id: input_boolean.var_mike_home
-        state: 'on'
-    action:
-      service: scene.turn_on
-      entity_id: scene.10m_night_cyan
 
 ### Entertainment Off - 12:30am + every 5 min
   - alias: Timebased_1230am_every_30m
@@ -210,7 +192,7 @@ automation:
           delay: "00:00:10"
           next_scene: scene.day
           tts_entity_id: group.tts_devices
-          tts_sound: 'intercom_ds9.mp3'
+          tts_sound: 'st_notifications/st_notification2.wav'
           tts_message: "The time, is 5:30am"
 
 ### 7am Red
@@ -225,7 +207,7 @@ automation:
           entity_id: group.timebased_flood_lights
           delay: "00:00:10"
           tts_entity_id: group.tts_devices
-          tts_sound: 'intercom_ds9.mp3'
+          tts_sound: 'st_notifications/st_notification2.wav'
           tts_message: "The time, is 7am. Get ready to leave in 30 minutes."
 
 ### 12pm
@@ -240,7 +222,7 @@ automation:
           entity_id: group.timebased_flood_lights
           delay: "00:00:06"
           tts_entity_id: group.tts_devices
-          tts_sound: 'intercom_ds9.mp3'
+          tts_sound: 'st_notifications/st_notification2.wav'
           tts_message: "The time, is 12pm. Time to check your MLO to do list."
 
 ### 5pm
@@ -256,7 +238,7 @@ automation:
           delay: "00:00:05"
           next_scene: scene.night_cyan
           tts_entity_id: group.tts_devices
-          tts_sound: 'intercom_ds9.mp3'
+          tts_sound: 'st_notifications/st_notification2.wav'
           tts_message: "The time, is 5pm. Time to check your MLO to do list."
 
 ### 7pm
@@ -272,7 +254,7 @@ automation:
           delay: "00:00:05"
           next_scene: scene.night_blue
           tts_entity_id: group.tts_devices
-          tts_sound: 'intercom_ds9.mp3'
+          tts_sound: 'st_notifications/st_notification2.wav'
           tts_message: "The time, is 7pm"
 
 
@@ -289,7 +271,7 @@ automation:
           delay: "00:00:05"
           next_scene: scene.night_red
           tts_entity_id: group.tts_devices
-          tts_sound: 'intercom_ds9.mp3'
+          tts_sound: 'st_notifications/st_notification2.wav'
           tts_message: "9pm"
       - delay: '00:00:15'
       - service: script.entertainment_center_turn_off
@@ -307,7 +289,7 @@ automation:
           delay: "00:00:05"
           next_scene: scene.night_computer_red
           tts_entity_id: group.tts_devices
-          tts_sound: 'intercom_ds9.mp3'
+          tts_sound: 'st_notifications/st_notification2.wav'
           tts_message: "11pm."
       - delay: '00:00:15'
       - service: script.entertainment_center_turn_off
@@ -326,7 +308,7 @@ automation:
           delay: "00:00:03"
           next_scene: scene.night_computer_red
           tts_entity_id: group.tts_devices
-          tts_sound: 'intercom_ds9.mp3'
+          tts_sound: 'st_notifications/st_notification2.wav'
           tts_message: "12am"
       - delay: '00:00:15'
       - service: script.entertainment_center_turn_off
