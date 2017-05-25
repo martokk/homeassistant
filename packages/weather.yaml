@@ -115,7 +115,7 @@ automation:
       state: 'rain'
     condition:
       - condition: template
-        value_template: '{{"rain" in states.sensor.dark_sky_minutely_summary.state | lower}}'
+        value_template: '{{"rain" in states.sensor.dark_sky_minutely_summary.state | lower or "drizzle" in states.sensor.dark_sky_minutely_summary.state | lower}}'
       - condition: template
         value_template: >
           {% if states.automation.rain_start.attributes.last_triggered %}
