@@ -29,6 +29,7 @@
       - input_boolean.option_notify2_lights
       - input_slider.option_notification_brightness
       - input_slider.option_notification_brightness_low
+      - input_slider.option_bitcoin_price_notification_tolerance
 
   options_environment:
     name: "Environment"

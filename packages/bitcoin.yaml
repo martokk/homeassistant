@@ -34,6 +34,8 @@ automation:
       - platform: numeric_state
         entity_id: sensor.bitcoin_percent_change_24h
         above: 2
+      - platform: template
+        value_template: 'states.sensor.bitcoin.state | round(0) > states.input_slider.var_last_known_bitcoin_price.state + states.input_slider.var_bitcoin_price_notification_tolerance.state'
     action:
       - service: script.notify2
         data_template:
@@ -50,12 +52,18 @@ automation:
           tts_entity_id: group.tts_devices
           tts_sound: 'intercom_ds9.mp3'
           tts_message: "Bitcoin's up! The current bitcoin price is {{ states.sensor.bitcoin.state | round(0) }}"
+      - service: input_slider.select_value
+        data_template:
+          entity_id: input_slider.var_last_known_bitcoin_price
+          value: '{{ states.sensor.bitcoin.state | round(0) }}'
 
   - alias: Bitcoin Down
     trigger:
       - platform: numeric_state
         entity_id: sensor.bitcoin_percent_change_24h
         below: -2
+      - platform: template
+        value_template: 'states.sensor.bitcoin.state | round(0) < states.input_slider.var_last_known_bitcoin_price.state - states.input_slider.var_bitcoin_price_notification_tolerance.state'
     action:
       - service: script.notify2
         data_template:
@@ -72,3 +80,25 @@ automation:
           tts_entity_id: group.tts_devices
           tts_sound: 'intercom_ds9.mp3'
           tts_message: "Bitcoin's down! The current bitcoin price is {{ states.sensor.bitcoin.state | round(0) }}"
+      - service: input_slider.select_value
+        data_template:
+          entity_id: input_slider.var_last_known_bitcoin_price
+          value: '{{ states.sensor.bitcoin.state | round(0) }}'
+
+input_slider:
+##########################################
+########## STORED VARIABLES ##############
+##########################################
+  var_last_known_bitcoin_price:
+    min: 0
+    max: 999999
+    step: 1
+
+  option_bitcoin_price_notification_tolerance:
+    min: 0
+    max: 1000
+    step: 10
+    initial: 10
+##########################################
+########## OPTIONS #######################
+##########################################
