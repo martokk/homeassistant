@@ -141,8 +141,7 @@ automation:
       - service: script.notify2
         data_template:
           telegram_message: |
-            10pm Reminder -- Charge all device batteries!
-            {% if states("sensor.iphone6s_battery") | int == 100 %}*{% endif %}iPhone: {{ states("sensor.iphone6s_battery") | int }}%{% if states("sensor.iphone6s_battery") | int == 100 %}*{% endif %} |  {% if states("sensor.watch_battery") | int == 100 %}*{% endif %}Watch: {{ states("sensor.watch_battery") | int }}%{% if states("sensor.watch_battery") | int == 100 %}*{% endif %}
+            10pm Reminder:  {% if states("sensor.iphone6s_battery") | int == 100 %}*{% endif %}iPhone: {{ states("sensor.iphone6s_battery") | int }}%{% if states("sensor.iphone6s_battery") | int == 100 %}*{% endif %} |  {% if states("sensor.watch_battery") | int == 100 %}*{% endif %}Watch: {{ states("sensor.watch_battery") | int }}%{% if states("sensor.watch_battery") | int == 100 %}*{% endif %}
 
 
   #********** Device Connected ***************************************#

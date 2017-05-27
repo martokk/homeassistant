@@ -113,6 +113,7 @@ automation:
     - service: script.eventghost_button
       data_template:
         button: '{{ trigger.payload }}'
+
   - alias: 'Button_Long'
     trigger:
     - platform: mqtt

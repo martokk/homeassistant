@@ -644,6 +644,7 @@ input_select:
 ##########################################
   array_low_light_scenes:
     options:
+      - "Night Red"
       - "Night Computer"
       - "Night Computer Red"
       - "Off"

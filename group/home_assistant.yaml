@@ -27,7 +27,7 @@
       - input_slider.var_kitchen_brightness
       - input_slider.var_kitchen_color_temp
       - input_slider.var_kitchen_delay
-
+      - input_boolean.var_notify2_15m_chromecast_on
 
   stored_arrays:
     name: "Stored Arrays"
