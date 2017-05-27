@@ -1,5 +1,9 @@
-# homeassistant:
-#   customize:
+homeassistant:
+  customize:
+    script.find_my_phone:
+      emulated_hue: true
+      emulated_hue_name: "find my phone"
+
 ifttt:
   key: !secret ifttt_key
 

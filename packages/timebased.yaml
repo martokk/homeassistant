@@ -14,6 +14,9 @@ homeassistant:
       hidden: true
     script.timebased_off:
       hidden: true
+    script.timebased_scene:
+      emulated_hue: true
+      emulated_hue_name: "Fix Lights"
 # switch:
 # lights:
 # binary_sensor:

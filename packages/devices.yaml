@@ -1,5 +1,8 @@
-# homeassistant:
-#   customize:
+homeassistant:
+  customize:
+    script.computer_monitors_turn_off:
+      emulated_hue: true
+      emulated_hue_name: "computer"
 # switch:
 # lights:
 # binary_sensor:

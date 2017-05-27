@@ -1,3 +1,9 @@
+homeassistant:
+  customize:
+    script.chromecast_bitcoin_chart:
+      emulated_hue: true
+      emulated_hue_name: "Bitcoin Chart"
+
 sensor:
 ##########################################
 ############### SENSORS ##################

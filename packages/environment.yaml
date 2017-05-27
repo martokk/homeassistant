@@ -1,3 +1,8 @@
+# homeassistant:
+#   customize:
+#     script.:
+#       emulated_hue: true
+#       emulated_hue_name: ""
 ##########################################
 ########## SENSORS #######################
 ##########################################
