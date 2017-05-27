@@ -75,7 +75,7 @@ automation:
 ########## TIMEBASED SCENE CHANGE ########
 ##########################################
 ### SUNRISE
-  - alias: Timebased_Sunrise
+  - alias: timebased_sunrise
     trigger:
       - platform: time
         after: '05:30:00'
@@ -96,7 +96,7 @@ automation:
       entity_id: scene.10m_day
 
 ### SUNSET (-3hr offset)
-  - alias: Timebased_Day
+  - alias: timebased_day
     trigger:
       - platform: sun
         event: sunset
@@ -113,7 +113,7 @@ automation:
       entity_id: scene.10m_day
 
 ### Entertainment Off - 12:30am + every 5 min
-  - alias: Timebased_1230am_every_30m
+  - alias: timebased_1230am_every_30m
     trigger:
       - platform: time
         minutes: '/10'
@@ -129,7 +129,7 @@ automation:
     - service: script.entertainment_center_turn_off
 
 ### 1am - OFF
-  - alias: Timebased_1am_off
+  - alias: timebased_1am_off
     trigger:
       - platform: time
         after: "01:00:00"
@@ -145,7 +145,7 @@ automation:
       entity_id: scene.10m_off
 
 ### 2am - OFF
-  - alias: Timebased_2am_off
+  - alias: timebased_2am_off
     trigger:
       - platform: time
         after: "02:00:00"
@@ -161,7 +161,7 @@ automation:
       entity_id: scene.10m_off
 
 ### 3am - OFF
-  - alias: Timebased_3am_off
+  - alias: timebased_3am_off
     trigger:
       - platform: time
         after: "03:00:00"
@@ -226,7 +226,7 @@ automation:
           delay: "00:00:06"
           tts_entity_id: group.tts_devices
           tts_sound: 'st_notifications/st_notification2.wav'
-          tts_message: "The time, is 12pm. Time to check your MLO to do list."
+          tts_message: "The time, is 12pm. Time to check your Trello to do list."
 
 ### 5pm
   - alias: flood_5pm
@@ -242,7 +242,7 @@ automation:
           next_scene: scene.night_cyan
           tts_entity_id: group.tts_devices
           tts_sound: 'st_notifications/st_notification2.wav'
-          tts_message: "The time, is 5pm. Time to check your MLO to do list."
+          tts_message: "The time, is 5pm. Time to check your Trello to do list."
 
 ### 7pm
   - alias: flood_7pm
@@ -350,7 +350,6 @@ script:
 
 #Find all
   timebased_scene:
-    alias: "Time-based Scene"
     sequence:
       - service: script.timebased_sunrise
       - service: script.timebased_pre_sunset_day
@@ -473,3 +472,39 @@ input_boolean:
   option_timebased_light_scene:
     name: "Use Time-based light scenes"
     initial: on
+
+##########################################
+############### GROUPS ###################
+##########################################
+group:
+  automation_timebased:
+    entities:
+      - automation.hourly_flash_lights
+      - automation.timebased_sunrise
+      - automation.timebased_day
+      - automation.timebased_1230am_every_30m
+      - automation.timebased_1am_off
+      - automation.timebased_2am_off
+      - automation.timebased_3am_off
+      - automation.flood_530am
+      - automation.flood_7am
+      - automation.flood_12pm
+      - automation.flood_5pm
+      - automation.flood_7pm
+      - automation.flood_9pm
+      - automation.flood_11pm
+      - automation.flood_12am
+      - automation.timebased_light_scene_turn_off
+      - automation.timebased_light_scene_turn_on
+
+  script_timebased:
+    entities:
+      - script.timebased_scene
+      - script.timebased_sunrise
+      - script.timebased_day
+      - script.timebased_pre_sunset_day
+      - script.timebased_5pm
+      - script.timebased_7pm
+      - script.timebased_9pm
+      - script.timebased_11pm
+      - script.timebased_off

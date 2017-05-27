@@ -7,3 +7,16 @@ light:
     payload_on: "ON"
     payload_off: "OFF"
     retain: true
+
+
+##########################################
+############### GROUPS ###################
+##########################################
+# group:
+#   automation_silver_lamp:
+#     entities:
+
+
+
+  # script_silver_lamp::
+  #   entities:

@@ -361,17 +361,18 @@ script:
       entity_id: input_boolean.var_chromecast_interupt
 
 automation:
-  trigger:
-    - platform: state
-      entity_id: input_boolean.var_notify2_15m_chromecast_on
-      state: 'on'
-      for:
-        minutes: 15
-  action:
-    - service: input_boolean.turn_off
-      entity_id: input_boolean.var_notify2_15m_chromecast_on
-    - service: media_player.turn_off
-      entity_id: media_player.vtv_chromecast
+  - alias: notify2_15m_chromecast_off
+    trigger:
+      - platform: state
+        entity_id: input_boolean.var_notify2_15m_chromecast_on
+        state: 'on'
+        for:
+          minutes: 15
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_notify2_15m_chromecast_on
+      - service: media_player.turn_off
+        entity_id: media_player.vtv_chromecast
 
 input_boolean:
 ##########################################
@@ -440,3 +441,26 @@ input_slider:
     min: 0
     max: 1
     step: 0.05
+
+
+##########################################
+############### GROUPS ###################
+##########################################
+group:
+  automation_notify2:
+    entities:
+      - automation.notify2_15m_chromecast_off
+
+  script_notify2:
+    entities:
+      - script.notify2_test
+      - script.notify2
+      - script.notify2_sms
+      - script.notify2_email
+      - script.notify2_mlo
+      - script.notify2_telegram
+      - script.notify2_chromecast
+      - script.notify2_lights
+      - script.notify2_tts
+      - script.notify2_do_nothing
+      - script.notify2_tts_resume

@@ -97,9 +97,9 @@ input_select:
       - "vHome Breathe"
     initial: "Static"
 
-    
+
 automation:
-  - alias: "Office LEDs Input Effect"
+  - alias: office_leds_input_effect
     initial_state: True
     hide_entity: False
     trigger:
@@ -116,7 +116,7 @@ automation:
               {%endif%}
             {%- endfor -%}
 
-  - alias: "office LEDs Animation Speed"
+  - alias: office_leds_animation_speed
     initial_state: True
     hide_entity: False
     trigger:
@@ -127,3 +127,16 @@ automation:
         data_template:
           topic: "device/office/led1/speed"
           payload: '{{ trigger.to_state.state | int }}'
+
+
+##########################################
+############### GROUPS ###################
+##########################################
+group:
+  automation_office:
+    entities:
+      - automation.office_leds_input_effect
+      - automation.office_leds_animation_speed
+
+  # script_office:
+  #   entities:

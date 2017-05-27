@@ -91,7 +91,7 @@ input_select:
 
 
 automation:
-  - alias: "Tables LEDs Input Effect"
+  - alias: tables_leds_input_effect
     initial_state: True
     hide_entity: False
     trigger:
@@ -108,7 +108,7 @@ automation:
               {%endif%}
             {%- endfor -%}
 
-  - alias: "Tables LEDs Animation Speed"
+  - alias: tables_leds_animation_speed
     initial_state: True
     hide_entity: False
     trigger:
@@ -119,3 +119,15 @@ automation:
         data_template:
           topic: "device/tables/led1/speed"
           payload: '{{ trigger.to_state.state | int }}'
+
+##########################################
+############### GROUPS ###################
+##########################################
+group:
+  automation_tables:
+    entities:
+      - automation.tables_leds_input_effect
+      - automation.tables_leds_animation_speed
+
+  # script_tables:
+  #   entities:

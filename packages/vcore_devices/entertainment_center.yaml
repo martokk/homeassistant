@@ -97,10 +97,10 @@ input_select:
       - "vHome Wipe to White"
       - "vHome Breathe"
     initial: "Static"
-    
+
 
 automation:
-  - alias: "Entertainment Center LEDs Input Effect"
+  - alias: entertainment_center_leds_input_effect
     initial_state: True
     hide_entity: False
     trigger:
@@ -117,7 +117,7 @@ automation:
               {%endif%}
             {%- endfor -%}
 
-  - alias: "Entertainment Center LEDs Animation Speed"
+  - alias: entertainment_center_leds_animation_speed
     initial_state: True
     hide_entity: False
     trigger:
@@ -128,3 +128,15 @@ automation:
         data_template:
           topic: "device/entertainment_center/led1/speed"
           payload: '{{ trigger.to_state.state | int }}'
+
+##########################################
+############### GROUPS ###################
+##########################################
+group:
+  automation_vcore_entertainment_center:
+    entities:
+      - automation.entertainment_center_leds_input_effect
+      - automation.entertainment_center_leds_animation_speed
+
+  # script_vcore_entertainment_center:
+  #   entities:

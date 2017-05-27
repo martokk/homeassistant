@@ -18,7 +18,7 @@ automation:
       - service: script.morning_alarm_turn_on
 
 ## Turn off Alarm at after 1 hour
-  - alias: morning_alarm_motion_turn_off
+  - alias: morning_alarm_motion_turn_off_1hr
     trigger:
       - platform: state
         entity_id: input_boolean.var_morning_alarm_on
@@ -120,3 +120,19 @@ input_select:
       - "10:00"
       - "10:30"
     initial: "05:30"
+
+
+##########################################
+############### GROUPS ###################
+##########################################
+group:
+  automation_alarms:
+    entities:
+      - automation.morning_alarm_timebased_turn_on
+      - automation.morning_alarm_motion_turn_off_1hr
+      - automation.morning_alarm_motion_turn_off
+
+  script_alarms:
+    entities:
+      - script.morning_alarm_turn_on
+      - script.morning_alarm_turn_off

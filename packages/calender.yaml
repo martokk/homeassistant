@@ -51,3 +51,16 @@ sensor:
             {% else %}
 
             {%- endif %}
+
+
+
+##########################################
+############### GROUPS ###################
+##########################################
+# group:
+#   automation_calender:
+#     entities:
+#
+#
+#   script_calender:
+#     entities:

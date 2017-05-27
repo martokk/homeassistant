@@ -232,9 +232,18 @@ automation:
 ##########################################
 ########## SCRIPTS #######################
 ##########################################
-# script:
-#
-#
+script:
+  computer_monitors_turn_off:
+    sequence:
+      - service: shell_command.computer_monitors_turn_off
+
+##########################################
+########## SHELL COMMANDS #######################
+##########################################
+shell_command:
+  computer_monitors_turn_off: ssh martokk@desktop xset -display :0.0 dpms force off
+
+
 # input_boolean:
 ##########################################
 ########## STORED VARIABLES ##############
@@ -243,3 +252,23 @@ automation:
 ##########################################
 ########## OPTIONS #######################
 ##########################################
+
+
+##########################################
+############### GROUPS ###################
+##########################################
+group:
+  automation_devices:
+    entities:
+      - automation.battery_low_notification
+      - automation.battery_fully_charged_text_only
+      - automation.10pm_charge_battery_reminder
+      - automation.new_device_found
+      - automation.mike_away
+      - automation.mike_home
+      - automation.dan_away
+      - automation.dan_home
+
+  script_devices:
+    entities:
+      - script.computer_monitors_turn_off

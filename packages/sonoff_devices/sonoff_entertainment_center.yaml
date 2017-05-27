@@ -7,3 +7,16 @@ switch:
     payload_on: "ON"
     payload_off: "OFF"
     retain: true
+
+
+##########################################
+############### GROUPS ###################
+##########################################
+# group:
+#   automation_sonoff_entertainment_center:
+#     entities:
+#
+#
+#
+#   script_sonoff_entertainment_center:
+#     entities:

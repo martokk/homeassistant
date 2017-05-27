@@ -89,7 +89,7 @@ automation:
 ##########################################
 ############## NOTIFICATIONS #############
 ##########################################
-  - alias: Indoor Temp (Hot)
+  - alias: indoor_temp_hot_notification
     trigger:
       - platform: template
         value_template: "{% if states.sensor.indoor_temperature.state | int > states.input_slider.option_indoor_temp_hot.state | int %}true{%endif%}"
@@ -115,7 +115,7 @@ automation:
           tts_sound: 'intercom_ds9.mp3'
           tts_message: "It's getting hot in here! The indoor temperature is {{ states.sensor.indoor_temperature.state | round(0) }}°F"
 
-  - alias: Indoor Temp (Cold)
+  - alias: indoor_temp_cold_notification
     trigger:
       - platform: template
         value_template: "{% if states.sensor.indoor_temperature.state | int < states.input_slider.option_indoor_temp_cold.state | int %}true{%endif%}"
@@ -313,3 +313,23 @@ input_slider:
     min: 65
     max: 85
     step: 1
+
+
+##########################################
+############### GROUPS ###################
+##########################################
+group:
+  automation_environment:
+    entities:
+      - automation.indoor_temp_hot_notification
+      - automation.indoor_temp_cold_notification
+      - automation.bedroom_temperature_cold_after_9pm
+      - automation.indoor_temp_hot
+      - automation.indoor_temp_ok
+      - automation.circulate_air_start
+      - automation.fans_turn_on
+      - automation.fans_turn_off
+
+
+  # script_environment:
+  #   entities:

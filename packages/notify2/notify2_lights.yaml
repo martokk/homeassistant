@@ -563,3 +563,37 @@ script:
         {% endif %}
     - delay: "00:00:01"
     - service: script.kitchen_lights_on
+
+
+
+##########################################
+############### GROUPS ###################
+##########################################
+group:
+  # automation_notify2_lights:
+  #   entities:
+
+
+  script_notify2_lights:
+    entities:
+      - script.flood_light_test
+      - script.flood_scene_test
+      - script.flood_and_change_scene_test
+      - script.flood_and_blink_test
+      - script.flood_and_blink2_test
+      - script.flood_and_breathe_test
+      - script.breathe_light_test
+      - script.flash_light_test
+      - script.blink_light_test
+      - script.blink2_light_test
+      - script.flood_light
+      - script.flood_scene
+      - script.10m_flood_day_bright
+      - script.flood_and_change_scene
+      - script.breathe_light
+      - script.flash_light
+      - script.blink_light
+      - script.blink2_light
+      - script.flood_and_blink
+      - script.flood_and_blink2
+      - script.flood_and_breathe

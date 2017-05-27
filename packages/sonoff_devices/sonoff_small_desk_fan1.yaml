@@ -7,3 +7,13 @@ switch:
     payload_on: "ON"
     payload_off: "OFF"
     retain: true
+
+##########################################
+############### GROUPS ###################
+##########################################
+# group:
+#   automation_small_desk_fan1:
+#     entities:
+#
+#   script_small_desk_fan1:
+#     entities:

@@ -21,7 +21,7 @@ automation:
 ##########################################
 
   #********** Resident Mike Home ***************************************#
-  - alias: 'Mike Home - Theme Video'
+  - alias: mike_home_theme_video
     trigger:
       - platform: state
         entity_id: input_boolean.var_mike_home
@@ -38,7 +38,7 @@ automation:
         tts_message: "Welcome home Mike!"
 
   #********** Resident Dan Home ***************************************#
-  # - alias: 'Dan Home - Theme Video'
+  # - alias: dan_home_theme_video
   #   trigger:
   #     - platform: state
   #       entity_id: input_boolean.var_dan_home
@@ -55,7 +55,7 @@ automation:
   #       tts_message: "Welcome home Dan!"
 
   #********** Temp Dan Home ***************************************#
-  - alias: 'Dan Home Notification'
+  - alias: dan_home_notification
     trigger:
     - platform: state
       entity_id: input_boolean.var_dan_home
@@ -114,7 +114,7 @@ automation:
 
 
 
-  - alias: 'Dan Home - Start Smoke Session'
+  - alias: dan_home_start_smoke_session
     trigger:
     - platform: state
       entity_id: input_boolean.var_dan_home
@@ -140,7 +140,7 @@ automation:
 ##########################################
 
   #********** User Presence ***********#
-  - alias: 'All Residents Away - Automations'
+  - alias: all_residents_away_automations
     trigger:
       - platform: state
         entity_id: group.residents
@@ -158,7 +158,7 @@ automation:
     - service: homeassistant.turn_off
       entity_id: input_boolean.option_notify2_lights
 
-  - alias: 'Any Residents Home - Automations'
+  - alias: any_resident_home_automation
     trigger:
       - platform: state
         entity_id: group.residents
@@ -196,3 +196,21 @@ input_boolean:
 ##########################################
 ########## OPTIONS #######################
 ##########################################
+
+
+##########################################
+############### GROUPS ###################
+##########################################
+group:
+  automation_user_presence:
+    entities:
+      - automation.mike_home_theme_video
+      - automation.dan_home_theme_video
+      - automation.dan_home_notification
+      - automation.dan_here_filler_task_reminder
+      - automation.dan_home_start_smoke_session
+      - automation.all_residents_away_automations
+      - automation.any_resident_home_automation
+
+  # script_user_presence:
+  #   entities:

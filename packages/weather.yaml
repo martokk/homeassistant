@@ -108,7 +108,7 @@ sensor:
 ##########################################
 automation:
   #********** Rain ***************************************#
-  - alias: 'Rain_Start'
+  - alias: rain_start
     trigger:
     - platform: state
       entity_id: sensor.dark_sky_precip
@@ -141,7 +141,7 @@ automation:
         tts_sound: 'intercom_ds9.mp3'
         tts_message: '{{ states("sensor.dark_sky_minutely_summary") }}'
 
-  - alias: 'Rain_Stop'
+  - alias: rain_stop
     trigger:
     - platform: state
       entity_id: sensor.dark_sky_precip
@@ -178,7 +178,7 @@ automation:
         tts_message: '{{ states("sensor.dark_sky_minutely_summary") }} {{ states("sensor.dark_sky_hourly_summary") }}'
 
   #********** Snow ***************************************#
-  - alias: 'Snow_Start'
+  - alias: snow_start
     trigger:
     - platform: state
       entity_id: sensor.dark_sky_precip
@@ -211,7 +211,7 @@ automation:
         tts_sound: 'intercom_ds9.mp3'
         tts_message: '{{ states("sensor.dark_sky_minutely_summary") }}'
 
-  - alias: 'Snow_Stop'
+  - alias: snow_stop
     trigger:
     - platform: state
       entity_id: sensor.dark_sky_precip
@@ -248,7 +248,7 @@ automation:
         tts_message: '{{ states("sensor.dark_sky_minutely_summary") }} {{ states("sensor.dark_sky_hourly_summary") }}'
 
   #********** Weather Alerts ***************************************#
-  - alias: "Weather Alert"
+  - alias: weather_alert
     trigger:
       - platform: state
         entity_id: sensor.weather_alerts
@@ -295,7 +295,7 @@ automation:
 ##########################################
 
   #********** 'Day Le' or 'Day' scene ***************************************#
-  - alias: 'Weather based - Day LE'
+  - alias: weather_based_day_le
     trigger:
     - platform: state
       entity_id: sensor.dark_sky_icon
@@ -330,7 +330,7 @@ automation:
     - service: scene.turn_on
       entity_id: scene.10m_day_le
 
-  - alias: 'Weather based - Day'
+  - alias: weather_based_day
     trigger:
     - platform: state
       entity_id: sensor.dark_sky_icon
@@ -378,3 +378,21 @@ automation:
 ##########################################
 ########## OPTIONS #######################
 ##########################################
+
+
+##########################################
+############### GROUPS ###################
+##########################################
+group:
+  automation_weather:
+    entities:
+      - automation.rain_start
+      - automation.rain_stop
+      - automation.snow_start
+      - automation.snow_stop
+      - automation.weather_alert
+      - automation.weather_based_day_le
+      - automation.weather_based_day
+
+  # script_weather:
+  #   entities:

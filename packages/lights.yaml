@@ -28,7 +28,7 @@ automation:
 ##########################################
 
   #********** Kitchen Motion ***************************************#
-  - alias: Turn ON kitch lights (movement)
+  - alias: turn_on_kitchen_lights_movement
     trigger:
     - platform: state
       entity_id: binary_sensor.kitchen_motion_sensor
@@ -41,7 +41,7 @@ automation:
       data:
         entity_id: input_boolean.var_kitchen_on
 
-  - alias: Turn OFF kitch lights (no movement 7sec)
+  - alias: turn_off_kitchen_lights_no_movement_7sec
     trigger:
     - platform: state
       entity_id: binary_sensor.kitchen_motion_sensor
@@ -51,7 +51,7 @@ automation:
     - service: homeassistant.turn_on
       entity_id: script.kitchen_lights_timer_off
 
-  - alias: Turn ON kitch lights (sink movement)
+  - alias: turn_on_kitchen_lights_sink_movement
     trigger:
       - platform: mqtt
         topic: device/kitchen/pir3
@@ -654,3 +654,40 @@ input_select:
       - "Day"
       - "Day Le"
       - "Day Bright"
+
+
+##########################################
+############### GROUPS ###################
+##########################################
+group:
+  automation_lights:
+    entities:
+      - automation.turn_on_kitchen_lights_movement
+      - automation.turn_off_kitchen_lights_no_movement_7sec
+      - automation.turn_on_kitchen_lights_sink_movement
+      - automation.setMin_var_kitchen_delay
+      - automation.setMid_var_kitchen_delay
+      - automation.setMax_var_kitchen_delay
+      - automation.bedroom_motion_turn_on_lights
+      - automation.bedroom_motion_turn_off_lights
+      - automation.entertainment_center_motion_turn_on_lights
+      - automation.entertainment_center_motion_turn_off_lights
+      - automation.set_var_last_known_scene
+      - automation.set_var_last_known_scene2
+      - automation.set_var_last_known_scene_to_off
+
+  script_lights:
+    entities:
+      - script.call_lks_kitchen
+      - script.call_lks_bedroom
+      - script.call_last_known_scene
+      - script.call_last_known_scene_0s
+      - script.call_last_known_led_scene
+      - script.kitchen_lights_timer_on
+      - script.kitchen_lights_on
+      - script.kitchen_lights_timer_off
+      - script.kitchen_lights_timer_warm
+      - script.kitchen_lights_timer_low_light
+      - script.kitchen_lights_timer_day
+      - script.kitchen_lights_timer_bright_dynamic
+      - script.kitchen_lights_timer_bright_long

@@ -97,7 +97,7 @@ input_select:
 
 
 automation:
-  - alias: "Bedroom LEDs Input Effect"
+  - alias: bedroom_leds_input_effect
     initial_state: True
     hide_entity: False
     trigger:
@@ -114,7 +114,7 @@ automation:
               {%endif%}
             {%- endfor -%}
 
-  - alias: "Bedroom LEDs Animation Speed"
+  - alias: bedroom_leds_animation_speed
     initial_state: True
     hide_entity: False
     trigger:
@@ -125,3 +125,16 @@ automation:
         data_template:
           topic: "device/bedroom/led1/speed"
           payload: '{{ trigger.to_state.state | int }}'
+
+
+##########################################
+############### GROUPS ###################
+##########################################
+group:
+  automation_bedroom:
+    entities:
+      - automation.bedroom_leds_input_effect
+      - automation.bedroom_leds_animation_speed
+
+  # script_bedroom:
+  #   entities:

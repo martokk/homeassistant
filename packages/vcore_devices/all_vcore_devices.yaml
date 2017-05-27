@@ -67,7 +67,7 @@ automation:
   ##########################################
   ########## NOTIFICATIONS #################
   ##########################################
-  - alias: 'vCORE Device Restarted'
+  - alias: vcore_device_restarted
     trigger:
       - platform: mqtt
         topic: device/+/device
@@ -88,7 +88,7 @@ automation:
 ##########################################
 ########## AUTOMATIONS ###################
 ##########################################
-  - alias: "All LEDs Input Effect"
+  - alias: all_leds_input_effect
     trigger:
       - platform: state
         entity_id: input_select.all_led_effect
@@ -114,7 +114,7 @@ automation:
           entity_id: input_select.bedroom_led_effect
           option: "{{ trigger.to_state.state }}"
 
-  - alias: "All LEDs Animation Speed"
+  - alias: all_leds_animation_speed
     trigger:
       - platform: state
         entity_id: input_slider.all_leds_animation_speed
@@ -148,3 +148,17 @@ input_boolean:
   option_send_device_reconnect_notification:
     name: "vCore Device Reconnect Notification"
     initial: off
+
+
+##########################################
+############### GROUPS ###################
+##########################################
+group:
+  automation_all_vcore_devices:
+    entities:
+      - automation.vcore_device_restarted
+      - automation.all_leds_input_effect
+      - automation.all_leds_animation_speed
+
+  # script_all_vcore_devices:
+  #   entities:

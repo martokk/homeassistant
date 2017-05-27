@@ -106,7 +106,7 @@ input_select:
 
 
 automation:
-  - alias: "Kitchen LEDs Input Effect"
+  - alias: kitchen_leds_input_effects
     initial_state: True
     hide_entity: False
     trigger:
@@ -123,7 +123,7 @@ automation:
               {%endif%}
             {%- endfor -%}
 
-  - alias: "kitchen LEDs Animation Speed"
+  - alias: kitchen_leds_animation_speed
     initial_state: True
     hide_entity: False
     trigger:
@@ -134,3 +134,15 @@ automation:
         data_template:
           topic: "device/kitchen/led1/speed"
           payload: '{{ trigger.to_state.state | int }}'
+
+##########################################
+############### GROUPS ###################
+##########################################
+group:
+  automation_kitchen:
+    entities:
+      - automation.kitchen_leds_input_effects
+      - automation.kitchen_leds_animation_speed
+
+  # script_kitchen:
+  #   entities:

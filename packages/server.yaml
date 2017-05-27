@@ -348,7 +348,7 @@ automation:
   #         tts_sound: startup/startup_ds9.wav
 
   #Temporary Soltuion to homeasstant start event not triggering >> https://github.com/home-assistant/home-assistant/issues/7058
-  - alias: 'TEMPORARY_HASS Startup'
+  - alias: temporary_hass_startup
     trigger:
       - platform: time
         seconds: '/5'
@@ -367,7 +367,7 @@ automation:
 
 
   #********** Server Service Down ***************************************#
-  - alias: "Server Service Down"
+  - alias: server_service_down
     trigger:
       - platform: template
         value_template: >
@@ -384,7 +384,7 @@ automation:
             {{ states.sensor.server_status_alert.state }}
 
 
-  - alias: "Cloud Service Down"
+  - alias: cloud_service_down
     trigger:
       - platform: template
         value_template: >
@@ -401,7 +401,7 @@ automation:
             {{ states.sensor.cloud_status_alert.state }}
 
 
-  - alias: "IoT Device Down"
+  - alias: iot_device_down
     trigger:
       - platform: template
         value_template: >
@@ -466,7 +466,7 @@ automation:
   #         tts_message: "Warning Disk Space Low! There is only {{ states.sensor.sabnzbd_disk_free.state | int | round(0) }} gigs free on Dell Laptop's V drive."
 
   #********** Logger ***************************************#
-  - alias: Log Level
+  - alias: log_level
     trigger:
       platform: state
       entity_id: input_select.option_log_level
@@ -477,7 +477,7 @@ automation:
 
 
   #********** SpeetTest Notification ***************************************#
-  - alias: "SpeedTest Speed Low"
+  - alias: speedtest_speed_low
     trigger:
       - platform: numeric_state
         entity_id: sensor.speedtables_download
@@ -539,3 +539,21 @@ input_select:
       - debug
       - notset
     initial: warn
+
+
+##########################################
+############### GROUPS ###################
+##########################################
+group:
+  automation_server:
+    entities:
+      - automation.temporary_hass_startup
+      - automation.server_service_down
+      - automation.cloud_service_down
+      - automation.iot_device_down
+      - automation.log_level
+      - automation.speedtest_speed_low
+
+  script_server:
+    entities:
+      - script.restart_eventghost

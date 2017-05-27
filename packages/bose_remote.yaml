@@ -211,3 +211,24 @@ script:
 ##########################################
 ########## OPTIONS #######################
 ##########################################
+
+
+##########################################
+############### GROUPS ###################
+##########################################
+group:
+  automation_bose_remote:
+    entities:
+      - automation.toggle_mqtt_entertainment_center_power
+      - automation.toggle_mqtt_chromecast_playpause
+      - automation.toggle_mqtt_chromecast_stop
+      - automation.toggle_mqtt_chromecast_prev
+      - automation.toggle_mqtt_chromecast_next
+      - automation.mqtt_flash_cyan
+      - automation.button
+      - automation.button_long
+
+  script_bose_remote:
+    entities:
+      - script.eventghost_button
+      - script.eventghost_button_long

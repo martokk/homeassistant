@@ -35,13 +35,13 @@ automation:
 ##########################################
 ############### NOTIFICATIONS ############
 ##########################################
-  - alias: Bitcoin Up
+  - alias: bitcoin_up
     trigger:
       - platform: numeric_state
         entity_id: sensor.bitcoin_percent_change_24h
         above: 2
       - platform: template
-        value_template: 'states.sensor.bitcoin.state | round(0) > states.input_slider.var_last_known_bitcoin_price.state + states.input_slider.var_bitcoin_price_notification_tolerance.state'
+        value_template: '{{ states.sensor.bitcoin.state | round(0) | int > states.input_slider.var_last_known_bitcoin_price.state | int  + states.input_slider.option_bitcoin_price_notification_tolerance.state | int }}'
     action:
       - service: script.notify2
         data_template:
@@ -57,19 +57,19 @@ automation:
           chromecast_link: http://bitcoincharts.com/charts/chart.png?width=848&height=480&m=bitstampUSD&SubmitButton=Draw&r=2&i=5-min&c=0&s=&e=&Prev=&Next=&t=C&b=&a1=&m1=10&a2=&m2=25&x=0&i1=&i2=&i3=&i4=&v=1&cv=0&ps=0&l=0&p=0&
           tts_entity_id: group.tts_devices
           tts_sound: 'intercom_ds9.mp3'
-          tts_message: "Bitcoin's up! The current bitcoin price is {{ states.sensor.bitcoin.state | round(0) }}"
+          tts_message: "Bitcoin's up! The current bitcoin price is ${{ states.sensor.bitcoin.state | round(0) }}"
       - service: input_slider.select_value
         data_template:
           entity_id: input_slider.var_last_known_bitcoin_price
           value: '{{ states.sensor.bitcoin.state | round(0) }}'
 
-  - alias: Bitcoin Down
+  - alias: bitcoin_down
     trigger:
       - platform: numeric_state
         entity_id: sensor.bitcoin_percent_change_24h
         below: -2
       - platform: template
-        value_template: 'states.sensor.bitcoin.state | round(0) < states.input_slider.var_last_known_bitcoin_price.state - states.input_slider.var_bitcoin_price_notification_tolerance.state'
+        value_template: '{{ states.sensor.bitcoin.state | round(0) | int  < states.input_slider.var_last_known_bitcoin_price.state | int  - states.input_slider.option_bitcoin_price_notification_tolerance.state | int }}'
     action:
       - service: script.notify2
         data_template:
@@ -85,11 +85,27 @@ automation:
           chromecast_link: http://bitcoincharts.com/charts/chart.png?width=848&height=480&m=bitstampUSD&SubmitButton=Draw&r=2&i=5-min&c=0&s=&e=&Prev=&Next=&t=C&b=&a1=&m1=10&a2=&m2=25&x=0&i1=&i2=&i3=&i4=&v=1&cv=0&ps=0&l=0&p=0&
           tts_entity_id: group.tts_devices
           tts_sound: 'intercom_ds9.mp3'
-          tts_message: "Bitcoin's down! The current bitcoin price is {{ states.sensor.bitcoin.state | round(0) }}"
+          tts_message: "Bitcoin's down! The current bitcoin price is ${{ states.sensor.bitcoin.state | round(0) }}"
       - service: input_slider.select_value
         data_template:
           entity_id: input_slider.var_last_known_bitcoin_price
           value: '{{ states.sensor.bitcoin.state | round(0) }}'
+
+
+##########################################
+########## SCRIPTS #######################
+##########################################
+script:
+  chromecast_bitcoin_chart:
+    sequence:
+    - service: script.notify2
+      data_template:
+        chromecast_entity_id: media_player.vtv_chromecast
+        chromecast_link: http://bitcoincharts.com/charts/chart.png?width=848&height=480&m=bitstampUSD&SubmitButton=Draw&r=2&i=5-min&c=0&s=&e=&Prev=&Next=&t=C&b=&a1=&m1=10&a2=&m2=25&x=0&i1=&i2=&i3=&i4=&v=1&cv=0&ps=0&l=0&p=0&
+        tts_entity_id: group.tts_devices
+        tts_sound: 'intercom_ds9.mp3'
+        tts_message: "The current bitcoin price is ${{ states.sensor.bitcoin.state | round(0) }}"
+
 
 input_slider:
 ##########################################
@@ -101,10 +117,23 @@ input_slider:
     step: 1
 
   option_bitcoin_price_notification_tolerance:
-    min: 0
-    max: 1000
+    min: 10
+    max: 200
     step: 10
-    initial: 10
+    initial: 50
 ##########################################
 ########## OPTIONS #######################
 ##########################################
+
+##########################################
+############### GROUPS ###################
+##########################################
+group:
+  automation_bitcoin:
+    entities:
+      - automation.bitcoin_up
+      - automation.bitcoin_down
+
+  script_bitcoin:
+    entities:
+      - script.chromecast_bitcoin_chart

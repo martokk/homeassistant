@@ -40,3 +40,16 @@ automation:
         data:
           topic: "device/eventghost/vol_down_2"
           payload: '1'
+
+
+##########################################
+############### GROUPS ###################
+##########################################
+group:
+  automation_sonoff_box_fan1:
+    entities:
+      - automation.fan_on_chromecast_volume_up
+      - automation.fan_off_chromecast_volume_down
+
+  # script_sonoff_box_fan1:
+  #   entities:

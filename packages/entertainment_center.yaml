@@ -1,10 +1,17 @@
-# homeassistant:
-#   customize:
+homeassistant:
+  customize:
+    script.ps3_turn_on:
+      emulated_hue: true
+      emulated_hue_name: "PS3"
+    script.chromecast_turn_on:
+      emulated_hue: true
+      emulated_hue_name: "Chromecast"
+
 switch:
   - platform: mqtt
     name: ambivision
     command_topic: "device/eventghost/led_standby"
-    
+
 # lights:
 binary_sensor:
   - platform: mqtt
@@ -107,7 +114,7 @@ automation:
       - service: script.entertainment_center_turn_off
 
 
-  - alias: 'TV Turned Off - Red Flash'
+  - alias: tv_turned_off_red_flash
     trigger:
       platform: state
       entity_id: switch.sonoff_entertainment_center
@@ -119,7 +126,7 @@ automation:
           entity_id: group.tv_lights
 
 
-  - alias: 'TV Turned On - Green Flash'
+  - alias: tv_turned_on_green_flash
     trigger:
       platform: state
       entity_id: switch.sonoff_entertainment_center
@@ -254,6 +261,24 @@ script:
         topic: "device/eventghost/set_vol_14"
         payload: '1'
 
+  ps3_turn_on:
+    sequence:
+      - service: homeassistant.turn_on
+        entity_id: input_boolean.var_ps3_on
+      - service: mqtt.publish
+        data:
+          topic: "device/eventghost/input_game"
+          payload: '1'
+
+  chromecast_turn_on:
+    sequence:
+      - service: homeassistant.turn_off
+        entity_id: input_boolean.var_ps3_on
+      - service: mqtt.publish
+        data:
+          topic: "device/eventghost/input_cbl"
+          payload: '1'
+
 input_boolean:
 ##########################################
 ########## STORED VARIABLES ##############
@@ -263,3 +288,30 @@ input_boolean:
 ##########################################
 ########## OPTIONS #######################
 ##########################################
+
+
+##########################################
+############### GROUPS ###################
+##########################################
+group:
+  automation_entertainment_center:
+    entities:
+      - automation.entertainment_center_turn_on_every_15m
+      - automation.entertainment_center_turn_on
+      - automation.entertainment_center_turn_on_chromecast_playing
+      - automation.entertainment_center_turn_off_mike_not_home
+      - automation.tv_turned_off_red_flash
+      - automation.tv_turned_on_green_flash
+      - automation.ambivision_turn_on
+      - automation.ambivision_turn_off
+      - automation.ps3_turn_on
+      - automation.ps3_turn_off
+
+  script_entertainment_center:
+    entities:
+      - script.entertainment_center_turn_off
+      - script.set_volume_4
+      - script.set_volume_9
+      - script.set_volume_14
+      - script.ps3_turn_on
+      - script.chromecast_turn_on
