@@ -24,7 +24,7 @@ entities:
     rgb_color: [91, 0, 221]
     transition: 0
   input_select.tables_led_effect:
-    option: 'vHome Breathe'
+    option: 'Static'
 
   light.tv_overhead_right:
     state: on
@@ -56,7 +56,7 @@ entities:
     rgb_color: [91, 0, 221]
     transition: 0
   input_select.entertainment_center_led_effect:
-    option: 'vHome Breathe'
+    option: 'Static'
 
   light.office_right:
     state: on
@@ -82,7 +82,7 @@ entities:
     rgb_color: [91, 0, 221]
     transition: 0
   input_select.office_led_effect:
-    option: 'vHome Breathe'
+    option: 'Static'
 
   light.kitchen_right:
     state: on
@@ -102,7 +102,7 @@ entities:
     rgb_color: [91, 0, 221]
     transition: 0
   input_select.kitchen_led_effect:
-    option: 'vHome Breathe'
+    option: 'Static'
 
   light.sonoff_silver_lamp:
     state: off
@@ -112,4 +112,4 @@ entities:
     rgb_color: [91, 0, 221]
     transition: 0
   input_select.bedroom_led_effect:
-    option: 'vHome Breathe'
+    option: 'Static'
