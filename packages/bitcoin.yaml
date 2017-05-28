@@ -37,9 +37,9 @@ automation:
 ##########################################
   - alias: bitcoin_up
     trigger:
-      - platform: numeric_state
-        entity_id: sensor.bitcoin_percent_change_24h
-        above: 2
+      # - platform: numeric_state
+      #   entity_id: sensor.bitcoin_percent_change_24h
+      #   above: 2
       - platform: template
         value_template: '{{ states.sensor.bitcoin.state | round(0) | int > states.input_slider.var_last_known_bitcoin_price.state | int  + states.input_slider.option_bitcoin_price_notification_tolerance.state | int }}'
     action:
@@ -65,9 +65,9 @@ automation:
 
   - alias: bitcoin_down
     trigger:
-      - platform: numeric_state
-        entity_id: sensor.bitcoin_percent_change_24h
-        below: -2
+      # - platform: numeric_state
+      #   entity_id: sensor.bitcoin_percent_change_24h
+      #   below: -2
       - platform: template
         value_template: '{{ states.sensor.bitcoin.state | round(0) | int  < states.input_slider.var_last_known_bitcoin_price.state | int  - states.input_slider.option_bitcoin_price_notification_tolerance.state | int }}'
     action:
