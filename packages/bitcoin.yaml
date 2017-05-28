@@ -117,10 +117,9 @@ input_slider:
     step: 1
 
   option_bitcoin_price_notification_tolerance:
-    min: 10
+    min: 50
     max: 200
     step: 10
-    initial: 50
 ##########################################
 ########## OPTIONS #######################
 ##########################################

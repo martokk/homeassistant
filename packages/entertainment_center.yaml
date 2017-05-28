@@ -1,11 +1,11 @@
-homeassistant:
-  customize:
-    script.ps3_turn_on:
-      emulated_hue: true
-      emulated_hue_name: "PS3"
-    script.chromecast_turn_on:
-      emulated_hue: true
-      emulated_hue_name: "Chromecast"
+# homeassistant:
+#   customize:
+#     script.ps3_turn_on:
+#       emulated_hue: true
+#       emulated_hue_name: "PS3"
+#     script.chromecast_turn_on:
+#       emulated_hue: true
+#       emulated_hue_name: "Chromecast"
 
 switch:
   - platform: mqtt
@@ -284,6 +284,7 @@ input_boolean:
 ########## STORED VARIABLES ##############
 ##########################################
   var_ps3_on:
+    initial: off
 
 ##########################################
 ########## OPTIONS #######################
