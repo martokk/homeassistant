@@ -227,7 +227,6 @@ script:
 
 
   set_volume_4:
-    alias: "Set Volume (4)"
     sequence:
     - condition: state
       entity_id: binary_sensor.ps3
@@ -239,7 +238,6 @@ script:
 
 
   set_volume_9:
-    alias: "Set Volume (9)"
     sequence:
     - condition: state
       entity_id: binary_sensor.ps3
@@ -251,7 +249,6 @@ script:
 
 
   set_volume_14:
-    alias: "Set Volume (14)"
     sequence:
     - condition: state
       entity_id: binary_sensor.ps3

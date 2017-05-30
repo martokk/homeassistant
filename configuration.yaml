@@ -90,6 +90,6 @@ logger: # Log Severities: notset, debug, info, warn, warning, error, fatal, crit
 
 
 sun:
-ios:
+# ios:
 scene: !include_dir_list scene
 group: !include_dir_merge_named group

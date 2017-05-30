@@ -10,7 +10,7 @@ automation:
 ########## MQTT SUBSCRIPTIONS ############
 ##########################################
 
-  - alias: 'Toggle MQTT Entertainment Center Power'
+  - alias: toggle_mqtt_entertainment_center_power
     trigger:
       - platform: mqtt
         topic: device/eventghost/ec_power
@@ -32,7 +32,7 @@ automation:
 
 
 
-  - alias: 'Toggle MQTT Chromecast Play/Pause'
+  - alias: toggle_mqtt_chromecast_playpause
     trigger:
       - platform: mqtt
         topic: device/eventghost/play_pause
@@ -47,7 +47,7 @@ automation:
 
 
 
-  - alias: 'Toggle MQTT Chromecast Stop'
+  - alias: toggle_mqtt_chromecast_stop
     trigger:
       - platform: mqtt
         topic: device/eventghost/stop
@@ -62,7 +62,7 @@ automation:
 
 
 
-  - alias: 'Toggle MQTT Chromecast Prev'
+  - alias: toggle_mqtt_chromecast_prev
     trigger:
       - platform: mqtt
         topic: device/eventghost/prev
@@ -77,7 +77,7 @@ automation:
 
 
 
-  - alias: 'Toggle MQTT Chromecast Next'
+  - alias: toggle_mqtt_chromecast_next
     trigger:
       - platform: mqtt
         topic: device/eventghost/next
@@ -92,7 +92,7 @@ automation:
 
 
 
-  - alias: 'MQTT Flash Cyan'
+  - alias: mqtt_flash_cyan
     trigger:
       - platform: mqtt
         topic: device/hass/breathe_light
@@ -105,7 +105,7 @@ automation:
 
 
 
-  - alias: 'Button'
+  - alias: button
     trigger:
     - platform: mqtt
       topic: device/eventghost/button
@@ -114,7 +114,7 @@ automation:
       data_template:
         button: '{{ trigger.payload }}'
 
-  - alias: 'Button_Long'
+  - alias: button_long
     trigger:
     - platform: mqtt
       topic: device/eventghost/button_long

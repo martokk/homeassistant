@@ -12,6 +12,7 @@
     - device_tracker.sonoff_small_desk_fan1
     - device_tracker.sonoff_box_fan1
     - device_tracker.sonoff_entertainment_center
+    - device_tracker.sonoff_silver_lamp  
 
   batteries:
     name: "Batteries"

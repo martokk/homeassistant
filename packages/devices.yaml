@@ -61,7 +61,7 @@ automation:
 ##########################################
 
   #********** Batteries ***************************************#
-  - alias: 'Battery Low Notification'
+  - alias: battery_low_notification
     trigger:
       #iPhone Battery
       - platform: template
@@ -115,7 +115,7 @@ automation:
             {% if states("sensor.watch_battery") | int < 50 and states('sensor.watch_battery') | int > 0  %}Watch: {{ states("sensor.watch_battery") | int }}%{% endif %}
             {% if states("sensor.ipad_battery") | int < 50 and states('sensor.ipad_battery') | int > 0 %}iPad: {{ states("sensor.ipad_battery") | int }}%{% endif %}
 
-  - alias: 'Battery Fully Charged Text Only'
+  - alias: battery_fully_charged_text_only
     trigger:
       - platform: state
         entity_id:
@@ -131,7 +131,7 @@ automation:
             Battery Fully Charged!
             {% if states("sensor.iphone6s_battery") | int == 100 %}*{% endif %}iPhone: {{ states("sensor.iphone6s_battery") | int }}%{% if states("sensor.iphone6s_battery") | int == 100 %}*{% endif %} |  {% if states("sensor.watch_battery") | int == 100 %}*{% endif %}Watch: {{ states("sensor.watch_battery") | int }}%{% if states("sensor.watch_battery") | int == 100 %}*{% endif %}
 
-  - alias: '10pm Charge Battery Reminder'
+  - alias: 10pm_charge_battery_reminder
     trigger:
       - platform: time
         after: '22:00:00'
@@ -145,7 +145,7 @@ automation:
 
 
   #********** Device Connected ***************************************#
-  - alias: 'New Device Found'
+  - alias: new_device_found
     trigger:
       platform: event
       event_type: device_tracker_new_device
@@ -163,7 +163,7 @@ automation:
 ########## AUTOMATIONS ###################
 ##########################################
   #********** Mike Presence ***********#
-  - alias: 'Mike Away'
+  - alias: mike_away
     trigger:
       - platform: state
         entity_id: device_tracker.iphone6s
@@ -181,7 +181,7 @@ automation:
       - service: homeassistant.turn_off
         entity_id: input_boolean.var_mike_home
 
-  - alias: 'Mike Home'
+  - alias: mike_home
     trigger:
       - platform: state
         entity_id: device_tracker.iphone6s
@@ -201,7 +201,7 @@ automation:
         entity_id: input_boolean.var_mike_home
 
   #********** Dan Presence ***************************************#
-  - alias: 'Dan Away'
+  - alias: dan_away
     trigger:
       - platform: state
         entity_id: device_tracker.dans_iphone6
@@ -216,7 +216,7 @@ automation:
       - service: homeassistant.turn_off
         entity_id: input_boolean.var_dan_home
 
-  - alias: 'Dan Home'
+  - alias: dan_home
     trigger:
       - platform: state
         entity_id: device_tracker.dans_iphone6
