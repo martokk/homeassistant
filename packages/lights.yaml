@@ -396,8 +396,8 @@ script:
           {% elif states.input_select.var_last_known_scene.state in states.input_select.array_low_light_scenes.attributes.options  %}
             script.kitchen_lights_timer_low_light
           {%else%}
-            {% if states.automation.turn_off_kitch_lights_no_movement_7sec.attributes.last_triggered %}
-              {% if (as_timestamp(now())-as_timestamp(states.automation.turn_off_kitch_lights_no_movement_7sec.attributes.last_triggered)) > 30  %}
+            {% if states.automation.turn_off_kitchen_lights_no_movement_7sec.attributes.last_triggered %}
+              {% if (as_timestamp(now())-as_timestamp(states.automation.turn_off_kitchen_lights_no_movement_7sec.attributes.last_triggered)) > 30  %}
                 script.kitchen_lights_timer_warm
               {% else %}
                 script.kitchen_lights_timer_bright_dynamic
