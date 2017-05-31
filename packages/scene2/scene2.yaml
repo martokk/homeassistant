@@ -20,11 +20,11 @@ script:
             - 'office'
           transition: 3
 
-  scene2:
+  scene2: # [scene_name], [rooms], [transition]
     sequence:
       # Living rooms
       - service_template: >
-          {% if (rooms == "" or rooms == "all" or "livingroom" in rooms) and states.input_boolean.var_livingroom_on.state == "on" %}
+          {% if (not rooms or "all" in rooms or "livingroom" in rooms) and states.input_boolean.var_livingroom_on.state == "on" %}
             script.scene2_{{scene_name}}_livingroom
           {% else %}
             script.script2_do_nothing
@@ -34,7 +34,7 @@ script:
 
       # Office
       - service_template: >
-          {% if (rooms == "" or rooms == "all" or "office" in rooms) and states.input_boolean.var_office_on.state == "on" %}
+          {% if (not rooms or "all" in rooms or "office" in rooms) and states.input_boolean.var_office_on.state == "on" %}
             script.scene2_{{scene_name}}_office
           {% else %}
             script.script2_do_nothing
@@ -44,7 +44,7 @@ script:
 
       # Kitchen
       - service_template: >
-          {% if (rooms == "" or rooms == "all" or "kitchen" in rooms) and states.input_boolean.var_kitchen_on.state == "on" %}
+          {% if (not rooms or "all" in rooms or "kitchen" in rooms) and states.input_boolean.var_kitchen_on.state == "on" %}
             script.scene2_{{scene_name}}_kitchen
           {% else %}
             script.script2_do_nothing
@@ -54,14 +54,15 @@ script:
 
       # Bedroom
       - service_template: >
-          {% if (rooms == "" or rooms == "all" or "bedroom" in rooms) and states.input_boolean.var_bedroom_on.state == "on" %}
+          {% if (not rooms or "all" in rooms or "bedroom" in rooms) and states.input_boolean.var_bedroom_on.state == "on" %}
             script.scene2_{{scene_name}}_bedroom
           {% else %}
             script.script2_do_nothing
           {% endif %}
         data_template:
           transition: '{% if transition %} {{transition}} {%else%} 1 {% endif %}'
-
+      - service: script.turn_off
+        entity_id: script.scene2
 
 
   scene2_do_nothing:
@@ -72,6 +73,8 @@ script:
 ########## AUTOMATIONS ###################
 ##########################################
 automation:
+
+  #********** LIVING ROOM ***********#
   - alias: livingroom_turn_on
     trigger:
       - platform: state
@@ -85,6 +88,20 @@ automation:
           scene_name: '{{ states.input_select.var_lks_timebased.state }}'
           transition: 1
 
+  - alias: livingroom_turn_off
+    trigger:
+      - platform: state
+        entity_id: input_boolean.var_livingroom_on
+        from: 'on'
+        to: 'off'
+    action:
+      - service: script.scene2
+        data:
+          rooms: 'livingroom'
+          scene_name: 'off'
+          transition: 1
+
+  #********** OFFICE ***********#
   - alias: office_turn_on
     trigger:
       - platform: state
@@ -98,6 +115,20 @@ automation:
           scene_name: '{{ states.input_select.var_lks_timebased.state }}'
           transition: 1
 
+  - alias: office_turn_off
+    trigger:
+      - platform: state
+        entity_id: input_boolean.var_office_on
+        from: 'on'
+        to: 'off'
+    action:
+      - service: script.scene2
+        data:
+          rooms: 'office'
+          scene_name: 'off'
+          transition: 1
+
+  #********** KITCHEN ***********#
   - alias: kitchen_turn_on
     trigger:
       - platform: state
@@ -111,6 +142,20 @@ automation:
           scene_name: '{{ states.input_select.var_lks_timebased.state }}'
           transition: 1
 
+  - alias: kitchen_turn_off
+    trigger:
+      - platform: state
+        entity_id: input_boolean.var_kitchen_on
+        from: 'on'
+        to: 'off'
+    action:
+      - service: script.scene2
+        data:
+          rooms: 'kitchen'
+          scene_name: 'off'
+          transition: 1
+
+  #********** BEDROOM ***********#
   - alias: bedroom_turn_on
     trigger:
       - platform: state
@@ -123,6 +168,20 @@ automation:
           rooms: 'bedroom'
           scene_name: '{{ states.input_select.var_lks_timebased.state }}'
           transition: 1
+
+  - alias: bedroom_turn_off
+    trigger:
+      - platform: state
+        entity_id: input_boolean.var_bedroom_on
+        from: 'on'
+        to: 'off'
+    action:
+      - service: script.scene2
+        data:
+          rooms: 'bedroom'
+          scene_name: 'off'
+          transition: 1
+
 
 
 input_boolean:
@@ -152,7 +211,7 @@ input_select:
       - "day_le"
       - "day_bright"
 
-      
+
 ##########################################
 ########## OPTIONS #######################
 ##########################################

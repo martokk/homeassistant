@@ -23,7 +23,7 @@ script:
       data:
         flood_color: "magenta"
         delay: "00:00:10"
-        next_scene: night_cyan
+        next_scene: 'night_cyan'
 
   flood_and_blink_test:
     sequence:
@@ -112,7 +112,7 @@ script:
   #       entity_id: input_select.var_last_known_scene_helper
   #       option: '{{ states.input_select.var_lks_timebased.state }}'
   #   - service: script.scene2
-  #     data:
+  #     data_template:
   #       rooms: 'all'
   #       scene_name: '{{ flood_scene }}'
   #       transition: 1
@@ -155,9 +155,8 @@ script:
         transition: 1
     - delay: "{% if delay %}{{delay}}{% else %}00:00:05{% endif %}"
     - service: script.scene2
-      data:
-        rooms: 'all'
-        scene_name: '{{ next_scene }}'
+      data_template:
+        scene_name: "{{ next_scene }}"
         transition: 1
     - condition: template
       value_template: >

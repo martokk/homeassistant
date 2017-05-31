@@ -241,7 +241,7 @@ automation:
           flood_color: "magenta"
           entity_id: group.timebased_flood_lights
           delay: "00:00:05"
-          next_scene: night_cyan
+          next_scene: 'night_cyan'
           tts_entity_id: group.tts_devices
           tts_sound: 'st_notifications/st_notification2.wav'
           tts_message: "The time, is 5pm. Time to check your Trello to do list."

@@ -1,7 +1,5 @@
 homeassistant:
   customize:
-    script.kitchen_lights_on:
-      hidden: true
     script.kitchen_lights_timer_on:
       hidden: true
     script.kitchen_lights_timer_off:
@@ -416,7 +414,8 @@ script:
 ##########################################
 ########## STORED VARIABLES ##############
 ##########################################
-# input_boolean:
+input_boolean:
+  var_kitchen_motion_on:
 
 input_slider:
   var_kitchen_delay: #in Seconds
