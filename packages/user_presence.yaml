@@ -149,8 +149,11 @@ automation:
         for:
           minutes: 10
     action:
-    - service: scene.turn_on
-      entity_id: scene.off
+    - service: script.scene2
+      data:
+        rooms: 'all'
+        scene_name: 'off'
+        transition: 600
     - service: homeassistant.turn_off
       entity_id: input_boolean.option_notify2_tts
     - service: homeassistant.turn_off
@@ -171,10 +174,17 @@ automation:
       entity_id: input_boolean.option_notify2_chromecast
     - service: homeassistant.turn_on
       entity_id: input_boolean.option_notify2_lights
-    - service: scene.turn_on
-      entity_id: scene.day_bright
+    - service: script.scene2
+      data:
+        rooms: 'all'
+        scene_name: 'day_bright'
+        transition: 1
     - delay: "00:05:00"
-    - service: script.timebased_scene
+    - service: script.scene2
+      data:
+        rooms: 'all'
+        scene_name: '{{ states.input_select.var_lks_timebased.state }}'
+        transition: 5
 
 
 ##########################################

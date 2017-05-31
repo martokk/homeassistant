@@ -19,3 +19,5 @@ home-assistant_v2.db-shm
 .spotify-token-cache
 
 ios.conf
+
+\.directory

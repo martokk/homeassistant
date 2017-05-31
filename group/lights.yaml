@@ -1,29 +1,3 @@
-#********** SCENES ***************************************#
-  scenes:
-    name: "Scenes"
-    entities:
-    - script.timebased_scene
-    - script.call_last_known_scene
-    - scene.chill
-    - scene.chill_2
-    - scene.day
-    - scene.day_bright
-    - scene.day_le
-    - scene.night
-    - scene.night_cyan
-    - scene.night_blue
-    - scene.night_red
-    - scene.night_computer
-    - scene.night_computer_red
-    - scene.off
-
-  quick_scenes:
-    name: "Quick Scenes"
-    entities:
-    - script.timebased_scene
-    - scene.day
-    - scene.off
-
 #********** LIGHTS ***************************************#
   living_room_lights:
     name: "Living Room"

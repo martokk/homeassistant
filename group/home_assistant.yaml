@@ -9,15 +9,12 @@
   stored_variables:
     name: "Stored Variables"
     entities:
-      - input_select.var_last_known_scene
-      - input_select.var_last_known_scene_helper
       - input_boolean.var_startup
       - input_boolean.var_mike_home
       - input_boolean.var_dan_home
       - input_boolean.var_chromecast_screensaver_ready
       - input_boolean.var_ps3_on
-      - input_boolean.var_kitchen_on
-      - input_boolean.var_bedroom_on
+      - input_boolean.var_kitchen_motion_on
       - input_boolean.var_indoor_temp_hot
       - input_slider.var_last_known_bitcoin_price
       - input_boolean.var_smoke_session_on

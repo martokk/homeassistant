@@ -1,0 +1,190 @@
+# homeassistant:
+#   customize:
+# switch:
+# lights:
+# binary_sensor:
+# sensor:
+
+##########################################
+########## SCRIPTS #######################
+##########################################
+script:
+
+  scene2_test:
+    sequence:
+      - service: script.scene2
+        data_template:
+          scene_name: 'night_red'
+          rooms:
+            - 'livingroom'
+            - 'office'
+          transition: 3
+
+  scene2:
+    sequence:
+      # Living rooms
+      - service_template: >
+          {% if (rooms == "" or rooms == "all" or "livingroom" in rooms) and states.input_boolean.var_livingroom_on.state == "on" %}
+            script.scene2_{{scene_name}}_livingroom
+          {% else %}
+            script.script2_do_nothing
+          {% endif %}
+        data_template:
+          transition: '{% if transition %} {{transition}} {%else%} 1 {% endif %}'
+
+      # Office
+      - service_template: >
+          {% if (rooms == "" or rooms == "all" or "office" in rooms) and states.input_boolean.var_office_on.state == "on" %}
+            script.scene2_{{scene_name}}_office
+          {% else %}
+            script.script2_do_nothing
+          {% endif %}
+        data_template:
+          transition: '{% if transition %} {{transition}} {%else%} 1 {% endif %}'
+
+      # Kitchen
+      - service_template: >
+          {% if (rooms == "" or rooms == "all" or "kitchen" in rooms) and states.input_boolean.var_kitchen_on.state == "on" %}
+            script.scene2_{{scene_name}}_kitchen
+          {% else %}
+            script.script2_do_nothing
+          {% endif %}
+        data_template:
+          transition: '{% if transition %} {{transition}} {%else%} 1 {% endif %}'
+
+      # Bedroom
+      - service_template: >
+          {% if (rooms == "" or rooms == "all" or "bedroom" in rooms) and states.input_boolean.var_bedroom_on.state == "on" %}
+            script.scene2_{{scene_name}}_bedroom
+          {% else %}
+            script.script2_do_nothing
+          {% endif %}
+        data_template:
+          transition: '{% if transition %} {{transition}} {%else%} 1 {% endif %}'
+
+
+
+  scene2_do_nothing:
+    sequence:
+
+
+##########################################
+########## AUTOMATIONS ###################
+##########################################
+automation:
+  - alias: livingroom_turn_on
+    trigger:
+      - platform: state
+        entity_id: input_boolean.var_livingroom_on
+        from: 'off'
+        to: 'on'
+    action:
+      - service: script.scene2
+        data:
+          rooms: 'livingroom'
+          scene_name: '{{ states.input_select.var_lks_timebased.state }}'
+          transition: 1
+
+  - alias: office_turn_on
+    trigger:
+      - platform: state
+        entity_id: input_boolean.var_office_on
+        from: 'off'
+        to: 'on'
+    action:
+      - service: script.scene2
+        data:
+          rooms: 'office'
+          scene_name: '{{ states.input_select.var_lks_timebased.state }}'
+          transition: 1
+
+  - alias: kitchen_turn_on
+    trigger:
+      - platform: state
+        entity_id: input_boolean.var_kitchen_on
+        from: 'off'
+        to: 'on'
+    action:
+      - service: script.scene2
+        data:
+          rooms: 'kitchen'
+          scene_name: '{{ states.input_select.var_lks_timebased.state }}'
+          transition: 1
+
+  - alias: bedroom_turn_on
+    trigger:
+      - platform: state
+        entity_id: input_boolean.var_bedroom_on
+        from: 'off'
+        to: 'on'
+    action:
+      - service: script.scene2
+        data:
+          rooms: 'bedroom'
+          scene_name: '{{ states.input_select.var_lks_timebased.state }}'
+          transition: 1
+
+
+input_boolean:
+##########################################
+########## STORED VARIABLES ##############
+##########################################
+  var_kitchen_on:
+  var_bedroom_on:
+  var_livingroom_on:
+  var_office_on:
+
+
+input_select:
+##########################################
+########## STORED ARRAYS #################
+##########################################
+  array_low_light_scenes:
+    options:
+      - "night_red"
+      - "night_computer"
+      - "night_computer_red"
+      - "off"
+
+  array_day_scenes:
+    options:
+      - "day"
+      - "day_le"
+      - "day_bright"
+
+      
+##########################################
+########## OPTIONS #######################
+##########################################
+
+
+##########################################
+############### GROUPS ###################
+##########################################
+group:
+#********** SCENES ***************************************#
+  scenes:
+    name: "Scenes"
+    entities:
+    - script.timebased_scene
+    - script.call_last_known_scene
+
+    - script.scene2_chill
+    - script.scene2_chill_2
+    - script.scene2_day
+    - script.scene2_day_bright
+    - script.scene2_day_le
+    - script.scene2_night
+    - script.scene2_night_cyan
+    - script.scene2_night_blue
+    - script.scene2_night_red
+    - script.scene2_night_computer
+    - script.scene2_night_computer_red
+    - script.scene2_off
+
+  quick_scenes:
+    name: "Quick Scenes"
+    entities:
+    - script.timebased_scene
+    - script.scene2_day
+    - script.scene2_off
