@@ -26,8 +26,10 @@ script:
       - service_template: >
           {% if (not rooms or "all" in rooms or "livingroom" in rooms) and states.input_boolean.var_livingroom_on.state == "on" %}
             script.scene2_{{scene_name}}_livingroom
+          {% elif states.input_boolean.var_livingroom_on.state == "off" %}
+            script.scene2_off_livingroom
           {% else %}
-            script.script2_do_nothing
+            script.scene2_do_nothing
           {% endif %}
         data_template:
           transition: '{% if transition %} {{transition}} {%else%} 1 {% endif %}'
@@ -36,8 +38,10 @@ script:
       - service_template: >
           {% if (not rooms or "all" in rooms or "office" in rooms) and states.input_boolean.var_office_on.state == "on" %}
             script.scene2_{{scene_name}}_office
+          {% elif states.input_boolean.var_office_on.state == "off" %}
+            script.scene2_off_office
           {% else %}
-            script.script2_do_nothing
+            script.scene2_do_nothing
           {% endif %}
         data_template:
           transition: '{% if transition %} {{transition}} {%else%} 1 {% endif %}'
@@ -46,8 +50,10 @@ script:
       - service_template: >
           {% if (not rooms or "all" in rooms or "kitchen" in rooms) and states.input_boolean.var_kitchen_on.state == "on" %}
             script.scene2_{{scene_name}}_kitchen
+          {% elif states.input_boolean.var_kitchen_on.state == "off" %}
+            script.scene2_off_kitchen
           {% else %}
-            script.script2_do_nothing
+            script.scene2_do_nothing
           {% endif %}
         data_template:
           transition: '{% if transition %} {{transition}} {%else%} 1 {% endif %}'
@@ -56,8 +62,10 @@ script:
       - service_template: >
           {% if (not rooms or "all" in rooms or "bedroom" in rooms) and states.input_boolean.var_bedroom_on.state == "on" %}
             script.scene2_{{scene_name}}_bedroom
+          {% elif states.input_boolean.var_bedroom_on.state == "off" %}
+            script.scene2_off_bedroom
           {% else %}
-            script.script2_do_nothing
+            script.scene2_do_nothing
           {% endif %}
         data_template:
           transition: '{% if transition %} {{transition}} {%else%} 1 {% endif %}'
@@ -67,7 +75,6 @@ script:
 
   scene2_do_nothing:
     sequence:
-
 
 ##########################################
 ########## AUTOMATIONS ###################
@@ -83,7 +90,7 @@ automation:
         to: 'on'
     action:
       - service: script.scene2
-        data:
+        data_template:
           rooms: 'livingroom'
           scene_name: '{{ states.input_select.var_lks_timebased.state }}'
           transition: 1
@@ -110,7 +117,7 @@ automation:
         to: 'on'
     action:
       - service: script.scene2
-        data:
+        data_template:
           rooms: 'office'
           scene_name: '{{ states.input_select.var_lks_timebased.state }}'
           transition: 1
@@ -137,7 +144,7 @@ automation:
         to: 'on'
     action:
       - service: script.scene2
-        data:
+        data_template:
           rooms: 'kitchen'
           scene_name: '{{ states.input_select.var_lks_timebased.state }}'
           transition: 1
@@ -164,7 +171,7 @@ automation:
         to: 'on'
     action:
       - service: script.scene2
-        data:
+        data_template:
           rooms: 'bedroom'
           scene_name: '{{ states.input_select.var_lks_timebased.state }}'
           transition: 1
@@ -247,3 +254,17 @@ group:
     - script.timebased_scene
     - script.scene2_day
     - script.scene2_off
+
+#********** ROOM STATES ***************************************#
+  room_states:
+    name: "Room States"
+    entities:
+      - input_select.var_lks_timebased
+      - input_boolean.var_livingroom_on
+      - input_select.var_lks_livingroom
+      - input_boolean.var_office_on
+      - input_select.var_lks_office
+      - input_boolean.var_kitchen_on
+      - input_select.var_lks_kitchen
+      - input_boolean.var_bedroom_on
+      - input_select.var_lks_bedroom

@@ -30,7 +30,7 @@ script:
           {% if not rooms or "all" in rooms or "livingroom" in rooms %}
             script.scene2_{{ states.input_select.var_lks_livingroom.state }}_livingroom
           {% else %}
-            script.script2_do_nothing
+            script.scene2_do_nothing
           {% endif %}
         data_template:
           transition: '{% if transition %} {{ transition }} {%else%} 1 {% endif %}'
@@ -40,7 +40,7 @@ script:
           {% if not rooms or "all" in rooms or "office" in rooms %}
             script.scene2_{{ states.input_select.var_lks_office.state }}_office
           {% else %}
-            script.script2_do_nothing
+            script.scene2_do_nothing
           {% endif %}
         data_template:
           transition: '{% if transition %} {{ transition }} {%else%} 1 {% endif %}'
@@ -50,17 +50,34 @@ script:
           {% if not rooms or "all" in rooms or "kitchen" in rooms %}
             script.scene2_{{ states.input_select.var_lks_kitchen.state }}_kitchen
           {% else %}
-            script.script2_do_nothing
+            script.scene2_do_nothing
           {% endif %}
         data_template:
           transition: '{% if transition %} {{ transition }} {%else%} 1 {% endif %}'
+
+      # Re-send Kitchen LED Brightness
+      - service: mqtt.publish
+        data_template:
+          topic: "device/kitchen/led1/brightness"
+          payload: '{{ states.light.kitchen_led_strip.attributes.brightness }}'
+
+      # Re-send Kitchen LED Effect
+      - service: mqtt.publish
+        data_template:
+          topic: "device/kitchen/led1/effect"
+          payload: >
+            {% for opt in states.input_select.office_led_effect.attributes.options -%}
+              {% if states.input_select.office_led_effect.state | string == opt %}
+                {{loop.index - 1}}
+              {%endif%}
+            {%- endfor -%}
 
       # Bedroom
       - service_template: >
           {% if not rooms or "all" in rooms or "bedroom" in rooms %}
             script.scene2_{{ states.input_select.var_lks_bedroom.state }}_bedroom
           {% else %}
-            script.script2_do_nothing
+            script.scene2_do_nothing
           {% endif %}
         data_template:
           transition: '{% if transition %} {{ transition }} {%else%} 1 {% endif %}'

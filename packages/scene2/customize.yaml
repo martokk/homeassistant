@@ -1,0 +1,119 @@
+homeassistant:
+  customize:
+    scene2:
+      hidden: true
+    scene2_chill_2_bedroom:
+      hidden: true
+    scene2_chill_2_kitchen:
+      hidden: true
+    scene2_chill_2_livingroom:
+      hidden: true
+    scene2_chill_2_office:
+      hidden: true
+    scene2_chill_bedroom:
+      hidden: true
+    scene2_chill_kitchen:
+      hidden: true
+    scene2_chill_livingroom:
+      hidden: true
+    scene2_chill_office:
+      hidden: true
+    scene2_day_bedroom:
+      hidden: true
+    scene2_day_bright_bedroom:
+      hidden: true
+    scene2_day_bright_kitchen:
+      hidden: true
+    scene2_day_bright_livingroom:
+      hidden: true
+    scene2_day_bright_office:
+      hidden: true
+    scene2_day_kitchen:
+      hidden: true
+    scene2_day_le_bedroom:
+      hidden: true
+    scene2_day_le_kitchen:
+      hidden: true
+    scene2_day_le_livingroom:
+      hidden: true
+    scene2_day_le_office:
+      hidden: true
+    scene2_day_livingroom:
+      hidden: true
+    scene2_day_office:
+      hidden: true
+    scene2_do_nothing:
+      hidden: true
+    scene2_night_bedroom:
+      hidden: true
+    scene2_night_blue_bedroom:
+      hidden: true
+    scene2_night_blue_kitchen:
+      hidden: true
+    scene2_night_blue_livingroom:
+      hidden: true
+    scene2_night_blue_office:
+      hidden: true
+    scene2_night_computer_bedroom:
+      hidden: true
+    scene2_night_computer_kitchen:
+      hidden: true
+    scene2_night_computer_livingroom:
+      hidden: true
+    scene2_night_computer_office:
+      hidden: true
+    scene2_night_computer_red_bedroom:
+      hidden: true
+    scene2_night_computer_red_kitchen:
+      hidden: true
+    scene2_night_computer_red_livingroom:
+      hidden: true
+    scene2_night_computer_red_office:
+      hidden: true
+    scene2_night_cyan_bedroom:
+      hidden: true
+    scene2_night_cyan_kitchen:
+      hidden: true
+    scene2_night_cyan_livingroom:
+      hidden: true
+    scene2_night_cyan_office:
+      hidden: true
+    scene2_night_kitchen:
+      hidden: true
+    scene2_night_livingroom:
+      hidden: true
+    scene2_night_office:
+      hidden: true
+    scene2_night_red_bedroom:
+      hidden: true
+    scene2_night_red_kitchen:
+      hidden: true
+    scene2_night_red_livingroom:
+      hidden: true
+    scene2_night_red_office:
+      hidden: true
+    scene2_off_bedroom:
+      hidden: true
+    scene2_off_kitchen:
+      hidden: true
+    scene2_off_livingroom:
+      hidden: true
+    scene2_off_office:
+      hidden: true
+
+    bedroom_turn_off:
+      hidden: true
+    bedroom_turn_on:
+      hidden: true
+    kitchen_turn_off:
+      hidden: true
+    kitchen_turn_on:
+      hidden: true
+    livingroom_turn_off:
+      hidden: true
+    livingroom_turn_on:
+      hidden: true
+    office_turn_off:
+      hidden: true
+    office_turn_on:
+      hidden: true

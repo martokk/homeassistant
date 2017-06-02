@@ -9,6 +9,8 @@ script:
 ##########################################
   scene2_night_cyan:
     sequence:
+      - service: script.turn_off
+        entity_id: script.scene2
       - service: script.scene2
         data_template:
           scene_name: 'night_cyan'
@@ -130,7 +132,7 @@ script:
           {% if states.input_boolean.var_kitchen_motion_on.state == "on" %}
             script.kitchen_lights_on
           {% else %}
-            script.script2_do_nothing
+            script.scene2_do_nothing
           {% endif %}
       - condition: state
         entity_id: input_boolean.var_kitchen_motion_on
