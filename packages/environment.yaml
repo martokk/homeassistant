@@ -1,8 +1,8 @@
-# homeassistant:
-#   customize:
-#     script.:
-#       emulated_hue: true
-#       emulated_hue_name: ""
+homeassistant:
+  customize:
+    input_boolean.option_turn_on_fans:
+      emulated_hue: true
+      emulated_hue_name: "All Fans"
 ##########################################
 ########## SENSORS #######################
 ##########################################
@@ -297,7 +297,7 @@ input_boolean:
     initial: on
 
   option_turn_on_fans:
-      name: "Turn on all fans (Overide)"
+    name: "Turn on all fans (Overide)"
 
 input_slider:
   option_indoor_temp_hot:

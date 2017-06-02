@@ -1,11 +1,12 @@
-# homeassistant:
-#   customize:
-#     script.ps3_turn_on:
-#       emulated_hue: true
-#       emulated_hue_name: "PS3"
-#     script.chromecast_turn_on:
-#       emulated_hue: true
-#       emulated_hue_name: "Chromecast"
+homeassistant:
+  customize:
+    switch.sonoff_entertainment_center:
+      emulated_hue: true
+      emulated_hue_name: "Entertainment Center"
+
+    group.sonoff_entertainment_center:
+      emulated_hue: true
+      emulated_hue_name: "TV"
 
 switch:
   - platform: mqtt
@@ -283,6 +284,9 @@ input_boolean:
   var_ps3_on:
     initial: off
 
+  var_entertainment_center_on:
+
+
 ##########################################
 ########## OPTIONS #######################
 ##########################################
@@ -313,3 +317,7 @@ group:
       - script.set_volume_14
       - script.ps3_turn_on
       - script.chromecast_turn_on
+
+  sonoff_entertainment_center: # used for multiple Alexa commands (ie. 'Entertainment Center' OR 'TV')
+    entities:
+      - switch.sonoff_entertainment_center
