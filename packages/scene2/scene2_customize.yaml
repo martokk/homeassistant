@@ -1,0 +1,142 @@
+homeassistant:
+  customize:
+
+#********** ALEXA ***********#
+    script.timebased_scene:
+      emulated_hue: true
+      emulated_hue_name: "Fix Lights"
+
+    input_boolean.var_livingroom_on:
+      emulated_hue: true
+      emulated_hue_name: "Living Room"
+
+    input_boolean.var_office_on:
+      emulated_hue: true
+      emulated_hue_name: "Office"
+
+    input_boolean.var_kitchen_on:
+      emulated_hue: true
+      emulated_hue_name: "Kitchen"
+
+    input_boolean.var_bedroom_on:
+      emulated_hue: true
+      emulated_hue_name: "Bedroom"
+
+#********** HIDDEN ***********#
+    script.scene2:
+      hidden: true
+    script.scene2_chill_2_bedroom:
+      hidden: true
+    script.scene2_chill_2_kitchen:
+      hidden: true
+    script.scene2_chill_2_livingroom:
+      hidden: true
+    script.scene2_chill_2_office:
+      hidden: true
+    script.scene2_chill_bedroom:
+      hidden: true
+    script.scene2_chill_kitchen:
+      hidden: true
+    script.scene2_chill_livingroom:
+      hidden: true
+    script.scene2_chill_office:
+      hidden: true
+    script.scene2_day_bedroom:
+      hidden: true
+    script.scene2_day_bright_bedroom:
+      hidden: true
+    script.scene2_day_bright_kitchen:
+      hidden: true
+    script.scene2_day_bright_livingroom:
+      hidden: true
+    script.scene2_day_bright_office:
+      hidden: true
+    script.scene2_day_kitchen:
+      hidden: true
+    script.scene2_day_le_bedroom:
+      hidden: true
+    script.scene2_day_le_kitchen:
+      hidden: true
+    script.scene2_day_le_livingroom:
+      hidden: true
+    script.scene2_day_le_office:
+      hidden: true
+    script.scene2_day_livingroom:
+      hidden: true
+    script.scene2_day_office:
+      hidden: true
+    script.scene2_do_nothing:
+      hidden: true
+    script.scene2_night_bedroom:
+      hidden: true
+    script.scene2_night_blue_bedroom:
+      hidden: true
+    script.scene2_night_blue_kitchen:
+      hidden: true
+    script.scene2_night_blue_livingroom:
+      hidden: true
+    script.scene2_night_blue_office:
+      hidden: true
+    script.scene2_night_computer_bedroom:
+      hidden: true
+    script.scene2_night_computer_kitchen:
+      hidden: true
+    script.scene2_night_computer_livingroom:
+      hidden: true
+    script.scene2_night_computer_office:
+      hidden: true
+    script.scene2_night_computer_red_bedroom:
+      hidden: true
+    script.scene2_night_computer_red_kitchen:
+      hidden: true
+    script.scene2_night_computer_red_livingroom:
+      hidden: true
+    script.scene2_night_computer_red_office:
+      hidden: true
+    script.scene2_night_cyan_bedroom:
+      hidden: true
+    script.scene2_night_cyan_kitchen:
+      hidden: true
+    script.scene2_night_cyan_livingroom:
+      hidden: true
+    script.scene2_night_cyan_office:
+      hidden: true
+    script.scene2_night_kitchen:
+      hidden: true
+    script.scene2_night_livingroom:
+      hidden: true
+    script.scene2_night_office:
+      hidden: true
+    script.scene2_night_red_bedroom:
+      hidden: true
+    script.scene2_night_red_kitchen:
+      hidden: true
+    script.scene2_night_red_livingroom:
+      hidden: true
+    script.scene2_night_red_office:
+      hidden: true
+    script.scene2_off_bedroom:
+      hidden: true
+    script.scene2_off_kitchen:
+      hidden: true
+    script.scene2_off_livingroom:
+      hidden: true
+    script.scene2_off_office:
+      hidden: true
+
+    automation.bedroom_turn_off:
+      hidden: true
+    automation.bedroom_turn_on:
+      hidden: true
+    automation.kitchen_turn_off:
+      hidden: true
+    automation.kitchen_turn_on:
+      hidden: true
+    automation.livingroom_turn_off:
+      hidden: true
+    automation.livingroom_turn_on:
+      hidden: true
+    automation.office_turn_off:
+      hidden: true
+    automation.office_turn_on:
+      hidden: true
