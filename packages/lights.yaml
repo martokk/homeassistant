@@ -1,7 +1,5 @@
 homeassistant:
   customize:
-    script.kitchen_lights_on:
-      hidden: true
     script.kitchen_lights_timer_on:
       hidden: true
     script.kitchen_lights_timer_off:
@@ -39,7 +37,7 @@ automation:
       entity_id: script.kitchen_lights_timer_on
     - service: input_boolean.turn_on
       data:
-        entity_id: input_boolean.var_kitchen_on
+        entity_id: input_boolean.var_kitchen_motion_on
 
   - alias: turn_off_kitchen_lights_no_movement_7sec
     trigger:
@@ -63,7 +61,7 @@ automation:
   - alias: setMin_var_kitchen_delay
     trigger:
     - platform: state
-      entity_id: input_boolean.var_kitchen_on
+      entity_id: input_boolean.var_kitchen_motion_on
       from: "off"
       to: "on"
       for:
@@ -77,7 +75,7 @@ automation:
   - alias: setMid_var_kitchen_delay
     trigger:
     - platform: state
-      entity_id: input_boolean.var_kitchen_on
+      entity_id: input_boolean.var_kitchen_motion_on
       state: "on"
       for:
         seconds: 30
@@ -90,7 +88,7 @@ automation:
   - alias: setMax_var_kitchen_delay
     trigger:
     - platform: state
-      entity_id: input_boolean.var_kitchen_on
+      entity_id: input_boolean.var_kitchen_motion_on
       state: "on"
       for:
         seconds: 90
@@ -133,6 +131,8 @@ automation:
   #     #   minutes: 5
   #   action:
   #   - service: script.call_last_known_scene
+        # data:
+        #     rooms: 'bedroom'
 
 
 
@@ -147,7 +147,7 @@ automation:
       condition: or
       conditions:
         - condition: template
-          value_template: '{% if states.input_select.var_last_known_scene.state == "Off" %} true {%endif%}'
+          value_template: '{% if states.input_select.var_lks_livingroom.state == "off" %} true {%endif%}'
     action:
     - service: input_select.select_option
       data:
@@ -185,7 +185,7 @@ automation:
       condition: or
       conditions:
         - condition: template
-          value_template: '{% if states.input_select.var_last_known_scene.state == "Off" %} true {%endif%}'
+          value_template: '{% if states.input_select.var_lks_livingroom.state == "off" %} true {%endif%}'
     action:
     - service: light.turn_off
       entity_id: light.entertainment_center_led_strip
@@ -194,84 +194,6 @@ automation:
     - service: light.turn_off
       entity_id: light.office_led_strip
 
-  #********** Set Last Known Scene ***************************************#
-
-##########################################
-############### SCENE CHANGE ###############
-##########################################
-
-  - alias: set_var_last_known_scene
-    trigger:
-    - platform: event
-      event_type: 'call_service'
-      event_data:
-        service: turn_on
-        domain: scene
-    action:
-    - condition: template
-      value_template: >
-        {% if trigger.event.data.service_data.entity_id[0][6:] | replace("10m_", "") | replace("0s_", "") | replace("_", " ") | title in states.input_select.var_last_known_scene.attributes.options %}
-          true
-        {% else %}
-          false
-        {% endif %}
-    - service: input_select.select_option
-      data_template:
-        entity_id: input_select.var_last_known_scene
-        option: '{{ trigger.event.data.service_data.entity_id[0][6:] | replace("10m_", "") | replace("0s_", "") | replace("_", " ") | title }}'
-    - condition: state
-      entity_id: input_boolean.var_kitchen_on
-      state: 'on'
-    - service: input_slider.select_value
-      data_template:
-        entity_id: input_slider.var_kitchen_brightness
-        value: '{{ states.light.kitchen_right.attributes.brightness }}'
-    - service: input_slider.select_value
-      data_template:
-        entity_id: input_slider.var_kitchen_color_temp
-        value: '{{ states.light.kitchen_right.attributes.color_temp }}'
-
-  - alias: set_var_last_known_scene2
-    trigger:
-    - platform: event
-      event_type: 'call_service'
-      event_data:
-        service: turn_on
-        domain: scene
-    action:
-    - condition: template
-      value_template: >
-        {% if trigger.event.data.service_data.entity_id[6:] | replace("10m_", "") | replace("0s_", "") | replace("_", " ") | title in states.input_select.var_last_known_scene.attributes.options  %}
-          true
-        {% else %}
-          false
-        {% endif %}
-    - service: input_select.select_option
-      data_template:
-        entity_id: input_select.var_last_known_scene
-        option: '{{ trigger.event.data.service_data.entity_id[6:] | replace("10m_", "") | replace("0s_", "") | replace("_", " ") | title }}'
-    - condition: state
-      entity_id: input_boolean.var_kitchen_on
-      state: 'on'
-    - service: input_slider.select_value
-      data_template:
-        entity_id: input_slider.var_kitchen_brightness
-        value: '{{ states.light.kitchen_right.attributes.brightness }}'
-    - service: input_slider.select_value
-      data_template:
-        entity_id: input_slider.var_kitchen_color_temp
-        value: '{{ states.light.kitchen_right.attributes.color_temp }}'
-
-  - alias: set_var_last_known_scene_to_off
-    trigger:
-    - platform: state
-      entity_id: group.all_lights
-      state: 'off'
-    action:
-    - service: input_select.select_option
-      data:
-        entity_id: input_select.var_last_known_scene
-        option: 'Off'
 
 ##########################################
 ########## SCRIPTS #######################
@@ -282,100 +204,6 @@ script:
   #   alias: "SceneGen: Save Scene"
   #   sequence:
   #   - service: shell_command.scenegen
-
-
-
-  #********** Call Last Known Scene ***************************************#
-  call_lks_kitchen:
-    sequence:
-    - condition: state
-      entity_id: input_boolean.var_kitchen_on
-      state: 'on'
-    - service: script.kitchen_lights_on
-
-  call_lks_bedroom:
-    sequence:
-    - condition: state
-      entity_id: input_boolean.var_bedroom_on
-      state: 'on'
-    - service: switch.turn_on
-      entity_id: switch.sonoff_silver_lamp
-
-  call_last_known_scene:
-    sequence:
-    - service: scene.turn_on
-      data_template:
-        entity_id: 'scene.{{ states("input_select.var_last_known_scene") | replace(" ", "_") | lower }}'
-    - service: script.call_last_known_led_scene
-    - service: script.call_lks_kitchen
-    - service: script.call_lks_bedroom
-
-
-  call_last_known_scene_0s:
-    sequence:
-    - service: scene.turn_on
-      data_template:
-        entity_id: 'scene.0s_{{ states("input_select.var_last_known_scene") | replace(" ", "_") | lower }}'
-    - delay: "00:00:00"
-    - service: script.call_last_known_led_scene
-    - service: script.call_lks_kitchen
-    - service: script.call_lks_bedroom
-
-
-
-  call_last_known_led_scene:
-    sequence:
-    - service: mqtt.publish
-      data_template:
-        topic: "device/office/led1/effect"
-        payload: >
-          {% for opt in states.input_select.office_led_effect.attributes.options -%}
-            {% if states.input_select.office_led_effect.state | string == opt %}
-              {{loop.index - 1}}
-            {%endif%}
-          {%- endfor -%}
-
-    - service: mqtt.publish
-      data_template:
-        topic: "device/kitchen/led1/effect"
-        payload: >
-          {% for opt in states.input_select.kitchen_led_effect.attributes.options -%}
-            {% if states.input_select.kitchen_led_effect.state | string == opt %}
-              {{loop.index - 1}}
-            {%endif%}
-          {%- endfor -%}
-
-    - service: mqtt.publish
-      data_template:
-        topic: "device/tables/led1/effect"
-        payload: >
-          {% for opt in states.input_select.tables_led_effect.attributes.options -%}
-            {% if states.input_select.tables_led_effect.state | string == opt %}
-              {{loop.index - 1}}
-            {%endif%}
-          {%- endfor -%}
-
-    - service: mqtt.publish
-      data_template:
-        topic: "device/entertainment_center/led1/effect"
-        payload: >
-          {% for opt in states.input_select.entertainment_center_led_effect.attributes.options -%}
-            {% if states.input_select.entertainment_center_led_effect.state | string == opt %}
-              {{loop.index - 1}}
-            {%endif%}
-          {%- endfor -%}
-
-    - service: mqtt.publish
-      data_template:
-        topic: "device/bedroom/led1/effect"
-        payload: >
-          {% for opt in states.input_select.bedroom_led_effect.attributes.options -%}
-            {% if states.input_select.bedroom_led_effect.state | string == opt %}
-              {{loop.index - 1}}
-            {%endif%}
-          {%- endfor -%}
-
-
 
   #**********  Kitchen Motion Lights ***************************************#
   kitchen_lights_timer_on:
@@ -391,9 +219,9 @@ script:
       data_template:
         entity_id: >-
 
-          {% if states.input_select.var_last_known_scene.state in states.input_select.array_day_scenes.attributes.options %}
+          {% if states.input_select.var_lks_kitchen.state in states.input_select.array_day_scenes.attributes.options %}
             script.kitchen_lights_timer_day
-          {% elif states.input_select.var_last_known_scene.state in states.input_select.array_low_light_scenes.attributes.options  %}
+          {% elif states.input_select.var_lks_kitchen.state in states.input_select.array_low_light_scenes.attributes.options  %}
             script.kitchen_lights_timer_low_light
           {%else%}
             {% if states.automation.turn_off_kitchen_lights_no_movement_7sec.attributes.last_triggered %}
@@ -441,8 +269,10 @@ script:
         entity_id: script.kitchen_lights_timer_bright_long
     - service: input_boolean.turn_off
       data:
-        entity_id: input_boolean.var_kitchen_on
+        entity_id: input_boolean.var_kitchen_motion_on
     - service: script.call_last_known_scene
+      data:
+        rooms: 'kitchen'
     - service: mqtt.publish
       data_template:
         topic: "device/kitchen/seteffect"
@@ -585,9 +415,7 @@ script:
 ########## STORED VARIABLES ##############
 ##########################################
 input_boolean:
-  var_kitchen_on:
-  var_bedroom_on:
-
+  var_kitchen_motion_on:
 
 input_slider:
   var_kitchen_delay: #in Seconds
@@ -607,55 +435,6 @@ input_slider:
     step: 1
 
 
-input_select:
-  var_last_known_scene:
-    options:
-      - "Chill"
-      - "Chill 2"
-      - "Day"
-      - "Day Le"
-      - "Day Bright"
-      - "Night Blue"
-      - "Night Cyan"
-      - "Night Red"
-      - "Night"
-      - "Night Computer"
-      - "Night Computer Red"
-      - "Off"
-
-  var_last_known_scene_helper:
-    options:
-      - "Chill"
-      - "Chill 2"
-      - "Day"
-      - "Day Le"
-      - "Day Bright"
-      - "Night Blue"
-      - "Night Cyan"
-      - "Night Red"
-      - "Night"
-      - "Night Computer"
-      - "Night Computer Red"
-      - "Off"
-
-
-##########################################
-########## STORED ARRAYS #################
-##########################################
-  array_low_light_scenes:
-    options:
-      - "Night Red"
-      - "Night Computer"
-      - "Night Computer Red"
-      - "Off"
-
-  array_day_scenes:
-    options:
-      - "Day"
-      - "Day Le"
-      - "Day Bright"
-
-
 ##########################################
 ############### GROUPS ###################
 ##########################################
@@ -672,17 +451,9 @@ group:
       - automation.bedroom_motion_turn_off_lights
       - automation.entertainment_center_motion_turn_on_lights
       - automation.entertainment_center_motion_turn_off_lights
-      - automation.set_var_last_known_scene
-      - automation.set_var_last_known_scene2
-      - automation.set_var_last_known_scene_to_off
 
   script_lights:
     entities:
-      - script.call_lks_kitchen
-      - script.call_lks_bedroom
-      - script.call_last_known_scene
-      - script.call_last_known_scene_0s
-      - script.call_last_known_led_scene
       - script.kitchen_lights_timer_on
       - script.kitchen_lights_on
       - script.kitchen_lights_timer_off

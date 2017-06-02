@@ -48,10 +48,9 @@ emulated_hue:
   listen_port: 8300
   off_maps_to_on_domains:
     - script
-    - scene
   expose_by_default: true
   exposed_domains:
-    - light
+    # - light
 
 # feedreader:
 #   urls:
@@ -79,8 +78,6 @@ logger: # Log Severities: notset, debug, info, warn, warning, error, fatal, crit
 #     entities:
 #       - group.ambient_lights
 #       - script.call_last_known_scene
-#       - script.set_var_last_known_scene
-#       - script.set_var_last_known_scene2
 #       - binary_sensor.entertainment_motion_sensor
 #       - binary_sensor.kitchen_motion_sensor
 #       - binary_sensor.bedroom_motion_sensor
