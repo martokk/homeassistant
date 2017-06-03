@@ -88,69 +88,47 @@ automation:
         entity_id: input_select.var_lks_timebased
         option: 'day'
 
-### Entertainment Off - 12:30am + every 5 min
-  - alias: timebased_1230am_every_30m
+### Turn All Off - 12:30am + every 30 min
+  - alias: timebased_1am_every_30m
     trigger:
       - platform: time
-        minutes: '/10'
+        minutes: '/30'
         seconds: 15
     condition:
       - condition: time
-        after: "00:30:00"
+        after: "01:00:00"
         before: "05:00:00"
       - condition: state
         entity_id: input_boolean.option_delay_timebased_off
         state: 'off'
+      - condition: state
+        entity_id: input_boolean.var_ps3_on
+        state: 'off'
+      - condition: template
+        value_template: >-
+          {% if states.media_player.vtv_chromecast.state != "playing" %}
+            true
+          {%else%}
+            {% if states.media_player.vtv_chromecast.attributes.app_name | lower in states.input_select.array_chromecast_idle_apps | lower %}
+              true
+            {%else%}
+              false
+            {%endif%}
+          {%endif%}
     action:
-    - service: script.entertainment_center_turn_off
+      - service: script.entertainment_center_turn_off
+      - service: script.scene2
+        data:
+          rooms: 'all'
+          scene_name: 'off'
+          transition: 600
+      - service: input_select.select_option
+        data:
+          entity_id: input_select.var_lks_timebased
+          option: 'off'
 
-### 1am - OFF
-  - alias: timebased_1am_off
-    trigger:
-      - platform: time
-        after: "01:00:00"
-    action:
-    - condition: state
-      entity_id: input_boolean.option_delay_timebased_off
-      state: 'off'
-    - service: script.entertainment_center_turn_off
-    - condition: state
-      entity_id: input_boolean.option_timebased_light_scene
-      state: 'on'
-    - service: script.scene2
-      data:
-        rooms: 'all'
-        scene_name: 'off'
-        transition: 600
-    - service: input_select.select_option
-      data:
-        entity_id: input_select.var_lks_timebased
-        option: 'off'
 
-### 2am - OFF
-  - alias: timebased_2am_off
-    trigger:
-      - platform: time
-        after: "02:00:00"
-    action:
-    - condition: state
-      entity_id: input_boolean.option_delay_timebased_off
-      state: 'off'
-    - service: script.entertainment_center_turn_off
-    - condition: state
-      entity_id: input_boolean.option_timebased_light_scene
-      state: 'on'
-    - service: script.scene2
-      data:
-        rooms: 'all'
-        scene_name: 'off'
-        transition: 600
-    - service: input_select.select_option
-      data:
-        entity_id: input_select.var_lks_timebased
-        option: 'off'
-
-### 3am - OFF
+### 3am - Reset Option - Delay Timebased until 3am
   - alias: timebased_3am_off
     trigger:
       - platform: time
@@ -159,20 +137,6 @@ automation:
     - service: homeassistant.turn_off
       entity_id: input_boolean.option_delay_timebased_off
     - service: script.entertainment_center_turn_off
-    - condition: state
-      entity_id: input_boolean.option_timebased_light_scene
-      state: 'on'
-    - service: script.scene2
-      data:
-        rooms: 'all'
-        scene_name: 'off'
-        transition: 600
-    - service: input_select.select_option
-      data:
-        entity_id: input_select.var_lks_timebased
-        option: 'off'
-
-
 
 
 ##########################################
@@ -284,11 +248,67 @@ automation:
         data:
           entity_id: input_select.var_lks_timebased
           option: 'night_red'
-      - delay: '00:00:15'
+      - delay: '01:00:15'
       - service: script.entertainment_center_turn_off
 
+
+### 10:45pm
+  - alias: timebased_1045am_every_15m
+    trigger:
+      - platform: time
+        after: "20:45:00"
+      - platform: time
+        minutes: '/10'
+        seconds: 00
+    condition:
+      - condition: time
+        after: "20:45:00"
+        before: "01:00:00"
+      - condition: state
+        entity_id: input_boolean.option_delay_timebased_off
+        state: 'off'
+      - condition: state
+        entity_id: input_boolean.var_ps3_on
+        state: 'off'
+      - condition: template
+        value_template: >-
+          {% if states.media_player.vtv_chromecast.state != "playing" %}
+            true
+          {%else%}
+            {% if states.media_player.vtv_chromecast.attributes.app_name | lower in states.input_select.array_chromecast_idle_apps | lower %}
+              true
+            {%else%}
+              false
+            {%endif%}
+          {%endif%}
+    action:
+      - service: script.scene2
+        data:
+          rooms: 'all'
+          scene_name: 'night_computer_red'
+          transition: 600
+      - service: input_select.select_option
+        data:
+          entity_id: input_select.var_lks_timebased
+          option: 'night_computer_red'
+
+### 11pm
+  - alias: flood_11pm
+    trigger:
+      - platform: time
+        after: "22:59:58"
+    action:
+      - service: script.notify2
+        data:
+          flood_color: "red"
+          entity_id: group.timebased_flood_lights
+          delay: "00:00:05"
+          tts_entity_id: group.tts_devices
+          tts_sound: 'st_notifications/st_notification2.wav'
+          tts_message: "11pm"
+
 ### 12am
-  - alias: flood_12am
+  - alias: timebased_12am
     trigger:
       - platform: time
         after: "23:59:58"
@@ -298,19 +318,9 @@ automation:
           flood_color: "red"
           entity_id: group.timebased_flood_lights
           delay: "00:00:05"
-          next_scene: night_computer_red
           tts_entity_id: group.tts_devices
           tts_sound: 'st_notifications/st_notification2.wav'
           tts_message: "12am"
-      - service: input_select.select_option
-        data:
-          entity_id: input_select.var_lks_timebased
-          option: 'night_computer_red'
-      - delay: '00:00:15'
-      - service: script.entertainment_center_turn_off
-
-
-
 
 ##########################################
 ########## AUTOMATIONS ###################
@@ -517,8 +527,9 @@ group:
       - automation.flood_5pm
       - automation.flood_7pm
       - automation.flood_9pm
+      - automation.timebased_1045am_every_15m
       - automation.flood_11pm
-      - automation.flood_12am
+      - automation.timebased_12am
       - automation.timebased_light_scene_turn_off
       - automation.timebased_light_scene_turn_on
 

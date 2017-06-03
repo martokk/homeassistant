@@ -22,6 +22,10 @@ homeassistant:
       emulated_hue: true
       emulated_hue_name: "Bedroom"
 
+    input_boolean.option_delay_timebased_off:
+      emulated_hue: true
+      emulated_hue_name: "Late Night"
+      
 #********** HIDDEN ***********#
     script.scene2:
       hidden: true
