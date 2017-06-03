@@ -319,6 +319,45 @@ input_slider:
 ############### GROUPS ###################
 ##########################################
 group:
+
+  temperature_sensors:
+    name: "Temperature"
+    entities:
+    - sensor.dark_sky_temperature
+    - sensor.indoor_temperature
+    - sensor.kitchen_temperature
+    - sensor.tables_temperature
+    - sensor.entertainment_center_temperature
+    - sensor.office_temperature
+    - sensor.bedroom_temperature
+
+  humidity_sensors:
+    name: "Humidity"
+    entities:
+    - sensor.dark_sky_humidity
+    - sensor.indoor_humidity
+    - sensor.kitchen_humidity
+    - sensor.tables_humidity
+    - sensor.office_humidity
+    - sensor.entertainment_center_humidity
+    - sensor.bedroom_humidity
+
+  motion_sensors:
+    name: "Motion"
+    entities:
+    - binary_sensor.kitchen_motion_sensor
+    - binary_sensor.sink_motion_sensor
+    - binary_sensor.entertainment_center_motion_sensor
+    - binary_sensor.bedroom_motion_sensor
+    - binary_sensor.office_motion_sensor
+
+  fans:
+    name: "Fans"
+    entities:
+    - input_boolean.option_turn_on_fans
+    - switch.sonoff_box_fan1
+    - switch.sonoff_small_desk_fan1
+
   automation_environment:
     entities:
       - automation.indoor_temp_hot_notification

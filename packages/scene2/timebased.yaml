@@ -248,21 +248,20 @@ automation:
         data:
           entity_id: input_select.var_lks_timebased
           option: 'night_red'
-      - delay: '01:00:15'
-      - service: script.entertainment_center_turn_off
 
 
-### 10:45pm
-  - alias: timebased_1045am_every_15m
+
+### 11pm
+  - alias: timebased_11pm_every_30m
     trigger:
       - platform: time
-        after: "20:45:00"
+        after: "23:00:15"
       - platform: time
-        minutes: '/10'
+        minutes: '/30'
         seconds: 00
     condition:
       - condition: time
-        after: "20:45:00"
+        after: "23:00:14"
         before: "01:00:00"
       - condition: state
         entity_id: input_boolean.option_delay_timebased_off
@@ -282,6 +281,7 @@ automation:
             {%endif%}
           {%endif%}
     action:
+      - service: script.entertainment_center_turn_off
       - service: script.scene2
         data:
           rooms: 'all'
@@ -527,8 +527,8 @@ group:
       - automation.flood_5pm
       - automation.flood_7pm
       - automation.flood_9pm
-      - automation.timebased_1045am_every_15m
       - automation.flood_11pm
+      - automation.timebased_11pm_every_15m
       - automation.timebased_12am
       - automation.timebased_light_scene_turn_off
       - automation.timebased_light_scene_turn_on

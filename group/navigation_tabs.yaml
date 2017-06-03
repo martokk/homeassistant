@@ -18,7 +18,6 @@
     - group.bedroom_lights
     - group.scenes
     - group.scripts_lights
-    - group.led_lights
 
   enviroment:
     name: "Enviroment"

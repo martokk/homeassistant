@@ -212,6 +212,13 @@ input_boolean:
 ############### GROUPS ###################
 ##########################################
 group:
+
+  residents:
+    name: "Residents"
+    entities:
+    - input_boolean.var_mike_home
+    - input_boolean.var_dan_home
+
   automation_user_presence:
     entities:
       - automation.mike_home_theme_video

@@ -1,6 +1,0 @@
-bitcoin:
-  name: "Bitcoin"
-  entities:
-    - sensor.bitcoin
-    - sensor.bitcoin_percent_change_24h
-    - sensor.bitcoin_percent_change_7d

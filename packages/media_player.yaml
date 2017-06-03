@@ -421,6 +421,21 @@ input_select:
 ############### GROUPS ###################
 ##########################################
 group:
+
+  media_scenes:
+    name: "Media Scenes"
+    entities:
+    - script.media_scene_fireplace
+    - script.media_scene_battlestar_galactica_intro
+    - script.media_scene_space
+    - script.media_scene_bushes_of_love
+    - script.media_scene_whats_up_bitches
+
+  tts_devices:
+    name: "TTS Devices"
+    entities:
+      - media_player.vlc
+
   automation_media_player:
     entities:
       - automation.chromecast_screen_saver_mark_as_ready

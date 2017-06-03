@@ -57,7 +57,28 @@ sensor:
 ##########################################
 ############### GROUPS ###################
 ##########################################
-# group:
+group:
+  google_calandars:
+    name: "Google Calendars"
+    entities:
+      - calendar.default
+      - calendar.twit_live_schedule
+      - calendar.green_bay_packers
+      - calendar.chicago_bears
+      - calendar.subspace_radio
+      - calendar.rev_20
+      - calendar.stardates
+
+  upcoming_events:
+    name: "Upcoming Events"
+    entities:
+      - sensor.upcoming_packers_event
+      - sensor.upcoming_packers_start_time
+      - sensor.upcoming_bears_event
+      - sensor.upcoming_bears_start_time
+      - sensor.upcoming_twit_event
+      - sensor.upcoming_twit_start_time
+      
 #   automation_calender:
 #     entities:
 #

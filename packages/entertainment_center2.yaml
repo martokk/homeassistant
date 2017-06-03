@@ -296,6 +296,26 @@ input_boolean:
 ############### GROUPS ###################
 ##########################################
 group:
+
+  entertainment_center:
+    name: "Entertainment Center"
+    # control: hidden
+    entities:
+    - switch.sonoff_entertainment_center
+    - switch.ambivision
+    - binary_sensor.ps3
+
+  vtv:
+    name: "vTV"
+    entities:
+    - media_player.vtv_chromecast
+    - sensor.sonarr_upcoming
+    - sensor.sonarr_upcoming_episodes
+    - media_player.plex
+    - sensor.chromecast_playing_app
+    - media_player.vlc
+    - media_player.spotify
+
   automation_entertainment_center:
     entities:
       - automation.entertainment_center_turn_on_every_15m
