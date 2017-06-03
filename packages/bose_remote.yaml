@@ -18,21 +18,6 @@ automation:
     action:
       - service: switch.toggle
         entity_id: switch.sonoff_entertainment_center
-      ## Toggles off lights if after 12pm
-      - condition: time
-        after: "00:00:00"
-      - condition: sun
-        before: sunrise
-      - delay: "00:00:02"
-      - service: light.turn_off
-        entity_id: group.ambient_lights
-      - delay: "00:00:05"
-      - service: script.scene2
-        data:
-          rooms: 'all'
-          scene_name: 'off'
-          transition: 600
-
 
   - alias: toggle_mqtt_chromecast_playpause
     trigger:
@@ -164,9 +149,9 @@ script:
           {% elif button | int == 4  %}
             night_red
           {% elif button | int == 5  %}
-            chill
-          {% elif button | int == 6  %}
             chill_2
+          {% elif button | int == 6  %}
+            day_bright
           {% endif %}
         transition: 1
 
@@ -192,13 +177,13 @@ script:
           {% if button | int == 1 %}
             off
           {% elif button | int == 2  %}
-            night_computer
+            night
           {% elif button | int == 3  %}
-            night_computer_red
+            night_computer
           {% elif button | int == 4  %}
-            off
+            night_computer_red
           {% elif button | int == 5  %}
-            off
+            chill
           {% elif button | int == 6  %}
 
           {% endif %}
