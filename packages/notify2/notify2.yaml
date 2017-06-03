@@ -185,6 +185,31 @@ script:
   #********** Chromecast Media Notifications ***************************************#
   notify2_chromecast:
     sequence:
+
+    # Stop media screensaver from playing before playing notification.
+    - service_template: >
+        {% if chromecast_link %}
+          {% if not chromecast_entity_id %}
+            {% set chromecast_entity_id = 'media_player.vtv_chromecast' %}
+          {% endif %}
+          {% if is_state('input_boolean.option_notify2_chromecast', 'on') %}
+            {% if not is_state('binary_sensor.ps3', 'on') %}
+              {% if (not is_state(chromecast_entity_id, 'playing') and not is_state(chromecast_entity_id, 'paused')) or states.media_player.vtv_chromecast.attributes.app_name | lower in states.input_select.array_chromecast_idle_apps | lower %}
+                media_player.stop_media
+              {% else %}
+                script.notify2_do_nothing
+              {% endif %}
+            {% else %}
+              script.notify2_do_nothing
+            {% endif %}
+          {% else %}
+            script.notify2_do_nothing
+          {% endif %}
+        {% else %}
+          script.notify2_do_nothing
+        {% endif %}
+
+    # Copy template code from above; replace 'media_player.stop_media' with 'media_player.play_media'
     - service_template: >
         {% if chromecast_link %}
           {% if not chromecast_entity_id %}
