@@ -29,7 +29,7 @@ mqtt:
 
 telegram_bot:
   platform: polling
-  api_key: 371185092:AAGZifDwOUZLssxyEwzj7un9EG261Ve_eGg
+  api_key: !secret telegram_api_key
   allowed_chat_ids:
     - 343498992
 

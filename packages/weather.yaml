@@ -77,8 +77,7 @@ sensor:
       - precip_intensity_max
 
   - platform: wunderground
-    api_key: f8ca5a2fd45a109d
-    # pws_id: KLAAMITE2
+    api_key: !secret wunderground_api_key
     monitored_conditions:
       - alerts
 
@@ -369,21 +368,6 @@ automation:
         scene_name: 'day'
         transition: 600
 # Clear; Partly Cloudy; Mostly Cloudy; Light Snow; Snow; Heavy Snow; Drizzle; Light Rain; Rain; Heavy Rain; Overcast; Foggy; Windy and Overcast
-
-##########################################
-########## SCRIPTS #######################
-##########################################
-# script:
-
-
-# input_boolean:
-##########################################
-########## STORED VARIABLES ##############
-##########################################
-
-##########################################
-########## OPTIONS #######################
-##########################################
 
 
 ##########################################

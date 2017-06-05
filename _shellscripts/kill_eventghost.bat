@@ -1,1 +1,0 @@
-taskkill /F /T /IM eventghost.exe

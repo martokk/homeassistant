@@ -3,9 +3,7 @@ homeassistant:
     script.computer_monitors_turn_off:
       emulated_hue: true
       emulated_hue_name: "computer"
-# switch:
-# lights:
-# binary_sensor:
+
 sensor:
   - platform: template
     sensors:
@@ -242,16 +240,6 @@ script:
 ##########################################
 shell_command:
   computer_monitors_turn_off: ssh martokk@desktop xset -display :0.0 dpms force off
-
-
-# input_boolean:
-##########################################
-########## STORED VARIABLES ##############
-##########################################
-
-##########################################
-########## OPTIONS #######################
-##########################################
 
 
 ##########################################

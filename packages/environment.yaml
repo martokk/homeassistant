@@ -3,6 +3,8 @@ homeassistant:
     input_boolean.option_turn_on_fans:
       emulated_hue: true
       emulated_hue_name: "All Fans"
+
+      
 ##########################################
 ########## SENSORS #######################
 ##########################################

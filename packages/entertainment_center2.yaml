@@ -13,7 +13,6 @@ switch:
     name: ambivision
     command_topic: "device/eventghost/led_standby"
 
-# lights:
 binary_sensor:
   - platform: mqtt
     name: "PS3"
@@ -22,13 +21,8 @@ binary_sensor:
     payload_on: "1"
     payload_off: "0"
 
-# sensor:
 
 automation:
-##########################################
-########## NOTIFICATIONS #################
-##########################################
-
 
 ##########################################
 ########## AUTOMATIONS ###################
@@ -283,13 +277,6 @@ input_boolean:
 ##########################################
   var_ps3_on:
     initial: off
-
-  var_entertainment_center_on:
-
-
-##########################################
-########## OPTIONS #######################
-##########################################
 
 
 ##########################################

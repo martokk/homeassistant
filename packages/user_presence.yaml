@@ -10,10 +10,7 @@ homeassistant:
     input_boolean.var_dan_home:
       emulated_hue: true
       emulated_hue_name: "Dan's Home"
-# switch:
-# lights:
-# binary_sensor:
-# sensor:
+
 
 automation:
 ##########################################
@@ -187,12 +184,6 @@ automation:
         transition: 5
 
 
-##########################################
-########## SCRIPTS #######################
-##########################################
-# script:
-
-
 input_boolean:
 ##########################################
 ########## STORED VARIABLES ##############
@@ -202,10 +193,6 @@ input_boolean:
 
   var_dan_home:
     icon: mdi:cellphone-iphone
-
-##########################################
-########## OPTIONS #######################
-##########################################
 
 
 ##########################################

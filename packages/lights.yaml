@@ -14,11 +14,10 @@ homeassistant:
       hidden: true
     script.kitchen_lights_timer_day:
       hidden: true
-# switch:
+
 light:
   - platform: lifx
-# binary_sensor:
-# sensor:
+
 
 automation:
 ##########################################
