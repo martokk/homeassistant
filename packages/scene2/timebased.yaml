@@ -87,7 +87,7 @@ automation:
   - alias: timebased_1am_every_30m
     trigger:
       - platform: time
-        minutes: '/30'
+        minutes: '/15'
         seconds: 15
     condition:
       - condition: time
@@ -110,6 +110,11 @@ automation:
               false
             {%endif%}
           {%endif%}
+      - condition: state
+        entity_id: binary_sensor.entertainment_center_motion_sensor
+        state: 'off'
+        for:
+          minutes: 5    
     action:
       - service: script.entertainment_center_turn_off
       - service: script.scene2
@@ -264,6 +269,11 @@ automation:
       - condition: state
         entity_id: input_boolean.var_ps3_on
         state: 'off'
+      - condition: state
+        entity_id: binary_sensor.entertainment_center_motion_sensor
+        state: 'off'
+        for:
+          minutes: 5
       - condition: template
         value_template: >-
           {% if states.media_player.vtv_chromecast.state != "playing" %}

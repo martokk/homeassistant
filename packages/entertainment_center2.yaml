@@ -217,6 +217,11 @@ script:
             false
           {%endif%}
         {%endif%}
+    - condition: state
+      entity_id: binary_sensor.entertainment_center_motion_sensor
+      state: 'off'
+      for:
+        minutes: 5
     - service: switch.turn_off
       entity_id: switch.sonoff_entertainment_center
 
