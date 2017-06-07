@@ -73,14 +73,48 @@ automation:
         topic: device/+/device
         payload: "restarted"
     condition:
+
+    action:
+      # covert vCore Device to the Room its in
+      - service: script.call_last_known_scene
+        data_template:
+          rooms: >
+            {% set topic = trigger.topic.split('/')[-2] %}
+
+            {% if "tables" in topic or "entertainment_center" in topic %}
+              livingroom
+            {% elif "office" in topic %}
+              office
+            {% elif "kitchen" in topic %}
+              kitchen
+            {% elif "bedroom" in topic %}
+              bedroom
+            {% else %}
+              all
+            {% endif %}
+          scene_name: >
+            {% set topic = trigger.topic.split('/')[-2] %}
+
+            {% if "tables" in topic or "entertainment_center" in topic %}
+              {{ states.input_select.var_lks_livingroom.state }}
+            {% elif "office" in topic %}
+              {{ states.input_select.var_lks_office.state }}
+            {% elif "kitchen" in topic %}
+              {{ states.input_select.var_lks_kitchen.state }}
+            {% elif "bedroom" in topic %}
+              {{ states.input_select.var_lks_bedroom.state }}
+            {% else %}
+              {{ states.input_select.var_lks_timebased.state }}
+            {% endif %}
+          transition: 1
+
       - condition: state
         entity_id: input_boolean.option_send_device_reconnect_notification
         state: 'on'
-    action:
       - service: script.notify2
         data_template:
           telegram_message: |
-            *Device Reconnected*
+            *Device "{{ trigger.topic.split('/')[-2] }}" Reconnected*
             topic     *{{trigger.topic}}*
             payload  *{{trigger.payload}}*
 
