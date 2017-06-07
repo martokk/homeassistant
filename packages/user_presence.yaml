@@ -178,7 +178,7 @@ automation:
         transition: 1
     - delay: "00:05:00"
     - service: script.scene2
-      data:
+      data_template:
         rooms: 'all'
         scene_name: '{{ states.input_select.var_lks_timebased.state }}'
         transition: 5
