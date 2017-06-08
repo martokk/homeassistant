@@ -247,6 +247,9 @@ automation:
         after: '06:00:00'
       - platform: homeassistant
         event: start
+      - platform: state
+        entity_id: input_boolean.var_startup
+        state: 'off'
     condition:
       - condition: time
         before: '20:50:00'
@@ -254,9 +257,9 @@ automation:
         after: '06:00:00'
     action:
       - service: media_player.volume_set
-        data:
+        data_template:
           entity_id: media_player.vlc
-          volume_level: 1
+          volume_level: '{{ states.input_slider.option_tts_vol_high.state  | float }}'
 
   - alias: set_tts_vol_low
     trigger:
@@ -264,14 +267,17 @@ automation:
         after: '20:50:00'
       - platform: homeassistant
         event: start
+      - platform: state
+        entity_id: input_boolean.var_startup
+        state: 'off'
     condition:
       - condition: time
         after: '20:50:00'
     action:
       - service: media_player.volume_set
-        data:
+        data_template:
           entity_id: media_player.vlc
-          volume_level: 0.7
+          volume_level: '{{ states.input_slider.option_tts_vol_low.state  | float }}'
 
   - alias: set_tts_vol_low2
     trigger:
@@ -279,14 +285,17 @@ automation:
         after: '00:00:00'
       - platform: homeassistant
         event: start
+      - platform: state
+        entity_id: input_boolean.var_startup
+        state: 'off'
     condition:
       - condition: time
         before: '06:00:00'
     action:
       - service: media_player.volume_set
-        data:
+        data_template:
           entity_id: media_player.vlc
-          volume_level: 0.7
+          volume_level: '{{ states.input_slider.option_tts_vol_low.state  | float }}'
 
 ##########################################
 ########## SPOTIFY #######################
