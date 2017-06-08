@@ -6,7 +6,7 @@ automation:
   - alias: toggle_mqtt_entertainment_center_power
     trigger:
       - platform: mqtt
-        topic: device/eventghost/ec_power
+        topic: device/eventghost/av_power
         payload: "toggle"
     action:
       - service: switch.toggle
