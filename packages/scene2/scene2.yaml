@@ -69,6 +69,26 @@ script:
   scene2_do_nothing:
     sequence:
 
+  scene2_on_day_lights:
+    sequence:
+      - service: script.scene2
+        data_template:
+          scene_name: 'day'
+          rooms: 'all'
+          transition: 1
+
+  scene2_on_night_lights:
+    sequence:
+      - service: script.scene2
+        data_template:
+          scene_name: 'night_computer_red'
+          rooms: 'all'
+          transition: 1
+
+  scene2_on_normal_lights:
+    sequence:
+      - service: script.timebased_scene
+
 ##########################################
 ########## AUTOMATIONS ###################
 ##########################################
@@ -201,7 +221,6 @@ input_boolean:
 input_select:
   array_low_light_scenes:
     options:
-      - "night_red"
       - "night_computer"
       - "night_computer_red"
       - "off"

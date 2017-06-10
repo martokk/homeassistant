@@ -2,9 +2,21 @@ homeassistant:
   customize:
 
 #********** ALEXA ***********#
-    script.timebased_scene:
+    script.call_last_known_scene:
       emulated_hue: true
       emulated_hue_name: "Fix Lights"
+
+    script.scene2_on_normal_lights:
+      emulated_hue: true
+      emulated_hue_name: "Normal Lights"
+
+    script.scene2_on_day_lights:
+      emulated_hue: true
+      emulated_hue_name: "Day Lights"
+
+    script.scene2_on_night_lights:
+      emulated_hue: true
+      emulated_hue_name: "Night Lights"
 
     input_boolean.var_livingroom_on:
       emulated_hue: true
@@ -25,7 +37,7 @@ homeassistant:
     input_boolean.option_delay_timebased_off:
       emulated_hue: true
       emulated_hue_name: "Late Night"
-      
+
 #********** HIDDEN ***********#
     script.scene2:
       hidden: true
