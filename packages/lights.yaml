@@ -371,13 +371,13 @@ script:
       data_template:
         color_temp: >
           {% if states("input_slider.var_kitchen_color_temp") %}
-            {%if states("input_slider.var_kitchen_color_temp") | int > 200 %}
+            {%if states("input_slider.var_kitchen_color_temp") | int < 250 %}
               {{ states("input_slider.var_kitchen_color_temp") | int }}
             {%else%}
-              200
+              250
             {%endif%}
           {%else%}
-            200
+            250
           {%endif%}
         brightness: >
           {% if states("input_slider.var_kitchen_brightness") %}
@@ -406,7 +406,7 @@ script:
         rgb_color: [255, 255, 255]
         color_temp: 200
       data_template:
-        transition: '{%if states.light.kitchen_right.attributes.brightness %}{{ (( 255 - states.light.kitchen_right.attributes.brightness | int ) / 2.2833) | int }}{%else %}45{%endif%}'
+        transition: '20'
 
 
 

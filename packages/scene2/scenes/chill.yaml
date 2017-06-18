@@ -140,7 +140,7 @@ script:
         state: 'off'
 
       # Regular Scene
-      - service: light.turn_off
+      - service: light.turn_on
         data_template:
           entity_id:
             - light.kitchen_left
@@ -149,7 +149,7 @@ script:
           color_temp: 207
           transition: '{{transition}}'
 
-      - service: light.turn_off
+      - service: light.turn_on
         data_template:
           entity_id:
             - light.kitchen_right

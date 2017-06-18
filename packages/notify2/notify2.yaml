@@ -365,7 +365,7 @@ script:
     - condition: state
       entity_id: media_player.vtv_chromecast
       state: 'paused'
-    - delay: '00:00:08'
+    - delay: '00:00:05'
     - service_template: >
         {% if tts_message %}
           {% if is_state('input_boolean.option_notify2_tts', 'on') %}

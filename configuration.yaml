@@ -68,7 +68,7 @@ conversation:
 history:
 config:
 recorder:
-  purge_days: 5
+  purge_days: 3
 logger: # Log Severities: notset, debug, info, warn, warning, error, fatal, critical
   default: error  # Can also change via input_select
   # logs:
