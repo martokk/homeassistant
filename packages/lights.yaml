@@ -65,6 +65,12 @@ automation:
       to: "on"
       for:
         seconds: 4
+    condition:
+    - condition: state
+      entity_id: binary_sensor.kitchen_mqtt_button
+      state: 'off'
+      for:
+        seconds: 300
     action:
     - service: input_slider.select_value
       data_template:
@@ -78,6 +84,12 @@ automation:
       state: "on"
       for:
         seconds: 30
+    condition:
+    - condition: state
+      entity_id: binary_sensor.kitchen_mqtt_button
+      state: 'off'
+      for:
+        seconds: 300
     action:
     - service: input_slider.select_value
       data_template:
@@ -91,6 +103,12 @@ automation:
       state: "on"
       for:
         seconds: 90
+    condition:
+    - condition: state
+      entity_id: binary_sensor.kitchen_mqtt_button
+      state: 'off'
+      for:
+        seconds: 300
     action:
     - service: input_slider.select_value
       data_template:
@@ -214,6 +232,9 @@ script:
 
   kitchen_lights_on: #### NOTE: CALLED FROM ABOVE FUNCTION (Note the name differences)
     sequence:
+    - condition: state
+      entity_id: input_boolean.var_kitchen_motion_on
+      state: 'off'
     - service: script.turn_on
       data_template:
         entity_id: >-
@@ -270,17 +291,8 @@ script:
       data:
         entity_id: input_boolean.var_kitchen_motion_on
     - service: script.call_last_known_scene
-      data:
-        rooms: 'kitchen'
-    - service: mqtt.publish
       data_template:
-        topic: "device/kitchen/seteffect"
-        payload: >
-          {% for opt in states.input_select.kitchen_led_effect.attributes.options -%}
-            {% if states("input_select.kitchen_led_effect") == opt %}
-              {{loop.index - 1}}
-            {%endif%}
-          {%- endfor -%}
+        rooms: 'kitchen'
 
 
   kitchen_lights_timer_warm:
@@ -294,10 +306,6 @@ script:
         rgb_color: [140, 140, 140]
         color_temp: 250
         transition: 0
-    - service: input_slider.select_value
-      data:
-        entity_id: input_slider.var_kitchen_delay
-        value: 1
     - service: input_slider.select_value
       data:
         entity_id: input_slider.var_kitchen_brightness
@@ -321,10 +329,6 @@ script:
         rgb_color: [140, 140, 140]
         color_temp: 250
         transition: 0
-    - service: input_slider.select_value
-      data:
-        entity_id: input_slider.var_kitchen_delay
-        value: 1
     - service: input_slider.select_value
       data:
         entity_id: input_slider.var_kitchen_brightness
@@ -543,6 +547,7 @@ group:
     - light.kitchen_led_strip
     - input_select.kitchen_led_effect
     - input_slider.kitchen_animation_speed
+    - binary_sensor.kitchen_mqtt_button
 
   bedroom_lights:
     name: "Bedroom Room"

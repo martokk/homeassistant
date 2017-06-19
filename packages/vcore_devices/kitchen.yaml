@@ -26,6 +26,12 @@ binary_sensor:
     payload_on: "1"
     payload_off: "0"
 
+  - platform: mqtt
+    name: "Kitchen MQTT Button"
+    state_topic: "device/kitchen/button1"
+    payload_on: "1"
+    payload_off: "0"
+
 sensor:
   - platform: mqtt
     name: "Kitchen Temperature"
@@ -135,6 +141,37 @@ automation:
           topic: "device/kitchen/led1/speed"
           payload: '{{ trigger.to_state.state | int }}'
 
+  - alias: mqtt_button_setMax_var_kitchen_delay
+    trigger:
+    - platform: state
+      entity_id: binary_sensor.kitchen_mqtt_button
+      state: "on"
+    action:
+      - service: light.turn_on
+        data_template:
+          entity_id:
+            - light.kitchen_left
+            - light.kitchen_right
+          brightness: 255
+          rgb_color: [255, 255, 255]
+          color_temp: 200
+          transition: 1
+      - service: light.turn_on
+        data_template:
+          entity_id: light.kitchen_led_strip
+          brightness: 150
+          rgb_color: [255, 175, 125]
+          transition: 1
+      - service: input_select.select_option
+        data:
+          entity_id: input_select.kitchen_led_effect
+          option: 'Static'
+
+      - service: input_slider.select_value
+        data_template:
+          entity_id: input_slider.var_kitchen_delay
+          value: 300
+
 ##########################################
 ############### GROUPS ###################
 ##########################################
@@ -143,6 +180,6 @@ group:
     entities:
       - automation.kitchen_leds_input_effects
       - automation.kitchen_leds_animation_speed
-
+      - automation.mqtt_button_setMax_var_kitchen_delay
   # script_kitchen:
   #   entities:

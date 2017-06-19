@@ -34,6 +34,17 @@ script:
         data_template:
           transition: '{% if transition %} {{ transition }} {%else%} 1 {% endif %}'
 
+      # Re-send Kitchen LED State
+      - service: mqtt.publish
+        data_template:
+          topic: "device/kitchen/led1/power"
+          payload: >
+            {% if states.light.kitchen_led_strip.state == 'on' %}
+              1
+            {% else %}
+              0
+            {% endif %}
+
       # Re-send Kitchen LED Brightness
       - service: mqtt.publish
         data_template:

@@ -105,7 +105,11 @@ script:
 ##########################################
   scene2_night_kitchen:
     sequence:
-
+      - service: input_select.select_option
+        data:
+          entity_id: input_select.var_lks_kitchen
+          option: 'night'
+          
       # Kitchen Light Motion On
       - service_template: >
           {% if states.input_boolean.var_kitchen_motion_on.state == "on" %}
@@ -131,10 +135,7 @@ script:
           entity_id: input_select.kitchen_led_effect
           option: 'Static'
 
-      - service: input_select.select_option
-        data:
-          entity_id: input_select.var_lks_kitchen
-          option: 'night'
+
 
 
 ##########################################

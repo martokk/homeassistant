@@ -127,6 +127,10 @@ script:
 ##########################################
   scene2_chill_2_kitchen:
     sequence:
+      - service: input_select.select_option
+        data:
+          entity_id: input_select.var_lks_kitchen
+          option: 'chill_2'
 
       # Kitchen Light Motion On
       - service_template: >
@@ -161,12 +165,6 @@ script:
         data:
           entity_id: input_select.kitchen_led_effect
           option: 'Static'
-
-      - service: input_select.select_option
-        data:
-          entity_id: input_select.var_lks_kitchen
-          option: 'chill_2'
-
 
 ##########################################
 ########## BEDROOM #######################
