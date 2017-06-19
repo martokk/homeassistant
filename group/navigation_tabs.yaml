@@ -18,6 +18,7 @@
     - group.bedroom_lights
     - group.scenes
     - group.scripts_lights
+    - group.room_states
 
   enviroment:
     name: "Enviroment"

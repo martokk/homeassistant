@@ -276,3 +276,11 @@ group:
       - input_select.var_lks_kitchen
       - input_boolean.var_bedroom_on
       - input_select.var_lks_bedroom
+
+
+  script_scene2:
+    entities:
+      - script.scene2_on_day_lights
+      - script.scene2_on_night_lights
+      - script.scene2_on_normal_lights
+      - script.scene2_test

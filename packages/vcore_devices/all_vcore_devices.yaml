@@ -194,5 +194,9 @@ group:
       - automation.all_leds_input_effect
       - automation.all_leds_animation_speed
 
+  inputs_all_vcore_devices:
+      - input_slider.all_leds_animation_speed
+      - input_select.all_led_effect
+
   # script_all_vcore_devices:
   #   entities:

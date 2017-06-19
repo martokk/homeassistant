@@ -526,8 +526,9 @@ group:
       - automation.flood_7pm
       - automation.flood_9pm
       - automation.flood_11pm
-      - automation.timebased_11pm_every_15m
+      - automation.timebased_11pm_every_30m
       - automation.timebased_12am
+      - automation.timebased_1am_every_30m
       - automation.timebased_light_scene_turn_off
       - automation.timebased_light_scene_turn_on
 
