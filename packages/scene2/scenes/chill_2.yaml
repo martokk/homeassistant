@@ -25,10 +25,8 @@ script:
             - light.living_room_overhead
             - light.tv_overhead_right
             - light.tv_overhead_left
-
           brightness: 196
           rgb_color: [98, 2, 176]
-          color_temp: 208
           transition: '{{transition}}'
 
       - service: light.turn_on
@@ -38,7 +36,6 @@ script:
             - light.end_table_right
           brightness: 105
           rgb_color: [0, 97, 105]
-          color_temp: 207
           transition: '{{transition}}'
 
       - service: light.turn_on
@@ -48,7 +45,6 @@ script:
             - light.tv_floor_right
           brightness: 252
           rgb_color: [5, 241, 52]
-          color_temp: 209
           transition: '{{transition}}'
 
       - service: light.turn_on
@@ -57,7 +53,6 @@ script:
             - light.tables_led_strip
           brightness: 45
           rgb_color: [2, 234, 0]
-          color_temp: 207
           transition: '{{transition}}'
 
       - service: light.turn_on
@@ -66,7 +61,6 @@ script:
             - light.entertainment_center_led_strip
           brightness: 70
           rgb_color: [98, 2, 176]
-          color_temp: 207
           transition: '{{transition}}'
 
       - service: input_select.select_option
@@ -92,7 +86,6 @@ script:
           entity_id: light.office_right
           brightness: 196
           rgb_color: [98, 2, 176]
-          color_temp: 208
           transition: '{{transition}}'
       - service: light.turn_on
         data_template:
@@ -101,7 +94,6 @@ script:
             - light.office_left
           brightness: 133
           rgb_color: [0, 176, 143]
-          color_temp: 207
           transition: '{{transition}}'
 
       - service: light.turn_on
@@ -109,7 +101,6 @@ script:
           entity_id: light.office_led_strip
           brightness: 45
           rgb_color: [2, 234, 0]
-          color_temp: 207
           transition: '{{transition}}'
       - service: input_select.select_option
         data:
@@ -151,7 +142,6 @@ script:
             - light.kitchen_right
           brightness: 100
           rgb_color: [98, 2, 176]
-          color_temp: 207
           transition: '{{transition}}'
 
       - service: light.turn_on
@@ -159,7 +149,6 @@ script:
           entity_id: light.kitchen_led_strip
           brightness: 45
           rgb_color: [2, 234, 0]
-          color_temp: 207
           transition: '{{transition}}'
       - service: input_select.select_option
         data:
@@ -180,7 +169,6 @@ script:
           entity_id: light.bedroom_led_strip
           brightness: 45
           rgb_color: [2, 234, 0]
-          color_temp: 207
           transition: '{{transition}}'
       - service: input_select.select_option
         data:

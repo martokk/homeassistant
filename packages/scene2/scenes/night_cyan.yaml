@@ -26,7 +26,6 @@ script:
             - light.tv_overhead_right
             - light.tv_overhead_left
           brightness: 255
-          rgb_color: [255, 255, 255]
           color_temp: 200
           transition: '{{transition}}'
 
@@ -37,7 +36,7 @@ script:
             - light.end_table_right
           brightness: 180
           rgb_color: [0, 176, 143]
-          color_temp: 207
+
           transition: '{{transition}}'
 
       - service: light.turn_on
@@ -47,7 +46,7 @@ script:
             - light.tv_floor_right
           brightness: 230
           rgb_color: [0, 229, 191]
-          color_temp: 207
+
           transition: '{{transition}}'
 
       - service: light.turn_on
@@ -56,7 +55,7 @@ script:
             - light.tables_led_strip
           brightness: 90
           rgb_color: [91, 0, 221]
-          color_temp: 207
+
           transition: '{{transition}}'
 
       - service: light.turn_on
@@ -65,7 +64,7 @@ script:
             - light.entertainment_center_led_strip
           brightness: 90
           rgb_color: [91, 0, 221]
-          color_temp: 207
+
           transition: '{{transition}}'
 
       - service: input_select.select_option
@@ -90,7 +89,6 @@ script:
         data_template:
           entity_id: light.office_right
           brightness: 255
-          rgb_color: [255, 255, 255]
           color_temp: 200
           transition: '{{transition}}'
       - service: light.turn_on
@@ -99,7 +97,6 @@ script:
             - light.office_center
             - light.office_left
           brightness: 140
-          rgb_color: [140, 140, 140]
           color_temp: 225
           transition: '{{transition}}'
 
@@ -108,7 +105,7 @@ script:
           entity_id: light.office_led_strip
           brightness: 90
           rgb_color: [91, 0, 221]
-          color_temp: 207
+
           transition: '{{transition}}'
       - service: input_select.select_option
         data:
@@ -130,7 +127,7 @@ script:
         data:
           entity_id: input_select.var_lks_kitchen
           option: 'night_cyan'
-          
+
       # Kitchen Light Motion On
       - service_template: >
           {% if states.input_boolean.var_kitchen_motion_on.state == "on" %}
@@ -150,7 +147,7 @@ script:
             - light.kitchen_right
           brightness: 132
           rgb_color: [0, 176, 143]
-          color_temp: 207
+
           transition: '{{transition}}'
 
       - service: light.turn_on
@@ -158,7 +155,7 @@ script:
           entity_id: light.kitchen_led_strip
           brightness: 90
           rgb_color: [91, 0, 221]
-          color_temp: 207
+
           transition: '{{transition}}'
       - service: input_select.select_option
         data:
@@ -182,7 +179,7 @@ script:
           entity_id: light.bedroom_led_strip
           brightness: 90
           rgb_color: [91, 0, 221]
-          color_temp: 207
+
           transition: '{{transition}}'
       - service: input_select.select_option
         data:

@@ -30,7 +30,6 @@ script:
             - light.tv_floor_left
             - light.tv_floor_right
           brightness: 255
-          rgb_color: [255, 255, 255]
           color_temp: 200
           transition: '{{transition}}'
 
@@ -66,7 +65,6 @@ script:
             - light.office_center
             - light.office_left
           brightness: 255
-          rgb_color: [255, 255, 255]
           color_temp: 200
           transition: '{{transition}}'
 
@@ -95,7 +93,7 @@ script:
         data:
           entity_id: input_select.var_lks_kitchen
           option: 'day'
-          
+
       # Kitchen Light Motion On
       - service_template: >
           {% if states.input_boolean.var_kitchen_motion_on.state == "on" %}

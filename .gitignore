@@ -23,3 +23,5 @@ ios.conf
 secrets.yaml
 google_calendars.yaml
 known_devices.yaml
+
+\.ios\.conf

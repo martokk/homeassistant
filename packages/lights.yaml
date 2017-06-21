@@ -303,7 +303,6 @@ script:
           - light.kitchen_left
           - light.kitchen_right
         brightness: 135
-        rgb_color: [140, 140, 140]
         color_temp: 250
         transition: 0
     - service: input_slider.select_value
@@ -326,7 +325,6 @@ script:
           - light.kitchen_left
           - light.kitchen_right
         brightness: 100
-        rgb_color: [140, 140, 140]
         color_temp: 250
         transition: 0
     - service: input_slider.select_value
@@ -350,7 +348,6 @@ script:
           - light.kitchen_left
           - light.kitchen_right
         brightness: 255
-        rgb_color: [255, 255, 255]
         color_temp: 200
         transition: 1
     - service: input_slider.select_value
@@ -370,7 +367,6 @@ script:
         entity_id:
           - light.kitchen_left
           - light.kitchen_right
-        rgb_color: [255, 255, 255]
         transition: 0
       data_template:
         color_temp: >
@@ -407,7 +403,6 @@ script:
           - light.kitchen_right
           # - light.office_led_strip
         brightness: 255
-        rgb_color: [255, 255, 255]
         color_temp: 200
       data_template:
         transition: '20'

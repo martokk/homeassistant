@@ -24,7 +24,6 @@ script:
           entity_id:
             - light.living_room_overhead
           brightness: 174
-          rgb_color: [173, 173, 173]
           color_temp: 191
           transition: '{{transition}}'
 
@@ -34,7 +33,6 @@ script:
             - light.end_table_left
             - light.end_table_right
           brightness: 80
-          rgb_color: [80, 80, 80]
           color_temp: 191
           transition: '{{transition}}'
 
@@ -46,7 +44,6 @@ script:
             - light.tv_floor_left
             - light.tv_floor_right
           brightness: 102
-          rgb_color: [101, 101, 101]
           color_temp: 191
           transition: '{{transition}}'
 
@@ -81,7 +78,6 @@ script:
             - light.office_center
             - light.office_left
           brightness: 102
-          rgb_color: [101, 101, 101]
           color_temp: 191
           transition: '{{transition}}'
 
@@ -109,7 +105,7 @@ script:
         data:
           entity_id: input_select.var_lks_kitchen
           option: 'night'
-          
+
       # Kitchen Light Motion On
       - service_template: >
           {% if states.input_boolean.var_kitchen_motion_on.state == "on" %}

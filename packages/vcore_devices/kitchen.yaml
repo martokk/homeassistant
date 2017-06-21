@@ -153,7 +153,6 @@ automation:
             - light.kitchen_left
             - light.kitchen_right
           brightness: 255
-          rgb_color: [255, 255, 255]
           color_temp: 200
           transition: 1
       - service: light.turn_on

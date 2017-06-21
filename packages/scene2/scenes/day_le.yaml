@@ -24,7 +24,6 @@ script:
           entity_id:
             - light.living_room_overhead
           brightness: 185
-          rgb_color: [255, 255, 255]
           color_temp: 200
           transition: '{{transition}}'
 
@@ -34,7 +33,6 @@ script:
             - light.tv_overhead_right
             - light.tv_overhead_left
           brightness: 140
-          rgb_color: [255, 255, 255]
           color_temp: 200
           transition: '{{transition}}'
 
@@ -71,7 +69,6 @@ script:
         data_template:
           entity_id: light.office_right
           brightness: 185
-          rgb_color: [255, 255, 255]
           color_temp: 200
           transition: '{{transition}}'
       - service: light.turn_on
@@ -80,7 +77,6 @@ script:
             - light.office_center
             - light.office_left
           brightness: 140
-          rgb_color: [255, 255, 255]
           color_temp: 200
           transition: '{{transition}}'
 
@@ -108,7 +104,7 @@ script:
         data:
           entity_id: input_select.var_lks_kitchen
           option: 'day_le'
-          
+
       # Kitchen Light Motion On
       - service_template: >
           {% if states.input_boolean.var_kitchen_motion_on.state == "on" %}
