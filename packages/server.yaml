@@ -357,13 +357,16 @@ automation:
         entity_id: input_boolean.var_startup
         state: 'on'
     action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_startup
       - service: script.timebased_scene
+      - condition: time
+        after: '09:00:00'
+        before: '21:00:00'
       - service: script.notify2
         data:
           telegram_message: "Home Assistant Server Restarted!"
           tts_sound: startup/startup_ds9.wav
-      - service: input_boolean.turn_off
-        entity_id: input_boolean.var_startup
 
 
   #********** Server Service Down ***************************************#

@@ -185,7 +185,7 @@ automation:
           delay: "00:00:06"
           tts_entity_id: group.tts_devices
           tts_sound: 'st_notifications/st_notification2.wav'
-          tts_message: "The time, is 12pm. Time to check your Trello to do list."
+          tts_message: "The time, is 12pm."
 
 ### 5pm
   - alias: flood_5pm
@@ -201,7 +201,7 @@ automation:
           next_scene: 'night_cyan'
           tts_entity_id: group.tts_devices
           tts_sound: 'st_notifications/st_notification2.wav'
-          tts_message: "The time, is 5pm. Time to check your Trello to do list."
+          tts_message: "The time, is 5pm."
       - service: input_select.select_option
         data:
           entity_id: input_select.var_lks_timebased

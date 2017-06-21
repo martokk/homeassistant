@@ -139,7 +139,7 @@ automation:
       - service: script.notify2
         data_template:
           telegram_message: |
-            10pm Re:  
+            10pm Re:
             {% if states("sensor.iphone6s_battery") | int == 100 %}*{% endif %}iPhone: {{ states("sensor.iphone6s_battery") | int }}%{% if states("sensor.iphone6s_battery") | int == 100 %}*{% endif %}
             {% if states("sensor.watch_battery") | int == 100 %}*{% endif %}Watch: {{ states("sensor.watch_battery") | int }}%{% if states("sensor.watch_battery") | int == 100 %}*{% endif %}
 
@@ -241,7 +241,7 @@ script:
 ########## SHELL COMMANDS #######################
 ##########################################
 shell_command:
-  computer_monitors_turn_off: ssh martokk@desktop xset -display :0.0 dpms force off
+  computer_monitors_turn_off: ssh acer@192.168.1.85 xset -display :0.0 dpms force off && ssh martokk@desktop xset -display :0.0 dpms force off
 
 
 ##########################################
