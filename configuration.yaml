@@ -27,12 +27,6 @@ mqtt:
   password: !secret mqtt_password
   keepalive: 60
 
-telegram_bot:
-  platform: polling
-  api_key: !secret telegram_api_key
-  allowed_chat_ids:
-    - 343498992
-
 google:
   client_id: !secret google_client_id
   client_secret: !secret google_client_secret

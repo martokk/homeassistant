@@ -37,7 +37,11 @@ notify:
   #   platform: ios
   #   target: 'ef95be9c-abb9-3494-b2ec-16837a198b2f'
 
-
+telegram_bot:
+  platform: polling
+  api_key: !secret telegram_api_key
+  allowed_chat_ids:
+    - 343498992
 
 script:
 ##########################################
@@ -49,6 +53,24 @@ script:
         data:
           flash_color: "cyan"
           entity_id: group.timebased_hourly_flash_lights
+
+  notify2_telegram_test3:
+    sequence:
+    - service: script.notify2
+      data:
+        telegram_message: |
+          message test line 1
+          message test line 2
+    - service: script.notify2
+      data:
+        telegram_url: http://sirocco.accuweather.com/nxssa_r1_h_500x620d/r1h/inxr1kmkea_h.gif
+        caption: "Weather Photo Caption Test"
+        disable_notification: true
+    - service: script.notify2
+      data:
+        telegram_url: http://bitcoincharts.com/charts/chart.png?width=848&height=480&m=bitstampUSD&SubmitButton=Draw&r=2&i=5-min&c=0&s=&e=&Prev=&Next=&t=C&b=&a1=&m1=10&a2=&m2=25&x=0&i1=&i2=&i3=&i4=&v=1&cv=0&ps=0&l=0&p=0&
+        caption: "Bitcoin Photo Caption Test"
+        disable_notification: true
 
 
 ##########################################
@@ -70,6 +92,8 @@ script:
       data_template:
         telegram_message: "{{ telegram_message }}"
         telegram_url: "{{ telegram_url }}"
+        caption: "{{ caption }}"
+        disable_notification: "{{ disable_notification }}"
     ### CONDITION: MIKE is HOME
     - condition: state
       entity_id: input_boolean.var_mike_home
@@ -153,7 +177,7 @@ script:
     - service_template: >
         {% if telegram_message %}
           {% if is_state('input_boolean.option_notify2_telegram', 'on') %}
-            notify.telegram
+            telegram_bot.send_message
           {% else %}
             script.notify2_do_nothing
           {% endif %}
@@ -162,12 +186,14 @@ script:
         {% endif %}
       data_template:
         message: "{{ telegram_message | replace('_', '˷') }}"
+        data:
+          disable_notification: '{% if disable_notification %} {{ disable_notification }} {% endif %}'
 
     #*--------- Telegram Picture Notifications --------------*#
     - service_template: >
         {% if telegram_url %}
           {% if is_state('input_boolean.option_notify2_telegram', 'on') %}
-            notify.telegram
+            telegram_bot.send_photo
           {% else %}
             script.notify2_do_nothing
           {% endif %}
@@ -175,11 +201,9 @@ script:
           script.notify2_do_nothing
         {% endif %}
       data_template:
-        message: ''
-        data:
-          photo:
-            url: "{{ telegram_url }}"
-
+        url: '{{ telegram_url }}'
+        caption: '{% if caption %} {{ caption }} {% endif %}'
+        disable_notification: '{% if disable_notification %} {{ disable_notification }} {% else %} false {% endif %}'
 
 
   #********** Chromecast Media Notifications ***************************************#
