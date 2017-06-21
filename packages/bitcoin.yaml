@@ -9,6 +9,37 @@ sensor:
 ############### SENSORS ##################
 ##########################################
   - platform: coinmarketcap
+    currency: bitcoin
+  - platform: coinmarketcap
+    currency: ethereum
+  - platform: coinmarketcap
+    currency: ripple
+  - platform: coinmarketcap
+    currency: litecoin
+  - platform: coinmarketcap
+    currency: ethereum-classic
+  - platform: coinmarketcap
+    currency: dash
+  - platform: coinmarketcap
+    currency: bitshares
+  - platform: coinmarketcap
+    currency: monero
+  - platform: coinmarketcap
+    currency: stratis
+  - platform: coinmarketcap
+    currency: siacoin
+  - platform: coinmarketcap
+    currency: steem
+  - platform: coinmarketcap
+    currency: factom
+  - platform: coinmarketcap
+    currency: counterparty
+  - platform: coinmarketcap
+    currency: potcoin
+  - platform: coinmarketcap
+    currency: peerplays
+
+
   - platform: template
     sensors:
       bitcoin_percent_change_24h:
@@ -106,6 +137,23 @@ script:
         tts_sound: 'intercom_ds9.mp3'
         tts_message: "The current bitcoin price is ${{ states.sensor.bitcoin.state | round(0) }}"
 
+  coinmarketcap_summary:
+    sequence:
+    - service: script.notify2
+      data_template:
+        telegram_message: >
+          {%-for entity in states.group.coinmarketcap.attributes.entity_id -%}
+            {%- set coin = entity[7:] | string | replace("_"," ")| title | truncate(18, True,"..", 0) -%}
+            {%- set coin_loopid = 1 -%}
+            {%- set coin_empty_space = 20 - coin  |  string | title | length -%}
+            {%- set usd =  states(entity) -%}
+            {%- set usd_loopid = 1 -%}
+            {%- set usd_empty_space = 8- usd  |  string | title | length -%}
+            ``` {{coin}}  {%- for coin_loopid in range(1, coin_empty_space) %} {% endfor -%} {% for usd_loopid in range(1, usd_empty_space) %} {% endfor -%}${{ usd }}```
+          {% endfor -%}
+        disable_notification: '{% if disable_notification %} {{ disable_notification }} {% endif %}'
+
+
 
 input_slider:
 ##########################################
@@ -141,3 +189,21 @@ group:
       - sensor.bitcoin
       - sensor.bitcoin_percent_change_24h
       - sensor.bitcoin_percent_change_7d
+
+  coinmarketcap:
+    entities:
+      - sensor.bitcoin
+      - sensor.ethereum
+      - sensor.ripple
+      - sensor.litecoin
+      - sensor.ethereum_classic
+      - sensor.dash
+      - sensor.bitshares
+      - sensor.monero
+      - sensor.stratis
+      - sensor.siacoin
+      - sensor.steem
+      - sensor.factom
+      - sensor.counterparty
+      - sensor.potcoin
+      - sensor.peerplays
