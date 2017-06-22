@@ -1,3 +1,9 @@
+homeassistant:
+  customize:
+    script.all_off:
+      emulated_hue: true
+      emulated_hue_name: "Everything"
+
 automation:
 ##########################################
 ########## NOTIFICATIONS #################
@@ -135,6 +141,7 @@ automation:
     - service: homeassistant.turn_off
       entity_id: input_boolean.option_delay_timebased_off
     - service: script.entertainment_center_turn_off
+
 
 
 ##########################################
@@ -494,6 +501,49 @@ script:
         data:
           entity_id: input_select.var_lks_timebased
           option: 'off'
+
+  all_off:
+    sequence:
+      # TTS Confrimation
+      - service: script.notify2
+        data_template:
+          flash_color: "red"
+          entity_id: group.hourly_flash_lights
+          tts_message: >
+            OK. The lights will fade off in 3 minutes, and all other devices, have been turned off!
+            {% if states.input_boolean.option_morning_alarm.state == 'on' %}
+              Your morning alarm is set for {{ states.input_select.option_morning_alarm_time.state[:2] | int }}
+              {% if states.input_select.option_morning_alarm_time.state[3:] | int > 1 -%}
+                {{ states.input_select.option_morning_alarm_time.state[3:] }}
+              {%- endif -%}
+            {%- endif %}
+             am.
+            Good night!
+      - delay: "00:00:02"
+
+      # PS3 Off
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_ps3_on
+
+      # Chromecast Off
+      - service: media_player.turn_off
+        entity_id: media_player.vtv_chromecast
+
+      # Entertainment_Center Off
+      - service: switch.turn_off
+        entity_id: switch.sonoff_entertainment_center
+
+      # Computer Screens Off
+      - service: shell_command.computer_monitors_turn_off
+
+      # Ligts Off
+      - delay: "00:00:10"
+      - service: script.scene2
+        data:
+          rooms: 'all'
+          scene_name: 'off'
+          transition: 180
+
 
 input_boolean:
 ##########################################

@@ -1,3 +1,9 @@
+homeassistant:
+  customize:
+    input_boolean.var_morning_alarm_on:
+      emulated_hue: true
+      emulated_hue_name: "Morning Alarm"
+
 automation:
 ## Turn on Alarm
   - alias: morning_alarm_timebased_turn_on
