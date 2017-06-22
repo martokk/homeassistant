@@ -193,6 +193,28 @@ automation:
         scene_name: '{{ states.input_select.var_lks_timebased.state }}'
         transition: 5
 
+##########################################
+########## ALARM ###################
+##########################################
+  - alias: motion_detected_no_resident_home
+    trigger:
+    - platform: state
+      entity_id: binary_sensor.entertainment_center_motion_sensor
+      from: 'off'
+      to: 'on'
+    condition:
+      - condition: state
+        entity_id: group.residents
+        state: "off"
+    action:
+      - service: script.notify2
+        data_template:
+          telegram_message: |
+            *ALERT!* Motion Detected! No Residents are home!!
+            *debug_informtion:*
+            {{ trigger.entity_id }} = {{ trigger.to_state.state }}
+            group.residents = {{ states.group.residents.state }}
+
 
 input_boolean:
 ##########################################
