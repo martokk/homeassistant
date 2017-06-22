@@ -1,5 +1,33 @@
 #********** Timebased Telegram Summary ***************************************#
 script:
+  timebased_summary:
+    sequence:
+      - service: script.timebased_tts_summary
+      - delay: "00:00:01"
+      - service: script.timebased_telegram_summary
+
+
+  timebased_tts_summary:
+    sequence:
+      ### HEADER
+      - service: script.notify2
+        data_template:
+          tts_message: |
+            It is {{ states.sensor.dark_sky_temperature.state | round(0)  }}°F. {{ states.sensor.dark_sky_minutely_summary.state }} {{ states.sensor.dark_sky_hourly_summary.state }}
+
+            {% if states('sensor.iphone6s_battery') | int < 30 and states('sensor.iphone6s_battery') | int > 0 %}
+              Your iPhone's battery is at {{ states('sensor.iphone6s_battery') | int }}%.
+            {% endif %}
+            {% if states('sensor.watch_battery') | int < 30 and states('sensor.watch_battery') | int > 0 %}
+              Your Watch's battery is at {{ states('sensor.watch_battery') | int }}%.
+            {% endif %}
+            {% if states('sensor.ipad_battery') | int < 30 and states('sensor.ipad_battery') | int > 0 %}
+              Your iPad's battery is at {{ states('sensor.ipad_battery') | int }}%.
+            {% endif %}
+
+            The current bitcoin price is ${{ states.sensor.bitcoin.state | round(0) }}
+
+
   timebased_telegram_summary:
     sequence:
       ### HEADER
@@ -14,11 +42,12 @@ script:
           telegram_message: |
             *Now:* {{ states.sensor.dark_sky_temperature.state | round(0)  }}°F - {{ states.sensor.dark_sky_summary.state }}
             *Today:* {{ states.sensor.dark_sky_daily_low_temperature.state | round(0) }}°F to {{ states.sensor.dark_sky_daily_high_temperature.state | round(0) }}°F - {{ states.sensor.dark_sky_minutely_summary.state }} {{ states.sensor.dark_sky_hourly_summary.state }}
-          disable_notification: true
+            *Sunrise/Sunset:* {{ as_timestamp(states.sun.sun.attributes.next_rising) | timestamp_custom("%l:%M%P") }} /{{as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom("%l:%M%P") }}
+          disable_notification: 'true'
       - service: script.notify2
         data_template:
           telegram_url: http://sirocco.accuweather.com/nxssa_r1_h_500x620d/r1h/inxr1kmkea_h.gif
-          disable_notification: true
+          disable_notification: 'true'
 
 
       ### DEVICE BATTERIES
@@ -28,27 +57,22 @@ script:
             *iPhone:* {{ states.sensor.iphone6s_battery.state | round(0) }}%
             *Watch:* {{ states.sensor.watch_battery.state | round(0) }}%
             *iPad:* {{ states.sensor.ipad_battery.state | round(0) }}%
-          disable_notification: true
+          disable_notification: 'true'
 
       ### BITCOIN
       - service: script.coinmarketcap_summary
         data:
-          disable_notification: true
+          disable_notification: 'true'
 
       - service: script.notify2
         data_template:
           telegram_url: http://bitcoincharts.com/charts/chart.png?width=848&height=480&m=bitstampUSD&SubmitButton=Draw&r=2&i=5-min&c=0&s=&e=&Prev=&Next=&t=C&b=&a1=&m1=10&a2=&m2=25&x=0&i1=&i2=&i3=&i4=&v=1&cv=0&ps=0&l=0&p=0&
-          disable_notification: true
-
-
-
-
-
+          disable_notification: 'true'
 
 
 #********** Automation Trigger ***************************************#
 automation:
-  - alias: timebased_telegram_summary
+  - alias: timebased_summary
     trigger:
       # - platform: template
       #   value_template: '{{ states.sensor.time.state | string in states.input_select.array_timebased_telegram_summary_times.attributes.options | string }}'
@@ -62,7 +86,7 @@ automation:
         entity_id: input_boolean.option_timebased_telegram_summary
         state: 'on'
     action:
-      - service: script.timebased_telegram_summary
+      - service: script.timebased_summary
 
 
 #********** Options - Alarms ***************************************#
@@ -84,8 +108,10 @@ input_select:
 group:
   automation_timebased_telegram:
     entities:
-      - automation.timebased_telegram_summary
+      - automation.timebased_summary
 
-  script_timebased_telegram:
+  script_timebased_summary:
     entities:
+      - script.timebased_summary
+      - script.timebased_tts_summary
       - script.timebased_telegram_summary
