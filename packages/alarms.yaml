@@ -64,6 +64,14 @@ automation:
       - delay: '00:05:00'
       - service: input_boolean.turn_off
         entity_id: input_boolean.var_morning_alarm_on
+
+  - alias: morning_alarm_motion_turn_off_flash_cyan
+    trigger:
+      - platform: state
+        entity_id: input_boolean.var_morning_alarm_on
+        from: 'on'
+        to: 'off'
+    action:      
       - service: script.notify2
         data:
           flash_color: "cyan"
@@ -138,6 +146,7 @@ group:
       - automation.morning_alarm_timebased_turn_on
       - automation.morning_alarm_motion_turn_off_1hr
       - automation.morning_alarm_motion_turn_off
+      - automation.morning_alarm_motion_turn_off_flash_cyan
 
   script_alarms:
     entities:

@@ -28,21 +28,6 @@ automation:
     - condition: state
       entity_id: script.flood_scene
       state: 'off'
-    - condition: state
-      entity_id: script.flood_and_breathe
-      state: 'off'
-    - condition: state
-      entity_id: script.flood_and_blink
-      state: 'off'
-    - condition: state
-      entity_id: script.flood_and_blink2
-      state: 'off'
-    - condition: state
-      entity_id: script.notify2
-      state: 'off'
-    - condition: state
-      entity_id: script.notify2_lights
-      state: 'off'
     action:
     - service: script.notify2
       data:
@@ -121,6 +106,7 @@ automation:
         state: 'off'
     action:
       - service: script.entertainment_center_turn_off
+      - delay: "00:00:30"
       - service: script.scene2
         data:
           rooms: 'all'
@@ -592,3 +578,4 @@ group:
       - script.timebased_9pm
       - script.timebased_12am
       - script.timebased_off
+      - script.all_off

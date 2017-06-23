@@ -182,6 +182,7 @@ group:
   script_bitcoin:
     entities:
       - script.chromecast_bitcoin_chart
+      - script.coinmarketcap_summary
 
   bitcoin:
     name: "Bitcoin"

@@ -513,3 +513,4 @@ group:
       - script.notify2_tts
       - script.notify2_do_nothing
       - script.notify2_tts_resume
+      - script.notify2_telegram_test3
