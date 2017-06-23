@@ -96,7 +96,9 @@ automation:
         entity_id: input_boolean.option_chromecast_screensaver
         state: 'on'
     action:
-      - service: script.set_volume_4
+      - service: script.set_entertainment_center_tv_volume
+        data:
+          volume_level: 2
       - service: script.turn_on
         data_template:
           entity_id: >

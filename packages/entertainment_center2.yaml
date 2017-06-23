@@ -224,38 +224,6 @@ script:
       entity_id: switch.sonoff_entertainment_center
 
 
-  set_volume_4:
-    sequence:
-    - condition: state
-      entity_id: binary_sensor.ps3
-      state: 'off'
-    - service: mqtt.publish
-      data_template:
-        topic: "device/eventghost/set_vol_4"
-        payload: '1'
-
-
-  set_volume_9:
-    sequence:
-    - condition: state
-      entity_id: binary_sensor.ps3
-      state: 'off'
-    - service: mqtt.publish
-      data_template:
-        topic: "device/eventghost/set_vol_9"
-        payload: '1'
-
-
-  set_volume_14:
-    sequence:
-    - condition: state
-      entity_id: binary_sensor.ps3
-      state: 'off'
-    - service: mqtt.publish
-      data_template:
-        topic: "device/eventghost/set_vol_14"
-        payload: '1'
-
   ps3_turn_on:
     sequence:
       - service: homeassistant.turn_on
@@ -322,9 +290,6 @@ group:
   script_entertainment_center:
     entities:
       - script.entertainment_center_turn_off
-      - script.set_volume_4
-      - script.set_volume_9
-      - script.set_volume_14
       - script.ps3_turn_on
       - script.chromecast_turn_on
 

@@ -1,0 +1,211 @@
+homeassistant:
+  customize:
+    script.entertainment_center_tv_volume_sync:
+      emulated_hue: true
+      emulated_hue_name: "TV Volume Sync"
+# switch:
+# lights:
+# binary_sensor:
+# sensor:
+
+automation:
+  - alias: entertainment_center_tv_on_volume_sync
+    trigger:
+      platform: state
+      entity_id: switch.sonoff_entertainment_center
+      state: 'on'
+    action:
+      - service: script.entertainment_center_tv_volume_sync
+
+#********** MQTT Subscriptions - Set State TV Volume ***********#
+  - alias: set_state_entertainment_center_tv_volume_down
+    trigger:
+    - platform: mqtt
+      topic: device/eventghost/set_state_entertainment_center_tv_volume_down
+      payload: "1"
+    action:
+    - service: input_slider.select_value
+      data_template:
+        entity_id: input_slider.var_tv_entertainment_center_volume
+        value: '{{ states.input_slider.var_tv_entertainment_center_volume.state | int - 1 }}'
+
+  - alias: set_state_entertainment_center_tv_volume_up
+    trigger:
+    - platform: mqtt
+      topic: device/eventghost/set_state_entertainment_center_tv_volume_up
+      payload: "1"
+    action:
+    - service: input_slider.select_value
+      data_template:
+        entity_id: input_slider.var_tv_entertainment_center_volume
+        value: '{{ states.input_slider.var_tv_entertainment_center_volume.state | int + 1 }}'
+
+
+
+##########################################
+########## SCRIPTS #######################
+##########################################
+script:
+  test_tv_vol:
+    sequence:
+      - service: script.set_entertainment_center_tv_volume
+        data_template:
+          volume_level: '{{ volume_level }}'
+
+  entertainment_center_tv_volume_sync:
+    sequence:
+      # Store current volume level
+      - service: script.set_var_tv_entertainment_center_volume_stored
+      - delay: '00:00:03' # Delay allows time for TV to reach 0
+
+      # Sync Vol:: Set tv volume to 0; set HASS volume input_slider to 0
+      - service: mqtt.publish
+        data_template:
+          topic: "device/eventghost/ircommand_tv_vol_0"
+          payload: '1'
+      - service: input_slider.select_value
+        data:
+          entity_id: input_slider.var_tv_entertainment_center_volume
+          value: 0
+      - delay: '00:00:03' # Delay allows time for TV to reach 0
+
+      # Restore stored volume level
+      - service: script.set_entertainment_center_tv_volume
+        data_template:
+          volume_level: '{{ states.input_slider.var_tv_entertainment_center_volume_stored.state | int }}'
+
+  set_var_tv_entertainment_center_volume_stored:
+    sequence:
+      - service: input_slider.select_value
+        data_template:
+          entity_id: input_slider.var_tv_entertainment_center_volume_stored
+          value: '{{ states.input_slider.var_tv_entertainment_center_volume.state | int }}'
+
+  set_entertainment_center_tv_volume:
+    sequence:
+      - service: script.turn_off
+        entity_id: script.calc_send_entertainment_center_tv_volume
+      - service: script.turn_off
+        entity_id: script.send_entertainment_center_tv_volume_down
+      - service: script.turn_off
+        entity_id: script.send_entertainment_center_tv_volume_up
+
+      - service: input_slider.select_value
+        data_template:
+          entity_id: input_slider.var_tv_entertainment_center_volume_set
+          value: >
+            {% if volume_level %}
+              {{ volume_level | int }}
+            {% elif volume_up %}
+              {{ states.input_slider.var_tv_entertainment_center_volume.state | int + volume_up | int }}
+            {% elif volume_down %}
+              {{ states.input_slider.var_tv_entertainment_center_volume.state | int - volume_down | int }}
+            {% endif %}
+      - service: script.calc_send_entertainment_center_tv_volume
+
+  calc_send_entertainment_center_tv_volume:
+    sequence:
+      - service: script.turn_off
+        entity_id: script.send_entertainment_center_tv_volume_down
+      - service: script.turn_off
+        entity_id: script.send_entertainment_center_tv_volume_up
+
+      - condition: template
+        value_template: '{{ states.input_slider.var_tv_entertainment_center_volume.state | int != states.input_slider.var_tv_entertainment_center_volume_set.state | int }}'
+
+
+      # Determain Adjustment Direction and call script.
+      - service: script.turn_on
+        data_template:
+          entity_id: >
+            {% if states.input_slider.var_tv_entertainment_center_volume_set.state | int > states.input_slider.var_tv_entertainment_center_volume.state | int %}
+              script.send_entertainment_center_tv_volume_up
+            {% else %}
+              script.send_entertainment_center_tv_volume_down
+            {% endif %}
+
+
+  send_entertainment_center_tv_volume_down:
+    sequence:
+    - service: script.turn_off
+      entity_id: script.calc_send_entertainment_center_tv_volume
+    # Send MQTT Command
+    - service: mqtt.publish
+      data_template:
+        topic: "device/eventghost/ircommand_tv_vol_down"
+        payload: "{{ states.input_slider.var_tv_entertainment_center_volume.state | int - 1 }}"
+    # Send Net Volume State
+    - service: input_slider.select_value
+      data_template:
+        entity_id: input_slider.var_tv_entertainment_center_volume
+        value: '{{ states.input_slider.var_tv_entertainment_center_volume.state | int  - 1 }}'
+    - service: script.turn_on
+      entity_id: script.calc_send_entertainment_center_tv_volume
+
+
+  send_entertainment_center_tv_volume_up:
+    sequence:
+    - service: script.turn_off
+      entity_id: script.set_entertainment_center_tv_volume
+    # Send MQTT Command
+    - service: mqtt.publish
+      data_template:
+        topic: "device/eventghost/ircommand_tv_vol_up"
+        payload: '{{ states.input_slider.var_tv_entertainment_center_volume.state | int + 1 }}'
+    # Send Net Volume State
+    - service: input_slider.select_value
+      data_template:
+        entity_id: input_slider.var_tv_entertainment_center_volume
+        value: '{{ states.input_slider.var_tv_entertainment_center_volume.state | int + 1 }}'
+    - service: script.calc_send_entertainment_center_tv_volume
+
+
+
+input_slider:
+##########################################
+########## STORED VARIABLES ##############
+##########################################
+  var_tv_entertainment_center_volume: #in Seconds
+    min: 0
+    max: 70
+
+  var_tv_entertainment_center_volume_set: #in Seconds
+    min: 0
+    max: 70
+
+  var_tv_entertainment_center_volume_stored: #in Seconds
+    min: 0
+    max: 70
+
+##########################################
+########## OPTIONS #######################
+##########################################
+
+
+##########################################
+############### GROUPS ###################
+##########################################
+group:
+  automation_tv_volume:
+    entities:
+      - automation.entertainment_center_tv_on_volume_sync
+      - automation.set_state_entertainment_center_tv_volume_down
+      - automation.set_state_entertainment_center_tv_volume_up
+
+
+  homeassistant_tv_volume:
+    entities:
+      - input_slider.var_tv_entertainment_center_volume
+      - input_slider.var_tv_entertainment_center_volume_set
+      - input_slider.var_tv_entertainment_center_volume_stored
+
+
+  script_tv_volume:
+    entities:
+      - script.test_tv_vol
+      - script.entertainment_center_tv_volume_sync
+      - script.set_var_tv_entertainment_center_volume_stored
+      - script.set_entertainment_center_tv_volume
+      - script.calc_send_entertainment_center_tv_volume
+      - script.send_entertainment_center_tv_volume_down
+      - script.send_entertainment_center_tv_volume_up

@@ -28,17 +28,18 @@ automation:
       # TODO: If TV off, turn on, add in delays (as seen below). If TV already on, then don't use delays. Delays are nessesary since the TV needs to cold boot and takes about 16-17 seconds to cold boot.
     - service: switch.turn_on
       entity_id: switch.sonoff_entertainment_center
-    - delay: "00:00:01"
 
-    - service: script.set_volume_14
-    - delay: "00:00:07" ## Delay is for waiting on TV to fully turn on
+    - delay: "00:00:10" ## Delay is for waiting on TV to fully turn on
+    - service: script.set_entertainment_center_tv_volume
+      data:
+        volume_level: 15
 
     - service: script.notify2
       data_template:
         tts_entity_id: group.tts_devices
         tts_sound: 'intercom_ds9.mp3'
         tts_message: "Welcome home Mike!"
-    - delay: "00:00:09" ## Delay is for waiting on TV to fully turn on
+    - delay: "00:00:07" ## Delay is for waiting on TV to fully turn on
 
     - service: script.notify2
       data_template:
@@ -86,7 +87,9 @@ automation:
         {%else%}
           true
         {%endif%}
-    - service: script.set_volume_14
+    - service: script.set_entertainment_center_tv_volume
+      data:
+        volume_level: 18
     - service: script.notify2
       data_template:
         flood_color: "green"
@@ -247,6 +250,7 @@ group:
       - automation.dan_home_start_smoke_session
       - automation.all_residents_away_automations
       - automation.any_resident_home_automation
+      - automation.motion_detected_no_resident_home
 
   # script_user_presence:
   #   entities:

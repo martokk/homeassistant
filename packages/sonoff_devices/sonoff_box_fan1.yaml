@@ -20,10 +20,9 @@ automation:
         entity_id: switch.sonoff_entertainment_center
         state: 'on'
     action:
-      - service: mqtt.publish
+      - service: script.set_entertainment_center_tv_volume
         data:
-          topic: "device/eventghost/vol_up_2"
-          payload: '1'
+          volume_up: 2
 
 
   - alias: fan_off_chromecast_volume_down
@@ -36,10 +35,9 @@ automation:
         entity_id: switch.sonoff_entertainment_center
         state: 'on'
     action:
-      - service: mqtt.publish
+      - service: script.set_entertainment_center_tv_volume
         data:
-          topic: "device/eventghost/vol_down_2"
-          payload: '1'
+          volume_down: 2
 
 
 ##########################################
