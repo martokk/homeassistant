@@ -246,7 +246,7 @@ automation:
   - alias: set_tts_vol_high
     trigger:
       - platform: time
-        after: '06:00:00'
+        at: '06:00:00'
       - platform: homeassistant
         event: start
       - platform: state
@@ -266,7 +266,7 @@ automation:
   - alias: set_tts_vol_low
     trigger:
       - platform: time
-        after: '20:50:00'
+        at: '20:50:00'
       - platform: homeassistant
         event: start
       - platform: state
@@ -284,7 +284,7 @@ automation:
   - alias: set_tts_vol_low2
     trigger:
       - platform: time
-        after: '00:00:00'
+        at: '00:00:00'
       - platform: homeassistant
         event: start
       - platform: state

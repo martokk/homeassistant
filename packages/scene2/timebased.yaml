@@ -45,7 +45,7 @@ automation:
   - alias: timebased_530am
     trigger:
       - platform: time
-        after: '05:30:00'
+        at: '05:30:00'
     action:
     - service: script.scene2
       data:
@@ -122,7 +122,7 @@ automation:
   - alias: timebased_3am_off
     trigger:
       - platform: time
-        after: "03:00:00"
+        at: "03:00:00"
     action:
     - service: homeassistant.turn_off
       entity_id: input_boolean.option_delay_timebased_off
@@ -154,7 +154,7 @@ automation:
   - alias: flood_7am
     trigger:
       - platform: time
-        after: "06:59:59"
+        at: "06:59:59"
     action:
       - service: script.notify2
         data:
@@ -184,7 +184,7 @@ automation:
   - alias: flood_5pm
     trigger:
       - platform: time
-        after: "16:59:59"
+        at: "16:59:59"
     action:
       - service: script.notify2
         data:
@@ -224,7 +224,7 @@ automation:
   - alias: flood_9pm
     trigger:
       - platform: time
-        after: "20:59:59"
+        at: "20:59:59"
     action:
       - service: script.notify2
         data:
@@ -246,7 +246,7 @@ automation:
   - alias: timebased_11pm_every_30m
     trigger:
       - platform: time
-        after: "23:00:15"
+        at: "23:00:15"
       - platform: time
         minutes: '/30'
         seconds: 00
@@ -291,7 +291,7 @@ automation:
   - alias: flood_11pm
     trigger:
       - platform: time
-        after: "22:59:58"
+        at: "22:59:58"
     action:
       - service: script.notify2
         data:

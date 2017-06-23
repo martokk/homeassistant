@@ -132,7 +132,7 @@ automation:
   - alias: 10pm_charge_battery_reminder
     trigger:
       - platform: time
-        after: '22:00:00'
+        at: '22:00:00'
     action:
       - condition: time
         before: "22:59:59"
