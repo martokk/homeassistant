@@ -463,7 +463,6 @@ group:
     - light.tv_floor_left
     - light.tv_floor_right
     - light.office_led_strip
-    - light.kitchen_led_strip
     - light.tables_led_strip
     - light.entertainment_center_led_strip
     - light.bedroom_led_strip
@@ -486,8 +485,6 @@ group:
     - light.office_left
     - light.office_center
     - light.office_right
-    - light.kitchen_left
-    - light.kitchen_right
 
   timebased_hourly_flash_lights:
     name: "Timebased - Hourly Flash Lights"
@@ -498,8 +495,6 @@ group:
     - light.office_left
     - light.office_center
     - light.office_right
-    - light.kitchen_left
-    - light.kitchen_right
     - light.bedroom_led_strip
 
   timebased_flood_lights:
@@ -511,8 +506,6 @@ group:
     - light.office_left
     - light.office_center
     - light.office_right
-    - light.kitchen_left
-    - light.kitchen_right
     - light.bedroom_led_strip
     - light.end_table_left
     - light.end_table_right
@@ -521,7 +514,6 @@ group:
     - light.tables_led_strip
     - light.entertainment_center_led_strip
     - light.office_led_strip
-    - light.kitchen_led_strip
 
 
   office_lights:
