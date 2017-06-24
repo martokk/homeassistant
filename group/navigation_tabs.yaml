@@ -24,7 +24,7 @@
     name: "Enviroment"
     view: yes
     entities:
-    - group.fans
+    - group.fans_air_conditioner
     - group.motion_sensors
     - group.humidity_sensors
     - group.temperature_sensors
@@ -72,6 +72,8 @@
     - group.stored_variables
     - group.stored_arrays
     - group.homeassistant_tv_volume
+    - group.homeassistant_environment
+
   automations:
     name: "Automations"
     view: yes

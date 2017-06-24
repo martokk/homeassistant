@@ -31,15 +31,6 @@
       - input_slider.option_notification_brightness_low
       - input_slider.option_bitcoin_price_notification_tolerance
 
-  options_environment:
-    name: "Environment"
-    entities:
-      - input_boolean.option_turn_on_fans
-      - input_boolean.option_circulate_air
-      - input_boolean.option_temp_controlled_fans
-      - input_slider.option_indoor_temp_cold
-      - input_slider.option_indoor_temp_hot
-
   options_system:
     name: "System"
     entities:
