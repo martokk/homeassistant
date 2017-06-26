@@ -26,7 +26,19 @@ script:
             {% endif %}
 
             The current bitcoin price is ${{ states.sensor.bitcoin.state | round(0) }}
+          tts_pause_chromecast_delay: >
+            {% set delay_seconds = 12 %}
+            {% if states('sensor.iphone6s_battery') | int < 30 and states('sensor.iphone6s_battery') | int > 0 %}
+              {% set delay_seconds = delay_seconds + 4 %}
+            {% endif %}
+            {% if states('sensor.watch_battery') | int < 30 and states('sensor.watch_battery') | int > 0 %}
+              {% set delay_seconds = delay_seconds + 4 %}
+            {% endif %}
+            {% if states('sensor.ipad_battery') | int < 30 and states('sensor.ipad_battery') | int > 0 %}
+              {% set delay_seconds = delay_seconds + 4 %}
+            {% endif %}
 
+            00:00:{{ delay_seconds }}
 
   timebased_telegram_summary:
     sequence:
