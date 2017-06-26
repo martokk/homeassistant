@@ -101,7 +101,7 @@ binary_sensor:
   - platform: ping
     host: 192.168.1.50
     name: "PS3 Ping"
-
+    scan_interval: 5
 
 sensor:
   #********** PI HOLE ***************************************#
@@ -370,17 +370,20 @@ automation:
         entity_id: input_boolean.var_startup
         state: 'on'
     action:
-      - service: homeasstant.turn_on
-        entity_id: group.all_automations
       - service: input_boolean.turn_off
         entity_id: input_boolean.var_startup
+      - service: homeassistant.turn_on
+        entity_id: group.all_automations
       - service: script.timebased_scene
-      - condition: time
-        after: '09:00:00'
-        before: '21:00:00'
       - service: script.notify2
         data:
           telegram_message: "Home Assistant Server Restarted!"
+
+      # - condition: time
+      #   after: '09:00:00'
+      #   before: '21:00:00'
+      # - service: script.notify2
+      #   data:
           # tts_sound: startup/startup_ds9.wav
 
   #********** Desktop Computer On/Off ***************************************#

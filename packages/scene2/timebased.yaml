@@ -75,14 +75,14 @@ automation:
         option: 'day'
 
 ### Turn All Off - 12:30am + every 30 min
-  - alias: timebased_1am_every_30m
+  - alias: timebased_12am_every_15m
     trigger:
       - platform: time
         minutes: '/15'
-        seconds: 15
+        seconds: 35
     condition:
       - condition: time
-        after: "01:00:00"
+        after: "00:00:00"
         before: "05:00:00"
       - condition: state
         entity_id: input_boolean.var_desktop_computer_on
@@ -567,7 +567,7 @@ group:
       - automation.flood_11pm
       - automation.timebased_11pm_every_30m
       - automation.timebased_12am
-      - automation.timebased_1am_every_30m
+      - automation.timebased_12am_every_15m
       - automation.timebased_light_scene_turn_off
       - automation.timebased_light_scene_turn_on
 
