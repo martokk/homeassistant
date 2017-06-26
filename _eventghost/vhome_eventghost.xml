@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<EventGhost Version="1722" Guid="{295F4074-3515-4EA6-B104-AAE87CDEAF06}" Time="1498198486.67">
+<EventGhost Version="1722" Guid="{CC935B3B-F558-4411-BF1B-95C170E55135}" Time="1498324733.23">
     <Autostart Name="Autostart" Expanded="True">
         <Plugin Identifier="USB_UIRT" Guid="{36FD4F40-653C-4626-97CC-BE363C05F933}" File="USB-UIRT">
             gAIoiYmJiHRxAC4=
@@ -379,6 +379,12 @@
                 USB_UIRT.TransmitIR(u'0000 006D 0022 0002 0156 00AC 0016 0015 0016 0040 0016 0015 0016 0015 0016 0040 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0040 0016 0040 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0015 0016 0015 0016 0015 0016 0015 0016 0040 0016 0015 0016 0015 0016 0015 0016 0040 0016 0040 0016 0040 0016 0040 0016 05C2 0156 0057 0016 0E44', 4, 0)
             </Action>
         </Macro>
+        <Macro Name="request_eventghost_state" Expanded="True">
+            <Event Name="MQTT.device/eventghost/request_state" />
+            <Action>
+                MQTTthreads.publishMQTT(u'set_state_eventghost_state', u'192.168.1.3', 1883, u'device/eventghost/set_state_eventghost_state', u'1', 0, False, '546420787736', True, u'username', u'42157406', False, u'')
+            </Action>
+        </Macro>
         <Macro Name="led_standby">
             <Event Name="MQTT.device/eventghost/led_standby" />
             <Action Name="Standby">
@@ -397,7 +403,7 @@
                 USB_UIRT.TransmitIR(u'0000 0067 0000 0010 005E 0018 002F 0019 0018 0019 002F 0019 002F 0019 002F 0018 002F 0018 0018 0019 0018 0018 0018 0019 002F 0019 0018 0018 0018 0019 002F 0019 0018 0018 002F 0315', 4, 0)
             </Action>
         </Macro>
-        <Folder Name="IR Commands" Expanded="True">
+        <Folder Name="IR Commands">
             <Macro Name="ircommand_tv_vol_down" Expanded="True">
                 <Event Name="MQTT.device/eventghost/ircommand_tv_vol_down" />
                 <Action Name="av_vol_down">
@@ -417,7 +423,7 @@
                 </Action>
             </Macro>
         </Folder>
-        <Folder Name="Set States">
+        <Folder Name="Set States" Expanded="True">
             <Macro Name="set_state_entertainment_center_tv_volume_down" Expanded="True">
                 <Event Name="USB_UIRT.Unknown.175DFF5DF0" />
                 <Event Name="USB_UIRT.Unknown.17FF57FF58" />
@@ -425,7 +431,7 @@
                     MQTTthreads.publishMQTT(u'set_state_entertainment_center_tv_volume_down', u'192.168.1.3', 1883, u'device/eventghost/set_state_entertainment_center_tv_volume_down', u'1', 0, False, '546420787736', True, u'username', u'42157406', False, u'')
                 </Action>
             </Macro>
-            <Macro Name="set_state_entertainment_center_tv_volume_up" Expanded="True">
+            <Macro Name="set_state_entertainment_center_tv_volume_up">
                 <Event Name="USB_UIRT.Unknown.177DF77DF0" />
                 <Event Name="USB_UIRT.Unknown.17FF7FFF70" />
                 <Action>

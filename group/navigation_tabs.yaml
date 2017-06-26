@@ -73,6 +73,7 @@
     - group.stored_arrays
     - group.homeassistant_tv_volume
     - group.homeassistant_environment
+    - group.homeassistant_server
 
   automations:
     name: "Automations"

@@ -1,7 +1,7 @@
 homeassistant:
   customize:
-    # binary_sensor.mqtt_server:
-    #   hidden: true
+    binary_sensor.mqtt_server:
+      hidden: true
     binary_sensor.arris_modem:
       hidden: true
     binary_sensor.linksys_ddwrt_router:
@@ -73,13 +73,22 @@ binary_sensor:
   #   payload_on: 1
   #   payload_off: 0
   #
-  # - platform: command_line
-  #   command: netstat -na | find "1883" | find /c "ESTABLISHED" > nul && (echo 1) || (echo 0)
-  #   name: "MQTT Server"
-  #   device_class: connectivity
-  #   payload_on: 1
-  #   payload_off: 0
-  #   hidden: true
+  - platform: command_line
+    command: netstat -na | grep "1883" | grep "ESTABLISHED" > nul && (echo 1) || (echo 0)
+    name: "MQTT Server"
+    device_class: connectivity
+    payload_on: 1
+    payload_off: 0
+    hidden: true
+
+    #Note: install xprintidle on remote computer to determain idle time
+  - platform: command_line
+    command: ping -W 1 -c 1 192.168.1.80 > /dev/null 2>&1 && ssh martokk@desktop 'idle=$(export DISPLAY=:0 && sudo -u martokk xprintidle); [ $idle -lt 60000 ] && echo 1 || echo 0' || echo 0
+    name: "Desktop Computer"
+    device_class: connectivity
+    payload_on: 1
+    payload_off: 0
+    scan_interval: 30
 
   - platform: ping
     host: 192.168.1.1
@@ -226,9 +235,13 @@ sensor:
         friendly_name: "Linksys DD-WRT Router"
         value_template: '{% if is_state("binary_sensor.linksys_ddwrt_router", "on") %}online{% else %}OFFLINE{% endif %}'
 
-      # server_mqtt:
-      #   friendly_name: "MQTT Server"
-      #   value_template: '{% if is_state("binary_sensor.mqtt_server", "on") %}online{% else %}OFFLINE{% endif %}'
+      server_mqtt:
+        friendly_name: "MQTT Server"
+        value_template: '{% if is_state("binary_sensor.mqtt_server", "on") %}online{% else %}OFFLINE{% endif %}'
+
+      server_eventghost:
+        friendly_name: "Eventghost Server"
+        value_template: '{% if is_state("input_boolean.var_eventghost_on", "on") %}online{% else %}OFFLINE{% endif %}'
 
       ##################################
       ######### CLOUD TEMPLATES ########
@@ -370,6 +383,75 @@ automation:
           telegram_message: "Home Assistant Server Restarted!"
           # tts_sound: startup/startup_ds9.wav
 
+  #********** Desktop Computer On/Off ***************************************#
+  - alias: desktop_computer_on
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.desktop_computer
+        state: 'on'
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.var_desktop_computer_on
+
+  - alias: desktop_computer_on
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.desktop_computer
+        state: 'off'
+        for:
+          minutes: 15
+      - platform: state
+        entity_id: group.residents
+        state: 'off'
+      - platform: state
+        entity_id: script.computer_monitors_turn_off
+        state: 'on'
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_desktop_computer_on
+
+  #********** Check Eventghost ***************************************#
+  # Send Request
+  - alias: send_eventghost_mqtt_state_request
+    trigger:
+      - platform: time
+        seconds: '/30'
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.var_eventghost_mqtt_request_state_sent
+      - service: mqtt.publish
+        data:
+          topic: "device/eventghost/request_state"
+          payload: "request_state"
+
+  # Recieve Reply
+  - alias: recieve_reply_eventghost_mqtt_state_request
+    trigger:
+      platform: mqtt
+      topic: device/eventghost/set_state_eventghost_state
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.var_eventghost_on
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_eventghost_mqtt_request_state_sent
+
+  # NO Reply
+  - alias: no_reply_eventghost_mqtt_state_request
+    trigger:
+      platform: state
+      entity_id: input_boolean.var_eventghost_mqtt_request_state_sent
+      state: 'on'
+      for:
+        minutes: 5
+    condition:
+      - condition: state
+        entity_id: input_boolean.var_eventghost_mqtt_request_state_sent
+        state: 'on'
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_eventghost_on
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_eventghost_mqtt_request_state_sent
 
   #********** Server Service Down ***************************************#
   - alias: server_service_down
@@ -509,12 +591,12 @@ automation:
 ##########################################
 ########## SCRIPTS #######################
 ##########################################
-script:
-  restart_eventghost:
-    alias: "Restart EventGhost"
-    sequence:
-    - service: shell_command.kill_eventghost
-    - service: shell_command.start_eventghost
+# script:
+  # restart_eventghost:
+  #   alias: "Restart EventGhost"
+  #   sequence:
+  #   - service: shell_command.kill_eventghost
+  #   - service: shell_command.start_eventghost
 
 input_boolean:
 ##########################################
@@ -522,6 +604,12 @@ input_boolean:
 ##########################################
   var_startup: #Turns off after startup.
     initial: on
+
+  var_eventghost_mqtt_request_state_sent:
+
+  var_eventghost_on:
+
+  var_desktop_computer_on:
 
 ##########################################
 ########## OPTIONS #######################
@@ -558,7 +646,8 @@ group:
     entities:
     - sensor.server_modem
     - sensor.server_router
-    # - sensor.server_mqtt
+    - sensor.server_mqtt
+    - sensor.server_eventghost
     # - sensor.server_sabnzbd
     # - sensor.server_qbittorrent
     # - sensor.server_sonarr
@@ -614,7 +703,16 @@ group:
       - automation.iot_device_down
       - automation.log_level
       - automation.speedtest_speed_low
+      - automation.send_eventghost_mqtt_state_request
+      - automation.recieve_reply_eventghost_mqtt_state_request
+      - automation.no_reply_eventghost_mqtt_state_request
 
-  script_server:
+  homeassistant_server:
     entities:
-      - script.restart_eventghost
+      - input_boolean.var_startup
+      - input_boolean.var_eventghost_on
+      - input_boolean.var_eventghost_mqtt_request_state_sent
+
+  # script_server:
+  #   entities:
+      # - script.restart_eventghost

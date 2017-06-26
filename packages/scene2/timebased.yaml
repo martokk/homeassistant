@@ -85,6 +85,9 @@ automation:
         after: "01:00:00"
         before: "05:00:00"
       - condition: state
+        entity_id: input_boolean.var_desktop_computer_on
+        state: 'off'
+      - condition: state
         entity_id: input_boolean.option_delay_timebased_off
         state: 'off'
       - condition: state
