@@ -180,6 +180,15 @@ esp8266_bedroom:
   track: true
   vendor: Espressif Inc.
 
+esp8266_office_air_freshener:
+  hide_if_away: false
+  icon:
+  mac: A0:20:A6:15:8D:2C
+  name: "ESP8266 - Office Air Freshener"
+  picture:
+  track: true
+  vendor: Espressif Inc.
+
 sonoff_box_fan1: ## Silver Lamp Bedroom
   hide_if_away: false
   mac: 5C:CF:7F:95:8A:C0
@@ -416,3 +425,12 @@ iahb6: # Unknown Neighbor Device
 ##########################################
 ########## UNKNOWN #######################
 ##########################################
+
+esp_d5dcb1: #Current Test Unit
+  hide_if_away: false
+  icon:
+  mac: 5C:CF:7F:D5:DC:B1
+  name: ESP D5DCB1
+  picture:
+  track: false #Change to True when ready to use in production
+  vendor: Espressif Inc.

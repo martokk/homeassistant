@@ -89,6 +89,7 @@ binary_sensor:
     payload_on: 1
     payload_off: 0
     scan_interval: 30
+    hidden: true
 
   - platform: ping
     host: 192.168.1.1
@@ -669,6 +670,7 @@ group:
     - sensor.server_router
     - sensor.server_mqtt
     - sensor.server_eventghost
+    - sensor.desktop_computer
     # - sensor.server_sabnzbd
     # - sensor.server_qbittorrent
     # - sensor.server_sonarr
@@ -727,11 +729,15 @@ group:
       - automation.send_eventghost_mqtt_state_request
       - automation.recieve_reply_eventghost_mqtt_state_request
       - automation.no_reply_eventghost_mqtt_state_request
+      - automation.desktop_computer_on
+      - automation.desktop_computer_off
+
 
   homeassistant_server:
     entities:
       - input_boolean.var_startup
       - input_boolean.var_eventghost_on
+      - input_boolean.var_desktop_computer_on
       - input_boolean.var_eventghost_mqtt_request_state_sent
 
   # script_server:
