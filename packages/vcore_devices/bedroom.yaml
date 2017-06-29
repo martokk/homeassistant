@@ -8,6 +8,7 @@ light:
     brightness_command_topic: "device/bedroom/led1/brightness"
     brightness_state_topic: "device/bedroom/led1/brightness/pub"
     optimistic: false
+    retain: true
 
 binary_sensor:
   - platform: mqtt

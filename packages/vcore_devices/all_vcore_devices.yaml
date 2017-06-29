@@ -195,8 +195,17 @@ group:
       - automation.all_leds_animation_speed
 
   inputs_all_vcore_devices:
+    entities:
       - input_slider.all_leds_animation_speed
       - input_select.all_led_effect
+
+  led_strips_all_vcore_devices:
+      - light.entertainment_center_led_strip
+      - light.tables_led_strip
+      - light.office_led_strip
+      - light.kitchen_led_strip
+      - light.bedroom_led_strip
+
 
   # script_all_vcore_devices:
   #   entities:

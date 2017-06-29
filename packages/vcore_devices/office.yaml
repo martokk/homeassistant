@@ -10,6 +10,7 @@ light:
     optimistic: false
     payload_on: "ON"
     payload_off: "OFF"
+    retain: true
 
 binary_sensor:
   - platform: mqtt
