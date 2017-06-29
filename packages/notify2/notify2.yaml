@@ -102,6 +102,7 @@ script:
       data_template:
         chromecast_link: "{{ chromecast_link }}"
         chromecast_entity_id: "{{ chromecast_entity_id }}"
+        chromecast_volume_level: "{{ chromecast_volume_level }}"
     - service: script.notify2_lights
       data_template:
         blink_color: "{{ blink_color }}"
@@ -211,6 +212,31 @@ script:
   notify2_chromecast:
     sequence:
 
+      # Set Chromecast Volume Level
+    - service_template: >
+        {% if chromecast_link and chromecast_volume_level %}
+          {% if not chromecast_entity_id %}
+            {% set chromecast_entity_id = 'media_player.vtv_chromecast' %}
+          {% endif %}
+          {% if is_state('input_boolean.option_notify2_chromecast', 'on') %}
+            {% if not is_state('binary_sensor.ps3', 'on') %}
+              {% if is_state(chromecast_entity_id, 'playing') and states.media_player.vtv_chromecast.attributes.app_name | lower in states.input_select.array_chromecast_idle_apps | lower and chromecast_entity_id == 'media_player.vtv_chromecast' %}
+                script.set_entertainment_center_tv_volume
+              {% else %}
+                script.notify2_do_nothing
+              {% endif %}
+            {% else %}
+              script.notify2_do_nothing
+            {% endif %}
+          {% else %}
+            script.notify2_do_nothing
+          {% endif %}
+        {% else %}
+          script.notify2_do_nothing
+        {% endif %}
+      data_template:
+        volume_level: '{{ volume_level }}'
+
     # Stop media screensaver from playing before playing notification.
     - service_template: >
         {% if chromecast_link %}
@@ -233,7 +259,7 @@ script:
         {% else %}
           script.notify2_do_nothing
         {% endif %}
-    - delay: "00:00:01"
+    - delay: "00:00:02"
     # Copy template code from above; replace 'media_player.stop_media' with 'media_player.play_media'
     - service_template: >
         {% if chromecast_link %}
@@ -428,6 +454,8 @@ automation:
     action:
       - service: input_boolean.turn_off
         entity_id: input_boolean.var_notify2_15m_chromecast_on
+      - condition: template
+        value_template: '{{ states.media_player.vtv_chromecast.attributes.app_name | lower in states.input_select.array_chromecast_idle_apps | lower }}'
       - service: media_player.turn_off
         entity_id: media_player.vtv_chromecast
 
