@@ -482,14 +482,14 @@ input_boolean:
 input_slider:
   option_indoor_temp_hot:
     name: Indoor Temp (HOT)
-    initial: 83
+    initial: 84
     min: 70
     max: 90
     step: 1
 
   option_indoor_temp_warm:
     name: Indoor Temp (WARM)
-    initial: 80
+    initial: 78
     min: 65
     max: 85
     step: 1
