@@ -3,6 +3,9 @@ homeassistant:
     script.computer_monitors_turn_off:
       emulated_hue: true
       emulated_hue_name: "computer"
+    script.tts_battery_levels:
+      emulated_hue: true
+      emulated_hue_name: "Device battery levels"
 
 sensor:
   - platform: template
@@ -240,6 +243,21 @@ script:
     sequence:
       - service: shell_command.computer_monitors_turn_off
 
+  tts_battery_levels:
+    sequence:
+      - service: script.notify2
+        data_template:
+          tts_message: >
+            {% for device in states.group.batteries.attributes.entity_id -%}
+              {%- if loop.first %}Your {% elif loop.last %}. and your {% else %}. {% endif -%}
+              {{  states.sensor[device[7:]].attributes.friendly_name | replace('6s','') }}
+              {%- if states(device) == "" %}
+                battery level is currently unknown
+              {%- else %}
+                is at {{ states(device) | int }}%
+              {%- endif -%}
+            {%- endfor -%}.
+
 ##########################################
 ########## SHELL COMMANDS #######################
 ##########################################
@@ -288,3 +306,4 @@ group:
   script_devices:
     entities:
       - script.computer_monitors_turn_off
+      - script.tts_battery_levels
