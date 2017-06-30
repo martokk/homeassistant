@@ -241,7 +241,9 @@ automation:
 script:
   computer_monitors_turn_off:
     sequence:
-      - service: shell_command.computer_monitors_turn_off
+      - service: shell_command.acer_monitors_turn_off
+      - service: shell_command.desktop_monitors_turn_off
+      - service: shell_command.vserver_monitors_turn_off
 
   tts_battery_levels:
     sequence:
@@ -262,8 +264,9 @@ script:
 ########## SHELL COMMANDS #######################
 ##########################################
 shell_command:
-  computer_monitors_turn_off: ssh acer@192.168.1.85 xset -display :0.0 dpms force off && ssh martokk@desktop xset -display :0.0 dpms force off
-
+  acer_monitors_turn_off: ssh acer@acer xset -display :0.0 dpms force off
+  desktop_monitors_turn_off: ssh martokk@desktop xset -display :0.0 dpms force off
+  vserver_monitors_turn_off: xset -display :0.0 dpms force off
 
 ##########################################
 ############### GROUPS ###################
