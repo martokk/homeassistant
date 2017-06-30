@@ -71,7 +71,7 @@
     - group.tools
     - group.stored_variables
     - group.stored_arrays
-    - group.homeassistant_tv_volume
+    - group.homeassistant_volume_control
     - group.homeassistant_environment
     - group.homeassistant_server
 
@@ -105,7 +105,7 @@
     - group.automation_vcore_entertainment_center
     - group.automation_bedroom
     - group.automation_all_vcore_devices
-    - group.automation_tv_volume
+    - group.automation_volume_control
 
   scripts:
     name: "Scripts"
@@ -137,4 +137,4 @@
     - group.script_vcore_entertainment_center
     - group.script_bedroom
     - group.script_all_vcore_devices
-    - group.script_tv_volume
+    - group.script_volume_control

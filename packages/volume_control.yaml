@@ -9,6 +9,7 @@ homeassistant:
 # sensor:
 
 automation:
+  #********** Volume Sync ***********#
   - alias: entertainment_center_tv_on_volume_sync
     trigger:
       platform: state
@@ -17,7 +18,7 @@ automation:
     action:
       - service: script.entertainment_center_tv_volume_sync
 
-#********** MQTT Subscriptions - Set State TV Volume ***********#
+  #********** MQTT Subscriptions - Set State TV Volume ***********#
   - alias: set_state_entertainment_center_tv_volume_down
     trigger:
     - platform: mqtt
@@ -46,12 +47,14 @@ automation:
 ########## SCRIPTS #######################
 ##########################################
 script:
-  test_tv_vol:
+  #********** Tests ***********#
+  test_entertainment_center_tv_volume:
     sequence:
       - service: script.set_entertainment_center_tv_volume
         data_template:
           volume_level: '{{ volume_level }}'
 
+  #********** Entertainment Center - Volume Sync ***********#
   entertainment_center_tv_volume_sync:
     sequence:
       # Store current volume level
@@ -74,6 +77,7 @@ script:
         data_template:
           volume_level: '{{ states.input_slider.var_tv_entertainment_center_volume_stored.state | int }}'
 
+  #********** Entertainment Center - Set Stored State ***********#
   set_var_tv_entertainment_center_volume_stored:
     sequence:
       - service: input_slider.select_value
@@ -81,6 +85,9 @@ script:
           entity_id: input_slider.var_tv_entertainment_center_volume_stored
           value: '{{ states.input_slider.var_tv_entertainment_center_volume.state | int }}'
 
+#############################################
+###### SET ENTERTAINMENT CENTER VOLUME ######
+#############################################
   set_entertainment_center_tv_volume:
     sequence:
       - service: script.turn_off
@@ -159,6 +166,94 @@ script:
         value: '{{ states.input_slider.var_tv_entertainment_center_volume.state | int + 1 }}'
     - service: script.calc_send_entertainment_center_tv_volume
 
+#############################################
+########## SET COMPUTERS VOLUME ############
+#############################################
+  set_computers_volume: # [volume_level, volume_up, volume down] Note: All variables are percents
+    sequence:
+      - service_template: >
+          {% if volume_level %}
+            set_computers_volume_level
+          {% elif volume_up %}
+            set_computers_volume_up
+          {% elif volume_down %}
+            set_computers_volume_down
+          {% elif volume_mute_toggle %}
+            set_computers_volume_mute_toggle
+          {% endif %}
+        data_template:
+          value: >
+            {% if volume_level %}
+              volume_level
+            {% elif volume_up %}
+              volume_up
+            {% elif volume_down %}
+              volume_down
+            {% elif volume_down %}
+              toggle
+            {% endif %}
+
+  set_computers_volume_level:
+    sequence:
+      - service: shell_command.acer_volume_level
+        data_template:
+            value: '{{ value }}'
+      - service: shell_command.desktop_volume_level
+        data_template:
+            value: '{{ value }}'
+      - service: shell_command.vserver_volume_level
+        data_template:
+            value: '{{ value }}'
+
+  set_computers_volume_up:
+    sequence:
+      - service: shell_command.acer_volume_up
+        data_template:
+            value: '{{ value }}'
+      - service: shell_command.desktop_volume_up
+        data_template:
+            value: '{{ value }}'
+      - service: shell_command.vserver_volume_up
+        data_template:
+            value: '{{ value }}'
+
+  set_computers_volume_down:
+    sequence:
+      - service: shell_command.acer_volume_down
+        data_template:
+            value: '{{ value }}'
+      - service: shell_command.desktop_volume_down
+        data_template:
+            value: '{{ value }}'
+      - service: shell_command.vserver_volume_down
+        data_template:
+            value: '{{ value }}'
+
+  set_computers_volume_mute_toggle:
+    sequence:
+      - service: shell_command.acer_volume_mute_toggle
+      - service: shell_command.desktop_volume_mute_toggle
+      - service: shell_command.vserver_volume_mute_toggle
+
+
+##########################################
+########## SHELL COMMANDS ################
+##########################################
+shell_command:
+  acer_volume_mute_toggle: ssh acer@acer amixer -q sset Master toggle
+  acer_volume_level: 'ssh acer@acer amixer -q sset Master {{ value }}%'
+  acer_volume_up: 'ssh acer@acer amixer -q sset Master {{ value }}%+'
+  acer_volume_down: 'ssh acer@acer amixer -q sset Master {{ value }}%-'
+
+  desktop_volume_mute_toggle: ssh martokk@desktop amixer -q sset Master toggle
+  desktop_volume_level: 'ssh martokk@desktop -q sset Master {{ value }}%'
+  desktop_volume_up: 'ssh martokk@desktop -q sset Master {{ value }}%+'
+  desktop_volume_down: 'ssh martokk@desktop -q sset Master {{ value }}%-'
+
+  vserver_volume_mute_toggle: amixer -q sset Master toggle
+  vserver_volume_level: 'amixer -q sset Master {{ value }}%'
+  vserver_volume_up: 'amixer -q sset Master {{ value }}%+'
+  vserver_volume_down: 'amixer -q sset Master {{ value }}%-'
 
 
 input_slider:
@@ -186,26 +281,33 @@ input_slider:
 ############### GROUPS ###################
 ##########################################
 group:
-  automation_tv_volume:
+  automation_volume_control:
     entities:
       - automation.entertainment_center_tv_on_volume_sync
       - automation.set_state_entertainment_center_tv_volume_down
       - automation.set_state_entertainment_center_tv_volume_up
 
 
-  homeassistant_tv_volume:
+  homeassistant_volume_control:
     entities:
       - input_slider.var_tv_entertainment_center_volume
       - input_slider.var_tv_entertainment_center_volume_set
       - input_slider.var_tv_entertainment_center_volume_stored
 
 
-  script_tv_volume:
+  script_volume_control:
     entities:
-      - script.test_tv_vol
+      - script.test_entertainment_center_tv_volume
       - script.entertainment_center_tv_volume_sync
       - script.set_var_tv_entertainment_center_volume_stored
       - script.set_entertainment_center_tv_volume
       - script.calc_send_entertainment_center_tv_volume
       - script.send_entertainment_center_tv_volume_down
       - script.send_entertainment_center_tv_volume_up
+
+      - script.test_computers_volume
+      - script.set_computers_volume
+      - script.set_computers_volume_level
+      - script.set_computers_volume_up
+      - script.set_computers_volume_down
+      - script.set_computers_volume_mute_toggle

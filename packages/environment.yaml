@@ -375,17 +375,24 @@ automation:
       - service: switch.turn_off
         entity_id: switch.air_conditioner
 
-  #********** Fans Volume Adjustment ***************************************#
+
+
+  #********** Volume Adjustment - Fans On/Off ***************************************#
   - alias: fan_on_chromecast_volume_up
     trigger:
       - platform: state
         entity_id: switch.sonoff_small_desk_fan1
         state: 'on'
-    condition:
+    action:
+      - delay: '00:00:01'
+      # All Computers - Volume up 4%
+      - service: script.set_computers_volume
+        data:
+          volume_up: 4
+      # Entertainment Center - Volume up 2 clicks
       - condition: state
         entity_id: switch.sonoff_entertainment_center
         state: 'on'
-    action:
       - service: script.set_entertainment_center_tv_volume
         data:
           volume_up: 2
@@ -395,48 +402,66 @@ automation:
       - platform: state
         entity_id: switch.sonoff_small_desk_fan1
         state: 'off'
-    condition:
+    action:
+      - delay: '00:00:01'
+      # All Computers - Volume down 4%
+      - service: script.set_computers_volume
+        data:
+          volume_down: 4
+      # Entertainment Center - Volume down 2 clicks
       - condition: state
         entity_id: switch.sonoff_entertainment_center
         state: 'on'
-    action:
       - service: script.set_entertainment_center_tv_volume
         data:
           volume_down: 2
 
 
-  #********** Air Conditioner Volume Adjustment ***************************************#
-  - alias: air_conditioner_on_chromecast_volume_up
+
+  #********** Volume Adjustment - Air Conditioner On/Off **********************************#
+  - alias: air_conditioner_on_devices_volume_up
     trigger:
       - platform: state
         entity_id: switch.air_conditioner
         state: 'on'
-    condition:
+    action:
+      - delay: '00:00:01'
+      # All Computers - Volume up 9%
+      - service: script.set_computers_volume
+        data:
+          volume_up: 9
+      # Entertainment Center - Volume up 3 clicks
       - condition: state
         entity_id: switch.sonoff_entertainment_center
         state: 'on'
-    action:
-      - delay: '00:00:01'
       - service: script.set_entertainment_center_tv_volume
         data:
-          volume_up: 2
+          volume_up: 3
 
-  - alias: air_conditioner_off_chromecast_volume_down
+  - alias: air_conditioner_off_devices_volume_down
     trigger:
       - platform: state
         entity_id: switch.air_conditioner
         state: 'off'
-    condition:
+    action:
+      - delay: '00:00:01'
+      # All Computers - Volume down 9%
+      - service: script.set_computers_volume
+        data:
+          volume_down: 9
+      # Entertainment Center - Volume down 3 clicks
       - condition: state
         entity_id: switch.sonoff_entertainment_center
         state: 'on'
-    action:
-      - delay: '00:00:01'
       - service: script.set_entertainment_center_tv_volume
         data:
-          volume_down: 2
+          volume_down: 3
 
 
+
+##########################################
+########## SCRIPTS #######################
+##########################################
 script:
   fix_air_conditioner_sync:
     sequence:
@@ -564,8 +589,8 @@ group:
       - automation.air_conditioner_turn_off
       - automation.fan_on_chromecast_volume_up
       - automation.fan_off_chromecast_volume_down
-      - automation.air_conditioner_on_chromecast_volume_up
-      - automation.air_conditioner_off_chromecast_volume_down
+      - automation.air_conditioner_on_devices_volume_up
+      - automation.air_conditioner_off_devices_volume_down
 
   homeassistant_environment:
     entities:
