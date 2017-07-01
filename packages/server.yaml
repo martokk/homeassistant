@@ -546,6 +546,23 @@ automation:
   #           {% endfor %}
 
   #********** Server ***************************************#
+
+  - alias: failed_login_attempt
+    trigger:
+      - platform: state
+        entity_id: persistent_notification.httplogin
+    condition:
+      - condition: template
+        value_template: "{{ trigger.to_state.state != 'None' }}"
+    action:
+      - service: script.notify2
+        data:
+          telegram_message: |
+            Failed Home Assistant Login Attempt!!
+            {{ trigger.to_state.state }}
+
+
+
   # - alias: "Disk Space Low"
   #   trigger:
   #     - platform: numeric_state

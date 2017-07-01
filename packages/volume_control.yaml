@@ -96,6 +96,8 @@ script:
         entity_id: script.send_entertainment_center_tv_volume_down
       - service: script.turn_off
         entity_id: script.send_entertainment_center_tv_volume_up
+      - service: script.turn_off
+        entity_id: script.send_entertainment_center_tv_volume_mute_toggle
 
       - service: input_slider.select_value
         data_template:
@@ -107,8 +109,17 @@ script:
               {{ states.input_slider.var_tv_entertainment_center_volume.state | int + volume_up | int }}
             {% elif volume_down %}
               {{ states.input_slider.var_tv_entertainment_center_volume.state | int - volume_down | int }}
+            {% elif volume_mute %}
+              0
             {% endif %}
-      - service: script.calc_send_entertainment_center_tv_volume
+      - service: script.turn_on
+        data_template:
+          entity_id: >
+            {% if volume_mute %}
+              script.send_entertainment_center_tv_volume_mute_toggle
+            {% else %}
+              script.calc_send_entertainment_center_tv_volume
+            {% endif %}
 
   calc_send_entertainment_center_tv_volume:
     sequence:
@@ -166,6 +177,17 @@ script:
         value: '{{ states.input_slider.var_tv_entertainment_center_volume.state | int + 1 }}'
     - service: script.calc_send_entertainment_center_tv_volume
 
+  send_entertainment_center_tv_volume_mute_toggle:
+    sequence:
+    - service: script.turn_off
+      entity_id: script.set_entertainment_center_tv_volume
+    # Send MQTT Command
+    - service: mqtt.publish
+      data_template:
+        topic: "device/eventghost/ircommand_tv_vol_mute_toggle"
+        payload: 'mute_toggle'
+
+
 #############################################
 ########## SET COMPUTERS VOLUME ############
 #############################################
@@ -173,22 +195,22 @@ script:
     sequence:
       - service_template: >
           {% if volume_level %}
-            set_computers_volume_level
+            script.set_computers_volume_level
           {% elif volume_up %}
-            set_computers_volume_up
+            script.set_computers_volume_up
           {% elif volume_down %}
-            set_computers_volume_down
+            script.set_computers_volume_down
           {% elif volume_mute_toggle %}
-            set_computers_volume_mute_toggle
+            script.set_computers_volume_mute_toggle
           {% endif %}
         data_template:
           value: >
             {% if volume_level %}
-              volume_level
+              {{volume_level}}
             {% elif volume_up %}
-              volume_up
+              {{volume_up}}
             {% elif volume_down %}
-              volume_down
+              {{volume_down}}
             {% elif volume_down %}
               toggle
             {% endif %}
@@ -241,19 +263,19 @@ script:
 ##########################################
 shell_command:
   acer_volume_mute_toggle: ssh acer@acer amixer -q sset Master toggle
-  acer_volume_level: 'ssh acer@acer amixer -q sset Master {{ value }}%'
-  acer_volume_up: 'ssh acer@acer amixer -q sset Master {{ value }}%+'
-  acer_volume_down: 'ssh acer@acer amixer -q sset Master {{ value }}%-'
+  acer_volume_level: 'ssh acer@acer amixer -c 0 -q sset Master {{ value | int }}%'
+  acer_volume_up: 'ssh acer@acer amixer -c 0 -q sset Master {{ value | int }}%+'
+  acer_volume_down: 'ssh acer@acer amixer -c 0 -q sset Master {{ value | int }}%-'
 
-  desktop_volume_mute_toggle: ssh martokk@desktop amixer -q sset Master toggle
-  desktop_volume_level: 'ssh martokk@desktop -q sset Master {{ value }}%'
-  desktop_volume_up: 'ssh martokk@desktop -q sset Master {{ value }}%+'
-  desktop_volume_down: 'ssh martokk@desktop -q sset Master {{ value }}%-'
+  desktop_volume_mute_toggle: ssh martokk@desktop amixer -c 1 -q sset PCM toggle
+  desktop_volume_level: 'ssh martokk@desktop amixer -c 1 -q sset PCM {{ value | int }}%'
+  desktop_volume_up: 'ssh martokk@desktop amixer -c 1 -q sset PCM {{ value | int }}%+'
+  desktop_volume_down: 'ssh martokk@desktop amixer -c 1 -q sset PCM {{ value | int }}%-'
 
   vserver_volume_mute_toggle: amixer -q sset Master toggle
-  vserver_volume_level: 'amixer -q sset Master {{ value }}%'
-  vserver_volume_up: 'amixer -q sset Master {{ value }}%+'
-  vserver_volume_down: 'amixer -q sset Master {{ value }}%-'
+  vserver_volume_level: 'amixer -q sset Master {{ value | int }}%'
+  vserver_volume_up: 'amixer -q sset Master {{ value | int }}%+'
+  vserver_volume_down: 'amixer -q sset Master {{ value | int }}%-'
 
 
 input_slider:
@@ -304,6 +326,7 @@ group:
       - script.calc_send_entertainment_center_tv_volume
       - script.send_entertainment_center_tv_volume_down
       - script.send_entertainment_center_tv_volume_up
+      - script.send_entertainment_center_tv_volume_mute_toggle
 
       - script.test_computers_volume
       - script.set_computers_volume
