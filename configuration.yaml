@@ -67,18 +67,6 @@ logger: # Log Severities: notset, debug, info, warn, warning, error, fatal, crit
   default: error  # Can also change via input_select
   # logs:
   #   homeassistant.components.mqtt: debug
-# logbook:
-#   exclude:
-#     entities:
-#       - group.ambient_lights
-#       - script.call_last_known_scene
-#       - binary_sensor.entertainment_motion_sensor
-#       - binary_sensor.kitchen_motion_sensor
-#       - binary_sensor.bedroom_motion_sensor
-#       - binary_sensor.sink_motion_sensor
-#     domains:
-#       - light
-
 
 sun:
 # ios:

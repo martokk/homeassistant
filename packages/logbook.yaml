@@ -1,0 +1,32 @@
+logbook:
+  exclude:
+    entities:
+
+      #********** Lights ***********#
+      - script.call_last_known_scene
+      - script.turn_on_kitchen_lights_movement
+      - input_slider.var_kitchen_color_temp
+      - input_slider.var_kitchen_delay
+
+      #********** Motion Sensors ***********#
+      - binary_sensor.entertainment_center_motion_sensor
+      - binary_sensor.kitchen_motion_sensor
+      - binary_sensor.bedroom_motion_sensor
+      - binary_sensor.sink_motion_sensor
+      - automation.turn_off_kitchen_lights_no_movement_7sec
+
+      #********** Server ***********#
+      - automation.send_eventghost_mqtt_state_request
+      - automation.recieve_reply_eventghost_mqtt_state_request
+      - input_boolean.var_eventghost_mqtt_request_state_sent
+
+      #********** Devices ***********#
+      - automation.set_state_entertainment_center_tv_volume_up
+      - automation.set_state_entertainment_center_tv_volume_down
+      - input_slider.var_tv_entertainment_center_volume
+      - input_slider.var_tv_entertainment_center_volume_set
+      - input_slider.var_tv_entertainment_center_volume_stored
+
+    domains:
+      - light
+      - group
