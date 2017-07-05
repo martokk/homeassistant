@@ -188,7 +188,7 @@ automation:
 ########## AUTOMATIONS ###################
 ##########################################
 
-  #********** Indoor Temp ***************************************#
+  #********** Set Indoor Temp ***************************************#
   - alias: set_indoor_temp_hot
     trigger:
       - platform: template
@@ -200,6 +200,18 @@ automation:
     action:
       - service: input_boolean.turn_on
         entity_id: input_boolean.var_indoor_temp_hot
+
+  - alias: set_indoor_temp_very_warm
+    trigger:
+      - platform: template
+        value_template: '{% if states.sensor.indoor_temperature.state | float > states.input_slider.option_indoor_temp_very_warm.state | float %}true{%endif%}'
+    condition:
+      - condition: state
+        entity_id: input_boolean.var_indoor_temp_very_warm
+        state: 'off'
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.var_indoor_temp_very_warm
 
   - alias: set_indoor_temp_warm
     trigger:
@@ -216,7 +228,7 @@ automation:
   - alias: set_indoor_temp_ok
     trigger:
       - platform: template
-        value_template: '{% if states.sensor.indoor_temperature.state | float < states.input_slider.option_indoor_temp_warm.state | float %}true{%endif%}'
+        value_template: '{% if states.sensor.indoor_temperature.state | float > states.input_slider.option_indoor_temp_ok.state | float %}true{%endif%}'
     condition:
       - condition: state
         entity_id: input_boolean.var_indoor_temp_ok
@@ -225,7 +237,31 @@ automation:
       - service: input_boolean.turn_on
         entity_id: input_boolean.var_indoor_temp_ok
 
+  - alias: set_indoor_temp_cool
+    trigger:
+      - platform: template
+        value_template: '{% if states.sensor.indoor_temperature.state | float > states.input_slider.option_indoor_temp_cool.state | float %}true{%endif%}'
+    condition:
+      - condition: state
+        entity_id: input_boolean.var_indoor_temp_cool
+        state: 'off'
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.var_indoor_temp_cool
 
+  - alias: set_indoor_temp_cold
+    trigger:
+      - platform: template
+        value_template: '{% if states.sensor.indoor_temperature.state | float < states.input_slider.option_indoor_temp_cool.state | float %}true{%endif%}'
+    condition:
+      - condition: state
+        entity_id: input_boolean.var_indoor_temp_cold
+        state: 'off'
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.var_indoor_temp_cold
+
+  #********** Set Indoor Temp - Turn Off Others ***************************************#
   - alias: indoor_temp_hot
     trigger:
       - platform: state
@@ -233,9 +269,32 @@ automation:
         state: 'on'
     action:
       - service: input_boolean.turn_off
-        entity_id: input_boolean.var_indoor_temp_ok
+        entity_id: input_boolean.var_indoor_temp_very_warm
       - service: input_boolean.turn_off
         entity_id: input_boolean.var_indoor_temp_warm
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_indoor_temp_ok
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_indoor_temp_cool
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_indoor_temp_cold
+
+  - alias: indoor_temp_very_warm
+    trigger:
+      - platform: state
+        entity_id: input_boolean.var_indoor_temp_very_warm
+        state: 'on'
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_indoor_temp_hot
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_indoor_temp_warm
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_indoor_temp_ok
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_indoor_temp_cool
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_indoor_temp_cold
 
   - alias: indoor_temp_warm
     trigger:
@@ -244,9 +303,15 @@ automation:
         state: 'on'
     action:
       - service: input_boolean.turn_off
+        entity_id: input_boolean.var_indoor_temp_hot
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_indoor_temp_very_warm
+      - service: input_boolean.turn_off
         entity_id: input_boolean.var_indoor_temp_ok
       - service: input_boolean.turn_off
-        entity_id: input_boolean.var_indoor_temp_hot
+        entity_id: input_boolean.var_indoor_temp_cool
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_indoor_temp_cold
 
   - alias: indoor_temp_ok
     trigger:
@@ -255,10 +320,55 @@ automation:
         state: 'on'
     action:
       - service: input_boolean.turn_off
+        entity_id: input_boolean.var_indoor_temp_hot
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_indoor_temp_very_warm
+      - service: input_boolean.turn_off
         entity_id: input_boolean.var_indoor_temp_warm
       - service: input_boolean.turn_off
-        entity_id: input_boolean.var_indoor_temp_hot
+        entity_id: input_boolean.var_indoor_temp_cool
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_indoor_temp_cold
 
+
+
+  - alias: indoor_temp_cool
+    trigger:
+      - platform: state
+        entity_id: input_boolean.var_indoor_temp_cool
+        state: 'on'
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_indoor_temp_hot
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_indoor_temp_very_warm
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_indoor_temp_warm
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_indoor_temp_ok
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_indoor_temp_cold
+
+
+  - alias: indoor_temp_cold
+    trigger:
+      - platform: state
+        entity_id: input_boolean.var_indoor_temp_cold
+        state: 'on'
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_indoor_temp_hot
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_indoor_temp_very_warm
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_indoor_temp_warm
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_indoor_temp_ok
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_indoor_temp_cool
+
+
+  #********** Fans Circulate Air  ***************************************#
   - alias: circulate_air_start
     trigger:
       - platform: time
@@ -266,14 +376,15 @@ automation:
         minutes: 30
         seconds: 00
     condition:
-      - condition: time
-        after: "08:00:00"
-        before: "21:00:00"
-      - condition: template
-        value_template: '{% if states.sensor.indoor_temperature.state | float > states.input_slider.option_indoor_temp_cold.state | float + 3  %}true{%endif%}'
       - condition: state
         entity_id: input_boolean.option_circulate_air
         state: 'on'
+      - condition: state
+        entity_id: input_boolean.var_indoor_temp_cool
+        state: 'off'
+      - condition: state
+        entity_id: input_boolean.var_indoor_temp_cold
+        state: 'off'
     action:
       - service: input_boolean.turn_on
         entity_id: input_boolean.var_circulate_air_on
@@ -287,7 +398,7 @@ automation:
   - alias: fans_turn_on
     trigger:
       - platform: state
-        entity_id: input_boolean.var_indoor_temp_warm
+        entity_id: input_boolean.var_indoor_temp_very_warm
         state: 'on'
       - platform: state
         entity_id: input_boolean.var_indoor_temp_hot
@@ -342,7 +453,7 @@ automation:
 
 
 
-  #********** Air Conditioner Turn On/Off ***************************************#
+  #********** Air Conditioner Override Turn On/Off ***************************************#
   - alias: air_conditioner_override_turn_on
     trigger:
       - platform: state
@@ -369,6 +480,7 @@ automation:
       - service: switch.turn_off
         entity_id: switch.air_conditioner
 
+  #********** Air Conditioner Turn On/Off ***************************************#
   - alias: air_conditioner_turn_on
     trigger:
       - platform: state
@@ -501,8 +613,11 @@ script:
 ##########################################
 input_boolean:
   var_indoor_temp_hot:
+  var_indoor_temp_very_warm:
   var_indoor_temp_warm:
   var_indoor_temp_ok:
+  var_indoor_temp_cool:
+  var_indoor_temp_cold:
   var_smoke_session_on:
   var_circulate_air_on:
 
@@ -533,24 +648,45 @@ input_boolean:
 input_slider:
   option_indoor_temp_hot:
     name: Indoor Temp (HOT)
+    initial: 80
+    min: 70
+    max: 80
+    step: 1
+
+  option_indoor_temp_very_warm:
+    name: Indoor Temp (VERY WARM)
     initial: 78
     min: 70
-    max: 90
+    max: 80
     step: 1
 
   option_indoor_temp_warm:
     name: Indoor Temp (WARM)
-    initial: 75
-    min: 65
-    max: 85
+    initial: 76
+    min: 70
+    max: 80
     step: 1
 
-  option_indoor_temp_cold:
-    name: Indoor Temp (COLD)
-    initial: 68
-    min: 65
-    max: 85
+  option_indoor_temp_ok:
+    name: Indoor Temp (OK)
+    initial: 74
+    min: 70
+    max: 80
     step: 1
+
+  option_indoor_temp_cool:
+    name: Indoor Temp (COOL)
+    initial: 72
+    min: 65
+    max: 75
+    step: 1
+
+  # option_indoor_temp_cold:
+  #   name: Indoor Temp (COLD)
+  #   initial: 70
+  #   min: 65
+  #   max: 75
+  #   step: 1
 
 
 ##########################################
@@ -597,21 +733,34 @@ group:
       - switch.air_conditioner
       - switch.sonoff_box_fan1
       - switch.sonoff_small_desk_fan1
+
+  indoor_temperature_range_mode:
+    name: "Indoor Temperature Range Mode"
+    entities:
       - input_boolean.var_indoor_temp_hot
+      - input_boolean.var_indoor_temp_very_warm
       - input_boolean.var_indoor_temp_warm
       - input_boolean.var_indoor_temp_ok
+      - input_boolean.var_indoor_temp_cool
+      - input_boolean.var_indoor_temp_cold
 
   automation_environment:
     entities:
-      - automation.indoor_temp_warm_notification
-      - automation.indoor_temp_cold_notification
+      # - automation.indoor_temp_warm_notification
+      # - automation.indoor_temp_cold_notification
       - automation.bedroom_temperature_cold_after_9pm
-      - automation.set_indoor_temp_warm
       - automation.set_indoor_temp_hot
+      - automation.set_indoor_temp_very_warm
+      - automation.set_indoor_temp_warm
       - automation.set_indoor_temp_ok
-      - automation.indoor_temp_warm
+      - automation.set_indoor_temp_cool
+      - automation.set_indoor_temp_cold
       - automation.indoor_temp_hot
+      - automation.indoor_temp_very_warm
+      - automation.indoor_temp_warm
       - automation.indoor_temp_ok
+      - automation.indoor_temp_cool
+      - automation.indoor_temp_cold
       - automation.circulate_air_start
       - automation.fans_turn_on
       - automation.fans_turn_off
@@ -626,9 +775,6 @@ group:
 
   homeassistant_environment:
     entities:
-      - input_boolean.var_indoor_temp_hot
-      - input_boolean.var_indoor_temp_warm
-      - input_boolean.var_indoor_temp_ok
       - input_boolean.var_circulate_air_on
 
   options_environment:
@@ -637,9 +783,11 @@ group:
       - input_boolean.option_circulate_air
       - input_boolean.option_temp_controlled_fans
       - input_boolean.option_temp_controlled_air_conditioner
-      - input_slider.option_indoor_temp_cold
-      - input_slider.option_indoor_temp_warm
       - input_slider.option_indoor_temp_hot
+      - input_slider.option_indoor_temp_very_warm
+      - input_slider.option_indoor_temp_warm
+      - input_slider.option_indoor_temp_ok
+      - input_slider.option_indoor_temp_cool
 
   script_environment:
     entities:

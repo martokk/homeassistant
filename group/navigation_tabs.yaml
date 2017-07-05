@@ -31,6 +31,7 @@
     - group.weather_current
     - group.weather_summary
     - group.weather_details
+    - group.indoor_temperature_range_mode
 
   media:
     name: "Media"
@@ -73,6 +74,7 @@
     - group.stored_arrays
     - group.homeassistant_volume_control
     - group.homeassistant_environment
+    - group.indoor_temperature_range_mode
     - group.homeassistant_server
 
   automations:
