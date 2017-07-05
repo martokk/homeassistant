@@ -17,16 +17,10 @@ automation:
       seconds: 00
     condition:
     - condition: state
-      entity_id: input_boolean.var_mike_home
-      state: 'on'
-    - condition: state
       entity_id: script.flood_and_change_scene
       state: 'off'
     - condition: state
       entity_id: script.flood_light
-      state: 'off'
-    - condition: state
-      entity_id: script.flood_scene
       state: 'off'
     action:
     - service: script.notify2
@@ -88,9 +82,6 @@ automation:
         entity_id: input_boolean.var_desktop_computer_on
         state: 'off'
       - condition: state
-        entity_id: input_boolean.option_delay_timebased_off
-        state: 'off'
-      - condition: state
         entity_id: input_boolean.var_ps3_on
         state: 'off'
       - condition: template
@@ -127,8 +118,6 @@ automation:
       - platform: time
         at: "03:00:00"
     action:
-    - service: homeassistant.turn_off
-      entity_id: input_boolean.option_delay_timebased_off
     - service: script.entertainment_center_turn_off
 
 
@@ -258,9 +247,6 @@ automation:
         after: "23:00:14"
         before: "01:00:00"
       - condition: state
-        entity_id: input_boolean.option_delay_timebased_off
-        state: 'off'
-      - condition: state
         entity_id: input_boolean.var_ps3_on
         state: 'off'
       - condition: state
@@ -324,25 +310,6 @@ automation:
 ########## AUTOMATIONS ###################
 ##########################################
 
-#********** Timebased Option Automations ****************************#
-# Due to code limitation... turning off timebased scenese will also turn off light notifications. (Light notificaitons need LKS to work)
-  - alias: timebased_light_scene_turn_off
-    trigger:
-      - platform: state
-        entity_id: input_boolean.option_timebased_light_scene
-        state: 'off'
-    action:
-      - service: homeassistant.turn_off
-        entity_id: input_boolean.option_notify2_lights
-
-  - alias: timebased_light_scene_turn_on
-    trigger:
-      - platform: state
-        entity_id: input_boolean.option_timebased_light_scene
-        state: 'on'
-    action:
-      - service: homeassistant.turn_on
-        entity_id: input_boolean.option_notify2_lights
 
 ##########################################
 ########## SCRIPTS #######################
@@ -526,7 +493,7 @@ script:
       - service: shell_command.computer_monitors_turn_off
 
       # Ligts Off
-      - delay: "00:00:10"
+      - delay: "00:00:05"
       - service: script.scene2
         data:
           rooms: 'all'
@@ -534,16 +501,11 @@ script:
           transition: 180
 
 
-input_boolean:
+# input_boolean:
 ##########################################
 ########## OPTIONS #######################
 ##########################################
-  option_delay_timebased_off:
-    name: "Delay turning lights off until 3am"
 
-  option_timebased_light_scene:
-    name: "Use Time-based light scenes"
-    initial: on
 
 ##########################################
 ############### GROUPS ###################

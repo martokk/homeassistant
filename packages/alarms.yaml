@@ -71,7 +71,7 @@ automation:
         entity_id: input_boolean.var_morning_alarm_on
         from: 'on'
         to: 'off'
-    action:      
+    action:
       - service: script.notify2
         data:
           flash_color: "cyan"
@@ -147,6 +147,11 @@ group:
       - automation.morning_alarm_motion_turn_off_1hr
       - automation.morning_alarm_motion_turn_off
       - automation.morning_alarm_motion_turn_off_flash_cyan
+
+  options_alarms:
+      - input_boolean.option_morning_alarm
+      - input_select.option_morning_alarm_time
+      - input_boolean.option_timebased_telegram_summary
 
   script_alarms:
     entities:

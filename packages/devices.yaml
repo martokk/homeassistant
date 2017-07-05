@@ -51,10 +51,10 @@ device_tracker:
     password: !secret ic_password
     account_name: !secret ic_account_name
 
-  # - platform: bluetooth_tracker
-  #   track_new_devices: yes
-  #   interval_seconds: 10
-  #   consider_home: 900
+  - platform: bluetooth_tracker
+    track_new_devices: yes
+    interval_seconds: 10
+    consider_home: 900
 
 automation:
 ##########################################
@@ -280,6 +280,7 @@ group:
     - device_tracker.echo_dot
     - device_tracker.esp8266_kitchen
     - device_tracker.esp8266_office
+    - device_tracker.esp8266_office_air_freshener
     - device_tracker.esp8266_tables
     - device_tracker.esp8266_entertainment_center
     - device_tracker.esp8266_bedroom

@@ -1,9 +1,9 @@
 homeassistant:
   customize:
-    input_boolean.option_turn_on_fans:
+    input_boolean.override_turn_on_fans:
       emulated_hue: true
       emulated_hue_name: "All Fans"
-    input_boolean.option_turn_on_air_conditioner:
+    input_boolean.override_turn_on_air_conditioner:
       emulated_hue: true
       emulated_hue_name: "Air Conditioner"
     script.fix_air_conditioner_sync:
@@ -104,57 +104,59 @@ automation:
 ##########################################
 ############## NOTIFICATIONS #############
 ##########################################
-  - alias: indoor_temp_warm_notification
-    trigger:
-      - platform: template
-        value_template: "{% if states.sensor.indoor_temperature.state | int > states.input_slider.option_indoor_temp_warm.state | int %}true{%endif%}"
-    action:
-      - condition: template
-        value_template: >
-          {% if states.automation.indoor_temp_warm.attributes.last_triggered %}
-            {% if (as_timestamp(now())-as_timestamp(states.automation.indoor_temp_warm.attributes.last_triggered)) > (2 * 60 * 60)  %}
-              true
-            {% endif %}
-          {%else%}
-            true
-          {%endif%}
-      - service: script.notify2
-        data_template:
-          telegram_message: |
-            *Indoor Temp Warm: {{ states.sensor.indoor_temperature.state | round(1) }}°F*
-            Kitchen: {{ states.sensor.kitchen_temperature.state | round(1) }}°F   |   Tables: {{ states.sensor.tables_temperature.state | round(1) }}°F   |   EC: {{ states.sensor.entertainment_center_temperature.state | round(1) }}°F    |   Bedroom: {{ states.sensor.bedroom_temperature.state | round(1) }}°F
-          flood_color: "gold"
-          blink_color: "white"
-          blink_color2: "red"
-          tts_entity_id: group.tts_devices
-          tts_sound: 'intercom_ds9.mp3'
-          tts_message: "It's getting warm in here! The indoor temperature is {{ states.sensor.indoor_temperature.state | round(0) }}°F"
+  # - alias: indoor_temp_warm_notification
+  #   trigger:
+  #     - platform: template
+  #       value_template: "{% if states.sensor.indoor_temperature.state | int > states.input_slider.option_indoor_temp_warm.state | int %}true{%endif%}"
+  #   action:
+  #     - condition: template
+  #       value_template: >
+  #         {% if states.automation.indoor_temp_warm.attributes.last_triggered %}
+  #           {% if (as_timestamp(now())-as_timestamp(states.automation.indoor_temp_warm.attributes.last_triggered)) > (2 * 60 * 60)  %}
+  #             true
+  #           {% endif %}
+  #         {%else%}
+  #           true
+  #         {%endif%}
+  #     - service: script.notify2
+  #       data_template:
+  #         telegram_message: |
+  #           *Indoor Temp Warm: {{ states.sensor.indoor_temperature.state | round(1) }}°F*
+  #           Kitchen: {{ states.sensor.kitchen_temperature.state | round(1) }}°F   |   Tables: {{ states.sensor.tables_temperature.state | round(1) }}°F   |   EC: {{ states.sensor.entertainment_center_temperature.state | round(1) }}°F    |   Bedroom: {{ states.sensor.bedroom_temperature.state | round(1) }}°F
+  #         flood_color: "gold"
+  #         blink_color: "white"
+  #         blink_color2: "red"
+  #         tts_entity_id: group.tts_devices
+  #         tts_sound: 'intercom_ds9.mp3'
+  #         tts_message: "It's getting warm in here! The indoor temperature is {{ states.sensor.indoor_temperature.state | round(0) }}°F"
 
-  - alias: indoor_temp_cold_notification
-    trigger:
-      - platform: template
-        value_template: "{% if states.sensor.indoor_temperature.state | int < states.input_slider.option_indoor_temp_cold.state | int %}true{%endif%}"
-    action:
-      - condition: template
-        value_template: >
-          {% if states.automation.indoor_temp_cold.attributes.last_triggered %}
-            {% if (as_timestamp(now())-as_timestamp(states.automation.indoor_temp_cold.attributes.last_triggered)) > (2 * 60 * 60)  %}
-              true
-            {% endif %}
-          {%else%}
-            true
-          {%endif%}
-      - service: script.notify2
-        data_template:
-          telegram_message: |
-            *Indoor Temp COLD: {{ states.sensor.indoor_temperature.state | round(1) }}°F*
-            Kitchen: {{ states.sensor.kitchen_temperature.state | round(1) }}°F   |   Tables: {{ states.sensor.tables_temperature.state | round(1) }}°F   |   EC: {{ states.sensor.entertainment_center_temperature.state | round(1) }}°F    |   Bedroom: {{ states.sensor.bedroom_temperature.state | round(1) }}°F
-          flood_color: "gold"
-          blink_color: "white"
-          blink_color2: "deepskyblue"
-          tts_entity_id: group.tts_devices
-          tts_sound: 'intercom_ds9.mp3'
-          tts_message: "It's getting cold in here! The indoor temperature is {{ states.sensor.indoor_temperature.state | round(0) }}°F"
+
+  # - alias: indoor_temp_cold_notification
+  #   trigger:
+  #     - platform: template
+  #       value_template: "{% if states.sensor.indoor_temperature.state | int < states.input_slider.option_indoor_temp_cold.state | int %}true{%endif%}"
+  #   action:
+  #     - condition: template
+  #       value_template: >
+  #         {% if states.automation.indoor_temp_cold.attributes.last_triggered %}
+  #           {% if (as_timestamp(now())-as_timestamp(states.automation.indoor_temp_cold.attributes.last_triggered)) > (2 * 60 * 60)  %}
+  #             true
+  #           {% endif %}
+  #         {%else%}
+  #           true
+  #         {%endif%}
+  #     - service: script.notify2
+  #       data_template:
+  #         telegram_message: |
+  #           *Indoor Temp COLD: {{ states.sensor.indoor_temperature.state | round(1) }}°F*
+  #           Kitchen: {{ states.sensor.kitchen_temperature.state | round(1) }}°F   |   Tables: {{ states.sensor.tables_temperature.state | round(1) }}°F   |   EC: {{ states.sensor.entertainment_center_temperature.state | round(1) }}°F    |   Bedroom: {{ states.sensor.bedroom_temperature.state | round(1) }}°F
+  #         flood_color: "gold"
+  #         blink_color: "white"
+  #         blink_color2: "deepskyblue"
+  #         tts_entity_id: group.tts_devices
+  #         tts_sound: 'intercom_ds9.mp3'
+  #         tts_message: "It's getting cold in here! The indoor temperature is {{ states.sensor.indoor_temperature.state | round(0) }}°F"
+
 
   - alias: bedroom_temperature_cold_after_9pm
     trigger:
@@ -279,6 +281,8 @@ automation:
       - service: input_boolean.turn_off
         entity_id: input_boolean.var_circulate_air_on
 
+
+
   #********** Fans On/Off ***************************************#
   - alias: fans_turn_on
     trigger:
@@ -295,7 +299,7 @@ automation:
         entity_id: input_boolean.var_circulate_air_on
         state: 'on'
       - platform: state
-        entity_id: input_boolean.option_turn_on_fans
+        entity_id: input_boolean.override_turn_on_fans
         state: 'on'
     action:
       - service: switch.turn_on
@@ -315,7 +319,7 @@ automation:
         entity_id: input_boolean.var_circulate_air_on
         state: 'off'
       - platform: state
-        entity_id: input_boolean.option_turn_on_fans
+        entity_id: input_boolean.override_turn_on_fans
         state: 'off'
     condition:
       - condition: state
@@ -328,7 +332,7 @@ automation:
         entity_id: input_boolean.var_circulate_air_on
         state: 'off'
       - condition: state
-        entity_id: input_boolean.option_turn_on_fans
+        entity_id: input_boolean.override_turn_on_fans
         state: 'off'
     action:
       - service: switch.turn_off
@@ -336,14 +340,39 @@ automation:
       - service: switch.turn_off
         entity_id: switch.sonoff_box_fan1
 
-  #********** Air Conditioner On/Off ***************************************#
+
+
+  #********** Air Conditioner Turn On/Off ***************************************#
+  - alias: air_conditioner_override_turn_on
+    trigger:
+      - platform: state
+        entity_id: input_boolean.override_turn_on_air_conditioner
+        state: 'on'
+    condition:
+      - condition: state
+        entity_id: switch.air_conditioner
+        state: 'off'
+    action:
+      - service: switch.turn_on
+        entity_id: switch.air_conditioner
+
+  - alias: air_conditioner_override_turn_off
+    trigger:
+      - platform: state
+        entity_id: input_boolean.override_turn_on_air_conditioner
+        state: 'off'
+    condition:
+      - condition: state
+        entity_id: switch.air_conditioner
+        state: 'on'
+    action:
+      - service: switch.turn_off
+        entity_id: switch.air_conditioner
+
   - alias: air_conditioner_turn_on
     trigger:
       - platform: state
         entity_id: input_boolean.var_indoor_temp_hot
-        state: 'on'
-      - platform: state
-        entity_id: input_boolean.option_turn_on_air_conditioner
         state: 'on'
     condition:
       - condition: state
@@ -358,15 +387,12 @@ automation:
       - platform: state
         entity_id: input_boolean.var_indoor_temp_ok
         state: 'on'
-      - platform: state
-        entity_id: input_boolean.option_turn_on_air_conditioner
-        state: 'off'
     condition:
       - condition: state
         entity_id: input_boolean.var_indoor_temp_ok
         state: 'on'
       - condition: state
-        entity_id: input_boolean.option_turn_on_air_conditioner
+        entity_id: input_boolean.override_turn_on_air_conditioner
         state: 'off'
       - condition: state
         entity_id: switch.air_conditioner
@@ -385,10 +411,10 @@ automation:
         state: 'on'
     action:
       - delay: '00:00:01'
-      # All Computers - Volume up 4%
+      # All Computers - Volume up 2%
       - service: script.set_computers_volume
         data:
-          volume_up: 4
+          volume_up: 2
       # Entertainment Center - Volume up 2 clicks
       - condition: state
         entity_id: switch.sonoff_entertainment_center
@@ -404,10 +430,10 @@ automation:
         state: 'off'
     action:
       - delay: '00:00:01'
-      # All Computers - Volume down 4%
+      # All Computers - Volume down 2%
       - service: script.set_computers_volume
         data:
-          volume_down: 4
+          volume_down: 2
       # Entertainment Center - Volume down 2 clicks
       - condition: state
         entity_id: switch.sonoff_entertainment_center
@@ -426,10 +452,10 @@ automation:
         state: 'on'
     action:
       - delay: '00:00:01'
-      # All Computers - Volume up 9%
+      # All Computers - Volume up 4%
       - service: script.set_computers_volume
         data:
-          volume_up: 9
+          volume_up: 4
       # Entertainment Center - Volume up 3 clicks
       - condition: state
         entity_id: switch.sonoff_entertainment_center
@@ -445,10 +471,10 @@ automation:
         state: 'off'
     action:
       - delay: '00:00:01'
-      # All Computers - Volume down 9%
+      # All Computers - Volume down 4%
       - service: script.set_computers_volume
         data:
-          volume_down: 9
+          volume_down: 4
       # Entertainment Center - Volume down 3 clicks
       - condition: state
         entity_id: switch.sonoff_entertainment_center
@@ -484,7 +510,7 @@ input_boolean:
 ########## OPTIONS - ENVIRONMENT #########
 ##########################################
   #********** FANS ***********#
-  option_turn_on_fans:
+  override_turn_on_fans:
     name: "Turn on all fans (Overide)"
 
   option_temp_controlled_fans:
@@ -496,7 +522,7 @@ input_boolean:
     initial: on
 
   #********** AIR CONDITIONER ***********#
-  option_turn_on_air_conditioner:
+  override_turn_on_air_conditioner:
     name: "Turn on Air Conditioner (Overide)"
 
   option_temp_controlled_air_conditioner:
@@ -507,14 +533,14 @@ input_boolean:
 input_slider:
   option_indoor_temp_hot:
     name: Indoor Temp (HOT)
-    initial: 84
+    initial: 78
     min: 70
     max: 90
     step: 1
 
   option_indoor_temp_warm:
     name: Indoor Temp (WARM)
-    initial: 78
+    initial: 75
     min: 65
     max: 85
     step: 1
@@ -566,10 +592,14 @@ group:
   fans_air_conditioner:
     name: "Fans & Air Conditioner"
     entities:
-      - input_boolean.option_turn_on_fans
+      - input_boolean.override_turn_on_fans
+      - input_boolean.override_turn_on_air_conditioner
       - switch.air_conditioner
       - switch.sonoff_box_fan1
       - switch.sonoff_small_desk_fan1
+      - input_boolean.var_indoor_temp_hot
+      - input_boolean.var_indoor_temp_warm
+      - input_boolean.var_indoor_temp_ok
 
   automation_environment:
     entities:
@@ -585,6 +615,8 @@ group:
       - automation.circulate_air_start
       - automation.fans_turn_on
       - automation.fans_turn_off
+      - automation.air_conditioner_override_turn_on
+      - automation.air_conditioner_override_turn_off
       - automation.air_conditioner_turn_on
       - automation.air_conditioner_turn_off
       - automation.fan_on_chromecast_volume_up
@@ -602,10 +634,8 @@ group:
   options_environment:
     name: "Environment"
     entities:
-      - input_boolean.option_turn_on_fans
       - input_boolean.option_circulate_air
       - input_boolean.option_temp_controlled_fans
-      - input_boolean.option_turn_on_air_conditioner
       - input_boolean.option_temp_controlled_air_conditioner
       - input_slider.option_indoor_temp_cold
       - input_slider.option_indoor_temp_warm

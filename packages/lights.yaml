@@ -557,6 +557,11 @@ group:
       - automation.entertainment_center_motion_turn_on_lights
       - automation.entertainment_center_motion_turn_off_lights
 
+  options_lights:
+    name: "Light Options & Notifications"
+    entities:
+      - input_boolean.option_notify2_lights
+
   script_lights:
     entities:
       - script.kitchen_lights_timer_on

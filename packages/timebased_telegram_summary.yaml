@@ -101,18 +101,13 @@ automation:
     condition:
       - condition: template
         value_template: '{{ states.sensor.time.state | string in states.input_select.array_timebased_telegram_summary_times.attributes.options | string }}'
-      - condition: state
-        entity_id: input_boolean.option_timebased_telegram_summary
-        state: 'on'
     action:
       - service: script.timebased_summary
 
 
 #********** Options - Alarms ***************************************#
-input_boolean:
-  option_timebased_telegram_summary:
-    name: "Timebased Telegram Summary"
-    initial: on
+# input_boolean:
+
 
 input_select:
   array_timebased_telegram_summary_times:

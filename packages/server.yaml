@@ -16,6 +16,8 @@ homeassistant:
     #   hidden: true
     binary_sensor.ps3_ping:
       hidden: true
+    binary_sensor.desktop_computer:
+      hidden: true
     sensor.time:
       hidden: true
     sensor.date:
@@ -268,6 +270,10 @@ sensor:
         friendly_name: "ESP8266 - Office"
         value_template: '{% if is_state("device_tracker.esp8266_office", "home") %}online{% else %}OFFLINE{% endif %}'
 
+      iot_esp8266_office_air_freshener:
+        friendly_name: "ESP8266 - Office Air Freshener"
+        value_template: '{% if is_state("device_tracker.esp8266_office_air_freshener", "home") %}online{% else %}OFFLINE{% endif %}'
+
       iot_esp8266_tables:
         friendly_name: "ESP8266 - Tables"
         value_template: '{% if is_state("device_tracker.esp8266_tables", "home") %}online{% else %}OFFLINE{% endif %}'
@@ -333,52 +339,53 @@ automation:
 ##########################################
 
   #********** Home Assistant Update ***************************************#
-  # - alias: HOME ASSISTANT Update Notificaiton
-  #   trigger:
-  #     - platform: state
-  #       entity_id: updater.updater
-  #   action:
-  #     - service: script.notify2
-  #       data_template:
-  #         telegram_message: |
-  #           Home Assistant updated to v{{ states.updater.updater.state}}
-  #           {{ states.updater.updater.attributes.release_notes }}
-  #         tts_entity_id: group.tts_devices
-  #         tts_sound: 'intercom_ds9.mp3'
-  #         tts_message: "FYI: There is a new update for Home Assistant available!"
-  #         mlo_message: "Update Home Assistant to {{ states.updater.updater.state}}.  {{ states.updater.updater.attributes.release_notes }}"
+  - alias: HOME ASSISTANT Update Notificaiton
+    trigger:
+      - platform: state
+        entity_id: updater.updater
+    action:
+      - service: script.notify2
+        data_template:
+          telegram_message: |
+            Home Assistant updated to v{{ states.updater.updater.state}}
+            {{ states.updater.updater.attributes.release_notes }}
+          tts_entity_id: group.tts_devices
+          tts_sound: 'intercom_ds9.mp3'
+          tts_message: "FYI: There is a new update for Home Assistant available!"
+          mlo_message: "Update Home Assistant to {{ states.updater.updater.state}}.  {{ states.updater.updater.attributes.release_notes }}"
 
 
   #********** HASS Startup ***************************************#
-  # - alias: 'HASS Startup'
-  #   trigger:
-  #     - platform: homeassistant
-  #       event: start
-  #   action:
-  #     - service: script.timebased_scene
-  #     - service: script.notify2
-  #       data:
-  #         telegram_message: "Home Assistant Server Restarted!"
-  #         tts_sound: startup/startup_ds9.wav
-
-  #Temporary Soltuion to homeasstant start event not triggering >> https://github.com/home-assistant/home-assistant/issues/7058
-  - alias: temporary_hass_startup
+  - alias: 'HASS Startup'
     trigger:
-      - platform: time
-        seconds: '/5'
-    condition:
-      - condition: state
-        entity_id: input_boolean.var_startup
-        state: 'on'
+      - platform: homeassistant
+        event: start
     action:
-      - service: input_boolean.turn_off
-        entity_id: input_boolean.var_startup
       - service: homeassistant.turn_on
         entity_id: group.all_automations
       - service: script.timebased_scene
       - service: script.notify2
         data:
           telegram_message: "Home Assistant Server Restarted!"
+
+  #Temporary Soltuion to homeasstant start event not triggering >> https://github.com/home-assistant/home-assistant/issues/7058
+  # - alias: temporary_hass_startup
+  #   trigger:
+  #     - platform: time
+  #       seconds: '/5'
+  #   condition:
+  #     - condition: state
+  #       entity_id: input_boolean.var_startup
+  #       state: 'on'
+  #   action:
+  #     - service: input_boolean.turn_off
+  #       entity_id: input_boolean.var_startup
+  #     - service: homeassistant.turn_on
+  #       entity_id: group.all_automations
+  #     - service: script.timebased_scene
+  #     - service: script.notify2
+  #       data:
+  #         telegram_message: "Home Assistant Server Restarted!"
 
       # - condition: time
       #   after: '09:00:00'
@@ -641,8 +648,8 @@ input_boolean:
 ##########################################
 ########## STORED VARIABLES ##############
 ##########################################
-  var_startup: #Turns off after startup.
-    initial: on
+  # var_startup: #Turns off after startup.
+  #   initial: on
 
   var_eventghost_mqtt_request_state_sent:
 
@@ -705,6 +712,7 @@ group:
     - sensor.iot_echo_dot
     - sensor.iot_esp8266_kitchen
     - sensor.iot_esp8266_office
+    - sensor.iot_esp8266_office_air_freshener
     - sensor.iot_esp8266_tables
     - sensor.iot_esp8266_entertainment_center
     - sensor.iot_esp8266_bedroom
@@ -737,7 +745,9 @@ group:
 
   automation_server:
     entities:
-      - automation.temporary_hass_startup
+      # - automation.temporary_hass_startup
+      - automation.hass_startup
+      - automation.home_assistant_update_notificaiton
       - automation.server_service_down
       - automation.cloud_service_down
       - automation.iot_device_down
@@ -748,11 +758,17 @@ group:
       - automation.no_reply_eventghost_mqtt_state_request
       - automation.desktop_computer_on
       - automation.desktop_computer_off
+      - automation.failed_login_attempt
 
+  options_system:
+    name: "System"
+    entities:
+      - input_select.option_log_level
+      - input_boolean.option_send_device_reconnect_notification
 
   homeassistant_server:
     entities:
-      - input_boolean.var_startup
+      # - input_boolean.var_startup
       - input_boolean.var_eventghost_on
       - input_boolean.var_desktop_computer_on
       - input_boolean.var_eventghost_mqtt_request_state_sent

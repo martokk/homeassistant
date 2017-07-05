@@ -354,6 +354,14 @@ headphones_mpow_wolverine:
   picture:
   track: false
   vendor: Powerwallz Network Security
+magic_mouse:
+  hide_if_away: false
+  icon:
+  mac: BT_04:F1:3E:E9:27:C3
+  name: Magic Mouse
+  picture:
+  track: false
+  vendor: Apple, Inc.
 
 ##########################################
 ########## NEIGHBORS DEVICES #############
@@ -421,7 +429,14 @@ iahb6: # Unknown Neighbor Device
   picture:
   track: false
   vendor: unknown
-
+nuvi_2x5_3676561977: # Neighbors Garmin Nuvi 2x5 GPS Device
+  hide_if_away: false
+  icon:
+  mac: BT_00:05:4F:96:9C:2F
+  name: 'nuvi 2x5 #3676561977'
+  picture:
+  track: false
+  vendor: Garmin International
 ##########################################
 ########## UNKNOWN #######################
 ##########################################

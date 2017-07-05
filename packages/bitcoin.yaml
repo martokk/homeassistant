@@ -37,7 +37,7 @@ sensor:
   - platform: coinmarketcap
     currency: potcoin
   - platform: coinmarketcap
-    currency: peerplays
+    currency: peerplays-ppy
 
 
   - platform: template
@@ -72,7 +72,7 @@ automation:
       #   entity_id: sensor.bitcoin_percent_change_24h
       #   above: 2
       - platform: template
-        value_template: '{{ states.sensor.bitcoin.state | round(0) | int > states.input_slider.var_last_known_bitcoin_price.state | int  + states.input_slider.option_bitcoin_price_notification_tolerance.state | int }}'
+        value_template: '{{ states.sensor.bitcoin.state | round(0) | int > states.input_slider.var_last_known_bitcoin_price.state | int  + 75 }}'
     action:
       - service: script.notify2
         data_template:
@@ -100,7 +100,7 @@ automation:
       #   entity_id: sensor.bitcoin_percent_change_24h
       #   below: -2
       - platform: template
-        value_template: '{{ states.sensor.bitcoin.state | round(0) | int  < states.input_slider.var_last_known_bitcoin_price.state | int  - states.input_slider.option_bitcoin_price_notification_tolerance.state | int }}'
+        value_template: '{{ states.sensor.bitcoin.state | round(0) | int  < states.input_slider.var_last_known_bitcoin_price.state | int  - 75 }}'
     action:
       - service: script.notify2
         data_template:
@@ -163,11 +163,6 @@ input_slider:
     min: 0
     max: 999999
     step: 1
-
-  option_bitcoin_price_notification_tolerance:
-    min: 50
-    max: 200
-    step: 10
 
 
 ##########################################

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<EventGhost Version="1722" Guid="{C5FCB62B-A71E-4EA2-8489-C816B9EEAEF8}" Time="1498884116.38">
+<EventGhost Version="1722" Guid="{8D420007-3B44-46C7-A873-841B05713424}" Time="1499043583.26">
     <Autostart Name="Autostart" Expanded="True">
         <Plugin Identifier="USB_UIRT" Guid="{36FD4F40-653C-4626-97CC-BE363C05F933}" File="USB-UIRT">
             gAIoiYmJiHRxAC4=

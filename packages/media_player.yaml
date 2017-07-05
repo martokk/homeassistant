@@ -81,7 +81,7 @@ automation:
         state: 'on'
     condition:
       - condition: state
-        entity_id: input_boolean.var_mike_home
+        entity_id: group.residents
         state: 'on'
       - condition: state
         entity_id: switch.sonoff_entertainment_center
@@ -249,9 +249,6 @@ automation:
         at: '06:00:00'
       - platform: homeassistant
         event: start
-      - platform: state
-        entity_id: input_boolean.var_startup
-        state: 'off'
     condition:
       - condition: time
         before: '20:50:00'
@@ -261,7 +258,7 @@ automation:
       - service: media_player.volume_set
         data_template:
           entity_id: media_player.vlc
-          volume_level: '{{ states.input_slider.option_tts_vol_high.state  | float }}'
+          volume_level: 0.95
 
   - alias: set_tts_vol_low
     trigger:
@@ -269,9 +266,6 @@ automation:
         at: '20:50:00'
       - platform: homeassistant
         event: start
-      - platform: state
-        entity_id: input_boolean.var_startup
-        state: 'off'
     condition:
       - condition: time
         after: '20:50:00'
@@ -279,7 +273,7 @@ automation:
       - service: media_player.volume_set
         data_template:
           entity_id: media_player.vlc
-          volume_level: '{{ states.input_slider.option_tts_vol_low.state  | float }}'
+          volume_level: 0.80
 
   - alias: set_tts_vol_low2
     trigger:
@@ -287,9 +281,6 @@ automation:
         at: '00:00:00'
       - platform: homeassistant
         event: start
-      - platform: state
-        entity_id: input_boolean.var_startup
-        state: 'off'
     condition:
       - condition: time
         before: '06:00:00'
@@ -297,7 +288,7 @@ automation:
       - service: media_player.volume_set
         data_template:
           entity_id: media_player.vlc
-          volume_level: '{{ states.input_slider.option_tts_vol_low.state  | float }}'
+          volume_level: 0.80
 
 ##########################################
 ########## SPOTIFY #######################
@@ -452,6 +443,11 @@ group:
       - automation.set_tts_vol_high
       - automation.set_tts_vol_low
       - automation.set_tts_vol_low2
+
+  options_media:
+    name: "Media"
+    entities:
+      - input_boolean.option_chromecast_screensaver
 
   script_media_player:
     entities:

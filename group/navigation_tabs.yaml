@@ -106,6 +106,7 @@
     - group.automation_bedroom
     - group.automation_all_vcore_devices
     - group.automation_volume_control
+    - group.automation_weather
 
   scripts:
     name: "Scripts"

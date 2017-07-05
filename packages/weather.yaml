@@ -86,7 +86,7 @@ sensor:
       weather_alert:
         friendly_name: 'Weather Alerts'
         value_template: >-
-          {% set criteria = ["Tornado Warning", "Tornado Watch", "Severe Thunderstorm Warning", "Flood Warning", "Severe Weather Statement", "Severe Thunderstorm Watch", "HUR", "TOR", "TOW", "WRN", "SEW", "FLO", "WAT", "SVR"] %}
+          {% set criteria = ["Special Statement", "Tornado Warning", "Tornado Watch", "Severe Thunderstorm Warning", "Flood Warning", "Severe Weather Statement", "Severe Thunderstorm Watch", "HUR", "TOR", "TOW", "WRN", "SEW", "FLO", "WAT", "SVR"] %}
           {% if states.sensor.pws_alerts %}
             {% for state in states.sensor.pws_alerts.attributes -%}
               {% if "Description" in state | string %}
@@ -259,7 +259,7 @@ automation:
         entity_id: sensor.weather_alerts
     condition:
       - condition: template
-        value_template: '{{"kenosha" in states.sensor.pws_alerts.attributes.message | lower }}'
+        value_template: '{{"kenosha" in states.sensor.pws_alerts.attributes.Message | lower }}'
       - condition: template
         value_template: >
           {% if states.automation.weather_alert.attributes.last_triggered %}
@@ -304,14 +304,17 @@ automation:
     trigger:
     - platform: state
       entity_id: sensor.dark_sky_icon
+      state: 'clear'
+      for:
+        seconds: 60
     - platform: state
       entity_id: input_select.var_lks_livingroom
       state: 'day'
       for:
-        seconds: 30
+        seconds: 60
     condition:
     - condition: state
-      entity_id: input_boolean.var_mike_home
+      entity_id: group.residents
       state: 'on'
     - condition: state
       entity_id: input_select.var_lks_livingroom
@@ -346,10 +349,10 @@ automation:
       entity_id: input_select.var_lks_livingroom
       state: 'day_le'
       for:
-        seconds: 30
+        seconds: 60
     condition:
     - condition: state
-      entity_id: input_boolean.var_mike_home
+      entity_id: group.residents
       state: 'on'
     - condition: state
       entity_id: input_select.var_lks_livingroom
