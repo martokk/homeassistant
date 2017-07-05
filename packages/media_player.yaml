@@ -180,38 +180,38 @@ automation:
         entity_id: media_player.vtv_chromecast
 
   #********** TTS Interupt ***************************************#
-  - alias: tts_started_pause_video
-    trigger:
-      - platform: state
-        entity_id: media_player.vlc
-        state: 'playing'
-    condition:
-      - condition: state
-        entity_id: media_player.vtv_chromecast
-        state: 'playing'
-      - condition: state
-        entity_id: input_boolean.var_chromecast_interupt
-        state: 'off'
-    action:
-      - service: input_boolean.turn_on
-        entity_id: input_boolean.var_chromecast_interupt
-
-  - alias: tts_complete_resume_video
-    trigger:
-      - platform: state
-        entity_id: media_player.vlc
-        from: 'playing'
-        to: 'idle'
-    condition:
-      - condition: state
-        entity_id: media_player.vtv_chromecast
-        state: 'paused'
-      - condition: state
-        entity_id: input_boolean.var_chromecast_interupt
-        state: 'on'
-    action:
-      - service: input_boolean.turn_off
-        entity_id: input_boolean.var_chromecast_interupt
+  # - alias: tts_started_pause_video
+  #   trigger:
+  #     - platform: state
+  #       entity_id: media_player.vlc
+  #       state: 'playing'
+  #   condition:
+  #     - condition: state
+  #       entity_id: media_player.vtv_chromecast
+  #       state: 'playing'
+  #     - condition: state
+  #       entity_id: input_boolean.var_chromecast_interupt
+  #       state: 'off'
+  #   action:
+  #     - service: input_boolean.turn_on
+  #       entity_id: input_boolean.var_chromecast_interupt
+  #
+  # - alias: tts_complete_resume_video
+  #   trigger:
+  #     - platform: state
+  #       entity_id: media_player.vlc
+  #       from: 'playing'
+  #       to: 'idle'
+  #   condition:
+  #     - condition: state
+  #       entity_id: media_player.vtv_chromecast
+  #       state: 'paused'
+  #     - condition: state
+  #       entity_id: input_boolean.var_chromecast_interupt
+  #       state: 'on'
+  #   action:
+  #     - service: input_boolean.turn_off
+  #       entity_id: input_boolean.var_chromecast_interupt
 
   #********** Chromecast Interupt ***************************************#
   - alias: chromecast_interupt_pause_video

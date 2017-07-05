@@ -348,26 +348,28 @@ script:
   #********** TTS Notificaiton - Pause Chromecast if playing ***************************************#
   notify2_tts:
     sequence:
-    - service_template: >
-        {% if tts_message %}
-          {% if is_state('input_boolean.option_notify2_tts', 'on') %}
-            {% if is_state('media_player.vtv_chromecast', 'playing') %}
-              {% if tts_pause_chromecast_delay %}
-                input_boolean.turn_on
-              {% else %}
-                script.notify2_do_nothing
-              {% endif %}
-            {% else %}
-              script.notify2_do_nothing
-            {% endif %}
-          {% else %}
-            script.notify2_do_nothing
-          {% endif %}
-        {% else %}
-          script.notify2_do_nothing
-        {% endif %}
-      data_template:
-        entity_id: input_boolean.var_chromecast_interupt
+    - service: script.turn_off
+      entity_id: script.notify2
+  #   - service_template: >
+  #       {% if tts_message %}
+  #         {% if is_state('input_boolean.option_notify2_tts', 'on') %}
+  #           {% if is_state('media_player.vtv_chromecast', 'playing') %}
+  #             {% if tts_pause_chromecast_delay %}
+  #               input_boolean.turn_on
+  #             {% else %}
+  #               script.notify2_do_nothing
+  #             {% endif %}
+  #           {% else %}
+  #             script.notify2_do_nothing
+  #           {% endif %}
+  #         {% else %}
+  #           script.notify2_do_nothing
+  #         {% endif %}
+  #       {% else %}
+  #         script.notify2_do_nothing
+  #       {% endif %}
+  #     data_template:
+  #       entity_id: input_boolean.var_chromecast_interupt
 
     #*--------- TTS Sound --------------*#
     - service_template: >
@@ -401,12 +403,12 @@ script:
         entity_id: "{% if tts_entity_id %} {{ tts_entity_id }} {% else %} media_player.vlc {% endif %}"
         message: '{{ tts_message }}'
 
-    - condition: state
-      entity_id: input_boolean.var_chromecast_interupt
-      state: 'on'
-    - service: script.notify2_tts_resume
-      data_template:
-        tts_pause_chromecast_delay: '{{ tts_pause_chromecast_delay }}'
+    # - condition: state
+    #   entity_id: input_boolean.var_chromecast_interupt
+    #   state: 'on'
+    # - service: script.notify2_tts_resume
+    #   data_template:
+    #     tts_pause_chromecast_delay: '{{ tts_pause_chromecast_delay }}'
 
 
   #********** Do Nothing ***************************************#
@@ -416,31 +418,31 @@ script:
 
 
   #********** TTS Notificaiton - Resume Chromecast if Paused ***************************************#
-  notify2_tts_resume:
-    alias: "vHome Notify2: TTS Resume"
-    sequence:
-    - condition: state
-      entity_id: media_player.vtv_chromecast
-      state: 'paused'
-    - delay: '{{ tts_pause_chromecast_delay }}'
-    - service_template: >
-        {% if tts_message %}
-          {% if is_state('input_boolean.option_notify2_tts', 'on') %}
-            {% if is_state('media_player.vlc', 'idle') %}
-              media_player.media_play
-            {% else %}
-              script.notify2_do_nothing
-            {% endif %}
-          {% else %}
-            script.notify2_do_nothing
-          {% endif %}
-        {% else %}
-          script.notify2_do_nothing
-        {% endif %}
-      data_template:
-        entity_id: media_player.vtv_chromecast
-    - service: input_boolean.turn_off
-      entity_id: input_boolean.var_chromecast_interupt
+  # notify2_tts_resume:
+  #   alias: "vHome Notify2: TTS Resume"
+  #   sequence:
+  #   - condition: state
+  #     entity_id: media_player.vtv_chromecast
+  #     state: 'paused'
+  #   - delay: '{{ tts_pause_chromecast_delay }}'
+  #   - service_template: >
+  #       {% if tts_message %}
+  #         {% if is_state('input_boolean.option_notify2_tts', 'on') %}
+  #           {% if is_state('media_player.vlc', 'idle') %}
+  #             media_player.media_play
+  #           {% else %}
+  #             script.notify2_do_nothing
+  #           {% endif %}
+  #         {% else %}
+  #           script.notify2_do_nothing
+  #         {% endif %}
+  #       {% else %}
+  #         script.notify2_do_nothing
+  #       {% endif %}
+  #     data_template:
+  #       entity_id: media_player.vtv_chromecast
+  #   - service: input_boolean.turn_off
+  #     entity_id: input_boolean.var_chromecast_interupt
 
 automation:
   - alias: notify2_15m_chromecast_off
