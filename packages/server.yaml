@@ -563,7 +563,7 @@ automation:
         value_template: "{{ trigger.to_state.state != 'None' }}"
     action:
       - service: script.notify2
-        data:
+        data_template:
           telegram_message: |
             Failed Home Assistant Login Attempt!!
             {{ trigger.to_state.state }}
