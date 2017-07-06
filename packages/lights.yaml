@@ -441,6 +441,7 @@ group:
   living_room_lights:
     name: "Living Room"
     entities:
+    - input_boolean.var_livingroom_on
     - light.living_room_overhead
     - light.end_table_left
     - light.end_table_right
@@ -519,6 +520,7 @@ group:
   office_lights:
     name: "Office"
     entities:
+    - input_boolean.var_office_on
     - light.office_left
     - light.office_center
     - light.office_right
@@ -529,6 +531,7 @@ group:
   kitchen_lights:
     name: "Kitchen"
     entities:
+    - input_boolean.var_kitchen_on
     - light.kitchen_left
     - light.kitchen_right
     - light.kitchen_led_strip
@@ -539,6 +542,7 @@ group:
   bedroom_lights:
     name: "Bedroom Room"
     entities:
+    - input_boolean.var_bedroom_on
     - light.sonoff_silver_lamp
     - light.bedroom_led_strip
     - input_select.bedroom_led_effect

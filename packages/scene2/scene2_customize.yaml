@@ -34,6 +34,11 @@ homeassistant:
       emulated_hue: true
       emulated_hue_name: "Bedroom"
 
+    script.turn_on_all_room_light:
+      emulated_hue: true
+      emulated_hue_name: "All Room"
+
+
 #********** HIDDEN ***********#
     script.scene2:
       hidden: true
