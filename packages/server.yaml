@@ -1,5 +1,8 @@
 homeassistant:
   customize:
+    script.turn_on_all_automations:
+      emulated_hue: true
+      emulated_hue_name: "All Automations"
     script.reset_overrides:
       emulated_hue: true
       emulated_hue_name: "Reset Overrides"
@@ -241,6 +244,10 @@ sensor:
         friendly_name: "Linksys DD-WRT Router"
         value_template: '{% if is_state("binary_sensor.linksys_ddwrt_router", "on") %}online{% else %}OFFLINE{% endif %}'
 
+      server_desktop_computer:
+        friendly_name: "Desktop Computer"
+        value_template: '{% if is_state("binary_sensor.desktop_computer", "on") %}online{% else %}OFFLINE{% endif %}'
+
       server_mqtt:
         friendly_name: "MQTT Server"
         value_template: '{% if is_state("binary_sensor.mqtt_server", "on") %}online{% else %}OFFLINE{% endif %}'
@@ -296,32 +303,60 @@ sensor:
       server_status_alert:
         friendly_name: 'Server Status'
         value_template: >
-          {% for server in states.group.server_status.attributes.entity_id -%}
-            {%if is_state(server, "online") %}
-            {%else%}
-              {{ server }} - {{ states(server) }};
-            {%endif%}
-          {%- endfor -%}
+          {% if not is_state('sensor.server_modem',"online") %}
+            sensor.server_modem - {{ states('sensor.server_modem') }};
+          {%endif%}
+          {% if not is_state('sensor.server_router',"online") %}
+            sensor.server_router - {{ states('sensor.server_router') }};
+          {%endif%}
+          {% if not is_state('sensor.server_mqtt',"online") %}
+            sensor.server_mqtt - {{ states('sensor.server_mqtt') }};
+          {%endif%}
+          {% if not is_state('sensor.server_eventghost',"online") %}
+            sensor.server_eventghost - {{ states('sensor.server_eventghost') }};
+          {%endif%}
+        # {% if not is_state('sensor.server_sabnzbd',"online") %}
+        #   sensor.server_sabnzbd - {{ states('sensor.server_sabnzbd') }};
+        # {%endif%}
+        # {% if not is_state('sensor.server_qbittorrent',"online") %}
+        #   sensor.server_qbittorrent - {{ states('sensor.server_qbittorrent') }};
+        # {%endif%}
+        # {% if not is_state('sensor.server_sonarr',"online") %}
+        #   sensor.server_sonarr - {{ states('sensor.server_sonarr') }};
+        # {%endif%}
+        # {% if not is_state('sensor.server_couchpotato',"online") %}
+        #   sensor.server_couchpotato - {{ states('sensor.server_couchpotato') }};
+        # {%endif%}
 
       # cloud_status_alert:
       #   friendly_name: 'Cloud Status'
       #   value_template: >
-      #     {% for cloud in states.group.cloud_status.attributes.entity_id -%}
-      #       {%if is_state(cloud, "online") %}
-      #       {%else%}
-      #         {{ cloud }} - {{ states(cloud) }};
-      #       {%endif%}
-      #     {%- endfor -%}
+        # {% if not is_state('sensor.cloud_ifttt',"online") %} sensor.cloud_ifttt - {{ states('sensor.cloud_ifttt') }}; {%endif%}
 
       iot_status_alert:
         friendly_name: 'IoT Status'
         value_template: >
-          {% for iot in states.group.iot_status.attributes.entity_id -%}
-            {%if is_state(iot, "online") %}
-            {%else%}
-              {{ iot }} - {{ states(iot) }};
-            {%endif%}
-          {%- endfor -%}
+          {% if not is_state('sensor.iot_echo_dot',"online") %}
+            sensor.iot_echo_dot - {{ states('sensor.iot_echo_dot') }}
+          {%endif%}
+          {% if not is_state('sensor.iot_esp8266_kitchen',"online") %}
+            sensor.iot_esp8266_kitchen - {{ states('sensor.iot_esp8266_kitchen') }};
+          {%endif%}
+          {% if not is_state('sensor.iot_esp8266_office',"online") %}
+            sensor.iot_esp8266_office - {{ states('sensor.iot_esp8266_office') }};
+          {%endif%}
+          {% if not is_state('sensor.iot_esp8266_office_air_freshener',"online") %}
+            sensor.iot_esp8266_office_air_freshener - {{ states('sensor.iot_esp8266_office_air_freshener') }};
+          {%endif%}
+          {% if not is_state('sensor.iot_esp8266_tables',"online") %}
+            sensor.iot_esp8266_tables - {{ states('sensor.iot_esp8266_tables') }};
+          {%endif%}
+          {% if not is_state('sensor.iot_esp8266_entertainment_center',"online") %}
+            sensor.iot_esp8266_entertainment_center - {{ states('sensor.iot_esp8266_entertainment_center') }};
+          {%endif%}
+          {% if not is_state('sensor.iot_esp8266_bedroom',"online") %}
+            sensor.iot_esp8266_bedroom - {{ states('sensor.iot_esp8266_bedroom') }};
+          {%endif%}
 
       # sonarr_upcoming_episodes:
       #   friendly_name: "Upcoming Episodes"
@@ -370,6 +405,15 @@ automation:
       - service: script.notify2
         data:
           telegram_message: "Home Assistant Server Restarted!"
+      - condition: state
+        entity_id: input_boolean.option_homeassistant_restart_sound
+        state: 'on'
+      - condition: time
+        after: '09:00:00'
+        before: '21:00:00'
+      - service: script.notify2
+        data:
+          tts_sound: startup/startup_ds9.wav
 
   #Temporary Soltuion to homeasstant start event not triggering >> https://github.com/home-assistant/home-assistant/issues/7058
   # - alias: temporary_hass_startup
@@ -488,13 +532,11 @@ automation:
   #********** Server Service Down ***************************************#
   - alias: server_service_down
     trigger:
-      - platform: template
-        value_template: >
-          {% if states.sensor.server_status_alert.state != "" %}
-            true
-          {%else%}
-            false
-          {%endif%}
+      - platform: state
+        entity_id: sensor.server_status_alert
+    condition:
+      - condition: template
+        value_template: '{{ states.sensor.server_status_alert.state | string != "" }}'
     action:
       - service: script.notify2
         data_template:
@@ -505,13 +547,11 @@ automation:
 
   - alias: cloud_service_down
     trigger:
-      - platform: template
-        value_template: >
-          {% if states.sensor.cloud_status_alert.state != "" %}
-            true
-          {%else%}
-            false
-          {%endif%}
+      - platform: state
+        entity_id: sensor.cloud_status_alert
+    condition:
+      - condition: template
+        value_template: '{{ states.sensor.cloud_status_alert.state| string != "" }}'
     action:
       - service: script.notify2
         data_template:
@@ -522,13 +562,11 @@ automation:
 
   - alias: iot_device_down
     trigger:
-      - platform: template
-        value_template: >
-          {% if states.sensor.iot_status_alert.state != "" %}
-            true
-          {%else%}
-            false
-          {%endif%}
+      - platform: state
+        entity_id: sensor.iot_status_alert
+    condition:
+      - condition: template
+        value_template: '{{ states.sensor.iot_status_alert.state| string != "" }}'
     action:
       - service: script.notify2
         data_template:
@@ -647,7 +685,15 @@ automation:
 ##########################################
 ########## SCRIPTS #######################
 ##########################################
-# script:
+script:
+  do_nothing:
+    sequence:
+
+  turn_on_all_automations:
+    sequence:
+      - service: homeassistant.turn_on
+        entity_id: group.all_automations
+
   reset_overrides:
     sequence:
       - service: input_boolean.turn_off
@@ -681,6 +727,8 @@ input_boolean:
 ##########################################
 ########## OPTIONS #######################
 ##########################################
+  option_homeassistant_restart_sound:
+
 input_select:
   option_log_level:
     name: Error Log Level
@@ -715,17 +763,16 @@ group:
     - sensor.server_router
     - sensor.server_mqtt
     - sensor.server_eventghost
-    - sensor.desktop_computer
     # - sensor.server_sabnzbd
     # - sensor.server_qbittorrent
     # - sensor.server_sonarr
     # - sensor.server_couchpotato
 
-  # cloud_status:
-  #   name: "Cloud Status"
-  #   entities:
-  #   - sensor.cloud_ifttt
-  #   - sensor.cloud_lifx
+  cloud_status:
+    name: "Cloud Status"
+    entities:
+    - sensor.cloud_ifttt
+    - sensor.cloud_lifx
 
   iot_status:
     name: "IoT Status"
@@ -786,6 +833,7 @@ group:
     entities:
       - input_select.option_log_level
       - input_boolean.option_send_device_reconnect_notification
+      - input_boolean.option_homeassistant_restart_sound
 
   homeassistant_server:
     entities:
@@ -794,6 +842,8 @@ group:
       - input_boolean.var_desktop_computer_on
       - input_boolean.var_eventghost_mqtt_request_state_sent
 
-  # script_server:
-  #   entities:
+  script_server:
+    entities:
+      - script.do_nothing
+      - script.turn_on_all_automations
       # - script.restart_eventghost
