@@ -1,5 +1,8 @@
 # homeassistant:
 #   customize:
+    # input_boolean.template:
+    #   emulated_hue: true
+    #   emulated_hue_name: "Template Name"
 # switch:
 # lights:
 # binary_sensor:
@@ -43,9 +46,17 @@
 ############### GROUPS ###################
 ##########################################
 # group:
-#   automation_devices:
+#   automation_template:
 #     entities:
 #
 #
-#   script_devices:
+#   homeassistant_template:
+#     entities:
+#
+#
+#   options_template:
+#     entities:
+#
+#
+#   script_template:
 #     entities:
