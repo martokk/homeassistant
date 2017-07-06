@@ -1,8 +1,11 @@
-# homeassistant:
-#   customize:
-    # input_boolean.template:
-    #   emulated_hue: true
-    #   emulated_hue_name: "Template Name"
+homeassistant:
+  customize:
+    script.target_temperature_offset_down:
+      emulated_hue: true
+      emulated_hue_name: "Temperature Down"
+    script.target_temperature_offset_up:
+      emulated_hue: true
+      emulated_hue_name: "Temperature Up"
 # switch:
 # lights:
 # binary_sensor:
@@ -15,7 +18,7 @@ automation:
   - alias: set_indoor_temp_hot
     trigger:
       - platform: template
-        value_template: '{% if states.sensor.indoor_temperature.state | float > states.input_slider.option_indoor_temp_hot.state | float %}true{%endif%}'
+        value_template: '{% if ( states.sensor.indoor_temperature.state | float - states.input_slider.option_target_temperature_offset.state | float ) > states.input_slider.option_indoor_temp_hot.state | float %}true{%endif%}'
     action:
       - service: input_boolean.turn_on
         entity_id: input_boolean.var_indoor_temp_hot
@@ -23,7 +26,7 @@ automation:
   - alias: set_indoor_temp_very_warm
     trigger:
       - platform: template
-        value_template: '{% if states.sensor.indoor_temperature.state | float > states.input_slider.option_indoor_temp_very_warm.state | float and states.sensor.indoor_temperature.state | float < states.input_slider.option_indoor_temp_hot.state | float %}true{%endif%}'
+        value_template: '{% if ( states.sensor.indoor_temperature.state | float - states.input_slider.option_target_temperature_offset.state | float ) > states.input_slider.option_indoor_temp_very_warm.state | float and ( states.sensor.indoor_temperature.state | float - states.input_slider.option_target_temperature_offset.state | float ) < states.input_slider.option_indoor_temp_hot.state | float %}true{%endif%}'
     action:
       - service: input_boolean.turn_on
         entity_id: input_boolean.var_indoor_temp_very_warm
@@ -31,7 +34,7 @@ automation:
   - alias: set_indoor_temp_warm
     trigger:
       - platform: template
-        value_template: '{% if states.sensor.indoor_temperature.state | float > states.input_slider.option_indoor_temp_warm.state | float and states.sensor.indoor_temperature.state | float < states.input_slider.option_indoor_temp_very_warm.state | float %}true{%endif%}'
+        value_template: '{% if ( states.sensor.indoor_temperature.state | float - states.input_slider.option_target_temperature_offset.state | float ) > states.input_slider.option_indoor_temp_warm.state | float and ( states.sensor.indoor_temperature.state | float - states.input_slider.option_target_temperature_offset.state | float ) < states.input_slider.option_indoor_temp_very_warm.state | float %}true{%endif%}'
     action:
       - service: input_boolean.turn_on
         entity_id: input_boolean.var_indoor_temp_warm
@@ -39,7 +42,7 @@ automation:
   - alias: set_indoor_temp_ok
     trigger:
       - platform: template
-        value_template: '{% if states.sensor.indoor_temperature.state | float > states.input_slider.option_indoor_temp_ok.state | float and states.sensor.indoor_temperature.state | float < states.input_slider.option_indoor_temp_warm.state | float %}true{%endif%}'
+        value_template: '{% if ( states.sensor.indoor_temperature.state | float - states.input_slider.option_target_temperature_offset.state | float ) > states.input_slider.option_indoor_temp_ok.state | float and ( states.sensor.indoor_temperature.state | float - states.input_slider.option_target_temperature_offset.state | float ) < states.input_slider.option_indoor_temp_warm.state | float %}true{%endif%}'
     action:
       - service: input_boolean.turn_on
         entity_id: input_boolean.var_indoor_temp_ok
@@ -47,7 +50,7 @@ automation:
   - alias: set_indoor_temp_cool
     trigger:
       - platform: template
-        value_template: '{% if states.sensor.indoor_temperature.state | float > states.input_slider.option_indoor_temp_cool.state | float and states.sensor.indoor_temperature.state | float < states.input_slider.option_indoor_temp_ok.state | float %}true{%endif%}'
+        value_template: '{% if ( states.sensor.indoor_temperature.state | float - states.input_slider.option_target_temperature_offset.state | float ) > states.input_slider.option_indoor_temp_cool.state | float and ( states.sensor.indoor_temperature.state | float - states.input_slider.option_target_temperature_offset.state | float ) < states.input_slider.option_indoor_temp_ok.state | float %}true{%endif%}'
     action:
       - service: input_boolean.turn_on
         entity_id: input_boolean.var_indoor_temp_cool
@@ -55,7 +58,7 @@ automation:
   - alias: set_indoor_temp_cold
     trigger:
       - platform: template
-        value_template: '{% if states.sensor.indoor_temperature.state | float < states.input_slider.option_indoor_temp_cool.state | float %}true{%endif%}'
+        value_template: '{% if ( states.sensor.indoor_temperature.state | float - states.input_slider.option_target_temperature_offset.state | float ) < states.input_slider.option_indoor_temp_cool.state | float %}true{%endif%}'
     action:
       - service: input_boolean.turn_on
         entity_id: input_boolean.var_indoor_temp_cold
@@ -172,8 +175,20 @@ automation:
 ##########################################
 ########## SCRIPTS #######################
 ##########################################
-# script:
+script:
+  target_temperature_offset_down:
+    sequence:
+      - service: input_slider.select_value
+        data_template:
+          entity_id: input_slider.option_target_temperature_offset
+          value: '{{ states.input_slider.option_target_temperature_offset | int - 1 }}'
 
+  target_temperature_offset_up:
+    sequence:
+      - service: input_slider.select_value
+        data_template:
+          entity_id: input_slider.option_target_temperature_offset
+          value: '{{ states.input_slider.option_target_temperature_offset | int + 1 }}'
 
 
 
@@ -196,36 +211,42 @@ input_slider:
   option_indoor_temp_hot:
     name: Indoor Temp (HOT)
     initial: 80
-    min: 70
-    max: 80
+    min: 65
+    max: 85
     step: 1
 
   option_indoor_temp_very_warm:
     name: Indoor Temp (VERY WARM)
     initial: 78
-    min: 70
-    max: 80
+    min: 65
+    max: 85
     step: 1
 
   option_indoor_temp_warm:
     name: Indoor Temp (WARM)
     initial: 76
-    min: 70
-    max: 80
+    min: 65
+    max: 85
     step: 1
 
   option_indoor_temp_ok:
     name: Indoor Temp (OK)
     initial: 74
-    min: 70
-    max: 80
+    min: 65
+    max: 85
     step: 1
 
   option_indoor_temp_cool:
     name: Indoor Temp (COOL)
     initial: 72
     min: 65
-    max: 75
+    max: 85
+    step: 1
+
+  option_target_temperature_offset:
+    name: Target Temperature Offset
+    min: -5
+    max: 5
     step: 1
 
 ##########################################
@@ -271,7 +292,9 @@ group:
       - input_slider.option_indoor_temp_warm
       - input_slider.option_indoor_temp_ok
       - input_slider.option_indoor_temp_cool
+      - input_slider.option_target_temperature_offset
 #
-#
-#   script_template:
-#     entities:
+  script_temperature_range_mode:
+    entities:
+      - script.target_temperature_offset_up
+      - script.target_temperature_offset_down
