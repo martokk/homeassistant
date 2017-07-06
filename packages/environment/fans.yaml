@@ -1,0 +1,313 @@
+homeassistant:
+  customize:
+    input_boolean.override_fans_helper:
+      emulated_hue: true
+      emulated_hue_name: "All Fans"
+# switch:
+# lights:
+# binary_sensor:
+# sensor:
+
+automation:
+
+##########################################
+########## OVERRIDES ###################
+##########################################
+  - alias: fans_override
+    trigger:
+      - platform: event
+        event_type: call_service
+        event_data:
+          service_data:
+            entity_id: input_boolean.override_fans_helper
+    action:
+      # - service: script.notify2
+      #   data_template:
+      #     telegram_message: '{{ trigger | string }}'
+      - service: input_boolean.turn_on
+        data_template:
+          entity_id: >
+            {% if "turn_off" in trigger.event | string %}
+              input_boolean.override_turn_off_fans
+            {% else %}
+              input_boolean.override_turn_on_fans
+            {% endif %}
+
+  - alias: fans_override_turn_on
+    trigger:
+      - platform: state
+        entity_id: input_boolean.override_turn_on_fans
+        state: 'on'
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.override_turn_off_fans
+      - service: switch.turn_on
+        entity_id: switch.sonoff_small_desk_fan1
+      - service: switch.turn_on
+        entity_id: switch.sonoff_box_fan1
+
+  - alias: fans_override_turn_off
+    trigger:
+      - platform: state
+        entity_id: input_boolean.override_turn_off_fans
+        state: 'on'
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.override_turn_on_fans
+      - service: switch.turn_off
+        entity_id: switch.sonoff_small_desk_fan1
+      - service: switch.turn_off
+        entity_id: switch.sonoff_box_fan1
+
+
+##########################################
+########## AUTOMATIONS ###################
+##########################################
+  #********** Fans - Circulate Air  ***************************************#
+  - alias: fans_circulate_air_on
+    trigger:
+      - platform: time
+        hours: '/1'
+        minutes: 30
+        seconds: 00
+    condition:
+      - condition: state
+        entity_id: input_boolean.option_fans_circulate_air
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.var_indoor_temp_cool
+        state: 'off'
+      - condition: state
+        entity_id: input_boolean.var_indoor_temp_cold
+        state: 'off'
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.var_circulate_air_on
+      - delay: '00:05:00'
+      - condition: state
+        entity_id: input_boolean.option_fans_circulate_air
+        state: 'on'
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_circulate_air_on
+
+  - alias: fans_circulate_air_off
+    trigger:
+      - platform: time
+        hours: '/1'
+        minutes: 35
+        seconds: 00
+      - platform: state
+        entity_id: input_boolean.var_indoor_temp_cool
+        state: 'off'
+      - platform: state
+        entity_id: input_boolean.var_indoor_temp_cold
+        state: 'off'
+      - platform: state
+        entity_id: input_boolean.option_fans_circulate_air
+        state: 'off'
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_circulate_air_on
+
+  #********** Fans - Temperature Controlled  ***************************************#
+  - alias: fans_temperature_controlled_on
+    trigger:
+      - platform: state
+        entity_id: input_boolean.var_indoor_temp_very_warm
+        state: 'on'
+      - platform: state
+        entity_id: input_boolean.var_indoor_temp_hot
+        state: 'on'
+    condition:
+      - condition: state
+        entity_id: input_boolean.option_fans_temperature_controlled
+        state: 'on'
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.var_fans_temperature_controlled_on
+
+  - alias: fans_temperature_controlled_off
+    trigger:
+      - platform: state
+        entity_id: input_boolean.var_indoor_temp_ok
+        state: 'on'
+      - platform: state
+        entity_id: input_boolean.var_indoor_temp_cool
+        state: 'on'
+      - platform: state
+        entity_id: input_boolean.var_indoor_temp_cold
+        state: 'on'
+    condition:
+      - condition: state
+        entity_id: input_boolean.option_fans_temperature_controlled
+        state: 'on'
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_fans_temperature_controlled_on
+
+
+  #********** Fans Automations - On/Off ***************************************#
+  - alias: fans_automations_turn_on
+    trigger:
+      - platform: state
+        entity_id: input_boolean.var_fans_circulate_air_on
+        state: 'on'
+      - platform: state
+        entity_id: input_boolean.var_fans_temperature_controlled_on
+        state: 'on'
+    condition:
+      - condition: state
+        entity_id: input_boolean.override_turn_off_fans
+        state: 'off'
+    action:
+      - service: switch.turn_on
+        entity_id: switch.sonoff_small_desk_fan1
+      - service: switch.turn_on
+        entity_id: switch.sonoff_box_fan1
+
+  - alias: fans_automations_turn_off
+    trigger:
+      - platform: state
+        entity_id: input_boolean.var_fans_circulate_air_on
+        state: 'off'
+      - platform: state
+        entity_id: input_boolean.var_fans_temperature_controlled_on
+        state: 'off'
+    condition:
+      - condition: state
+        entity_id: input_boolean.var_fans_circulate_air_on
+        state: 'off'
+      - condition: state
+        entity_id: input_boolean.var_fans_temperature_controlled_on
+        state: 'off'
+      - condition: state
+        entity_id: input_boolean.override_turn_on_fans
+        state: 'off'
+    action:
+      - service: switch.turn_off
+        entity_id: switch.sonoff_small_desk_fan1
+      - service: switch.turn_off
+        entity_id: switch.sonoff_box_fan1
+
+
+
+  #********** Volume Adjustment - Fans On/Off ***************************************#
+  - alias: fan_on_chromecast_volume_up
+    trigger:
+      - platform: state
+        entity_id: switch.sonoff_small_desk_fan1
+        state: 'on'
+    action:
+      - delay: '00:00:01'
+      # All Computers - Volume up 2%
+      - service: script.set_computers_volume
+        data:
+          volume_up: 2
+      # Entertainment Center - Volume up 2 clicks
+      - condition: state
+        entity_id: switch.sonoff_entertainment_center
+        state: 'on'
+      - service: script.set_entertainment_center_tv_volume
+        data:
+          volume_up: 2
+
+  - alias: fan_off_chromecast_volume_down
+    trigger:
+      - platform: state
+        entity_id: switch.sonoff_small_desk_fan1
+        state: 'off'
+    action:
+      - delay: '00:00:01'
+      # All Computers - Volume down 2%
+      - service: script.set_computers_volume
+        data:
+          volume_down: 2
+      # Entertainment Center - Volume down 2 clicks
+      - condition: state
+        entity_id: switch.sonoff_entertainment_center
+        state: 'on'
+      - service: script.set_entertainment_center_tv_volume
+        data:
+          volume_down: 2
+
+
+##########################################
+########## SCRIPTS #######################
+##########################################
+# script:
+
+
+
+input_boolean:
+#########################################
+######### STORED VARIABLES ##############
+#########################################
+  var_smoke_session_on:
+  var_fans_circulate_air_on:
+  var_fans_temperature_controlled_on:
+
+##########################################
+########## OVERRIDES #####################
+##########################################
+  override_fans_helper:
+  override_turn_on_fans:
+  override_turn_off_fans:
+
+
+##########################################
+########## OPTIONS #######################
+##########################################
+  option_fans_temperature_controlled:
+    name: "Temperature controlled fans"
+    initial: on
+
+  option_fans_circulate_air:
+    name: "Circulate air every 2 hours (for 15m)"
+    initial: on
+
+
+##########################################
+############### GROUPS ###################
+##########################################
+group:
+
+  fans:
+    name: "Fans"
+    entities:
+      # - input_boolean.override_turn_on_fans
+      - switch.sonoff_box_fan1
+      - switch.sonoff_small_desk_fan1
+
+
+  automation_fans:
+    entities:
+      - automation.fans_circulate_air_on
+      - automation.fans_circulate_air_off
+      - automation.fans_temperature_controlled_on
+      - automation.fans_temperature_controlled_off
+      - automation.fans_automations_turn_on
+      - automation.fans_automations_turn_off
+      - automation.fans_override
+      - automation.fans_override_turn_on
+      - automation.fans_override_turn_on
+      - automation.fan_on_chromecast_volume_up
+      - automation.fan_off_chromecast_volume_down
+
+
+  homeassistant_fans:
+    entities:
+      - input_boolean.var_fans_circulate_air_on
+      - input_boolean.var_fans_temperature_controlled_on
+      - input_boolean.override_fans_helper
+      - input_boolean.override_turn_on_fans
+      - input_boolean.override_turn_off_fans
+
+  options_fans:
+    name: "Environment"
+    entities:
+      - input_boolean.option_fans_circulate_air
+      - input_boolean.option_fans_temperature_controlled
+
+#
+#   script_template:
+#     entities:

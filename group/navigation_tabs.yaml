@@ -17,14 +17,13 @@
     - group.kitchen_lights
     - group.bedroom_lights
     - group.scenes
-    - group.scripts_lights
-    - group.room_states
 
   enviroment:
     name: "Enviroment"
     view: yes
     entities:
-    - group.fans_air_conditioner
+    - group.fans
+    - group.air_conditioner
     - group.motion_sensors
     - group.humidity_sensors
     - group.temperature_sensors
@@ -64,6 +63,9 @@
     - group.options_environment
     - group.options_system
     - group.options_alarms
+    - group.options_fans
+    - group.options_temperature_range_mode
+    - group.options_air_conditioner
 
   hass:
     name: "Home Assistant"
@@ -76,6 +78,9 @@
     - group.homeassistant_environment
     - group.indoor_temperature_range_mode
     - group.homeassistant_server
+    - group.homeassistant_fans
+    - group.homeassistant_air_conditioner
+    - group.homeassistant_room_states
 
   automations:
     name: "Automations"
@@ -109,6 +114,9 @@
     - group.automation_all_vcore_devices
     - group.automation_volume_control
     - group.automation_weather
+    - group.automation_fans
+    - group.automation_temperature_range_mode
+    - group.automation_air_conditioner
 
   scripts:
     name: "Scripts"
@@ -141,3 +149,4 @@
     - group.script_bedroom
     - group.script_all_vcore_devices
     - group.script_volume_control
+    - group.script_air_conditioner

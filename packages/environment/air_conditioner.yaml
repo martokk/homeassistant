@@ -1,0 +1,253 @@
+homeassistant:
+  customize:
+    input_boolean.override_air_conditioner_helper:
+      emulated_hue: true
+      emulated_hue_name: "Air Conditioner"
+    script.fix_air_conditioner_sync:
+      emulated_hue: true
+      emulated_hue_name: "Fix Air Conditioner"
+switch:
+  - platform: mqtt
+    name: air_conditioner
+    command_topic: "device/office/ir_send"
+    payload_on: "0x10AF8877"
+    payload_off: "0x10AF8877"
+# lights:
+# binary_sensor:
+# sensor:
+
+automation:
+##########################################
+########## OVERRIDES ###################
+##########################################
+  - alias: air_conditioner_override
+    trigger:
+      - platform: event
+        event_type: call_service
+        event_data:
+          service_data:
+            entity_id: input_boolean.override_air_conditioner_helper
+    action:
+      # - service: script.notify2
+      #   data_template:
+      #     telegram_message: '{{ trigger | string }}'
+      - service: input_boolean.turn_on
+        data_template:
+          entity_id: >
+            {% if "turn_off" in trigger.event | string %}
+              input_boolean.override_turn_off_air_conditioner
+            {% else %}
+              input_boolean.override_turn_on_air_conditioner
+            {% endif %}
+
+  - alias: air_conditioner_override_turn_on
+    trigger:
+      - platform: state
+        entity_id: input_boolean.override_turn_on_air_conditioner
+        state: 'on'
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.override_turn_off_air_conditioner
+      - service: switch.turn_on
+        entity_id: switch.air_conditioner
+
+  - alias: air_conditioner_override_turn_off
+    trigger:
+      - platform: state
+        entity_id: input_boolean.override_turn_off_air_conditioner
+        state: 'on'
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.override_turn_on_air_conditioner
+      - service: switch.turn_off
+        entity_id: switch.air_conditioner
+
+
+
+
+##########################################
+########## AUTOMATIONS ###################
+##########################################
+
+
+  #******** Air Conditioner - Temp Controlled - Turn On/Off **********************#
+  - alias: air_conditioner_temperature_controlled_on
+    trigger:
+      - platform: state
+        entity_id: input_boolean.var_indoor_temp_hot
+        state: 'on'
+    condition:
+      - condition: state
+        entity_id: input_boolean.option_air_conditioner_temperature_controlled
+        state: 'on'
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.var_air_conditioner_temperature_controlled_on
+
+  - alias: air_conditioner_temperature_controlled_off
+    trigger:
+      - platform: state
+        entity_id: input_boolean.var_indoor_temp_ok
+        state: 'on'
+      - platform: state
+        entity_id: input_boolean.var_indoor_temp_cool
+        state: 'on'
+      - platform: state
+        entity_id: input_boolean.var_indoor_temp_cold
+        state: 'on'
+    condition:
+      - condition: state
+        entity_id: input_boolean.option_air_conditioner_temperature_controlled
+        state: 'on'
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_air_conditioner_temperature_controlled_on
+
+
+  #********** Air Conditioner - Automations - On/Off ******************************#
+  - alias: air_conditioner_automations_turn_on
+    trigger:
+      - platform: state
+        entity_id: input_boolean.var_air_conditioner_temperature_controlled_on
+        state: 'on'
+    condition:
+      - condition: state
+        entity_id: input_boolean.override_turn_off_air_conditioner
+        state: 'off'
+    action:
+      - service: switch.turn_on
+        entity_id: switch.air_conditioner
+
+  - alias: air_conditioner_automations_turn_off
+    trigger:
+      - platform: state
+        entity_id: input_boolean.var_air_conditioner_temperature_controlled_on
+        state: 'off'
+    condition:
+      - condition: state
+        entity_id: input_boolean.var_air_conditioner_temperature_controlled_on
+        state: 'off'
+      - condition: state
+        entity_id: input_boolean.override_turn_on_air_conditioner
+        state: 'off'
+    action:
+      - service: switch.turn_off
+        entity_id: switch.air_conditioner
+
+
+
+  #********** Volume Adjustment - Air Conditioner On/Off **********************************#
+  - alias: air_conditioner_on_devices_volume_up
+    trigger:
+      - platform: state
+        entity_id: switch.air_conditioner
+        state: 'on'
+    action:
+      - delay: '00:00:01'
+      # All Computers - Volume up 4%
+      - service: script.set_computers_volume
+        data:
+          volume_up: 4
+      # Entertainment Center - Volume up 3 clicks
+      - condition: state
+        entity_id: switch.sonoff_entertainment_center
+        state: 'on'
+      - service: script.set_entertainment_center_tv_volume
+        data:
+          volume_up: 3
+
+  - alias: air_conditioner_off_devices_volume_down
+    trigger:
+      - platform: state
+        entity_id: switch.air_conditioner
+        state: 'off'
+    action:
+      - delay: '00:00:01'
+      # All Computers - Volume down 4%
+      - service: script.set_computers_volume
+        data:
+          volume_down: 4
+      # Entertainment Center - Volume down 3 clicks
+      - condition: state
+        entity_id: switch.sonoff_entertainment_center
+        state: 'on'
+      - service: script.set_entertainment_center_tv_volume
+        data:
+          volume_down: 3
+
+
+
+##########################################
+########## SCRIPTS #######################
+##########################################
+script:
+  fix_air_conditioner_sync:
+    sequence:
+      - service: mqtt.publish
+        data_template:
+          topic: "device/office/ir_send"
+          payload: "0x10AF8877"
+
+
+
+input_boolean:
+##########################################
+########## STORED VARIABLES ##############
+##########################################
+  var_air_conditioner_temperature_controlled_on:
+
+##########################################
+########## OVERRIDES #####################
+##########################################
+  override_air_conditioner_helper:
+  override_turn_on_air_conditioner:
+  override_turn_off_air_conditioner:
+
+##########################################
+########## OPTIONS #######################
+##########################################
+  option_air_conditioner_temperature_controlled:
+    name: "Temperature controlled Air Conditioner"
+    initial: on
+
+
+##########################################
+############### GROUPS ###################
+##########################################
+group:
+
+  air_conditioner:
+    name: "Air Conditioner"
+    entities:
+      - switch.air_conditioner
+
+  automation_air_conditioner:
+    entities:
+      - automation.air_conditioner_temperature_controlled_on
+      - automation.air_conditioner_temperature_controlled_off
+      - automation.air_conditioner_automations_turn_on
+      - automation.air_conditioner_automations_turn_off
+      - automation.air_conditioner_override
+      - automation.air_conditioner_override_turn_on
+      - automation.air_conditioner_override_turn_on
+      - automation.air_conditioner_on_devices_volume_up
+      - automation.air_conditioner_off_devices_volume_down
+
+
+
+  homeassistant_air_conditioner:
+    entities:
+      - input_boolean.var_air_conditioner_temperature_controlled_on
+      - input_boolean.override_air_conditioner_helper
+      - input_boolean.override_turn_on_air_conditioner
+      - input_boolean.override_turn_off_air_conditioner
+
+  options_air_conditioner:
+    name: "Environment"
+    entities:
+      - input_boolean.option_air_conditioner_temperature_controlled
+#
+#
+  script_air_conditioner:
+    entities:
+      - script.fix_air_conditioner_sync

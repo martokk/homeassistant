@@ -1,5 +1,8 @@
 homeassistant:
   customize:
+    script.reset_overrides:
+      emulated_hue: true
+      emulated_hue_name: "Reset Overrides"
     binary_sensor.mqtt_server:
       hidden: true
     binary_sensor.arris_modem:
@@ -633,11 +636,29 @@ automation:
             Speed Test LOW! -
             {{ states.sensor.speedtables_download.state }}Mbit/s
 
+  #********** Reset Override Input Booleans at 5am ***********#
+  - alias: reset_overrides_5am
+    trigger:
+      - platform: time
+        at: '05:00:00'
+    action:
+      - service: script.reset_overrides
 
 ##########################################
 ########## SCRIPTS #######################
 ##########################################
 # script:
+  reset_overrides:
+    sequence:
+      - service: input_boolean.turn_off
+        entity_id:
+          - input_boolean.override_turn_on_tv
+          - input_boolean.override_turn_off_tv
+          - input_boolean.override_turn_on_fans
+          - input_boolean.override_turn_off_fans
+          - input_boolean.override_turn_off_air_conditioner
+          - input_boolean.override_turn_off_air_conditioner
+
   # restart_eventghost:
   #   alias: "Restart EventGhost"
   #   sequence:

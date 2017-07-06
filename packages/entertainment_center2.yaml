@@ -1,6 +1,6 @@
 homeassistant:
   customize:
-    switch.sonoff_entertainment_center:
+    input_boolean.override_tv_helper:
       emulated_hue: true
       emulated_hue_name: "Entertainment Center"
 
@@ -23,6 +23,50 @@ binary_sensor:
 
 
 automation:
+##########################################
+########## OVERRIDES ###################
+##########################################
+  - alias: tv_override
+    trigger:
+      - platform: event
+        event_type: call_service
+        event_data:
+          service_data:
+            entity_id: input_boolean.override_tv_helper
+    action:
+      # - service: script.notify2
+      #   data_template:
+      #     telegram_message: '{{ trigger | string }}'
+      - service: input_boolean.turn_on
+        data_template:
+          entity_id: >
+            {% if "turn_off" in trigger.event | string %}
+              input_boolean.override_turn_tv_fans
+            {% else %}
+              input_boolean.override_turn_tv_fans
+            {% endif %}
+
+  - alias: tv_override_turn_on
+    trigger:
+      - platform: state
+        entity_id: input_boolean.override_turn_on_tv
+        state: 'on'
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.override_turn_off_tv
+      - service: switch.turn_on
+        entity_id: switch.sonoff_entertainment_center
+
+  - alias: tv_override_turn_off
+    trigger:
+      - platform: state
+        entity_id: input_boolean.override_turn_off_tv
+        state: 'on'
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.override_turn_on_tv
+      - service: switch.turn_iff
+        entity_id: switch.sonoff_entertainment_center
 
 ##########################################
 ########## AUTOMATIONS ###################
@@ -47,6 +91,9 @@ automation:
       - condition: time
         after: '12:00:00'
         before: '21:00:00'
+      - condition: state
+        entity_id: input_boolean.override_turn_off_tv
+        state: 'off'
     action:
       - service: switch.turn_on
         entity_id: switch.sonoff_entertainment_center
@@ -249,6 +296,13 @@ input_boolean:
   var_ps3_on:
     initial: off
 
+##########################################
+########## OVERRIDES #####################
+##########################################
+  override_tv_helper:
+  override_turn_on_tv:
+  override_turn_off_tv:
+
 
 ##########################################
 ############### GROUPS ###################
@@ -295,4 +349,4 @@ group:
 
   sonoff_entertainment_center: # used for multiple Alexa commands (ie. 'Entertainment Center' OR 'TV')
     entities:
-      - switch.sonoff_entertainment_center
+      - input_boolean.override_tv_helper
