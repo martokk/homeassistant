@@ -229,7 +229,7 @@ group:
       - automation.air_conditioner_automations_turn_off
       - automation.air_conditioner_override
       - automation.air_conditioner_override_turn_on
-      - automation.air_conditioner_override_turn_on
+      - automation.air_conditioner_override_turn_off
       - automation.air_conditioner_on_devices_volume_up
       - automation.air_conditioner_off_devices_volume_down
 

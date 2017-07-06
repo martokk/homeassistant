@@ -289,7 +289,7 @@ group:
       - automation.fans_automations_turn_off
       - automation.fans_override
       - automation.fans_override_turn_on
-      - automation.fans_override_turn_on
+      - automation.fans_override_turn_off
       - automation.fan_on_chromecast_volume_up
       - automation.fan_off_chromecast_volume_down
 

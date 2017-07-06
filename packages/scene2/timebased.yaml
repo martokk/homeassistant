@@ -490,7 +490,7 @@ script:
         entity_id: switch.sonoff_entertainment_center
 
       # Computer Screens Off
-      - service: shell_command.computer_monitors_turn_off
+      - service: script.computer_monitors_turn_off
 
       # Ligts Off
       - delay: "00:00:05"

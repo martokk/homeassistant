@@ -43,7 +43,7 @@ device_tracker:
     username: !secret ddwrt_username
     password: !secret ddwrt_password
     interval_seconds: 4
-    consider_home: 900
+    consider_home: 180
     track_new_devices: yes
 
   - platform: icloud
@@ -54,7 +54,7 @@ device_tracker:
   - platform: bluetooth_tracker
     track_new_devices: yes
     interval_seconds: 10
-    consider_home: 900
+    consider_home: 360
 
 automation:
 ##########################################
@@ -288,6 +288,7 @@ group:
     - device_tracker.sonoff_box_fan1
     - device_tracker.sonoff_entertainment_center
     - device_tracker.sonoff_silver_lamp
+    - binary_sensor.desktop_computer
 
   batteries:
     name: "Batteries"

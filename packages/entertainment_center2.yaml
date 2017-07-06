@@ -340,6 +340,15 @@ group:
       - automation.ambivision_turn_off
       - automation.ps3_turn_on
       - automation.ps3_turn_off
+      - automation.tv_override
+      - automation.tv_override_turn_on
+      - automation.tv_override_turn_off
+
+  homeassistant_entertainment_center:
+    entities:
+      - input_boolean.override_tv_helper
+      - input_boolean.override_turn_on_tv
+      - input_boolean.override_turn_off_tv
 
   script_entertainment_center:
     entities:

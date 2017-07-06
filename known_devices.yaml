@@ -437,6 +437,22 @@ nuvi_2x5_3676561977: # Neighbors Garmin Nuvi 2x5 GPS Device
   picture:
   track: false
   vendor: Garmin International
+toyota_camry: # Neighbors
+  hide_if_away: false
+  icon:
+  mac: BT_FC:62:B9:9E:17:8C
+  name: TOYOTA Camry
+  picture:
+  track: false
+  vendor: ALPS ELECTRIC CO.,LTD.
+fixd: # Neightbors: FIXD: The Active Car Health Monitor
+  hide_if_away: false
+  icon:
+  mac: BT_8C:DE:52:C2:D4:D5
+  name: FIXD
+  picture:
+  track: false
+  vendor: ISSC Technologies Corp.
 ##########################################
 ########## UNKNOWN #######################
 ##########################################

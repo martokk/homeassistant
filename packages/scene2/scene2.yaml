@@ -292,3 +292,4 @@ group:
       - script.scene2_on_night_lights
       - script.scene2_on_normal_lights
       - script.scene2_test
+      - script.turn_on_all_room_light

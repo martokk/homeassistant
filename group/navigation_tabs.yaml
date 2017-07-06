@@ -81,6 +81,7 @@
     - group.homeassistant_fans
     - group.homeassistant_air_conditioner
     - group.homeassistant_room_states
+    - group.homeassistant_entertainment_center
 
   automations:
     name: "Automations"
@@ -150,3 +151,4 @@
     - group.script_all_vcore_devices
     - group.script_volume_control
     - group.script_air_conditioner
+    - group.script_temperature_range_mode

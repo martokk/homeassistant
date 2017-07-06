@@ -244,10 +244,6 @@ sensor:
         friendly_name: "Linksys DD-WRT Router"
         value_template: '{% if is_state("binary_sensor.linksys_ddwrt_router", "on") %}online{% else %}OFFLINE{% endif %}'
 
-      server_desktop_computer:
-        friendly_name: "Desktop Computer"
-        value_template: '{% if is_state("binary_sensor.desktop_computer", "on") %}online{% else %}OFFLINE{% endif %}'
-
       server_mqtt:
         friendly_name: "MQTT Server"
         value_template: '{% if is_state("binary_sensor.mqtt_server", "on") %}online{% else %}OFFLINE{% endif %}'
@@ -827,6 +823,7 @@ group:
       - automation.desktop_computer_on
       - automation.desktop_computer_off
       - automation.failed_login_attempt
+      - automation.reset_overrides_5am
 
   options_system:
     name: "System"
@@ -846,4 +843,5 @@ group:
     entities:
       - script.do_nothing
       - script.turn_on_all_automations
+      - script.reset_overrides
       # - script.restart_eventghost
