@@ -1,0 +1,137 @@
+# homeassistant:
+#   customize:
+    # input_boolean.template:
+    #   emulated_hue: true
+    #   emulated_hue_name: "Template Name"
+# switch:
+# lights:
+# binary_sensor:
+# sensor:
+
+automation:
+##########################################
+########## NOTIFICATIONS #################
+##########################################
+  - alias: announce_residents_away
+    trigger:
+      - platform: state
+        entity_id: input_boolean.var_residents_home
+        from: 'on'
+        to: 'off'
+    action:
+      - service: script.notify2
+        data_template:
+          tts_sound: 'st_notifications/tos_intercom.mp3'
+          tts_message: 'ANNOUNCEMENT!. Away Mode has been activated. The self destruct sequence has been armed. REPEAT!. Away Mode has been activated. The self destruct sequence has been armed.'
+          telegram_message: "var_residents_home = 'off'. Away Mode has been activated."
+
+  - alias: motion_detected_no_resident_home
+    trigger:
+    - platform: state
+      entity_id: binary_sensor.entertainment_center_motion_sensor
+      from: 'off'
+      to: 'on'
+    condition:
+      - condition: state
+        entity_id: input_boolean.var_residents_home
+        state: "off"
+    action:
+      - service: script.notify2
+        data_template:
+          telegram_message: |
+            *ALERT!* Motion Detected! No Residents are home!!
+            *debug_informtion:*
+            {{ trigger.entity_id }} = {{ trigger.to_state.state }}
+            var_residents_home = {{ states.input_boolean.var_residents_home.state }}
+
+
+##########################################
+########## AUTOMATIONS ###################
+##########################################
+
+  #**********  All Residents Home/Away Automations  ***********#
+  - alias: all_residents_away_automations
+    trigger:
+      - platform: state
+        entity_id: input_boolean.var_residents_home
+        from: 'on'
+        to: 'off'
+    action:
+    - service: script.scene2
+      data:
+        rooms: 'all'
+        scene_name: 'off'
+        transition: 600
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.option_notify2_tts
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.option_notify2_chromecast
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.option_notify2_lights
+
+  - alias: any_resident_home_automation
+    trigger:
+      - platform: state
+        entity_id: input_boolean.var_residents_home
+        from: 'off'
+        to: 'on'
+    action:
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.option_notify2_tts
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.option_notify2_chromecast
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.option_notify2_lights
+    - service: script.scene2
+      data:
+        rooms: 'all'
+        scene_name: 'day_bright'
+        transition: 1
+    - delay: "00:05:00"
+    - service: script.scene2
+      data_template:
+        rooms: 'all'
+        scene_name: '{{ states.input_select.var_lks_timebased.state }}'
+        transition: 5
+
+
+##########################################
+########## SCRIPTS #######################
+##########################################
+# script:
+
+
+
+
+# input_boolean:
+##########################################
+########## STORED VARIABLES ##############
+##########################################
+
+
+
+##########################################
+########## OPTIONS #######################
+##########################################
+
+
+##########################################
+############### GROUPS ###################
+##########################################
+group:
+  automation_residents:
+    entities:
+      - automation.all_residents_away_automations
+      - automation.any_resident_home_automation
+      - automation.motion_detected_no_resident_home
+
+#   homeassistant_residents:
+#     entities:
+#
+#
+#   options_residents:
+#     entities:
+#
+#
+#   script_residents:
+#     entities:

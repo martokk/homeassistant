@@ -81,7 +81,7 @@ automation:
         state: 'on'
     condition:
       - condition: state
-        entity_id: group.residents
+        entity_id: var_residents_home
         state: 'on'
       - condition: state
         entity_id: switch.sonoff_entertainment_center
@@ -273,7 +273,7 @@ automation:
       - service: media_player.volume_set
         data_template:
           entity_id: media_player.vlc
-          volume_level: 0.80
+          volume_level: 0.85
 
   - alias: set_tts_vol_low2
     trigger:
@@ -288,7 +288,7 @@ automation:
       - service: media_player.volume_set
         data_template:
           entity_id: media_player.vlc
-          volume_level: 0.80
+          volume_level: 0.85
 
 ##########################################
 ########## SPOTIFY #######################

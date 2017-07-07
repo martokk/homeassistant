@@ -65,7 +65,7 @@ automation:
     action:
       - service: input_boolean.turn_off
         entity_id: input_boolean.override_turn_on_tv
-      - service: switch.turn_iff
+      - service: switch.turn_off
         entity_id: switch.sonoff_entertainment_center
 
 ##########################################
@@ -76,14 +76,14 @@ automation:
   - alias: entertainment_center_turn_on_every_15m
     trigger:
       - platform: state
-        entity_id: group.residents
+        entity_id: var_residents_home
         state: 'on'
       - platform: time
         minutes: 15
         seconds: 00
     condition:
       - condition: state
-        entity_id: group.residents
+        entity_id: var_residents_home
         state: 'on'
       - condition: state
         entity_id: switch.sonoff_entertainment_center
@@ -109,7 +109,7 @@ automation:
         state: 'on'
     condition:
       - condition: state
-        entity_id: group.residents
+        entity_id: var_residents_home
         state: 'on'
       - condition: state
         entity_id: switch.sonoff_entertainment_center
@@ -125,7 +125,7 @@ automation:
         entity_id: sensor.chromecast_playing_app
     condition:
       - condition: state
-        entity_id: group.residents
+        entity_id: var_residents_home
         state: 'on'
       - condition: state
         entity_id: switch.sonoff_entertainment_center
@@ -140,14 +140,14 @@ automation:
   - alias: entertainment_center_turn_off_mike_not_home
     trigger:
       - platform: state
-        entity_id: group.residents
+        entity_id: var_residents_home
         from: 'on'
         to: 'off'
       - platform: time
         minutes: '/30' #every 30 min
     condition:
       - condition: state
-        entity_id: group.residents
+        entity_id: var_residents_home
         state: 'off'
       - condition: state
         entity_id: switch.sonoff_entertainment_center

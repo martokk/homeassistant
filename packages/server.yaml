@@ -471,10 +471,7 @@ automation:
         entity_id: binary_sensor.desktop_computer
         state: 'off'
         for:
-          minutes: 15
-      - platform: state
-        entity_id: group.residents
-        state: 'off'
+          minutes: 10
       - platform: state
         entity_id: script.computer_monitors_turn_off
         state: 'on'

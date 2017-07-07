@@ -165,75 +165,7 @@ automation:
 ##########################################
 ########## AUTOMATIONS ###################
 ##########################################
-  #********** Mike Presence ***********#
-  - alias: mike_away
-    trigger:
-      - platform: state
-        entity_id: device_tracker.iphone6s
-        state: 'not_home'
-        for:
-          minutes: 5
-    condition:
-      - condition: state
-        entity_id: input_boolean.var_mike_home
-        state: 'on'
-      - condition: state
-        entity_id: device_tracker.dans_iphone6
-        state: 'not_home'
-    action:
-      - service: homeassistant.turn_off
-        entity_id: input_boolean.var_mike_home
-      - service: script.notify2
-        data:
-          telegram_message: "var_mike_home = 'off'"
 
-  - alias: mike_home
-    trigger:
-      - platform: state
-        entity_id: device_tracker.iphone6s
-        state: 'home'
-      - platform: state
-        entity_id: device_tracker.watch
-        state: 'home'
-      - platform: state
-        entity_id: device_tracker.dans_iphone6
-        state: 'home'
-    condition:
-      - condition: state
-        entity_id: input_boolean.var_mike_home
-        state: 'off'
-    action:
-      - service: homeassistant.turn_on
-        entity_id: input_boolean.var_mike_home
-
-  #********** Dan Presence ***************************************#
-  - alias: dan_away
-    trigger:
-      - platform: state
-        entity_id: device_tracker.dans_iphone6
-        state: 'not_home'
-        for:
-          minutes: 15
-    condition:
-      - condition: state
-        entity_id: input_boolean.var_dan_home
-        state: 'on'
-    action:
-      - service: homeassistant.turn_off
-        entity_id: input_boolean.var_dan_home
-
-  - alias: dan_home
-    trigger:
-      - platform: state
-        entity_id: device_tracker.dans_iphone6
-        state: 'home'
-    condition:
-      - condition: state
-        entity_id: input_boolean.var_dan_home
-        state: 'off'
-    action:
-      - service: homeassistant.turn_on
-        entity_id: input_boolean.var_dan_home
 
 ##########################################
 ########## SCRIPTS #######################
@@ -303,10 +235,6 @@ group:
       - automation.battery_fully_charged_text_only
       - automation.10pm_charge_battery_reminder
       - automation.new_device_found
-      - automation.mike_away
-      - automation.mike_home
-      - automation.dan_away
-      - automation.dan_home
 
   script_devices:
     entities:

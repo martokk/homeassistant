@@ -92,15 +92,11 @@ automation:
       data_template:
         flood_color: "green"
         entity_id: group.ambient_lights
-        delay: "00:00:04"
+        delay: "00:00:02"
         tts_entity_id: group.tts_devices
         tts_sound: 'intercom_tos.mp3'
         tts_message: "Dan's is here!"
     - delay: "00:00:03"
-    - service: script.notify2
-      data_template:
-        tts_message: "Hello Dan! Welcome to Mikes home! Are you ready to beam up to the Enterprise?"
-    - delay: "00:00:02"
     - service: script.notify2
       data_template:
         chromecast_volume_level: '18'
@@ -127,99 +123,134 @@ automation:
 
 
 
-  - alias: dan_home_start_smoke_session
-    trigger:
-    - platform: state
-      entity_id: input_boolean.var_dan_home
-      from: "off"
-      to: "on"
-      for:
-        minutes: 25
-    action:
-      - service: input_boolean.turn_on
-        entity_id: input_boolean.var_smoke_session_on
-      - delay: '00:30:00'
-      - service: input_boolean.turn_off
-        entity_id: input_boolean.var_smoke_session_on
-      - delay: '02:30:00'
-      - service: input_boolean.turn_on
-        entity_id: input_boolean.var_smoke_session_on
-      - delay: '00:30:00'
-      - service: input_boolean.turn_off
-        entity_id: input_boolean.var_smoke_session_on
+  # - alias: dan_home_start_smoke_session
+  #   trigger:
+  #   - platform: state
+  #     entity_id: input_boolean.var_dan_home
+  #     from: "off"
+  #     to: "on"
+  #     for:
+  #       minutes: 25
+  #   action:
+  #     - service: input_boolean.turn_on
+  #       entity_id: input_boolean.var_smoke_session_on
+  #     - delay: '00:30:00'
+  #     - service: input_boolean.turn_off
+  #       entity_id: input_boolean.var_smoke_session_on
+  #     - delay: '02:30:00'
+  #     - service: input_boolean.turn_on
+  #       entity_id: input_boolean.var_smoke_session_on
+  #     - delay: '00:30:00'
+  #     - service: input_boolean.turn_off
+  #       entity_id: input_boolean.var_smoke_session_on
 
 ##########################################
 ########## AUTOMATIONS ###################
 ##########################################
 
-  #********** User Presence ***********#
-  - alias: all_residents_away_automations
+  #********** Mike Presence ***********#
+  - alias: mike_away
+    trigger:
+      - platform: state
+        entity_id: device_tracker.iphone6s
+        state: 'not_home'
+        for:
+          minutes: 5
+      - platform: state
+        entity_id: input_boolean.var_desktop_computer_on
+        state: 'off'
+    condition:
+      - condition: state
+        entity_id: input_boolean.var_mike_home
+        state: 'on'
+      - condition: state
+        entity_id: device_tracker.dans_iphone6
+        state: 'not_home'
+      - condition: state
+        entity_id: device_tracker.iphone6s
+        state: 'not_home'
+      - platform: state
+        entity_id: input_boolean.var_desktop_computer_on
+        state: 'off'
+    action:
+      - service: homeassistant.turn_off
+        entity_id: input_boolean.var_mike_home
+
+  - alias: mike_home
+    trigger:
+      - platform: state
+        entity_id: device_tracker.iphone6s
+        state: 'home'
+      - platform: state
+        entity_id: device_tracker.watch
+        state: 'home'
+      - platform: state
+        entity_id: device_tracker.dans_iphone6
+        state: 'home'
+      - platform: state
+        entity_id: input_boolean.var_desktop_computer_on
+        state: 'on'
+    condition:
+      - condition: state
+        entity_id: input_boolean.var_mike_home
+        state: 'off'
+    action:
+      - service: homeassistant.turn_on
+        entity_id: input_boolean.var_mike_home
+
+  #********** Dan Presence ***************************************#
+  - alias: dan_away
+    trigger:
+      - platform: state
+        entity_id: device_tracker.dans_iphone6
+        state: 'not_home'
+        for:
+          minutes: 5
+    condition:
+      - condition: state
+        entity_id: input_boolean.var_dan_home
+        state: 'on'
+    action:
+      - service: homeassistant.turn_off
+        entity_id: input_boolean.var_dan_home
+
+  - alias: dan_home
+    trigger:
+      - platform: state
+        entity_id: device_tracker.dans_iphone6
+        state: 'home'
+    condition:
+      - condition: state
+        entity_id: input_boolean.var_dan_home
+        state: 'off'
+    action:
+      - service: homeassistant.turn_on
+        entity_id: input_boolean.var_dan_home
+
+
+  #********** Residents Presence ***********#
+  - alias: residents_home
     trigger:
       - platform: state
         entity_id: group.residents
         from: 'on'
         to: 'off'
-        for:
-          minutes: 10
     action:
-    - service: script.scene2
-      data:
-        rooms: 'all'
-        scene_name: 'off'
-        transition: 600
-    - service: homeassistant.turn_off
-      entity_id: input_boolean.option_notify2_tts
-    - service: homeassistant.turn_off
-      entity_id: input_boolean.option_notify2_chromecast
-    - service: homeassistant.turn_off
-      entity_id: input_boolean.option_notify2_lights
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.var_residents_home
 
-  - alias: any_resident_home_automation
+
+  - alias: residents_away
     trigger:
       - platform: state
         entity_id: group.residents
         from: 'off'
         to: 'on'
     action:
-    - service: homeassistant.turn_on
-      entity_id: input_boolean.option_notify2_tts
-    - service: homeassistant.turn_on
-      entity_id: input_boolean.option_notify2_chromecast
-    - service: homeassistant.turn_on
-      entity_id: input_boolean.option_notify2_lights
-    - service: script.scene2
-      data:
-        rooms: 'all'
-        scene_name: 'day_bright'
-        transition: 1
-    - delay: "00:05:00"
-    - service: script.scene2
-      data_template:
-        rooms: 'all'
-        scene_name: '{{ states.input_select.var_lks_timebased.state }}'
-        transition: 5
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.var_residents_home
 
-##########################################
-########## ALARM ###################
-##########################################
-  - alias: motion_detected_no_resident_home
-    trigger:
-    - platform: state
-      entity_id: binary_sensor.entertainment_center_motion_sensor
-      from: 'off'
-      to: 'on'
-    condition:
-      - condition: state
-        entity_id: group.residents
-        state: "off"
-    action:
-      - service: script.notify2
-        data_template:
-          telegram_message: |
-            *ALERT!* Motion Detected! No Residents are home!!
-            *debug_informtion:*
-            {{ trigger.entity_id }} = {{ trigger.to_state.state }}
-            group.residents = {{ states.group.residents.state }}
+
 
 
 input_boolean:
@@ -232,6 +263,7 @@ input_boolean:
   var_dan_home:
     icon: mdi:cellphone-iphone
 
+  var_residents_home:
 
 ##########################################
 ############### GROUPS ###################
@@ -241,19 +273,25 @@ group:
   residents:
     name: "Residents"
     entities:
+    - input_boolean.var_residents_home
     - input_boolean.var_mike_home
     - input_boolean.var_dan_home
 
   automation_user_presence:
     entities:
+      - automation.mike_away
+      - automation.mike_home
+      - automation.dan_away
+      - automation.dan_home
+      - automation.residents_home
+      - automation.residents_away
+
       - automation.mike_home_theme_video
       - automation.dan_home_theme_video
       - automation.dan_home_notification
       - automation.dan_here_filler_task_reminder
-      - automation.dan_home_start_smoke_session
-      - automation.all_residents_away_automations
-      - automation.any_resident_home_automation
-      - automation.motion_detected_no_resident_home
+      # - automation.dan_home_start_smoke_session
+
 
   # script_user_presence:
   #   entities:
