@@ -314,7 +314,7 @@ automation:
         seconds: 60
     condition:
     - condition: state
-      entity_id: var_residents_home
+      entity_id: input_boolean.var_residents_home
       state: 'on'
     - condition: state
       entity_id: input_select.var_lks_livingroom
@@ -352,7 +352,7 @@ automation:
         seconds: 60
     condition:
     - condition: state
-      entity_id: var_residents_home
+      entity_id: input_boolean.var_residents_home
       state: 'on'
     - condition: state
       entity_id: input_select.var_lks_livingroom

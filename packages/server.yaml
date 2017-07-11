@@ -300,28 +300,28 @@ sensor:
         friendly_name: 'Server Status'
         value_template: >
           {% if not is_state('sensor.server_modem',"online") %}
-            sensor.server_modem - {{ states('sensor.server_modem') }};
+            sensor.server_modem - {{ states.sensor.server_modem.state }};
           {%endif%}
           {% if not is_state('sensor.server_router',"online") %}
-            sensor.server_router - {{ states('sensor.server_router') }};
+            sensor.server_router - {{ states.sensor.server_router.state }};
           {%endif%}
           {% if not is_state('sensor.server_mqtt',"online") %}
-            sensor.server_mqtt - {{ states('sensor.server_mqtt') }};
+            sensor.server_mqtt - {{ states.sensor.server_mqtt.state }};
           {%endif%}
           {% if not is_state('sensor.server_eventghost',"online") %}
-            sensor.server_eventghost - {{ states('sensor.server_eventghost') }};
+            sensor.server_eventghost - {{ states.sensor.server_eventghost.state }};
           {%endif%}
         # {% if not is_state('sensor.server_sabnzbd',"online") %}
-        #   sensor.server_sabnzbd - {{ states('sensor.server_sabnzbd') }};
+        #   sensor.server_sabnzbd - {{ states.sensor.server_sabnzbd.state }};
         # {%endif%}
         # {% if not is_state('sensor.server_qbittorrent',"online") %}
-        #   sensor.server_qbittorrent - {{ states('sensor.server_qbittorrent') }};
+        #   sensor.server_qbittorrent - {{ states.sensor.server_qbittorrent.state }};
         # {%endif%}
         # {% if not is_state('sensor.server_sonarr',"online") %}
-        #   sensor.server_sonarr - {{ states('sensor.server_sonarr') }};
+        #   sensor.server_sonarr - {{ states.sensor.server_sonarr.state }};
         # {%endif%}
         # {% if not is_state('sensor.server_couchpotato',"online") %}
-        #   sensor.server_couchpotato - {{ states('sensor.server_couchpotato') }};
+        #   sensor.server_couchpotato - {{ states.sensor.server_couchpotato.state }};
         # {%endif%}
 
       # cloud_status_alert:
@@ -333,25 +333,25 @@ sensor:
         friendly_name: 'IoT Status'
         value_template: >
           {% if not is_state('sensor.iot_echo_dot',"online") %}
-            sensor.iot_echo_dot - {{ states('sensor.iot_echo_dot') }}
+            sensor.iot_echo_dot - {{ states.sensor.iot_echo_dot.state }}
           {%endif%}
           {% if not is_state('sensor.iot_esp8266_kitchen',"online") %}
-            sensor.iot_esp8266_kitchen - {{ states('sensor.iot_esp8266_kitchen') }};
+            sensor.iot_esp8266_kitchen - {{ states.sensor.iot_esp8266_kitchen.state }};
           {%endif%}
           {% if not is_state('sensor.iot_esp8266_office',"online") %}
-            sensor.iot_esp8266_office - {{ states('sensor.iot_esp8266_office') }};
+            sensor.iot_esp8266_office - {{ states.sensor.iot_esp8266_office.state }};
           {%endif%}
           {% if not is_state('sensor.iot_esp8266_office_air_freshener',"online") %}
-            sensor.iot_esp8266_office_air_freshener - {{ states('sensor.iot_esp8266_office_air_freshener') }};
+            sensor.iot_esp8266_office_air_freshener - {{ states.sensor.iot_esp8266_office_air_freshener.state }};
           {%endif%}
           {% if not is_state('sensor.iot_esp8266_tables',"online") %}
-            sensor.iot_esp8266_tables - {{ states('sensor.iot_esp8266_tables') }};
+            sensor.iot_esp8266_tables - {{ states.sensor.iot_esp8266_tables.state }};
           {%endif%}
           {% if not is_state('sensor.iot_esp8266_entertainment_center',"online") %}
-            sensor.iot_esp8266_entertainment_center - {{ states('sensor.iot_esp8266_entertainment_center') }};
+            sensor.iot_esp8266_entertainment_center - {{ states.sensor.iot_esp8266_entertainment_center.state }};
           {%endif%}
           {% if not is_state('sensor.iot_esp8266_bedroom',"online") %}
-            sensor.iot_esp8266_bedroom - {{ states('sensor.iot_esp8266_bedroom') }};
+            sensor.iot_esp8266_bedroom - {{ states.sensor.iot_esp8266_bedroom.state }};
           {%endif%}
 
       # sonarr_upcoming_episodes:
@@ -372,21 +372,22 @@ automation:
 ########## NOTIFICATIONS #################
 ##########################################
 
-  #********** Home Assistant Update ***************************************#
-  - alias: HOME ASSISTANT Update Notificaiton
-    trigger:
-      - platform: state
-        entity_id: updater.updater
-    action:
-      - service: script.notify2
-        data_template:
-          telegram_message: |
-            Home Assistant updated to v{{ states.updater.updater.state}}
-            {{ states.updater.updater.attributes.release_notes }}
-          tts_entity_id: group.tts_devices
-          tts_sound: 'intercom_ds9.mp3'
-          tts_message: "FYI: There is a new update for Home Assistant available!"
-          mlo_message: "Update Home Assistant to {{ states.updater.updater.state}}.  {{ states.updater.updater.attributes.release_notes }}"
+  # #********** Home Assistant Update ***************************************#
+  # # NOTE: This component is causing ```UndefinedError: 'None' has no attribute 'state'```  error. Due to updater.updater component not loading? 
+  # - alias: HOME ASSISTANT Update Notificaiton
+  #   trigger:
+  #     - platform: state
+  #       entity_id: updater.updater
+  #   action:
+  #     - service: script.notify2
+  #       data_template:
+  #         telegram_message: |
+  #           Home Assistant updated to v{{ states.updater.updater.state}}
+  #           {{ states.updater.updater.attributes.release_notes }}
+  #         tts_entity_id: group.tts_devices
+  #         tts_sound: 'intercom_ds9.mp3'
+  #         tts_message: "FYI: There is a new update for Home Assistant available!"
+  #         mlo_message: "Update Home Assistant to {{ states.updater.updater.state}}.  {{ states.updater.updater.attributes.release_notes }}"
 
 
   #********** HASS Startup ***************************************#
@@ -538,19 +539,19 @@ automation:
             {{ states.sensor.server_status_alert.state }}
 
 
-  - alias: cloud_service_down
-    trigger:
-      - platform: state
-        entity_id: sensor.cloud_status_alert
-    condition:
-      - condition: template
-        value_template: '{{ states.sensor.cloud_status_alert.state| string != "" }}'
-    action:
-      - service: script.notify2
-        data_template:
-          telegram_message: |
-            Cloud Service Down! -
-            {{ states.sensor.cloud_status_alert.state }}
+  # - alias: cloud_service_down
+  #   trigger:
+  #     - platform: state
+  #       entity_id: sensor.cloud_status_alert
+  #   condition:
+  #     - condition: template
+  #       value_template: '{{ states.sensor.cloud_status_alert.state | string != "" }}'
+  #   action:
+  #     - service: script.notify2
+  #       data_template:
+  #         telegram_message: |
+  #           Cloud Service Down! -
+  #           {{ states.sensor.cloud_status_alert.state }}
 
 
   - alias: iot_device_down
@@ -559,7 +560,7 @@ automation:
         entity_id: sensor.iot_status_alert
     condition:
       - condition: template
-        value_template: '{{ states.sensor.iot_status_alert.state| string != "" }}'
+        value_template: '{{ states.sensor.iot_status_alert.state | string != "" }}'
     action:
       - service: script.notify2
         data_template:
@@ -745,7 +746,7 @@ group:
   status_alert:
     name: "Status Alert"
     entities:
-    - sensor.cloud_status_alert
+    # - sensor.cloud_status_alert
     - sensor.server_status_alert
     - sensor.iot_status_alert
 
@@ -761,11 +762,11 @@ group:
     # - sensor.server_sonarr
     # - sensor.server_couchpotato
 
-  cloud_status:
-    name: "Cloud Status"
-    entities:
-    - sensor.cloud_ifttt
-    - sensor.cloud_lifx
+  # cloud_status:
+  #   name: "Cloud Status"
+  #   entities:
+  #   - sensor.cloud_ifttt
+  #   - sensor.cloud_lifx
 
   iot_status:
     name: "IoT Status"
@@ -810,7 +811,7 @@ group:
       - automation.hass_startup
       - automation.home_assistant_update_notificaiton
       - automation.server_service_down
-      - automation.cloud_service_down
+      # - automation.cloud_service_down
       - automation.iot_device_down
       - automation.log_level
       - automation.speedtest_speed_low

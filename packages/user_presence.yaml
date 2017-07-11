@@ -169,7 +169,7 @@ automation:
       - condition: state
         entity_id: device_tracker.iphone6s
         state: 'not_home'
-      - platform: state
+      - condition: state
         entity_id: input_boolean.var_desktop_computer_on
         state: 'off'
     action:
@@ -273,7 +273,6 @@ group:
   residents:
     name: "Residents"
     entities:
-    - input_boolean.var_residents_home
     - input_boolean.var_mike_home
     - input_boolean.var_dan_home
 
@@ -292,6 +291,11 @@ group:
       - automation.dan_here_filler_task_reminder
       # - automation.dan_home_start_smoke_session
 
+  homeassistant_user_presence:
+    entities:
+    - input_boolean.var_residents_home
+    - input_boolean.var_mike_home
+    - input_boolean.var_dan_home
 
   # script_user_presence:
   #   entities:

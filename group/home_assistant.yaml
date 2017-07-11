@@ -9,8 +9,6 @@
   stored_variables:
     name: "Stored Variables"
     entities:
-      - input_boolean.var_mike_home
-      - input_boolean.var_dan_home
       - input_boolean.var_chromecast_screensaver_ready
       - input_boolean.var_ps3_on
       - input_boolean.var_kitchen_motion_on

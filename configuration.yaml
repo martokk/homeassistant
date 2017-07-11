@@ -1,5 +1,5 @@
 ##########################################
-########## vHOME v0.7.06 #################
+########## vHOME v0.7.10 #################
 ##########################################
 homeassistant:
   name: vHome
@@ -57,6 +57,7 @@ emulated_hue:
 
 frontend:
 updater:
+  reporting: False
 discovery:
 conversation:
 history:

@@ -18,7 +18,7 @@ automation:
   - alias: set_indoor_temp_hot
     trigger:
       - platform: template
-        value_template: '{% if ( states.sensor.indoor_temperature.state | float - states.input_slider.option_target_temperature_offset.state | float ) > states.input_slider.option_indoor_temp_hot.state | float %}true{%endif%}'
+        value_template: '{% if  states.sensor.indoor_temperature.state  %}{% if ( states.sensor.indoor_temperature.state | float - states.input_slider.option_target_temperature_offset.state | float ) > states.input_slider.option_indoor_temp_hot.state | float %}true{%endif%}{%endif%}'
     action:
       - service: input_boolean.turn_on
         entity_id: input_boolean.var_indoor_temp_hot
@@ -26,7 +26,7 @@ automation:
   - alias: set_indoor_temp_very_warm
     trigger:
       - platform: template
-        value_template: '{% if ( states.sensor.indoor_temperature.state | float - states.input_slider.option_target_temperature_offset.state | float ) > states.input_slider.option_indoor_temp_very_warm.state | float and ( states.sensor.indoor_temperature.state | float - states.input_slider.option_target_temperature_offset.state | float ) < states.input_slider.option_indoor_temp_hot.state | float %}true{%endif%}'
+        value_template: '{% if  states.sensor.indoor_temperature.state  %}{% if ( states.sensor.indoor_temperature.state | float - states.input_slider.option_target_temperature_offset.state | float ) > states.input_slider.option_indoor_temp_very_warm.state | float and ( states.sensor.indoor_temperature.state | float - states.input_slider.option_target_temperature_offset.state | float ) < states.input_slider.option_indoor_temp_hot.state | float %}true{%endif%}{%endif%}'
     action:
       - service: input_boolean.turn_on
         entity_id: input_boolean.var_indoor_temp_very_warm
@@ -34,7 +34,7 @@ automation:
   - alias: set_indoor_temp_warm
     trigger:
       - platform: template
-        value_template: '{% if ( states.sensor.indoor_temperature.state | float - states.input_slider.option_target_temperature_offset.state | float ) > states.input_slider.option_indoor_temp_warm.state | float and ( states.sensor.indoor_temperature.state | float - states.input_slider.option_target_temperature_offset.state | float ) < states.input_slider.option_indoor_temp_very_warm.state | float %}true{%endif%}'
+        value_template: '{% if  states.sensor.indoor_temperature.state  %}{% if ( states.sensor.indoor_temperature.state | float - states.input_slider.option_target_temperature_offset.state | float ) > states.input_slider.option_indoor_temp_warm.state | float and ( states.sensor.indoor_temperature.state | float - states.input_slider.option_target_temperature_offset.state | float ) < states.input_slider.option_indoor_temp_very_warm.state | float %}true{%endif%}{%endif%}'
     action:
       - service: input_boolean.turn_on
         entity_id: input_boolean.var_indoor_temp_warm
@@ -42,7 +42,7 @@ automation:
   - alias: set_indoor_temp_ok
     trigger:
       - platform: template
-        value_template: '{% if ( states.sensor.indoor_temperature.state | float - states.input_slider.option_target_temperature_offset.state | float ) > states.input_slider.option_indoor_temp_ok.state | float and ( states.sensor.indoor_temperature.state | float - states.input_slider.option_target_temperature_offset.state | float ) < states.input_slider.option_indoor_temp_warm.state | float %}true{%endif%}'
+        value_template: '{% if  states.sensor.indoor_temperature.state  %}{% if ( states.sensor.indoor_temperature.state | float - states.input_slider.option_target_temperature_offset.state | float ) > states.input_slider.option_indoor_temp_ok.state | float and ( states.sensor.indoor_temperature.state | float - states.input_slider.option_target_temperature_offset.state | float ) < states.input_slider.option_indoor_temp_warm.state | float %}true{%endif%}{%endif%}'
     action:
       - service: input_boolean.turn_on
         entity_id: input_boolean.var_indoor_temp_ok
@@ -50,7 +50,7 @@ automation:
   - alias: set_indoor_temp_cool
     trigger:
       - platform: template
-        value_template: '{% if ( states.sensor.indoor_temperature.state | float - states.input_slider.option_target_temperature_offset.state | float ) > states.input_slider.option_indoor_temp_cool.state | float and ( states.sensor.indoor_temperature.state | float - states.input_slider.option_target_temperature_offset.state | float ) < states.input_slider.option_indoor_temp_ok.state | float %}true{%endif%}'
+        value_template: '{% if  states.sensor.indoor_temperature.state  %}{% if ( states.sensor.indoor_temperature.state | float - states.input_slider.option_target_temperature_offset.state | float ) > states.input_slider.option_indoor_temp_cool.state | float and ( states.sensor.indoor_temperature.state | float - states.input_slider.option_target_temperature_offset.state | float ) < states.input_slider.option_indoor_temp_ok.state | float %}true{%endif%}{%endif%}'
     action:
       - service: input_boolean.turn_on
         entity_id: input_boolean.var_indoor_temp_cool
@@ -58,7 +58,7 @@ automation:
   - alias: set_indoor_temp_cold
     trigger:
       - platform: template
-        value_template: '{% if ( states.sensor.indoor_temperature.state | float - states.input_slider.option_target_temperature_offset.state | float ) < states.input_slider.option_indoor_temp_cool.state | float %}true{%endif%}'
+        value_template: '{% if  states.sensor.indoor_temperature.state  %}{% if ( states.sensor.indoor_temperature.state | float - states.input_slider.option_target_temperature_offset.state | float ) < states.input_slider.option_indoor_temp_cool.state | float %}true{%endif%}{%endif%}'
     action:
       - service: input_boolean.turn_on
         entity_id: input_boolean.var_indoor_temp_cold

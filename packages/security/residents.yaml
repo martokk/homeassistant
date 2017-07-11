@@ -124,6 +124,7 @@ group:
       - automation.all_residents_away_automations
       - automation.any_resident_home_automation
       - automation.motion_detected_no_resident_home
+      - automation.announce_residents_away
 
 #   homeassistant_residents:
 #     entities:

@@ -84,6 +84,7 @@
     - group.homeassistant_room_states
     - group.homeassistant_entertainment_center
     - group.homeassistant_residents
+    - group.homeassistant_user_presence
 
   automations:
     name: "Automations"

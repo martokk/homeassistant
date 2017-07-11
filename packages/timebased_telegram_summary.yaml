@@ -96,8 +96,8 @@ automation:
       # - platform: template
       #   value_template: '{{ states.sensor.time.state | string in states.input_select.array_timebased_telegram_summary_times.attributes.options | string }}'
      - platform: time
-       minutes: '/1'
-       seconds: 00
+       minutes: 00
+       seconds: 05
     condition:
       - condition: template
         value_template: '{{ states.sensor.time.state | string in states.input_select.array_timebased_telegram_summary_times.attributes.options | string }}'
