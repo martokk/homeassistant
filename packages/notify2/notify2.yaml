@@ -523,6 +523,9 @@ group:
       - script.notify2_do_nothing
       - script.notify2_tts_resume
 
+  homeassistant_notify2:
+    entities:
+      - input_boolean.var_notify2_15m_chromecast_on
 
   options_notify2:
     name: "Notify2 Notifications"

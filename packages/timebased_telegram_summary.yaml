@@ -94,13 +94,13 @@ automation:
   - alias: timebased_summary
     trigger:
       # - platform: template
-      #   value_template: '{{ states.sensor.time.state | string in states.input_select.array_timebased_telegram_summary_times.attributes.options | string }}'
+      #   value_template: '{{ states.sensor.time.state | string in states.input_select.array_timebased_summary_times.attributes.options | string }}'
      - platform: time
        minutes: 00
        seconds: 05
     condition:
       - condition: template
-        value_template: '{{ states.sensor.time.state | string in states.input_select.array_timebased_telegram_summary_times.attributes.options | string }}'
+        value_template: '{{ states.sensor.time.state | string in states.input_select.array_timebased_summary_times.attributes.options | string }}'
     action:
       - service: script.timebased_summary
 
@@ -110,7 +110,7 @@ automation:
 
 
 input_select:
-  array_timebased_telegram_summary_times:
+  array_timebased_summary_times:
     options:
       - "05:45"
       - "12:00"
@@ -124,6 +124,10 @@ group:
   automation_timebased_telegram:
     entities:
       - automation.timebased_summary
+
+  homeassistant_timebased_summary:
+    entities:
+      - input_select.array_timebased_summary_times
 
   script_timebased_summary:
     entities:

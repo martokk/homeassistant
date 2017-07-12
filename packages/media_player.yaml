@@ -444,6 +444,13 @@ group:
       - automation.set_tts_vol_low
       - automation.set_tts_vol_low2
 
+  homeassistant_media:
+    entities:
+      - input_boolean.var_chromecast_screensaver_ready
+      - input_boolean.var_chromecast_interupt
+      - input_select.array_chromecast_playing_apps
+      - input_select.array_chromecast_idle_apps
+
   options_media:
     name: "Media"
     entities:

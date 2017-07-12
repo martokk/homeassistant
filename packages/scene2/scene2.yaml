@@ -272,6 +272,11 @@ group:
     - script.scene2_day
     - script.scene2_off
 
+  homeassistant_scene2:
+    entities:
+      - input_select.array_low_light_scenes
+      - input_select.array_day_scenes
+
 #********** ROOM STATES ***************************************#
   homeassistant_room_states:
     entities:

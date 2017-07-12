@@ -72,8 +72,6 @@
     name: "Home Assistant"
     view: yes
     entities:
-    - group.tools
-    - group.stored_variables
     - group.stored_arrays
     - group.homeassistant_volume_control
     - group.homeassistant_environment
@@ -85,6 +83,13 @@
     - group.homeassistant_entertainment_center
     - group.homeassistant_residents
     - group.homeassistant_user_presence
+    - group.homeassistant_media
+    - group.homeassistant_notify2
+    - group.homeassistant_bitcoin
+    - group.homeassistant_alarm
+    - group.homeassistant_lights
+    - group.homeassistant_scene2
+    - group.homeassistant_timebased_summary
 
   automations:
     name: "Automations"

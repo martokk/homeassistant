@@ -349,6 +349,7 @@ group:
       - input_boolean.override_tv_helper
       - input_boolean.override_turn_on_tv
       - input_boolean.override_turn_off_tv
+      - input_boolean.var_ps3_on
 
   script_entertainment_center:
     entities:

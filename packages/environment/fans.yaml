@@ -242,7 +242,6 @@ input_boolean:
 #########################################
 ######### STORED VARIABLES ##############
 #########################################
-  var_smoke_session_on:
   var_fans_circulate_air_on:
   var_fans_temperature_controlled_on:
 

@@ -186,6 +186,10 @@ group:
       - sensor.bitcoin_percent_change_24h
       - sensor.bitcoin_percent_change_7d
 
+  homeassistant_bitcoin:
+    entities:
+      - input_slider.var_last_known_bitcoin_price
+
   coinmarketcap:
     entities:
       - sensor.bitcoin

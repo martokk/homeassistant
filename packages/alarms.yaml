@@ -182,6 +182,10 @@ group:
       - input_select.option_morning_alarm_time
       - input_boolean.option_timebased_telegram_summary
 
+  homeassistant_alarm:
+    entities:
+      - input_boolean.var_morning_alarm_on
+
   script_alarms:
     entities:
       - script.morning_alarm_turn_on

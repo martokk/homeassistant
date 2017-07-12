@@ -525,3 +525,18 @@ group:
       - script.flood_and_blink
       - script.flood_and_blink2
       - script.flood_and_breathe
+
+  scripts_lights_test:
+    name: "Scripts - Lights Test"
+    entities:
+      - script.breathe_light_test
+      - script.flash_light_test
+      - script.blink_light_test
+      - script.blink2_light_test
+      - script.flood_scene_test
+      - script.flood_light_test
+      - script.flood_and_change_scene_test
+      - script.flood_and_breathe_test
+      - script.flood_and_blink_test
+      - script.flood_and_blink2_test
+      - script.5m_flood_day
