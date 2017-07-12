@@ -182,11 +182,25 @@ automation:
       - service: input_boolean.turn_off
         entity_id: input_boolean.var_indoor_temp_cool
 
-
+  - alias: reset_option_target_temperature_offset
+    trigger:
+      - platform: state
+        entity_id: input_slider.option_target_temperature_offset
+      - platform: homeassistant
+        event: start
+    condition:
+      - condition: state
+        entity_id: input_slider.option_target_temperature_offset
+        state: '-5.0'
+    action:
+      - service: input_slider.select_value
+        data:
+          entity_id: input_slider.option_target_temperature_offset
+          value: 0.0
 
 ##########################################
 ########## SCRIPTS #######################
-##########################################
+##########################################s
 script:
   target_temperature_offset_down:
     sequence:
@@ -257,7 +271,6 @@ input_slider:
 
   option_target_temperature_offset:
     name: Target Temperature Offset
-    initial: 0
     min: -5
     max: 5
     step: 1
@@ -291,6 +304,7 @@ group:
       - automation.indoor_temp_ok
       - automation.indoor_temp_cool
       - automation.indoor_temp_cold
+      - automation.reset_option_target_temperature_offset
 #
 #
 #   homeassistant_template:
