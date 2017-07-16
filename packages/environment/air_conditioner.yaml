@@ -144,10 +144,12 @@ automation:
         state: 'on'
     action:
       - delay: '00:00:01'
+
       # All Computers - Volume up 4%
       - service: script.set_computers_volume
         data:
           volume_up: 4
+
       # Entertainment Center - Volume up 3 clicks
       - condition: state
         entity_id: switch.sonoff_entertainment_center
@@ -156,6 +158,13 @@ automation:
         data:
           volume_up: 3
 
+      # TTS
+      - service: media_player.volume_set
+        data_template:
+          entity_id: media_player.vlc
+          volume_level: '{{ states.media_player.vlc.attributes.volume_level | float + 0.10 }}'
+
+          
   - alias: air_conditioner_off_devices_volume_down
     trigger:
       - platform: state
@@ -163,10 +172,12 @@ automation:
         state: 'off'
     action:
       - delay: '00:00:01'
+
       # All Computers - Volume down 4%
       - service: script.set_computers_volume
         data:
           volume_down: 4
+
       # Entertainment Center - Volume down 3 clicks
       - condition: state
         entity_id: switch.sonoff_entertainment_center
@@ -175,7 +186,11 @@ automation:
         data:
           volume_down: 3
 
-
+      # TTS
+      - service: media_player.volume_set
+        data_template:
+          entity_id: media_player.vlc
+          volume_level: '{{ states.media_player.vlc.attributes.volume_level | float - 0.10 }}'
 
 ##########################################
 ########## SCRIPTS #######################

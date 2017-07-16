@@ -258,7 +258,7 @@ automation:
       - service: media_player.volume_set
         data_template:
           entity_id: media_player.vlc
-          volume_level: 0.95
+          volume_level: 0.80
 
   - alias: set_tts_vol_low
     trigger:
@@ -273,7 +273,7 @@ automation:
       - service: media_player.volume_set
         data_template:
           entity_id: media_player.vlc
-          volume_level: 0.85
+          volume_level: 0.70
 
   - alias: set_tts_vol_low2
     trigger:
@@ -288,7 +288,7 @@ automation:
       - service: media_player.volume_set
         data_template:
           entity_id: media_player.vlc
-          volume_level: 0.85
+          volume_level: 0.70
 
 ##########################################
 ########## SPOTIFY #######################

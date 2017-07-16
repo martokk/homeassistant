@@ -191,18 +191,20 @@ automation:
 
 
 
-  #********** Volume Adjustment - Fans On/Off ***************************************#
-  - alias: fan_on_chromecast_volume_up
+  #**********  Volume Adjustment - Fans On/Off ***************************************#
+  - alias: fan_on_volume_up
     trigger:
       - platform: state
         entity_id: switch.sonoff_small_desk_fan1
         state: 'on'
     action:
       - delay: '00:00:01'
+
       # All Computers - Volume up 2%
       - service: script.set_computers_volume
         data:
           volume_up: 2
+
       # Entertainment Center - Volume up 2 clicks
       - condition: state
         entity_id: switch.sonoff_entertainment_center
@@ -211,17 +213,26 @@ automation:
         data:
           volume_up: 2
 
-  - alias: fan_off_chromecast_volume_down
+      # TTS
+      - service: media_player.volume_set
+        data_template:
+          entity_id: media_player.vlc
+          volume_level: '{{ states.media_player.vlc.attributes.volume_level | float + 0.05 }}'
+
+
+  - alias: fan_off_volume_down
     trigger:
       - platform: state
         entity_id: switch.sonoff_small_desk_fan1
         state: 'off'
     action:
       - delay: '00:00:01'
+
       # All Computers - Volume down 2%
       - service: script.set_computers_volume
         data:
           volume_down: 2
+
       # Entertainment Center - Volume down 2 clicks
       - condition: state
         entity_id: switch.sonoff_entertainment_center
@@ -230,6 +241,11 @@ automation:
         data:
           volume_down: 2
 
+      # TTS
+      - service: media_player.volume_set
+        data_template:
+          entity_id: media_player.vlc
+          volume_level: '{{ states.media_player.vlc.attributes.volume_level | float - 0.05 }}'
 
 ##########################################
 ########## SCRIPTS #######################
@@ -289,8 +305,8 @@ group:
       - automation.fans_override
       - automation.fans_override_turn_on
       - automation.fans_override_turn_off
-      - automation.fan_on_chromecast_volume_up
-      - automation.fan_off_chromecast_volume_down
+      - automation.fan_on_volume_up
+      - automation.fan_off_volume_down
 
 
   homeassistant_fans:
