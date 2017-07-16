@@ -362,6 +362,15 @@ magic_mouse:
   picture:
   track: false
   vendor: Apple, Inc.
+bts06: # Blue Bluetooth Speaker
+  hide_if_away: false
+  icon:
+  mac: BT_CD:81:95:6A:61:25
+  name: BTS-06
+  picture:
+  track: false
+  vendor: unknown
+
 
 ##########################################
 ########## NEIGHBORS DEVICES #############
