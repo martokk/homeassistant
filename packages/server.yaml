@@ -32,6 +32,10 @@ homeassistant:
       hidden: true
     sensor.lifx_status:
       hidden: true
+    sensor.hass_version_latest:
+      hidden: true
+    sensor.hass_version_current:
+      hidden: true
 
 panel_iframe:
   modem:
@@ -176,9 +180,21 @@ sensor:
       - 'time'
       - 'date'
 
+
+  #********** HASS Version  ***********#
+  - platform: command_line
+    command: python3 -c "import requests; print(requests.get('https://pypi.python.org/pypi/homeassistant/json').json()['info']['version'])"
+    name: hass_version_latest
+
+  -  platform: command_line
+     command: "/usr/local/bin/hass --version"
+     name: hass_version_current
+
+
   #********** Templates ***************************************#
   - platform: template
     sensors:
+
       # pihole_queries_blocked_today:
       #   friendly_name: "DNS Queries Blocked Today"
       #   value_template: >-
@@ -367,13 +383,15 @@ sensor:
       #       {% endif %}
       #     {% endif %}
 
+
+
 automation:
 ##########################################
 ########## NOTIFICATIONS #################
 ##########################################
 
   # #********** Home Assistant Update ***************************************#
-  # # NOTE: This component is causing ```UndefinedError: 'None' has no attribute 'state'```  error. Due to updater.updater component not loading? 
+  # # NOTE: This component is causing ```UndefinedError: 'None' has no attribute 'state'```  error. Due to updater.updater component not loading?
   # - alias: HOME ASSISTANT Update Notificaiton
   #   trigger:
   #     - platform: state
@@ -388,6 +406,20 @@ automation:
   #         tts_sound: 'intercom_ds9.mp3'
   #         tts_message: "FYI: There is a new update for Home Assistant available!"
   #         mlo_message: "Update Home Assistant to {{ states.updater.updater.state}}.  {{ states.updater.updater.attributes.release_notes }}"
+
+
+  - alias: home_assistant_update_notification2
+    trigger:
+      - platform: template
+        value_template: '{{ states.sensor.hass_version_latest.state != states.sensor.hass_version_current.state }}'
+    action:
+      - service: script.notify2
+        data_template:
+          telegram_message: |
+            Home Assistant updated to v{{ states.sensor.hass_version_latest.state }}
+          tts_entity_id: group.tts_devices
+          tts_sound: 'intercom_ds9.mp3'
+          tts_message: "FYI: There is a new update for Home Assistant available! The latest update is version {{ states.sensor.hass_version_latest.state }}"
 
 
   #********** HASS Startup ***************************************#
@@ -810,7 +842,8 @@ group:
     entities:
       # - automation.temporary_hass_startup
       - automation.hass_startup
-      - automation.home_assistant_update_notificaiton
+      # - automation.home_assistant_update_notificaiton
+      - automation.home_assistant_update_notification2
       - automation.server_service_down
       # - automation.cloud_service_down
       - automation.iot_device_down
