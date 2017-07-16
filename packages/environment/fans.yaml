@@ -82,13 +82,13 @@ automation:
         state: 'off'
     action:
       - service: input_boolean.turn_on
-        entity_id: input_boolean.var_circulate_air_on
+        entity_id: input_boolean.var_fans_circulate_air_on
       - delay: '00:05:00'
       - condition: state
         entity_id: input_boolean.option_fans_circulate_air
         state: 'on'
       - service: input_boolean.turn_off
-        entity_id: input_boolean.var_circulate_air_on
+        entity_id: input_boolean.var_fans_circulate_air_on
 
   - alias: fans_circulate_air_off
     trigger:
@@ -107,7 +107,7 @@ automation:
         state: 'off'
     action:
       - service: input_boolean.turn_off
-        entity_id: input_boolean.var_circulate_air_on
+        entity_id: input_boolean.var_fans_circulate_air_on
 
   #********** Fans - Temperature Controlled  ***************************************#
   - alias: fans_temperature_controlled_on

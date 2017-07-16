@@ -75,6 +75,7 @@ sensor:
       - apparent_temperature_max
       - apparent_temperature_min
       - precip_intensity_max
+      - wind_speed
 
   - platform: wunderground
     api_key: !secret wunderground_api_key
@@ -101,6 +102,25 @@ sensor:
             {%- endfor -%}
           {% endif %}
 
+  - platform: template
+    sensors:
+      weather_alert_message:
+        friendly_name: 'Weather Alerts Message'
+        value_template: >-
+          {% set criteria = ["Special Statement", "Tornado Warning", "Tornado Watch", "Severe Thunderstorm Warning", "Flood Warning", "Severe Weather Statement", "Severe Thunderstorm Watch", "HUR", "TOR", "TOW", "WRN", "SEW", "FLO", "WAT", "SVR"] %}
+          {% if states.sensor.pws_alerts %}
+            {% for state in states.sensor.pws_alerts.attributes -%}
+              {% if "Message" in state | string %}
+                {% set message = states.sensor.pws_alerts.attributes[state] | string %}
+                {% for item in criteria %}
+                  {% if item in message %}
+                    {{ message }}
+                  {% else %}
+                  {% endif -%}
+                {%endfor%}
+              {%endif%}
+            {%- endfor -%}
+          {% endif %}
 
 ##########################################
 ########## NOTIFICATIONS #################
@@ -252,6 +272,20 @@ automation:
         blink_color: "cyan"
         blink_color2: "red"
 
+  #********** Wind ***********#
+  - alias: high_wind
+    trigger:
+      - platform: numeric_state
+        entity_id: sensor.dark_sky_wind_speed
+        above: 20
+    action:
+      - service: script.notify2
+        data_template:
+          telegram_message: |
+            *WEATHER ALERT!*
+            High wind speed, currently at {{ states.sensor.dark_sky_wind_speed.state|round }} MPH!
+
+
   #********** Weather Alerts ***************************************#
   - alias: weather_alert
     trigger:
@@ -259,7 +293,7 @@ automation:
         entity_id: sensor.weather_alerts
     condition:
       - condition: template
-        value_template: '{{"kenosha" in states.sensor.pws_alerts.attributes.Message | lower }}'
+        value_template: '{{"kenosha" in states.sensor.weather_alert_message.state | lower }}'
       - condition: template
         value_template: >
           {% if states.automation.weather_alert.attributes.last_triggered %}
@@ -276,8 +310,8 @@ automation:
         data_template:
           telegram_message: |
             *WEATHER ALERT!*
-            {{ states("sensor.weather_alert") }}
-            {{ states.sensor.pws_alerts.attributes.Message }}
+            *{{ states.sensor.weather_alert.state }}*
+            {{ states.sensor.weather_alert_message.state }}
           telegram_url: http://sirocco.accuweather.com/nxssa_r1_h_500x620d/r1h/inxr1kmkea_h.gif
           flood_color: "yellow"
           blink_color: "red"
@@ -395,6 +429,7 @@ group:
     - sensor.dark_sky_humidity
     - sensor.pws_alerts
     - sensor.weather_alert
+    - sensor.weather_alert_message
 
   weather_summary:
     name: "Weather Summary"
@@ -417,6 +452,7 @@ group:
     - sensor.dark_sky_precip_intensity
     - sensor.dark_sky_precip_probability
     - sensor.dark_sky_daily_max_precip_intensity
+    - sensor.dark_sky_wind_speed
 
   automation_weather:
     entities:
@@ -424,6 +460,7 @@ group:
       - automation.rain_stop
       - automation.snow_start
       - automation.snow_stop
+      - automation.high_wind
       - automation.weather_alert
       - automation.weather_based_day_le
       - automation.weather_based_day

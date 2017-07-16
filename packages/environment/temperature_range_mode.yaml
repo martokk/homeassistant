@@ -207,14 +207,14 @@ script:
       - service: input_slider.select_value
         data_template:
           entity_id: input_slider.option_target_temperature_offset
-          value: '{{ states.input_slider.option_target_temperature_offset | int - 1 }}'
+          value: '{{ states.input_slider.option_target_temperature_offset.state | int - 1 }}'
 
   target_temperature_offset_up:
     sequence:
       - service: input_slider.select_value
         data_template:
           entity_id: input_slider.option_target_temperature_offset
-          value: '{{ states.input_slider.option_target_temperature_offset | int + 1 }}'
+          value: '{{ states.input_slider.option_target_temperature_offset.state | int + 1 }}'
 
 
 
