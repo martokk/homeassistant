@@ -162,3 +162,4 @@
     - group.script_air_conditioner
     - group.script_temperature_range_mode
     - group.script_residents
+    - group.script_user_presence

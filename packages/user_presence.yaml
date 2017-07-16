@@ -4,13 +4,12 @@ homeassistant:
       hidden: true
     device_tracker.dans_iphone6:
       hidden: true
-    input_boolean.var_mike_home:
+    script.alexa_mike_home:
       emulated_hue: true
       emulated_hue_name: "Mike's Home"
-    input_boolean.var_dan_home:
+    script.alexa_dan_home:
       emulated_hue: true
       emulated_hue_name: "Dan's Home"
-
 
 automation:
 ##########################################
@@ -24,6 +23,10 @@ automation:
         entity_id: input_boolean.var_mike_home
         from: 'off'
         to: 'on'
+    condition:
+      - condition: state
+        entity_id: input_boolean.override_turn_off_tv
+        state: 'off'
     action:
       # TODO: If TV off, turn on, add in delays (as seen below). If TV already on, then don't use delays. Delays are nessesary since the TV needs to cold boot and takes about 16-17 seconds to cold boot.
     - service: switch.turn_on
@@ -194,6 +197,7 @@ automation:
       - condition: state
         entity_id: input_boolean.var_mike_home
         state: 'off'
+
     action:
       - service: homeassistant.turn_on
         entity_id: input_boolean.var_mike_home
@@ -251,7 +255,20 @@ automation:
       entity_id: input_boolean.var_residents_home
 
 
+script:
+  alexa_mike_home:
+    sequence:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.var_mike_home
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.var_override_home
 
+  alexa_dan_home:
+    sequence:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.var_dan_home
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.var_override_home
 
 input_boolean:
 ##########################################
@@ -265,6 +282,8 @@ input_boolean:
 
   var_residents_home:
 
+  var_override_home:
+
 ##########################################
 ############### GROUPS ###################
 ##########################################
@@ -275,6 +294,7 @@ group:
     entities:
     - input_boolean.var_mike_home
     - input_boolean.var_dan_home
+    - input_boolean.var_override_home
 
   automation_user_presence:
     entities:
@@ -296,6 +316,9 @@ group:
     - input_boolean.var_residents_home
     - input_boolean.var_mike_home
     - input_boolean.var_dan_home
+    - input_boolean.var_override_home
 
-  # script_user_presence:
-  #   entities:
+  script_user_presence:
+    entities:
+      - script.alexa_mike_home
+      - script.alexa_dan_home

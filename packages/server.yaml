@@ -698,6 +698,7 @@ script:
           - input_boolean.override_turn_off_fans
           - input_boolean.override_turn_off_air_conditioner
           - input_boolean.override_turn_off_air_conditioner
+          - input_boolean.var_override_home
 
   # restart_eventghost:
   #   alias: "Restart EventGhost"
