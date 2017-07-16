@@ -90,7 +90,8 @@
     - group.homeassistant_lights
     - group.homeassistant_scene2
     - group.homeassistant_timebased_summary
-
+    - group.homeassistant_temperature_range_mode
+    
   automations:
     name: "Automations"
     view: yes

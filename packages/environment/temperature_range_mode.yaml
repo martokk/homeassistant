@@ -13,15 +13,15 @@ sensor:
   - platform: template
     sensors:
       indoor_temp_hot_level:
-        value_template: '{{ states.input_slider.option_indoor_temp_hot.state | float + states.input_slider.option_target_temperature_offset.state | float }}'
+        value_template: '{{ states.input_slider.option_indoor_temp_hot.state | float + states.input_slider.option_target_temperature_offset.state | float + states.input_slider.var_indoor_temp_time_of_day.state | float }}'
       indoor_temp_very_warm_level:
-        value_template: '{{ states.input_slider.option_indoor_temp_very_warm.state | float + states.input_slider.option_target_temperature_offset.state | float }}'
+        value_template: '{{ states.input_slider.option_indoor_temp_very_warm.state | float + states.input_slider.option_target_temperature_offset.state | float + states.input_slider.var_indoor_temp_time_of_day.state | float }}'
       indoor_temp_warm_level:
-        value_template: '{{ states.input_slider.option_indoor_temp_warm.state | float + states.input_slider.option_target_temperature_offset.state | float }}'
+        value_template: '{{ states.input_slider.option_indoor_temp_warm.state | float + states.input_slider.option_target_temperature_offset.state | float + states.input_slider.var_indoor_temp_time_of_day.state | float }}'
       indoor_temp_ok_level:
-        value_template: '{{ states.input_slider.option_indoor_temp_ok.state | float + states.input_slider.option_target_temperature_offset.state | float }}'
+        value_template: '{{ states.input_slider.option_indoor_temp_ok.state | float + states.input_slider.option_target_temperature_offset.state | float + states.input_slider.var_indoor_temp_time_of_day.state | float }}'
       indoor_temp_cool_level:
-        value_template: '{{ states.input_slider.option_indoor_temp_cool.state | float + states.input_slider.option_target_temperature_offset.state | float }}'
+        value_template: '{{ states.input_slider.option_indoor_temp_cool.state | float + states.input_slider.option_target_temperature_offset.state | float + states.input_slider.var_indoor_temp_time_of_day.state | float }}'
 
 automation:
 ##########################################
@@ -199,6 +199,91 @@ automation:
           value: 0.0
 
 ##########################################
+########## TIMEBASDED TEMPERATURE ########
+##########################################
+  # 12am to 10am
+  - alias: indoor_temp_time_12am
+    trigger:
+      - platform: time
+        minutes: 05
+        seconds: 00
+    condition:
+      - condition: time
+        after: '00:00:00'
+        before: '10:00:00'
+    action:
+      - service: input_slider.select_value
+        data:
+          entity_id: input_slider.var_indoor_temp_time_of_day
+          value: 0
+
+  # 10am to 4pm
+  - alias: indoor_temp_time_10am
+    trigger:
+      - platform: time
+        minutes: 05
+        seconds: 00
+    condition:
+      - condition: time
+        after: '10:00:00'
+        before: '16:00:00'
+    action:
+      - service: input_slider.select_value
+        data:
+          entity_id: input_slider.var_indoor_temp_time_of_day
+          value: 1
+
+  # 4pm to 7pm
+  - alias: indoor_temp_time_4pm
+    trigger:
+      - platform: time
+        minutes: 05
+        seconds: 00
+    condition:
+      - condition: time
+        after: '16:00:00'
+        before: '19:00:00'
+    action:
+      - service: input_slider.select_value
+        data:
+          entity_id: input_slider.var_indoor_temp_time_of_day
+          value: 0
+
+  # 7pm to 9pm
+  - alias: indoor_temp_time_7pm
+    trigger:
+      - platform: time
+        minutes: 05
+        seconds: 00
+    condition:
+      - condition: time
+        after: '19:00:00'
+        before: '21:00:00'
+    action:
+      - service: input_slider.select_value
+        data:
+          entity_id: input_slider.var_indoor_temp_time_of_day
+          value: -2
+
+  # 9pm to 12am
+  - alias: indoor_temp_time_9pm
+    trigger:
+      - platform: time
+        minutes: 05
+        seconds: 00
+    condition:
+      - condition: time
+        after: '21:00:00'
+        before: '23:59:59'
+    action:
+      - service: input_slider.select_value
+        data:
+          entity_id: input_slider.var_indoor_temp_time_of_day
+          value: -1
+
+
+
+##########################################
 ########## SCRIPTS #######################
 ##########################################s
 script:
@@ -234,6 +319,12 @@ input_boolean:
 
 #********** Temperature Input Sliders ***********#
 input_slider:
+
+  var_indoor_temp_time_of_day:
+    min: -2
+    max: 2
+    step: 1
+
   option_indoor_temp_hot:
     name: Indoor Temp (HOT)
     initial: 80
@@ -305,12 +396,18 @@ group:
       - automation.indoor_temp_cool
       - automation.indoor_temp_cold
       - automation.reset_option_target_temperature_offset
-#
-#
-#   homeassistant_template:
-#     entities:
-#
-#
+      - automation.indoor_temp_time_12am
+      - automation.indoor_temp_time_10am
+      - automation.indoor_temp_time_4pm
+      - automation.indoor_temp_time_7pm
+      - automation.indoor_temp_time_9pm
+
+
+
+  homeassistant_temperature_range_mode:
+    entities:
+      - input_slider.var_indoor_temp_time_of_day
+
   options_temperature_range_mode:
     name: "Environment"
     entities:
