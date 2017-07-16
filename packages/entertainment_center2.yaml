@@ -2,11 +2,11 @@ homeassistant:
   customize:
     input_boolean.override_tv_helper:
       emulated_hue: true
-      emulated_hue_name: "Entertainment Center"
+      emulated_hue_name: "TV"
 
     group.sonoff_entertainment_center:
       emulated_hue: true
-      emulated_hue_name: "TV"
+      emulated_hue_name: "Entertainment Center"
 
 switch:
   - platform: mqtt
@@ -41,9 +41,9 @@ automation:
         data_template:
           entity_id: >
             {% if "turn_off" in trigger.event | string %}
-              input_boolean.override_turn_tv_fans
+              input_boolean.override_turn_off_tv
             {% else %}
-              input_boolean.override_turn_tv_fans
+              input_boolean.override_turn_on_tv
             {% endif %}
 
   - alias: tv_override_turn_on
@@ -114,6 +114,9 @@ automation:
       - condition: state
         entity_id: switch.sonoff_entertainment_center
         state: 'off'
+      - condition: state
+        entity_id: input_boolean.override_turn_off_tv
+        state: 'off'
     action:
       - service: switch.turn_on
         entity_id: switch.sonoff_entertainment_center
@@ -127,6 +130,9 @@ automation:
       - condition: state
         entity_id: input_boolean.var_residents_home
         state: 'on'
+      - condition: state
+        entity_id: input_boolean.override_turn_off_tv
+        state: 'off'
       - condition: state
         entity_id: switch.sonoff_entertainment_center
         state: 'off'
