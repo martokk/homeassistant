@@ -1,3 +1,11 @@
+# homeassistant:
+#   customize:
+    # input_boolean.template:
+    #   emulated_hue: true
+    #   emulated_hue_name: "Template Name"
+# switch:
+# lights:
+# binary_sensor:
 sensor:
   - platform: template
     sensors:
@@ -52,6 +60,99 @@ sensor:
 
             {%- endif %}
 
+automation:
+##########################################
+########## NOTIFICATIONS #################
+##########################################
+
+
+
+##########################################
+########## AUTOMATIONS ###################
+##########################################
+  - alias: mike_at_work
+    trigger:
+      - platform: time
+        minutes: 01
+        seconds: 00
+      - platform: state
+        entity_id: input_boolean.var_mike_home
+        from: 'on'
+        to: 'off'
+    condition:
+      - condition: template
+        value_template: '{{ states.sensor.time.state[:2] | int >= states.input_slider.var_mike_work_start_hour.state | int  }}'
+      - condition: template
+        value_template: '{{ states.sensor.time.state[:2] | int < states.input_slider.var_mike_work_end_hour.state | int  }}'
+      - condition: time
+        weekday:
+          - mon
+          - tue
+          - wed
+          - thu
+          - fri
+      - condition: state
+        entity_id: input_boolean.var_mike_home
+        state: 'off'
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.var_mike_at_work
+
+  - alias: mike_not_at_work
+    trigger:
+      - platform: time
+        minutes: 01
+        seconds: 00
+      - platform: state
+        entity_id: input_boolean.var_mike_home
+        from: 'off'
+        to: 'on'
+    condition:
+      condition: or
+      conditions:
+      - condition: template
+        value_template: '{{ states.sensor.time.state[:2] | int < states.input_slider.var_mike_work_start_hour.state | int  }}'
+      - condition: template
+        value_template: '{{ states.sensor.time.state[:2] | int >= states.input_slider.var_mike_work_end_hour.state | int  }}'
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_mike_at_work
+
+
+##########################################
+########## SCRIPTS #######################
+##########################################
+# script:
+
+
+
+
+
+##########################################
+########## STORED VARIABLES ##############
+##########################################
+input_boolean:
+  var_mike_at_work:
+    initial: 'off'
+
+input_slider:
+  var_mike_work_start_hour:
+    initial: 9
+    min: 0
+    max: 23
+    step: 1
+
+  var_mike_work_end_hour:
+    initial: 17
+    min: 0
+    max: 23
+    step: 1
+
+
+
+##########################################
+########## OPTIONS #######################
+##########################################
 
 
 ##########################################
@@ -78,10 +179,21 @@ group:
       - sensor.upcoming_bears_start_time
       - sensor.upcoming_twit_event
       - sensor.upcoming_twit_start_time
-      
-#   automation_calender:
-#     entities:
-#
-#
-#   script_calender:
-#     entities:
+
+  automation_calandar:
+    entities:
+      - automation.mike_at_work
+      - automation.mike_not_at_work
+
+  homeassistant_calandar:
+    entities:
+      - input_boolean.var_mike_at_work
+      - input_boolean.var_mike_work_start_hour
+      - input_boolean.var_mike_work_end_hour
+
+  # options_calandar:
+  #   entities:
+
+
+  # script_calandar:
+  #   entities:

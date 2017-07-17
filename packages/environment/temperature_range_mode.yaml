@@ -13,15 +13,20 @@ sensor:
   - platform: template
     sensors:
       indoor_temp_hot_level:
-        value_template: '{{ states.input_slider.option_indoor_temp_hot.state | float + states.input_slider.option_target_temperature_offset.state | float + states.input_slider.var_indoor_temp_time_of_day.state | float }}'
+        value_template: '{{ states.input_slider.var_indoor_temp_hot.state | float + states.input_slider.option_target_temperature_offset.state | float + states.input_slider.var_indoor_temp_time_of_day.state | float + states.input_slider.var_indoor_temp_mike_at_work.state | float }}'
       indoor_temp_very_warm_level:
-        value_template: '{{ states.input_slider.option_indoor_temp_very_warm.state | float + states.input_slider.option_target_temperature_offset.state | float + states.input_slider.var_indoor_temp_time_of_day.state | float }}'
+        value_template: '{{ states.input_slider.var_indoor_temp_very_warm.state | float + states.input_slider.option_target_temperature_offset.state | float + states.input_slider.var_indoor_temp_time_of_day.state | float + states.input_slider.var_indoor_temp_mike_at_work.state | float }}'
       indoor_temp_warm_level:
-        value_template: '{{ states.input_slider.option_indoor_temp_warm.state | float + states.input_slider.option_target_temperature_offset.state | float + states.input_slider.var_indoor_temp_time_of_day.state | float }}'
+        value_template: '{{ states.input_slider.var_indoor_temp_warm.state | float + states.input_slider.option_target_temperature_offset.state | float + states.input_slider.var_indoor_temp_time_of_day.state | float + states.input_slider.var_indoor_temp_mike_at_work.state | float }}'
       indoor_temp_ok_level:
-        value_template: '{{ states.input_slider.option_indoor_temp_ok.state | float + states.input_slider.option_target_temperature_offset.state | float + states.input_slider.var_indoor_temp_time_of_day.state | float }}'
+        value_template: '{{ states.input_slider.var_indoor_temp_ok.state | float + states.input_slider.option_target_temperature_offset.state | float + states.input_slider.var_indoor_temp_time_of_day.state | float + states.input_slider.var_indoor_temp_mike_at_work.state | float }}'
       indoor_temp_cool_level:
-        value_template: '{{ states.input_slider.option_indoor_temp_cool.state | float + states.input_slider.option_target_temperature_offset.state | float + states.input_slider.var_indoor_temp_time_of_day.state | float }}'
+        value_template: '{{ states.input_slider.var_indoor_temp_cool.state | float + states.input_slider.option_target_temperature_offset.state | float + states.input_slider.var_indoor_temp_time_of_day.state | float + states.input_slider.var_indoor_temp_mike_at_work.state | float }}'
+      indoor_temp_time_of_day_offset:
+        value_template: '{{ states.input_slider.var_indoor_temp_time_of_day.state | float  }}'
+      indoor_temp_mike_at_work_offset:
+        value_template: '{{ states.input_slider.var_indoor_temp_mike_at_work.state | float  }}'
+
 
 automation:
 ##########################################
@@ -198,6 +203,38 @@ automation:
           entity_id: input_slider.option_target_temperature_offset
           value: 0.0
 
+  - alias: reset_var_indoor_temp_time_of_day
+    trigger:
+      - platform: state
+        entity_id: input_slider.var_indoor_temp_time_of_day
+      - platform: homeassistant
+        event: start
+    condition:
+      - condition: state
+        entity_id: input_slider.var_indoor_temp_time_of_day
+        state: '-3.0'
+    action:
+      - service: input_slider.select_value
+        data:
+          entity_id: input_slider.var_indoor_temp_time_of_day
+          value: 0.0
+
+  - alias: reset_var_indoor_temp_mike_at_work
+    trigger:
+      - platform: state
+        entity_id: input_slider.var_indoor_temp_mike_at_work
+      - platform: homeassistant
+        event: start
+    condition:
+      - condition: state
+        entity_id: input_slider.var_indoor_temp_mike_at_work
+        state: '-1.0'
+    action:
+      - service: input_slider.select_value
+        data:
+          entity_id: input_slider.var_indoor_temp_mike_at_work
+          value: 0.0
+
 ##########################################
 ########## TIMEBASDED TEMPERATURE ########
 ##########################################
@@ -281,7 +318,30 @@ automation:
           entity_id: input_slider.var_indoor_temp_time_of_day
           value: -1
 
+##########################################
+########## MIKE AT WORK TEMPERATURE ######
+##########################################
+  - alias: indoor_temp_mike_at_work
+    trigger:
+      - platform: state
+        entity_id: input_boolean.var_mike_at_work
+        state: 'on'
+    action:
+      - service: input_slider.select_value
+        data:
+          entity_id: input_slider.var_indoor_temp_mike_at_work
+          value: 4
 
+  - alias: indoor_temp_mike_not_at_work
+    trigger:
+      - platform: state
+        entity_id: input_boolean.var_mike_at_work
+        state: 'off'
+    action:
+      - service: input_slider.select_value
+        data:
+          entity_id: input_slider.var_indoor_temp_mike_at_work
+          value: 0
 
 ##########################################
 ########## SCRIPTS #######################
@@ -321,39 +381,44 @@ input_boolean:
 input_slider:
 
   var_indoor_temp_time_of_day:
-    min: -2
+    min: -3
     max: 2
     step: 1
 
-  option_indoor_temp_hot:
+  var_indoor_temp_mike_at_work:
+    min: -1
+    max: 4
+    step: 1
+
+  var_indoor_temp_hot:
     name: Indoor Temp (HOT)
     initial: 80
     min: 65
     max: 85
     step: 1
 
-  option_indoor_temp_very_warm:
+  var_indoor_temp_very_warm:
     name: Indoor Temp (VERY WARM)
     initial: 78
     min: 65
     max: 85
     step: 1
 
-  option_indoor_temp_warm:
+  var_indoor_temp_warm:
     name: Indoor Temp (WARM)
     initial: 76
     min: 65
     max: 85
     step: 1
 
-  option_indoor_temp_ok:
+  var_indoor_temp_ok:
     name: Indoor Temp (OK)
     initial: 74
     min: 65
     max: 85
     step: 1
 
-  option_indoor_temp_cool:
+  var_indoor_temp_cool:
     name: Indoor Temp (COOL)
     initial: 72
     min: 65
@@ -396,31 +461,38 @@ group:
       - automation.indoor_temp_cool
       - automation.indoor_temp_cold
       - automation.reset_option_target_temperature_offset
+      - automation.reset_var_indoor_temp_time_of_day
+      - automation.reset_var_indoor_temp_mike_at_work
       - automation.indoor_temp_time_12am
       - automation.indoor_temp_time_10am
       - automation.indoor_temp_time_4pm
       - automation.indoor_temp_time_7pm
       - automation.indoor_temp_time_9pm
+      - automation.indoor_temp_mike_at_work
+      - automation.indoor_temp_mike_not_at_work
 
 
 
   homeassistant_temperature_range_mode:
     entities:
+      - input_slider.var_indoor_temp_hot
+      - input_slider.var_indoor_temp_very_warm
+      - input_slider.var_indoor_temp_warm
+      - input_slider.var_indoor_temp_ok
+      - input_slider.var_indoor_temp_cool
       - input_slider.var_indoor_temp_time_of_day
+      - input_slider.var_indoor_temp_mike_at_work
 
   options_temperature_range_mode:
     name: "Environment"
     entities:
       - sensor.indoor_temp_hot_level
-      - input_slider.option_indoor_temp_hot
       - sensor.indoor_temp_very_warm_level
-      - input_slider.option_indoor_temp_very_warm
       - sensor.indoor_temp_warm_level
-      - input_slider.option_indoor_temp_warm
       - sensor.indoor_temp_ok_level
-      - input_slider.option_indoor_temp_ok
       - sensor.indoor_temp_cool_level
-      - input_slider.option_indoor_temp_cool
+      - sensor.indoor_temp_time_of_day_offset
+      - sensor.indoor_temp_mike_at_work_offset
       - input_slider.option_target_temperature_offset
 #
   script_temperature_range_mode:

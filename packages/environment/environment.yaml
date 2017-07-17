@@ -15,6 +15,8 @@ sensor:
         value_template: >-
           {% set temp = 0.0 %}
           {% set c = 0 %}
+
+          {################################ CALCULATE DAY TIME ################################}
           {% if states.sensor.kitchen_temperature %}
             {% if states.sensor.kitchen_temperature.state | float > 1.0 %}
               {% if (as_timestamp(now())-as_timestamp(states.sensor.kitchen_temperature.last_changed)) < (2 * 60 * 60)  %}
@@ -31,14 +33,6 @@ sensor:
               {% endif %}
             {% endif %}
           {% endif %}
-          {% if states.sensor.bedroom_temperature %}
-            {% if (as_timestamp(now())-as_timestamp(states.sensor.bedroom_temperature.last_changed)) < (2 * 60 * 60)  %}
-              {% if states.sensor.bedroom_temperature.state | float > 1.0 %}
-                {% set temp = temp + states.sensor.bedroom_temperature.state | float %}
-                {% set c = c + 1 %}
-              {% endif %}
-            {% endif %}
-          {% endif %}
           {% if states.sensor.office_temperature %}
             {% if (as_timestamp(now())-as_timestamp(states.sensor.office_temperature.last_changed)) < (2 * 60 * 60)  %}
               {% if states.sensor.office_temperature.state | float > 1.0 %}
@@ -47,9 +41,33 @@ sensor:
               {% endif %}
             {% endif %}
           {% endif %}
-          {% if c > 0 %}
-           {{ (temp / c) | round(1) | float }}
+          {% if states.sensor.entertainment_center_temperature %}
+            {% if states.switch.sonoff_entertainment_center.state == 'off' %}
+              {% if (as_timestamp(now())-as_timestamp(states.sensor.entertainment_center_temperature.last_changed)) < (2 * 60 * 60)  %}
+                {% if states.sensor.entertainment_center_temperature.state | float > 1.0 %}
+                  {% set temp = temp + states.sensor.entertainment_center_temperature.state | float %}
+                  {% set c = c + 1 %}
+                {% endif %}
+              {% endif %}
+            {% endif %}
           {% endif %}
+
+          {% if states.sensor.time.state[:2] | int >= 23 or states.sensor.time.state[:2] | int < 8 %}
+            {################################ NIGHT TIME ################################}
+            {% if states.sensor.bedroom_temperature %}
+              {{ states.sensor.bedroom_temperature.state | float }}
+            {% else %}
+              {% if c > 0 %}
+               {{ (temp / c) | round(1) | float }}
+              {% endif %}
+            {% endif %}
+          {% else %}
+          {################################ DAY TIME ################################}
+            {% if c > 0 %}
+             {{ (temp / c) | round(1) | float }}
+            {% endif %}
+          {% endif %}
+
 
       indoor_humidity:
         friendly_name: "Indoor Humidity"
@@ -57,9 +75,11 @@ sensor:
         value_template: >-
           {% set humidity = 0.0 %}
           {% set c = 0 %}
+
+          {################################ CALCULATE DAY TIME ################################}
           {% if states.sensor.kitchen_humidity %}
             {% if states.sensor.kitchen_humidity.state | float > 1.0 %}
-              {% if (as_timestamp(now())-as_timestamp(states.sensor.kitchen_humidity.last_changed)) < (60 * 60)  %}
+              {% if (as_timestamp(now())-as_timestamp(states.sensor.kitchen_humidity.last_changed)) < (2 * 60 * 60)  %}
                 {% set humidity = humidity + states.sensor.kitchen_humidity.state | float %}
                 {% set c = c + 1 %}
               {% endif %}
@@ -67,22 +87,45 @@ sensor:
           {% endif %}
           {% if states.sensor.tables_humidity %}
             {% if states.sensor.tables_humidity.state | float > 1.0 %}
-              {% if (as_timestamp(now())-as_timestamp(states.sensor.tables_humidity.last_changed)) < (60 * 60)  %}
+              {% if (as_timestamp(now())-as_timestamp(states.sensor.tables_humidity.last_changed)) < (2 * 60 * 60)  %}
                 {% set humidity = humidity + states.sensor.tables_humidity.state | float %}
                 {% set c = c + 1 %}
               {% endif %}
             {% endif %}
           {% endif %}
-          {% if states.sensor.bedroom_humidity %}
-            {% if states.sensor.bedroom_humidity.state | float > 1.0 %}
-              {% if (as_timestamp(now())-as_timestamp(states.sensor.bedroom_humidity.last_changed)) < (60 * 60)  %}
-                {% set humidity = humidity + states.sensor.bedroom_humidity.state | float %}
+          {% if states.sensor.office_humidity %}
+            {% if (as_timestamp(now())-as_timestamp(states.sensor.office_humidity.last_changed)) < (2 * 60 * 60)  %}
+              {% if states.sensor.office_humidity.state | float > 1.0 %}
+                {% set humidity = humidity + states.sensor.office_humidity.state | float %}
                 {% set c = c + 1 %}
               {% endif %}
             {% endif %}
           {% endif %}
-          {% if c > 0 %}
-           {{ (humidity / c) | round(1) | float }}
+          {% if states.sensor.entertainment_center_humidity %}
+            {% if states.switch.sonoff_entertainment_center.state == 'off' %}
+              {% if (as_timestamp(now())-as_timestamp(states.sensor.entertainment_center_humidity.last_changed)) < (2 * 60 * 60)  %}
+                {% if states.sensor.entertainment_center_humidity.state | float > 1.0 %}
+                  {% set humidity = humidity + states.sensor.entertainment_center_humidity.state | float %}
+                  {% set c = c + 1 %}
+                {% endif %}
+              {% endif %}
+            {% endif %}
+          {% endif %}
+
+          {% if states.sensor.time.state[:2] | int >= 23 or states.sensor.time.state[:2] | int < 8 %}
+            {################################ NIGHT TIME ################################}
+            {% if states.sensor.bedroom_humidity %}
+              {{ states.sensor.bedroom_humidity.state | float }}
+            {% else %}
+              {% if c > 0 %}
+               {{ (humidity / c) | round(1) | float }}
+              {% endif %}
+            {% endif %}
+          {% else %}
+          {################################ DAY TIME ################################}
+            {% if c > 0 %}
+             {{ (humidity / c) | round(1) | float }}
+            {% endif %}
           {% endif %}
 
 automation:
@@ -92,7 +135,7 @@ automation:
   - alias: bedroom_temperature_cold_after_9pm
     trigger:
       - platform: template
-        value_template: "{% if states.sensor.bedroom_temperature.state | int < states.input_slider.option_indoor_temp_cold.state | int and states.sensor.bedroom_temperature.state | int > 1 %}true{%endif%}"
+        value_template: "{% if states.sensor.bedroom_temperature.state | int < states.input_slider.var_indoor_temp_cool.state | int and states.sensor.bedroom_temperature.state | int > 1 %}true{%endif%}"
     condition:
       - condition: state
         entity_id: input_boolean.var_mike_home
