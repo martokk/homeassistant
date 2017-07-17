@@ -80,6 +80,47 @@ automation:
       - service: input_boolean.turn_on
         entity_id: input_boolean.var_indoor_temp_cold
 
+##########################################
+########## SET INDOOR HUMIDITY RANGE #####
+##########################################
+  - alias: set_indoor_humidity_high
+    trigger:
+      - platform: template
+        value_template: '{% if  states.sensor.indoor_humidity.state  %}{% if states.sensor.indoor_humidity.state | float  > 55.0 %}true{%endif%}{%endif%}'
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.var_indoor_humidity_high
+
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_indoor_humidity_ok
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_indoor_humidity_low
+
+  - alias: set_indoor_humidity_ok
+    trigger:
+      - platform: template
+        value_template: '{% if  states.sensor.indoor_humidity.state  %}{% if states.sensor.indoor_humidity.state | float > 30.0 | float and states.sensor.indoor_humidity.state | float < 55.0 %}true{%endif%}{%endif%}'
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.var_indoor_humidity_ok
+
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_indoor_humidity_high
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_indoor_humidity_low
+
+  - alias: set_indoor_humidity_low
+    trigger:
+      - platform: template
+        value_template: '{% if  states.sensor.indoor_humidity.state  %}{% if states.sensor.indoor_humidity.state | float < 30.0 %}true{%endif%}{%endif%}'
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.var_indoor_humidity_low
+
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_indoor_humidity_ok
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_indoor_humidity_high
 
 ##########################################
 ########## SET OTHER INPUT BOOLEANS ######
@@ -374,6 +415,9 @@ input_boolean:
   var_indoor_temp_cool:
   var_indoor_temp_cold:
 
+  var_indoor_humidity_high:
+  var_indoor_humidity_ok:
+  var_indoor_humidity_low:
 
 
 
@@ -470,8 +514,9 @@ group:
       - automation.indoor_temp_time_9pm
       - automation.indoor_temp_mike_at_work
       - automation.indoor_temp_mike_not_at_work
-
-
+      - automation.set_indoor_humidity_low
+      - automation.set_indoor_humidity_ok
+      - automation.set_indoor_humidity_high
 
   homeassistant_temperature_range_mode:
     entities:

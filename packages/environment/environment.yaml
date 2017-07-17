@@ -158,6 +158,27 @@ automation:
             Close bedroom window!
             *Bedroom: {{ states.sensor.bedroom_temperature.state | round(1) }}°F*
 
+  - alias: humidity_high
+    trigger:
+      - platform: state
+        entity_id: input_boolean.var_indoor_humidity_high
+        state: 'on'
+    action:
+      - service: script.notify2
+        data_template:
+          telegram_message: |
+            Indoor Humidity is High. Consider turning on Air Conditioner.
+
+  - alias: humidity_low
+    trigger:
+      - platform: state
+        entity_id: input_boolean.var_indoor_humidity_low
+        state: 'on'
+    action:
+      - service: script.notify2
+        data_template:
+          telegram_message: |
+            Indoor Humidity is High. Consider turning on Shower or Humidifier.
 
 ##########################################
 ########## AUTOMATIONS ###################
@@ -228,6 +249,8 @@ group:
   automation_environment:
     entities:
       - automation.bedroom_temperature_cold_after_9pm
+      - automation.humidity_low
+      - automation.humidity_high
 #
 #
 #   homeassistant_template:
