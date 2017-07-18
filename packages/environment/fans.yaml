@@ -37,7 +37,7 @@ automation:
     trigger:
       - platform: state
         entity_id: input_boolean.override_turn_on_fans
-        state: 'on'
+        to: 'on'
     action:
       - service: input_boolean.turn_off
         entity_id: input_boolean.override_turn_off_fans
@@ -50,7 +50,7 @@ automation:
     trigger:
       - platform: state
         entity_id: input_boolean.override_turn_off_fans
-        state: 'on'
+        to: 'on'
     action:
       - service: input_boolean.turn_off
         entity_id: input_boolean.override_turn_on_fans
@@ -98,13 +98,13 @@ automation:
         seconds: 00
       - platform: state
         entity_id: input_boolean.var_indoor_temp_cool
-        state: 'off'
+        to: 'on'
       - platform: state
         entity_id: input_boolean.var_indoor_temp_cold
-        state: 'off'
+        to: 'on'
       - platform: state
         entity_id: input_boolean.option_fans_circulate_air
-        state: 'off'
+        to: 'off'
     action:
       - service: input_boolean.turn_off
         entity_id: input_boolean.var_fans_circulate_air_on
@@ -114,10 +114,10 @@ automation:
     trigger:
       - platform: state
         entity_id: input_boolean.var_indoor_temp_very_warm
-        state: 'on'
+        to: 'on'
       - platform: state
         entity_id: input_boolean.var_indoor_temp_hot
-        state: 'on'
+        to: 'on'
     condition:
       - condition: state
         entity_id: input_boolean.option_fans_temperature_controlled
@@ -130,13 +130,13 @@ automation:
     trigger:
       - platform: state
         entity_id: input_boolean.var_indoor_temp_ok
-        state: 'on'
+        to: 'on'
       - platform: state
         entity_id: input_boolean.var_indoor_temp_cool
-        state: 'on'
+        to: 'on'
       - platform: state
         entity_id: input_boolean.var_indoor_temp_cold
-        state: 'on'
+        to: 'on'
     condition:
       - condition: state
         entity_id: input_boolean.option_fans_temperature_controlled
@@ -151,10 +151,10 @@ automation:
     trigger:
       - platform: state
         entity_id: input_boolean.var_fans_circulate_air_on
-        state: 'on'
+        to: 'on'
       - platform: state
         entity_id: input_boolean.var_fans_temperature_controlled_on
-        state: 'on'
+        to: 'on'
     condition:
       - condition: state
         entity_id: input_boolean.override_turn_off_fans
@@ -169,10 +169,10 @@ automation:
     trigger:
       - platform: state
         entity_id: input_boolean.var_fans_circulate_air_on
-        state: 'off'
+        to: 'off'
       - platform: state
         entity_id: input_boolean.var_fans_temperature_controlled_on
-        state: 'off'
+        to: 'off'
     condition:
       - condition: state
         entity_id: input_boolean.var_fans_circulate_air_on
@@ -196,7 +196,7 @@ automation:
     trigger:
       - platform: state
         entity_id: switch.sonoff_small_desk_fan1
-        state: 'on'
+        to: 'on'
     action:
       - delay: '00:00:01'
 
@@ -224,7 +224,7 @@ automation:
     trigger:
       - platform: state
         entity_id: switch.sonoff_small_desk_fan1
-        state: 'off'
+        to: 'off'
     action:
       - delay: '00:00:01'
 

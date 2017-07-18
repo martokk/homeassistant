@@ -131,7 +131,7 @@ automation:
     trigger:
     - platform: state
       entity_id: sensor.dark_sky_precip
-      state: 'rain'
+      to: 'rain'
     action:
     - service: script.notify2
       data_template:
@@ -204,7 +204,7 @@ automation:
     trigger:
     - platform: state
       entity_id: sensor.dark_sky_precip
-      state: 'snow'
+      to: 'snow'
     action:
     - service: script.notify2
       data_template:
@@ -381,12 +381,12 @@ automation:
     trigger:
     - platform: state
       entity_id: sensor.dark_sky_icon
-      state: 'clear'
+      to: 'clear'
       for:
         seconds: 60
     - platform: state
       entity_id: input_select.var_lks_livingroom
-      state: 'day'
+      to: 'day'
       for:
         seconds: 60
     condition:
@@ -424,7 +424,7 @@ automation:
       entity_id: sensor.dark_sky_icon
     - platform: state
       entity_id: input_select.var_lks_livingroom
-      state: 'day_le'
+      to: 'day_le'
       for:
         seconds: 60
     condition:

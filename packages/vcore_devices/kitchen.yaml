@@ -146,7 +146,7 @@ automation:
     trigger:
     - platform: state
       entity_id: binary_sensor.kitchen_mqtt_button
-      state: "on"
+      to: "on"
     action:
       - service: light.turn_on
         data_template:

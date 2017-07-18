@@ -449,7 +449,7 @@ automation:
     trigger:
       - platform: state
         entity_id: input_boolean.var_notify2_15m_chromecast_on
-        state: 'on'
+        to: 'on'
         for:
           minutes: 15
     action:

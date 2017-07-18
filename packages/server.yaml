@@ -475,7 +475,7 @@ automation:
     trigger:
       - platform: state
         entity_id: binary_sensor.desktop_computer
-        state: 'on'
+        to: 'on'
     action:
       - service: input_boolean.turn_on
         entity_id: input_boolean.var_desktop_computer_on
@@ -502,7 +502,7 @@ automation:
     trigger:
       - platform: state
         entity_id: binary_sensor.desktop_computer
-        state: 'off'
+        to: 'off'
         for:
           minutes: 10
       - platform: state
@@ -542,7 +542,7 @@ automation:
     trigger:
       platform: state
       entity_id: input_boolean.var_eventghost_mqtt_request_state_sent
-      state: 'on'
+      to: 'on'
       for:
         minutes: 5
     condition:

@@ -14,7 +14,7 @@ automation:
     trigger:
       platform: state
       entity_id: switch.sonoff_entertainment_center
-      state: 'on'
+      to: 'on'
     action:
       - service: script.entertainment_center_tv_volume_sync
 

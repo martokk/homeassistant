@@ -162,7 +162,7 @@ automation:
     trigger:
       - platform: state
         entity_id: input_boolean.var_indoor_humidity_high
-        state: 'on'
+        to: 'on'
     action:
       - service: script.notify2
         data_template:
@@ -173,7 +173,7 @@ automation:
     trigger:
       - platform: state
         entity_id: input_boolean.var_indoor_humidity_low
-        state: 'on'
+        to: 'on'
     action:
       - service: script.notify2
         data_template:

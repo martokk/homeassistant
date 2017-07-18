@@ -129,7 +129,7 @@ automation:
     trigger:
       - platform: state
         entity_id: input_boolean.var_indoor_temp_hot
-        state: 'on'
+        to: 'on'
     action:
       - service: input_boolean.turn_off
         entity_id: input_boolean.var_indoor_temp_very_warm
@@ -146,7 +146,7 @@ automation:
     trigger:
       - platform: state
         entity_id: input_boolean.var_indoor_temp_very_warm
-        state: 'on'
+        to: 'on'
     action:
       - service: input_boolean.turn_off
         entity_id: input_boolean.var_indoor_temp_hot
@@ -163,7 +163,7 @@ automation:
     trigger:
       - platform: state
         entity_id: input_boolean.var_indoor_temp_warm
-        state: 'on'
+        to: 'on'
     action:
       - service: input_boolean.turn_off
         entity_id: input_boolean.var_indoor_temp_hot
@@ -180,7 +180,7 @@ automation:
     trigger:
       - platform: state
         entity_id: input_boolean.var_indoor_temp_ok
-        state: 'on'
+        to: 'on'
     action:
       - service: input_boolean.turn_off
         entity_id: input_boolean.var_indoor_temp_hot
@@ -197,7 +197,7 @@ automation:
     trigger:
       - platform: state
         entity_id: input_boolean.var_indoor_temp_cool
-        state: 'on'
+        to: 'on'
     action:
       - service: input_boolean.turn_off
         entity_id: input_boolean.var_indoor_temp_hot
@@ -215,7 +215,7 @@ automation:
     trigger:
       - platform: state
         entity_id: input_boolean.var_indoor_temp_cold
-        state: 'on'
+        to: 'on'
     action:
       - service: input_boolean.turn_off
         entity_id: input_boolean.var_indoor_temp_hot
@@ -366,7 +366,7 @@ automation:
     trigger:
       - platform: state
         entity_id: input_boolean.var_mike_at_work
-        state: 'on'
+        to: 'on'
     action:
       - service: input_slider.select_value
         data:
@@ -377,7 +377,7 @@ automation:
     trigger:
       - platform: state
         entity_id: input_boolean.var_mike_at_work
-        state: 'off'
+        to: 'off'
     action:
       - service: input_slider.select_value
         data:

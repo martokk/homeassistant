@@ -42,7 +42,7 @@ automation:
     trigger:
       - platform: state
         entity_id: input_boolean.var_morning_alarm_on
-        state: 'on'
+        to: 'on'
         for:
           hours: 1
     action:
@@ -65,7 +65,7 @@ automation:
         entity_id: input_boolean.var_desktop_computer_on
       - platform: state
         entity_id: input_boolean.var_desktop_computer_on
-        state: 'on'
+        to: 'on'
         for:
           minutes: 15
       # - platform: state
