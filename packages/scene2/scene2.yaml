@@ -232,6 +232,7 @@ input_select:
     options:
       - "night_computer"
       - "night_computer_red"
+      - "night_computer_blue"
       - "off"
 
   array_day_scenes:
@@ -263,6 +264,7 @@ group:
     - script.scene2_night_red
     - script.scene2_night_computer
     - script.scene2_night_computer_red
+    - script.scene2_night_computer_blue
     - script.scene2_off
 
   quick_scenes:

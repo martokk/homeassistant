@@ -110,6 +110,14 @@ homeassistant:
       hidden: true
     script.scene2_night_computer_red_office:
       hidden: true
+    script.scene2_night_computer_blue_bedroom:
+      hidden: true
+    script.scene2_night_computer_blue_kitchen:
+      hidden: true
+    script.scene2_night_computer_blue_livingroom:
+      hidden: true
+    script.scene2_night_computer_blue_office:
+      hidden: true
     script.scene2_night_cyan_bedroom:
       hidden: true
     script.scene2_night_cyan_kitchen:
