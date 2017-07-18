@@ -109,6 +109,38 @@ automation:
       - service: input_boolean.turn_off
         entity_id: input_boolean.var_fans_circulate_air_on
 
+  #********** Fans - Smoke Session  ***************************************#
+  - alias: fans_smoke_session_on
+    trigger:
+      - platform: time
+        minutes: 05
+        seconds: 00
+      - platform: state
+        entity_id: input_boolean.var_fans_smoke_session_on
+        to: 'on'
+    condition:
+      - condition: state
+        entity_id: input_boolean.var_fans_smoke_session_on
+        state: 'on'
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.var_fans_circulate_air_on
+      - delay: '00:30:00'
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_fans_circulate_air_on
+
+  - alias: fans_smoke_session_off
+    trigger:
+      - platform: state
+        entity_id: input_boolean.var_indoor_temp_cold
+        to: 'on'
+      - platform: state
+        entity_id: input_boolean.var_fans_smoke_session_on
+        to: 'off'
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_fans_circulate_air_on
+
   #********** Fans - Temperature Controlled  ***************************************#
   - alias: fans_temperature_controlled_on
     trigger:
@@ -260,6 +292,7 @@ input_boolean:
 #########################################
   var_fans_circulate_air_on:
   var_fans_temperature_controlled_on:
+  var_fans_smoke_session_on:
 
 ##########################################
 ########## OVERRIDES #####################
@@ -300,6 +333,8 @@ group:
       - automation.fans_circulate_air_off
       - automation.fans_temperature_controlled_on
       - automation.fans_temperature_controlled_off
+      - automation.fans_smoke_session_on
+      - automation.fans_smoke_session_off
       - automation.fans_automations_turn_on
       - automation.fans_automations_turn_off
       - automation.fans_override
