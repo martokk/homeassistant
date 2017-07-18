@@ -3,6 +3,7 @@ homeassistant:
     input_boolean.var_morning_alarm_on:
       emulated_hue: true
       emulated_hue_name: "Morning Alarm"
+      hidden: true
 
 automation:
 ## Turn on Alarm

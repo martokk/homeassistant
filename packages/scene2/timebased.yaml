@@ -133,7 +133,7 @@ automation:
   - alias: flood_530am
     trigger:
       - platform: time
-        after: "05:29:59"
+        at: "05:29:59"
     action:
       - service: script.notify2
         data:
@@ -164,7 +164,7 @@ automation:
   - alias: flood_12pm
     trigger:
       - platform: time
-        after: "11:59:59"
+        at: "11:59:59"
     action:
       - service: script.notify2
         data:
@@ -199,7 +199,7 @@ automation:
   - alias: flood_7pm
     trigger:
       - platform: time
-        after: "18:59:59"
+        at: "18:59:59"
     action:
       - service: script.notify2
         data:
@@ -304,7 +304,7 @@ automation:
   - alias: timebased_12am
     trigger:
       - platform: time
-        after: "23:59:58"
+        at: "23:59:58"
     action:
       - service: script.notify2
         data:

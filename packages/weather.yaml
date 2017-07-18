@@ -111,7 +111,7 @@ sensor:
           {% if states.sensor.pws_alerts %}
             {% for state in states.sensor.pws_alerts.attributes -%}
               {% if "Message" in state | string %}
-                {% set message = states.sensor.pws_alerts.attributes[state] | string %}
+                {% set message = states.sensor.pws_alerts.attributes[state] | string | truncate(250) %}
                 {% for item in criteria %}
                   {% if item in message %}
                     {{ message }}
