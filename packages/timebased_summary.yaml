@@ -33,7 +33,7 @@ script:
             {% endif %}
 
             {% if is_state('input_boolean.var_todays_temp_hot_close_windows', 'on') %}
-              Todays high temperature is hot. You should close the windows and so the air conditioner can get turned on.
+              Todays high temperature is hot. You should close the windows and let me control the air conditoner to keep it cool indoors.
             {% endif %}
             {% if is_state('input_boolean.var_todays_temp_ok_open_windows', 'on') %}
               Todays high temperature is perfect. You should open the windows and let the fresh air in.
@@ -85,7 +85,7 @@ script:
             *Now:* {{ states.sensor.dark_sky_temperature.state | round(0)  }}°F - {{ states.sensor.dark_sky_summary.state }}
             *Today:* {{ states.sensor.dark_sky_daily_low_temperature.state | round(0) }}°F to {{ states.sensor.dark_sky_daily_high_temperature.state | round(0) }}°F - {{ states.sensor.dark_sky_minutely_summary.state }} {{ states.sensor.dark_sky_hourly_summary.state }}
             *Sunrise/Sunset:* {{ as_timestamp(states.sun.sun.attributes.next_rising) | timestamp_custom("%l:%M%P") }} /{{as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom("%l:%M%P") }}
-            *Windows:* {% if states.input_boolean.var_todays_temp_hot_close_windows.state == 'on' %} Todays high temperature is hot. You should close the windows and so the air conditioner can get turned on.{% elif states.input_boolean.var_todays_temp_ok_open_windows.state == 'on' %} Todays high temperature is perfect. You should open the windows and let the fresh air in.{% elif states.input_boolean.var_todays_temp_cold_close_windows.state == 'on' %} Todays high temperature is cold. You should consider closing the windows today.{% else %} Today will be cold, keep the windows closed. {% endif %}
+            *Windows:* {% if states.input_boolean.var_todays_temp_hot_close_windows.state == 'on' %} Todays high temperature is hot. You should close the windows so the air conditioner can get turned on.{% elif states.input_boolean.var_todays_temp_ok_open_windows.state == 'on' %} Todays high temperature is perfect. You should open the windows and let the fresh air in.{% elif states.input_boolean.var_todays_temp_cold_close_windows.state == 'on' %} Todays high temperature is cold. You should consider closing the windows today.{% else %} Today will be cold, keep the windows closed. {% endif %}
           disable_notification: 'true'
 
       - service: script.notify2

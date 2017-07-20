@@ -334,7 +334,7 @@ automation:
   - alias: todays_temp_hot_close_windows
     trigger:
       - platform: template
-        value_template: '{{ states.sensor.dark_sky_daily_high_apparent_temperature.state | float > states.input_slider.var_indoor_temp_hot.state | float + 5 }}'
+        value_template: '{{ states.sensor.dark_sky_daily_high_apparent_temperature.state | float > states.input_slider.var_indoor_temp_hot.state | float - 4 }}'
     action:
       - service: input_boolean.turn_on
         entity_id: input_boolean.var_todays_temp_hot_close_windows
@@ -347,7 +347,7 @@ automation:
   - alias: todays_temp_ok_open_windows
     trigger:
       - platform: template
-        value_template: '{{ states.sensor.dark_sky_daily_high_apparent_temperature.state | float > states.input_slider.var_indoor_temp_cool.state  | float - 5 and states.sensor.dark_sky_daily_high_apparent_temperature.state | float < states.input_slider.var_indoor_temp_hot.state | float + 5 }}'
+        value_template: '{{ states.sensor.dark_sky_daily_high_apparent_temperature.state | float > states.input_slider.var_indoor_temp_cool.state  | float - 5 and states.sensor.dark_sky_daily_high_apparent_temperature.state | float < states.input_slider.var_indoor_temp_hot.state | float - 4 }}'
     action:
       - service: input_boolean.turn_on
         entity_id: input_boolean.var_todays_temp_ok_open_windows

@@ -92,6 +92,7 @@ binary_sensor:
     payload_on: 1
     payload_off: 0
     hidden: true
+    scan_interval: 120
 
     #Note: install xprintidle on remote computer to determain idle time
   - platform: command_line
@@ -106,15 +107,17 @@ binary_sensor:
   - platform: ping
     host: 192.168.1.1
     name: "ARRIS Modem"
+    scan_interval: 120
 
   - platform: ping
     host: 192.168.1.2
     name: "Linksys DDWRT Router"
+    scan_interval: 120
 
   - platform: ping
     host: 192.168.1.50
     name: "PS3 Ping"
-    scan_interval: 5
+    scan_interval: 10
 
 sensor:
   #********** PI HOLE ***************************************#
@@ -185,11 +188,12 @@ sensor:
   - platform: command_line
     command: python3 -c "import requests; print(requests.get('https://pypi.python.org/pypi/homeassistant/json').json()['info']['version'])"
     name: hass_version_latest
+    scan_interval: 1200
 
   -  platform: command_line
      command: "/usr/local/bin/hass --version"
      name: hass_version_current
-
+     scan_interval: 1200
 
   #********** Templates ***************************************#
   - platform: template
@@ -430,7 +434,7 @@ automation:
     action:
       - service: homeassistant.turn_on
         entity_id: group.all_automations
-      - service: script.timebased_scene
+      # - service: script.timebased_scene
       - service: script.notify2
         data:
           telegram_message: "Home Assistant Server Restarted!"
@@ -507,7 +511,7 @@ automation:
           minutes: 10
       - platform: state
         entity_id: script.computer_monitors_turn_off
-        state: 'on'
+        to: 'on'
     action:
       - service: input_boolean.turn_off
         entity_id: input_boolean.var_desktop_computer_on

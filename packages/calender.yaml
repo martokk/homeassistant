@@ -188,8 +188,8 @@ group:
   homeassistant_calandar:
     entities:
       - input_boolean.var_mike_at_work
-      - input_boolean.var_mike_work_start_hour
-      - input_boolean.var_mike_work_end_hour
+      - input_slider.var_mike_work_start_hour
+      - input_slider.var_mike_work_end_hour
 
   # options_calandar:
   #   entities:

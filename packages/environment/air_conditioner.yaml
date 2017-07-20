@@ -70,11 +70,14 @@ automation:
 ##########################################
 
 
-  #******** Air Conditioner - Temp Controlled - Turn On/Off **********************#
+  #******** Air Conditioner - Temp/Humidity Controlled - Turn On/Off **********************#
   - alias: air_conditioner_temperature_controlled_on
     trigger:
       - platform: state
         entity_id: input_boolean.var_indoor_temp_hot
+        to: 'on'
+      - platform: state
+        entity_id: input_boolean.var_indoor_humidity_high
         to: 'on'
     condition:
       - condition: state
@@ -162,7 +165,12 @@ automation:
       - service: media_player.volume_set
         data_template:
           entity_id: media_player.vlc
-          volume_level: '{{ states.media_player.vlc.attributes.volume_level | float + 0.10 }}'
+          volume_level: >
+            {% if states.media_player.vlc.attributes.volume_level | float <= 0.90 %}
+              {{ states.media_player.vlc.attributes.volume_level | float + 0.10 }}
+            {% else %}
+              {{ states.media_player.vlc.attributes.volume_level | float }}
+            {% endif %}
 
 
   - alias: air_conditioner_off_devices_volume_down
@@ -258,7 +266,7 @@ group:
       - input_boolean.override_turn_off_air_conditioner
 
   options_air_conditioner:
-    name: "Environment"
+    name: "Air Conditioner"
     entities:
       - input_boolean.option_air_conditioner_temperature_controlled
 #

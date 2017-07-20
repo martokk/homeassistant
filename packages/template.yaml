@@ -46,17 +46,19 @@
 ############### GROUPS ###################
 ##########################################
 # group:
-#   automation_template:
+#   automation_change_me:
 #     entities:
+#       - automation.
 #
 #
-#   homeassistant_template:
+#   homeassistant_change_me:
 #     entities:
+#       - input_boolean.
 #
-#
-#   options_template:
+#   options_change_me:
 #     entities:
+#       - input_boolean.
 #
-#
-#   script_template:
+#   script_change_me:
 #     entities:
+#       - script.

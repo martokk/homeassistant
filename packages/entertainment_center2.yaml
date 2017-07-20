@@ -307,7 +307,9 @@ input_boolean:
 ##########################################
   override_tv_helper:
   override_turn_on_tv:
+    initial: off
   override_turn_off_tv:
+    initial: off
 
 
 ##########################################

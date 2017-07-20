@@ -249,7 +249,13 @@ automation:
       - service: media_player.volume_set
         data_template:
           entity_id: media_player.vlc
-          volume_level: '{{ states.media_player.vlc.attributes.volume_level | float + 0.05 }}'
+          volume_level: >
+            {% if states.media_player.vlc.attributes.volume_level | float <= 0.95 %}
+              {{ states.media_player.vlc.attributes.volume_level | float + 0.05 }}
+            {% else %}
+              {{ states.media_player.vlc.attributes.volume_level | float }}
+            {% endif %}
+
 
 
   - alias: fan_off_volume_down
@@ -348,12 +354,13 @@ group:
     entities:
       - input_boolean.var_fans_circulate_air_on
       - input_boolean.var_fans_temperature_controlled_on
+      - input_boolean.var_fans_smoke_session_on
       - input_boolean.override_fans_helper
       - input_boolean.override_turn_on_fans
       - input_boolean.override_turn_off_fans
 
   options_fans:
-    name: "Environment"
+    name: "Fans"
     entities:
       - input_boolean.option_fans_circulate_air
       - input_boolean.option_fans_temperature_controlled
