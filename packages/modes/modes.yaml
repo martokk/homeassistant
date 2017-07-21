@@ -1,0 +1,346 @@
+homeassistant:
+  customize:
+    input_boolean.option_mode_normal:
+      emulated_hue: true
+      emulated_hue_name: "Normal Mode"
+    input_boolean.option_mode_silent:
+      emulated_hue: true
+      emulated_hue_name: "Silent Mode"
+    input_boolean.option_mode_smoke:
+      emulated_hue: true
+      emulated_hue_name: "Smoke Session"
+    input_boolean.option_mode_chill:
+      emulated_hue: true
+      emulated_hue_name: "Chill Mode"
+    input_boolean.option_mode_guest:
+      emulated_hue: true
+      emulated_hue_name: "Guests Mode"
+    input_boolean.option_mode_movie:
+      emulated_hue: true
+      emulated_hue_name: "Movie Mode"
+# switch:
+# lights:
+# binary_sensor:
+# sensor:
+
+automation:
+##########################################
+########## NOTIFICATIONS #################
+##########################################
+
+
+
+##########################################
+########## MODES #########################
+##########################################
+
+  # Mode - Guest Mode
+  - alias: mode_guest
+    trigger:
+      - platform: state
+        entity_id: input_boolean.option_mode_guest
+        to: 'on'
+    action:
+      # Turn Off - Normal Mode
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.option_mode_normal
+      # Turn On - Mode - Silent
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.option_mode_silent
+
+
+  # Mode - Movie
+  - alias: mode_movie
+    trigger:
+      # Input Boolean
+      - platform: state
+        entity_id: input_boolean.option_mode_movie
+        to: 'on'
+    action:
+      # Turn Off - Normal Mode
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.option_mode_normal
+      # Turn On - Scene2 - Night Computer (Low White Lights)
+      - service: script.scene2
+        data_template:
+          scene_name: 'night_computer'
+          transition: 30
+      # Turn On - Mode - Silent
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.option_mode_silent
+
+
+  # Mode - Chill Mode
+  - alias: mode_chill
+    trigger:
+      - platform: state
+        entity_id: input_boolean.option_mode_chill
+        to: 'on'
+    action:
+      # Turn Off - Normal Mode
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.option_mode_normal
+      # Turn On - Scene2 - Chill2
+      - service: script.scene2
+        data_template:
+          scene_name: 'chill_2'
+          transition: 30
+      # Turn On - Smoking Mode
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.option_mode_smoking
+
+  # Mode - Away Mode
+  - alias: mode_away
+    trigger:
+      - platform: state
+        entity_id: input_boolean.option_mode_away
+        to: 'on'
+    action:
+      # Turn Off - Normal Mode
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.option_mode_normal
+      # Announce Away Mode
+      - service: script.notify2
+        data_template:
+          tts_sound: 'st_notifications/tos_intercom.mp3'
+          tts_message: 'ANNOUNCEMENT!. Away Mode has been activated. The self destruct sequence has been armed. REPEAT!. Away Mode has been activated. The self destruct sequence has been armed.'
+          telegram_message: "var_residents_home = 'off'. Away Mode has been activated."
+      # Turn Off Everyting
+      - service: script.turn_off_everything
+      # Turn On - Silent Mode
+      - service: homeassistant.turn_on
+        entity_id: input_boolean.option_mode_silent
+
+  # Mode - Smoking Mode
+  - alias: mode_smoking
+    trigger:
+      - platform: state
+        entity_id: input_boolean.option_mode_smoking
+        to: 'on'
+    action:
+      # Turn Off - Normal Mode
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.option_mode_normal
+      # Turn On - Smoke Session Fans for 30 minutes
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.option_fans_smoke_session_on
+
+  # Mode - Silent Mode
+  - alias: mode_silent
+    trigger:
+      - platform: state
+        entity_id: input_boolean.option_mode_silent
+        to: 'on'
+    action:
+      # Turn Off - Normal Mode
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.option_mode_normal
+      # Turn Off - Light Notifications
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.option_notify2_lights
+      # Turn Off - Chromecast Notifications
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.option_notify2_chromecast
+      # Turn Off - TTS Notifications
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.option_notify2_tts
+
+  # Mode - Normal Mode
+  - alias: mode_normal
+    trigger:
+      - platform: state
+        entity_id: input_boolean.option_mode_normal
+        to: 'on'
+    action:
+      # Turn On - Light Notifications
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.option_notify2_lights
+      # Turn On - Chromecast Notifications
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.option_notify2_chromecast
+      # Turn On - TTS Notifications
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.option_notify2_tts
+      # Turn Off - Smoke Session Fans
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.option_fans_smoke_session_on
+      # Turn On - Timebased Lights
+      - service: script.timebased_scene
+
+
+#********** Set Normal Mode  ***********#
+  # Mode - Normal Mode
+  - alias: mode_normal_set_other_modes
+    trigger:
+      - platform: state
+        entity_id: input_boolean.option_mode_normal
+        to: 'on'
+    action:
+      # Turn Off - Silent Mode
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.option_mode_silent
+      # Turn Off - Smoking Mode
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.option_mode_smoking
+      # Turn Off - Chill Mode
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.option_mode_chill
+      # Turn Off - Guest Mode
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.option_mode_guest
+      # Turn Off - Movie Mode
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.option_mode_movie
+      # Turn Off - Away Mode
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.option_mode_away
+
+
+  # Mode - Normal Mode
+  - alias: mode_normal_from_other_modes
+    trigger:
+      - platform: state
+        entity_id: input_boolean.option_mode_guest
+        to: 'off'
+      - platform: state
+        entity_id: input_boolean.option_mode_movie
+        to: 'off'
+      - platform: state
+        entity_id: input_boolean.option_mode_chill
+        to: 'off'
+      - platform: state
+        entity_id: input_boolean.option_mode_smoking
+        to: 'off'
+      - platform: state
+        entity_id: input_boolean.option_mode_silent
+        to: 'off'
+      - platform: state
+        entity_id: input_boolean.option_mode_away
+        to: 'off'
+    action:
+      # Turn On - Normal Mode
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.option_mode_normal
+
+
+##########################################
+########## AUTOMATIONS ###################
+##########################################
+
+  - alias: timebased_11pm_quiet_mode
+    trigger:
+      - platform: time
+        minutes: 55
+        seconds: 00
+    condition:
+      - condition: time
+        after: "22:55:00"
+        before: "05:00:00"
+      - condition: state
+        entity_id: input_boolean.option_mode_normal
+        state: 'on'
+    action:
+      # Turn On - Silent Mode
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.option_mode_silent
+
+  #********** Reset Override Input Booleans at 5am ***********#
+  - alias: reset_modes_5am
+    trigger:
+      - platform: time
+        at: '05:00:00'
+    action:
+      # Turn On - Silent Mode
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.option_mode_normal
+
+##########################################
+########## SCRIPTS #######################
+##########################################
+# script:
+
+
+
+
+input_boolean:
+##########################################
+########## MODES #########################
+##########################################
+  option_mode_normal:
+    initial: 'on'
+    name: "Normal Mode"
+
+  option_mode_silent:
+    initial: 'off'
+    name: "Silent Mode"
+
+  option_mode_smoking:
+    initial: 'off'
+    name: "Smoking Mode"
+
+  option_mode_chill:
+    initial: 'off'
+    name: "Chill Mode"
+
+  option_mode_guest:
+    initial: 'off'
+    name: "Guest Mode"
+
+  option_mode_movie:
+    initial: 'off'
+    name: "Movie Mode"
+
+  option_mode_away:
+    initial: 'off'
+    name: "Away Mode"
+
+##########################################
+########## STORED VARIABLES ##############
+##########################################
+
+
+
+##########################################
+########## OPTIONS #######################
+##########################################
+
+
+##########################################
+############### GROUPS ###################
+##########################################
+group:
+  automation_modes:
+    entities:
+      - automation.mode_guest
+      - automation.mode_movie
+      - automation.mode_chill
+      - automation.mode_away
+      # - automation.
+      # - automation.
+      # - automation.
+      - automation.mode_smoking
+      - automation.mode_silent
+      - automation.mode_normal
+      - automation.mode_normal_set_other_modes
+      - automation.mode_normal_from_other_modes
+      - automation.reset_modes_5am
+      - automation.timebased_11pm_quiet_mode
+
+
+  # homeassistant_modes:
+  #   entities:
+
+
+  options_modes:
+    entities:
+      - input_boolean.option_mode_normal
+      - input_boolean.option_mode_silent
+      - input_boolean.option_mode_smoking
+      - input_boolean.option_mode_chill
+      - input_boolean.option_mode_guest
+      - input_boolean.option_mode_movie
+      - input_boolean.option_mode_away
+
+  # script_modes:
+  #   entities:
+  #     - script.

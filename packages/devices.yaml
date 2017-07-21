@@ -192,6 +192,35 @@ script:
               {%- endif -%}
             {%- endfor -%}.
 
+#********** All Devices Off ***********#
+
+  turn_off_everything:
+    sequence:
+      # PS3 Off
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_ps3_on
+
+      # Chromecast Off
+      - service: media_player.turn_off
+        entity_id: media_player.vtv_chromecast
+
+      # Entertainment_Center Off
+      - service: switch.turn_off
+        entity_id: switch.sonoff_entertainment_center
+
+      # Computer Screens Off
+      - service: script.computer_monitors_turn_off
+
+      # Ligts Off
+      - delay: "00:00:05"
+      - service: script.scene2
+        data:
+          rooms: 'all'
+          scene_name: 'off'
+          transition: 180
+
+
+
 ##########################################
 ########## SHELL COMMANDS #######################
 ##########################################
@@ -240,3 +269,4 @@ group:
     entities:
       - script.computer_monitors_turn_off
       - script.tts_battery_levels
+      - script.turn_off_everything

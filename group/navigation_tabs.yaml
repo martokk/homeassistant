@@ -67,6 +67,7 @@
     - group.options_temperature_range_mode
     - group.options_air_conditioner
     - group.options_residents
+    - group.options_modes
 
   hass:
     name: "Home Assistant"
@@ -92,6 +93,7 @@
     - group.homeassistant_timebased_summary
     - group.homeassistant_temperature_range_mode
     - group.homeassistant_weather
+    - group.homeassistant_modes
 
   automations:
     name: "Automations"
@@ -129,6 +131,7 @@
     - group.automation_temperature_range_mode
     - group.automation_air_conditioner
     - group.automation_residents
+    - group.automation_modes
 
   scripts:
     name: "Scripts"
@@ -165,3 +168,4 @@
     - group.script_temperature_range_mode
     - group.script_residents
     - group.script_user_presence
+    - group.script_modes

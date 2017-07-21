@@ -264,7 +264,7 @@ automation:
         to: 'off'
     action:
     - service: input_boolean.turn_off
-      entity_id: input_boolean.var_mode_guest
+      entity_id: input_boolean.option_mode_guest
 
   - alias: guest_away
     trigger:
@@ -274,11 +274,11 @@ automation:
         to: 'on'
     action:
     - service: input_boolean.turn_on
-      entity_id: input_boolean.var_mode_guest
+      entity_id: input_boolean.option_mode_guest
 
 
   #********** Smoking Guest Presence ***********#
-  - alias: smoking_guest_home
+  - alias: smoking_guest_away
     trigger:
       - platform: state
         entity_id: group.smoking_guests
@@ -286,9 +286,9 @@ automation:
         to: 'off'
     action:
     - service: input_boolean.turn_off
-      entity_id: input_boolean.var_mode_smoking
+      entity_id: input_boolean.option_mode_smoking
 
-  - alias: smoking_guest_away
+  - alias: smoking_guest_home
     trigger:
       - platform: state
         entity_id: group.smoking_guests
@@ -296,7 +296,7 @@ automation:
         to: 'on'
     action:
     - service: input_boolean.turn_on
-      entity_id: input_boolean.var_mode_smoking
+      entity_id: input_boolean.option_mode_smoking
 
 
 
@@ -358,7 +358,10 @@ group:
       - automation.dan_home
       - automation.residents_home
       - automation.residents_away
-
+      - automation.guest_away
+      - automation.guest_home
+      - automation.smoking_guest_away
+      - automation.smoking_guest_home
       - automation.mike_home_theme_video
       - automation.dan_home_theme_video
       - automation.dan_home_notification

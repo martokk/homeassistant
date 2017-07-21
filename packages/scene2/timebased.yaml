@@ -362,7 +362,7 @@ script:
     sequence:
       - condition: time
         after: '05:30:00'
-        before: '19:00:00'
+        before: '17:00:00'
       - condition: sun
         before: sunset
       - condition: sun
@@ -436,7 +436,8 @@ script:
   timebased_12am:
     sequence:
       - condition: time
-        after: '23:59:59'
+        after: '00:00:00'
+        before: '01:00:00'
       - service: script.scene2
         data:
           rooms: 'all'
@@ -485,29 +486,9 @@ script:
              am.
             Good night!
       - delay: "00:00:02"
+      # Turn Off - All Devices (TV, PS3, etc.)
+      - service: script.turn_off_everything
 
-      # PS3 Off
-      - service: input_boolean.turn_off
-        entity_id: input_boolean.var_ps3_on
-
-      # Chromecast Off
-      - service: media_player.turn_off
-        entity_id: media_player.vtv_chromecast
-
-      # Entertainment_Center Off
-      - service: switch.turn_off
-        entity_id: switch.sonoff_entertainment_center
-
-      # Computer Screens Off
-      - service: script.computer_monitors_turn_off
-
-      # Ligts Off
-      - delay: "00:00:05"
-      - service: script.scene2
-        data:
-          rooms: 'all'
-          scene_name: 'off'
-          transition: 180
 
 
 # input_boolean:

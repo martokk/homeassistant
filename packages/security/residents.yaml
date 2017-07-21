@@ -12,18 +12,6 @@ automation:
 ##########################################
 ########## NOTIFICATIONS #################
 ##########################################
-  - alias: announce_residents_away
-    trigger:
-      - platform: state
-        entity_id: input_boolean.var_residents_home
-        from: 'on'
-        to: 'off'
-    action:
-      - service: script.notify2
-        data_template:
-          tts_sound: 'st_notifications/tos_intercom.mp3'
-          tts_message: 'ANNOUNCEMENT!. Away Mode has been activated. The self destruct sequence has been armed. REPEAT!. Away Mode has been activated. The self destruct sequence has been armed.'
-          telegram_message: "var_residents_home = 'off'. Away Mode has been activated."
 
   - alias: motion_detected_no_resident_home
     trigger:
@@ -57,17 +45,9 @@ automation:
         from: 'on'
         to: 'off'
     action:
-    - service: script.scene2
-      data:
-        rooms: 'all'
-        scene_name: 'off'
-        transition: 600
-    - service: homeassistant.turn_off
-      entity_id: input_boolean.option_notify2_tts
-    - service: homeassistant.turn_off
-      entity_id: input_boolean.option_notify2_chromecast
-    - service: homeassistant.turn_off
-      entity_id: input_boolean.option_notify2_lights
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.option_mode_away
+
 
   - alias: any_resident_home_automation
     trigger:
@@ -77,11 +57,7 @@ automation:
         to: 'on'
     action:
     - service: homeassistant.turn_on
-      entity_id: input_boolean.option_notify2_tts
-    - service: homeassistant.turn_on
-      entity_id: input_boolean.option_notify2_chromecast
-    - service: homeassistant.turn_on
-      entity_id: input_boolean.option_notify2_lights
+      entity_id: input_boolean.option_mode_normal
     - service: script.scene2
       data:
         rooms: 'all'
@@ -124,7 +100,6 @@ group:
       - automation.all_residents_away_automations
       - automation.any_resident_home_automation
       - automation.motion_detected_no_resident_home
-      - automation.announce_residents_away
 
 #   homeassistant_residents:
 #     entities:

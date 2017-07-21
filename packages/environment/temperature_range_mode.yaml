@@ -489,6 +489,9 @@ group:
       - input_boolean.var_indoor_temp_ok
       - input_boolean.var_indoor_temp_cool
       - input_boolean.var_indoor_temp_cold
+      - input_boolean.var_indoor_humidity_high
+      - input_boolean.var_indoor_humidity_ok
+      - input_boolean.var_indoor_humidity_low
 
   automation_temperature_range_mode:
     entities:
@@ -529,7 +532,7 @@ group:
       - input_slider.var_indoor_temp_mike_at_work
 
   options_temperature_range_mode:
-    name: "Environment"
+    name: "Temperature Range"
     entities:
       - sensor.indoor_temp_hot_level
       - sensor.indoor_temp_very_warm_level
