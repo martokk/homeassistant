@@ -88,13 +88,19 @@ sensor:
         friendly_name: 'Weather Alerts'
         value_template: >-
           {% set criteria = ["Special Statement", "Tornado Warning", "Tornado Watch", "Severe Thunderstorm Warning", "Flood Warning", "Severe Weather Statement", "Severe Thunderstorm Watch", "HUR", "TOR", "TOW", "WRN", "SEW", "FLO", "WAT", "SVR"] %}
+          {% set city = "kenosha" %}
+
           {% if states.sensor.pws_alerts %}
             {% for state in states.sensor.pws_alerts.attributes -%}
               {% if "Description" in state | string %}
                 {% set description = states.sensor.pws_alerts.attributes[state] | string %}
+                {% set message = states.sensor.pws_alerts.attributes[state | replace("Description","Message")] | string %}
                 {% for item in criteria %}
                   {% if item in description %}
-                    {{ description }}
+                    {% if city in message | lower %}
+                      {{ description }};
+                    {% else %}
+                    {% endif -%}
                   {% else %}
                   {% endif -%}
                 {%endfor%}
@@ -114,7 +120,10 @@ sensor:
                 {% set message = states.sensor.pws_alerts.attributes[state] | string | truncate(250) %}
                 {% for item in criteria %}
                   {% if item in message %}
-                    {{ message }}
+                    {% if city in message | lower %}
+                      {{ message }}
+                    {% else %}
+                    {% endif -%}
                   {% else %}
                   {% endif -%}
                 {%endfor%}
@@ -183,7 +192,7 @@ automation:
         tts_entity_id: group.tts_devices
         tts_sound: 'intercom_ds9.mp3'
         tts_message: '{{ states("sensor.dark_sky_minutely_summary") }} {{ states("sensor.dark_sky_hourly_summary") }}'
-        tts_pause_delay: '00:00:07'
+        tts_pause_delay: '00:00:05'
     - condition: template
       value_template: >
         {% if states.automation.rain_stop.attributes.last_triggered %}
@@ -255,7 +264,7 @@ automation:
         telegram_message: |
           *{{ states("sensor.dark_sky_minutely_summary") }}*
           {{ states("sensor.dark_sky_hourly_summary") }}
-        tts_pause_delay: '00:00:07'
+        tts_pause_delay: '00:00:05'
         tts_entity_id: group.tts_devices
         tts_sound: 'intercom_ds9.mp3'
         tts_message: '{{ states("sensor.dark_sky_minutely_summary") }} {{ states("sensor.dark_sky_hourly_summary") }}'
@@ -295,20 +304,7 @@ automation:
     trigger:
       - platform: state
         entity_id: sensor.weather_alerts
-    condition:
-      - condition: template
-        value_template: '{{"kenosha" in states.sensor.weather_alert_message.state | lower }}'
-      - condition: template
-        value_template: >
-          {% if states.automation.weather_alert.attributes.last_triggered %}
-            {% if (as_timestamp(now())-as_timestamp(states.automation.weather_alert.attributes.last_triggered)) > (6 * 60 * 60)  %}
-              true
-            {% else %}
-              false
-            {% endif %}
-          {%else%}
-            true
-          {%endif%}
+        from: ""
     action:
       - service: script.notify2
         data_template:
@@ -323,14 +319,12 @@ automation:
           chromecast_link: https://sirocco.accuweather.com/nxssa_r1_h_500x620d/r1h/inxr1kmkea_h.gif
           tts_entity_id: group.tts_devices
           tts_sound: 'intercom_ds9.mp3'
-          tts_message: 'Weather Alert! {{ states("sensor.weather_alert") }} in Kanosha Wisconsin. Repeat. Weather Alert! {{ states("sensor.weather_alert") }} in Kanosha Wisconsin. '
+          tts_message: 'Weather Alert! {{ states("sensor.weather_alert") }} in Kenosha Wisconsin. Repeat. Weather Alert! {{ states("sensor.weather_alert") }} in Kenosha Wisconsin. '
           tts_pause_delay: '00:00:10'
       - delay: "00:00:10"
       - service: script.notify2
         data_template:
           telegram_url: http://static.lakana.com/mmm-wisctv-media-us-east-1/weather/Local_Radar_Loop.gif
-          flood_color: "yellow"
-          blink_color: "red"
           chromecast_entity_id: media_player.vtv_chromecast
           chromecast_link: http://static.lakana.com/mmm-wisctv-media-us-east-1/weather/Local_Radar_Loop.gif
 

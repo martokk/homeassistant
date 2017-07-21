@@ -28,7 +28,12 @@ automation:
     - service: input_slider.select_value
       data_template:
         entity_id: input_slider.var_tv_entertainment_center_volume
-        value: '{{ states.input_slider.var_tv_entertainment_center_volume.state | int - 1 }}'
+        value: >
+          {% if states.input_slider.var_tv_entertainment_center_volume.state | int > 0 %}
+            {{ states.input_slider.var_tv_entertainment_center_volume.state | int - 1 }}
+          {% else %}
+            0
+          {% endif %}
 
   - alias: set_state_entertainment_center_tv_volume_up
     trigger:
