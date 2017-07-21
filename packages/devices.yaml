@@ -115,7 +115,12 @@ automation:
             {% if states("sensor.iphone6s_battery") | int < 50 and states('sensor.iphone6s_battery') | int > 0 %}iPhone: {{ states("sensor.iphone6s_battery") | int }}%{% endif %}
             {% if states("sensor.watch_battery") | int < 50 and states('sensor.watch_battery') | int > 0  %}Watch: {{ states("sensor.watch_battery") | int }}%{% endif %}
             {% if states("sensor.ipad_battery") | int < 50 and states('sensor.ipad_battery') | int > 0 %}iPad: {{ states("sensor.ipad_battery") | int }}%{% endif %}
-
+          tts_pause_chromecast_delay: >
+            {% set delay = 1 %}
+            {% if states("sensor.iphone6s_battery") | int < 50 and states('sensor.iphone6s_battery') | int > 0 %}{% set delay = delay + 2%}{% endif %}
+            {% if states("sensor.watch_battery") | int < 50 and states('sensor.watch_battery') | int > 0  %}{% set delay = delay + 2%}{% endif %}
+            {% if states("sensor.ipad_battery") | int < 50 and states('sensor.ipad_battery') | int > 0 %}{% set delay = delay + 2%}{% endif %}
+            00:00:{{delay}}
   - alias: battery_fully_charged_text_only
     trigger:
       - platform: state
@@ -191,6 +196,7 @@ script:
                 is at {{ states(device) | int }}%
               {%- endif -%}
             {%- endfor -%}.
+          tts_pause_chromecast_delay: "00:00:10"
 
 #********** All Devices Off ***********#
 

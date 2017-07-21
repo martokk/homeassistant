@@ -89,6 +89,7 @@ automation:
           tts_entity_id: group.tts_devices
           tts_sound: 'intercom_ds9.mp3'
           tts_message: "Bitcoin's up! The current bitcoin price is ${{ states.sensor.bitcoin.state | round(0) }}"
+          tts_pause_chromecast_delay: "00:00:07"
       - service: input_slider.select_value
         data_template:
           entity_id: input_slider.var_last_known_bitcoin_price
@@ -117,6 +118,7 @@ automation:
           tts_entity_id: group.tts_devices
           tts_sound: 'intercom_ds9.mp3'
           tts_message: "Bitcoin's down! The current bitcoin price is ${{ states.sensor.bitcoin.state | round(0) }}"
+          tts_pause_chromecast_delay: "00:00:07"
       - service: input_slider.select_value
         data_template:
           entity_id: input_slider.var_last_known_bitcoin_price
@@ -136,6 +138,7 @@ script:
         tts_entity_id: group.tts_devices
         tts_sound: 'intercom_ds9.mp3'
         tts_message: "The current bitcoin price is ${{ states.sensor.bitcoin.state | round(0) }}"
+        tts_pause_chromecast_delay: "00:00:07"
 
   coinmarketcap_summary:
     sequence:

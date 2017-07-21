@@ -245,8 +245,8 @@ script:
           {% if not chromecast_entity_id %}
             {% set chromecast_entity_id = 'media_player.vtv_chromecast' %}
           {% endif %}
-          {% if is_state('input_boolean.option_notify2_chromecast', 'on') %}
             {% if not is_state('binary_sensor.ps3', 'on') %}
+            {% if (not is_state(chromecast_entity_id, 'playing') and not is_state(chromecast_entity_id, 'paused')) or states.media_player.vtv_chromecast.attributes.app_name | lower in states.input_select.array_chromecast_idle_apps | lower %}
               script.set_entertainment_center_tv_volume
             {% else %}
               script.notify2_do_nothing
@@ -351,26 +351,22 @@ script:
     sequence:
     - service: script.turn_off
       entity_id: script.notify2
-  #   - service_template: >
-  #       {% if tts_message %}
-  #         {% if is_state('input_boolean.option_notify2_tts', 'on') %}
-  #           {% if is_state('media_player.vtv_chromecast', 'playing') %}
-  #             {% if tts_pause_chromecast_delay %}
-  #               input_boolean.turn_on
-  #             {% else %}
-  #               script.notify2_do_nothing
-  #             {% endif %}
-  #           {% else %}
-  #             script.notify2_do_nothing
-  #           {% endif %}
-  #         {% else %}
-  #           script.notify2_do_nothing
-  #         {% endif %}
-  #       {% else %}
-  #         script.notify2_do_nothing
-  #       {% endif %}
-  #     data_template:
-  #       entity_id: input_boolean.var_chromecast_interupt
+    - service_template: >
+        {% if tts_message %}
+          {% if is_state('input_boolean.option_notify2_tts', 'on') %}
+            {% if is_state('media_player.vtv_chromecast', 'playing') %}
+              input_boolean.turn_on
+            {% else %}
+              script.notify2_do_nothing
+            {% endif %}
+          {% else %}
+            script.notify2_do_nothing
+          {% endif %}
+        {% else %}
+          script.notify2_do_nothing
+        {% endif %}
+      data_template:
+        entity_id: input_boolean.var_chromecast_interupt
 
     #*--------- TTS Sound --------------*#
     - service_template: >
@@ -419,31 +415,24 @@ script:
 
 
   #********** TTS Notificaiton - Resume Chromecast if Paused ***************************************#
-  # notify2_tts_resume:
-  #   alias: "vHome Notify2: TTS Resume"
-  #   sequence:
-  #   - condition: state
-  #     entity_id: media_player.vtv_chromecast
-  #     state: 'paused'
-  #   - delay: '{{ tts_pause_chromecast_delay }}'
-  #   - service_template: >
-  #       {% if tts_message %}
-  #         {% if is_state('input_boolean.option_notify2_tts', 'on') %}
-  #           {% if is_state('media_player.vlc', 'idle') %}
-  #             media_player.media_play
-  #           {% else %}
-  #             script.notify2_do_nothing
-  #           {% endif %}
-  #         {% else %}
-  #           script.notify2_do_nothing
-  #         {% endif %}
-  #       {% else %}
-  #         script.notify2_do_nothing
-  #       {% endif %}
-  #     data_template:
-  #       entity_id: media_player.vtv_chromecast
-  #   - service: input_boolean.turn_off
-  #     entity_id: input_boolean.var_chromecast_interupt
+  notify2_tts_resume:
+    alias: "vHome Notify2: TTS Resume"
+    sequence:
+    - delay: >
+        {% if tts_pause_chromecast_delay %}
+          {{ tts_pause_chromecast_delay }}
+        {% else %}
+          00:00:03
+        {% endif %}
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.var_chromecast_interupt
+
+  repeat_last_message:
+    sequence:
+    - service: script.notify2
+      data_template:
+        tts_message: '{{ states.sensor.last_tts_message.state }}'
+
 
 automation:
   - alias: notify2_15m_chromecast_off
@@ -460,6 +449,8 @@ automation:
         value_template: '{{ states.media_player.vtv_chromecast.attributes.app_name | lower in states.input_select.array_chromecast_idle_apps | lower }}'
       - service: media_player.turn_off
         entity_id: media_player.vtv_chromecast
+
+
 
 input_boolean:
 ##########################################
