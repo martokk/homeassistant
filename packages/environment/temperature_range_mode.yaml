@@ -12,6 +12,8 @@ homeassistant:
 sensor:
   - platform: template
     sensors:
+      indoor_temp_very_hot_level:
+        value_template: '{{ states.input_slider.var_indoor_temp_very_hot.state | float + states.input_slider.option_target_temperature_offset.state | float + states.input_slider.var_indoor_temp_time_of_day.state | float + states.input_slider.var_indoor_temp_mike_at_work.state | float }}'
       indoor_temp_hot_level:
         value_template: '{{ states.input_slider.var_indoor_temp_hot.state | float + states.input_slider.option_target_temperature_offset.state | float + states.input_slider.var_indoor_temp_time_of_day.state | float + states.input_slider.var_indoor_temp_mike_at_work.state | float }}'
       indoor_temp_very_warm_level:
@@ -32,10 +34,18 @@ automation:
 ##########################################
 ########## SET INDOOR TEMP RANGE #########
 ##########################################
+  - alias: set_indoor_temp_very_hot
+    trigger:
+      - platform: template
+        value_template: '{% if  states.sensor.indoor_temperature.state  %}{% if states.sensor.indoor_temperature.state | float  > states.sensor.indoor_temp_very_hot_level.state | float %}true{%endif%}{%endif%}'
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.var_indoor_temp_very_hot
+
   - alias: set_indoor_temp_hot
     trigger:
       - platform: template
-        value_template: '{% if  states.sensor.indoor_temperature.state  %}{% if states.sensor.indoor_temperature.state | float  > states.sensor.indoor_temp_hot_level.state | float %}true{%endif%}{%endif%}'
+        value_template: '{% if  states.sensor.indoor_temperature.state  %}{% if states.sensor.indoor_temperature.state | float > states.sensor.indoor_temp_hot_level.state | float and states.sensor.indoor_temperature.state | float < states.sensor.indoor_temp_very_hot_level.state | float %}true{%endif%}{%endif%}'
     action:
       - service: input_boolean.turn_on
         entity_id: input_boolean.var_indoor_temp_hot
@@ -125,12 +135,33 @@ automation:
 ##########################################
 ########## SET OTHER INPUT BOOLEANS ######
 ##########################################
+  - alias: indoor_temp_very_hot
+    trigger:
+      - platform: state
+        entity_id: input_boolean.var_indoor_temp_hot
+        to: 'on'
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_indoor_temp_hot
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_indoor_temp_very_warm
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_indoor_temp_warm
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_indoor_temp_ok
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_indoor_temp_cool
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_indoor_temp_cold
+
   - alias: indoor_temp_hot
     trigger:
       - platform: state
         entity_id: input_boolean.var_indoor_temp_hot
         to: 'on'
     action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_indoor_temp_very_hot
       - service: input_boolean.turn_off
         entity_id: input_boolean.var_indoor_temp_very_warm
       - service: input_boolean.turn_off
@@ -149,6 +180,8 @@ automation:
         to: 'on'
     action:
       - service: input_boolean.turn_off
+        entity_id: input_boolean.var_indoor_temp_very_hot
+      - service: input_boolean.turn_off
         entity_id: input_boolean.var_indoor_temp_hot
       - service: input_boolean.turn_off
         entity_id: input_boolean.var_indoor_temp_warm
@@ -165,6 +198,8 @@ automation:
         entity_id: input_boolean.var_indoor_temp_warm
         to: 'on'
     action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_indoor_temp_very_hot
       - service: input_boolean.turn_off
         entity_id: input_boolean.var_indoor_temp_hot
       - service: input_boolean.turn_off
@@ -183,6 +218,8 @@ automation:
         to: 'on'
     action:
       - service: input_boolean.turn_off
+        entity_id: input_boolean.var_indoor_temp_very_hot
+      - service: input_boolean.turn_off
         entity_id: input_boolean.var_indoor_temp_hot
       - service: input_boolean.turn_off
         entity_id: input_boolean.var_indoor_temp_very_warm
@@ -199,6 +236,8 @@ automation:
         entity_id: input_boolean.var_indoor_temp_cool
         to: 'on'
     action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_indoor_temp_very_hot
       - service: input_boolean.turn_off
         entity_id: input_boolean.var_indoor_temp_hot
       - service: input_boolean.turn_off
@@ -217,6 +256,8 @@ automation:
         entity_id: input_boolean.var_indoor_temp_cold
         to: 'on'
     action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_indoor_temp_very_hot
       - service: input_boolean.turn_off
         entity_id: input_boolean.var_indoor_temp_hot
       - service: input_boolean.turn_off
@@ -408,6 +449,7 @@ input_boolean:
 ##########################################
 ########## STORED VARIABLES ##############
 ##########################################
+  var_indoor_temp_very_hot:
   var_indoor_temp_hot:
   var_indoor_temp_very_warm:
   var_indoor_temp_warm:
@@ -432,6 +474,13 @@ input_slider:
   var_indoor_temp_mike_at_work:
     min: -1
     max: 4
+    step: 1
+
+  var_indoor_temp_very_hot:
+    name: Indoor Temp (VERY HOT)
+    initial: 81
+    min: 65
+    max: 85
     step: 1
 
   var_indoor_temp_hot:
@@ -483,6 +532,7 @@ group:
   indoor_temperature_range_mode:
     name: "Indoor Temperature Range Mode"
     entities:
+      - input_boolean.var_indoor_temp_very_hot
       - input_boolean.var_indoor_temp_hot
       - input_boolean.var_indoor_temp_very_warm
       - input_boolean.var_indoor_temp_warm
@@ -495,12 +545,14 @@ group:
 
   automation_temperature_range_mode:
     entities:
+      - automation.set_indoor_temp_very_hot
       - automation.set_indoor_temp_hot
       - automation.set_indoor_temp_very_warm
       - automation.set_indoor_temp_warm
       - automation.set_indoor_temp_ok
       - automation.set_indoor_temp_cool
       - automation.set_indoor_temp_cold
+      - automation.indoor_temp_very_hot
       - automation.indoor_temp_hot
       - automation.indoor_temp_very_warm
       - automation.indoor_temp_warm
@@ -523,6 +575,7 @@ group:
 
   homeassistant_temperature_range_mode:
     entities:
+      - input_slider.var_indoor_temp_very_hot
       - input_slider.var_indoor_temp_hot
       - input_slider.var_indoor_temp_very_warm
       - input_slider.var_indoor_temp_warm
@@ -534,6 +587,7 @@ group:
   options_temperature_range_mode:
     name: "Temperature Range"
     entities:
+      - sensor.indoor_temp_very_hot_level
       - sensor.indoor_temp_hot_level
       - sensor.indoor_temp_very_warm_level
       - sensor.indoor_temp_warm_level

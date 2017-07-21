@@ -74,6 +74,9 @@ automation:
   - alias: air_conditioner_temperature_controlled_on
     trigger:
       - platform: state
+        entity_id: input_boolean.var_indoor_temp_very_hot
+        to: 'on'
+      - platform: state
         entity_id: input_boolean.var_indoor_temp_hot
         to: 'on'
       - platform: state
