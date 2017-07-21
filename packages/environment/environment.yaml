@@ -34,24 +34,27 @@ sensor:
             {% endif %}
           {% endif %}
           {% if states.sensor.office_temperature %}
-            {% if (as_timestamp(now())-as_timestamp(states.sensor.office_temperature.last_changed)) < (2 * 60 * 60)  %}
-              {% if states.sensor.office_temperature.state | float > 1.0 %}
-                {% set temp = temp + states.sensor.office_temperature.state | float %}
-                {% set c = c + 1 %}
-              {% endif %}
-            {% endif %}
-          {% endif %}
-          {% if states.sensor.entertainment_center_temperature %}
-            {% if states.switch.sonoff_entertainment_center.state == 'off' %}
-              {% if (as_timestamp(now())-as_timestamp(states.sensor.entertainment_center_temperature.last_changed)) < (2 * 60 * 60)  %}
-                {% if states.sensor.entertainment_center_temperature.state | float > 1.0 %}
-                  {% set temp = temp + states.sensor.entertainment_center_temperature.state | float %}
+            {% if (as_timestamp(now())-as_timestamp(states.switch.air_conditioner.last_changed)) > ( 30 * 60) and states.switch.air_conditioner.state == 'off' %}
+              {% if (as_timestamp(now())-as_timestamp(states.sensor.office_temperature.last_changed)) < (2 * 60 * 60)  %}
+                {% if states.sensor.office_temperature.state | float > 1.0 %}
+                  {% set temp = temp + states.sensor.office_temperature.state | float %}
                   {% set c = c + 1 %}
                 {% endif %}
               {% endif %}
             {% endif %}
           {% endif %}
-
+          {% if states.sensor.entertainment_center_temperature %}
+            {% if (as_timestamp(now())-as_timestamp(states.switch.sonoff_entertainment_center.last_changed)) > ( 30 * 60) and states.switch.sonoff_entertainment_center.state == 'off' %}
+              {% if states.switch.sonoff_entertainment_center.state == 'off' %}
+                {% if (as_timestamp(now())-as_timestamp(states.sensor.entertainment_center_temperature.last_changed)) < (2 * 60 * 60)  %}
+                  {% if states.sensor.entertainment_center_temperature.state | float > 1.0 %}
+                    {% set temp = temp + states.sensor.entertainment_center_temperature.state | float %}
+                    {% set c = c + 1 %}
+                  {% endif %}
+                {% endif %}
+              {% endif %}
+            {% endif %}
+          {% endif %}
           {% if states.sensor.time.state[:2] | int >= 23 or states.sensor.time.state[:2] | int < 8 %}
             {################################ NIGHT TIME ################################}
             {% if states.input_boolean.option_mode_sleep.state == 'on' %}
@@ -94,19 +97,23 @@ sensor:
             {% endif %}
           {% endif %}
           {% if states.sensor.office_humidity %}
-            {% if (as_timestamp(now())-as_timestamp(states.sensor.office_humidity.last_changed)) < (2 * 60 * 60)  %}
-              {% if states.sensor.office_humidity.state | float > 1.0 %}
-                {% set humidity = humidity + states.sensor.office_humidity.state | float %}
-                {% set c = c + 1 %}
+            {% if (as_timestamp(now())-as_timestamp(states.switch.air_conditioner.last_changed)) > ( 30 * 60) %}
+              {% if (as_timestamp(now())-as_timestamp(states.sensor.office_humidity.last_changed)) < (2 * 60 * 60)  %}
+                {% if states.sensor.office_humidity.state | float > 1.0 %}
+                  {% set humidity = humidity + states.sensor.office_humidity.state | float %}
+                  {% set c = c + 1 %}
+                {% endif %}
               {% endif %}
             {% endif %}
           {% endif %}
           {% if states.sensor.entertainment_center_humidity %}
-            {% if states.switch.sonoff_entertainment_center.state == 'off' %}
-              {% if (as_timestamp(now())-as_timestamp(states.sensor.entertainment_center_humidity.last_changed)) < (2 * 60 * 60)  %}
-                {% if states.sensor.entertainment_center_humidity.state | float > 1.0 %}
-                  {% set humidity = humidity + states.sensor.entertainment_center_humidity.state | float %}
-                  {% set c = c + 1 %}
+            {% if (as_timestamp(now())-as_timestamp(states.switch.sonoff_entertainment_center.last_changed)) > ( 30 * 60) and states.switch.sonoff_entertainment_center.state == 'off' %}
+              {% if states.switch.sonoff_entertainment_center.state == 'off' %}
+                {% if (as_timestamp(now())-as_timestamp(states.sensor.entertainment_center_humidity.last_changed)) < (2 * 60 * 60) and states.switch.air_conditioner.state == 'off' %}
+                  {% if states.sensor.entertainment_center_humidity.state | float > 1.0 %}
+                    {% set humidity = humidity + states.sensor.entertainment_center_humidity.state | float %}
+                    {% set c = c + 1 %}
+                  {% endif %}
                 {% endif %}
               {% endif %}
             {% endif %}

@@ -33,13 +33,13 @@ script:
             {% endif %}
 
             {% if is_state('input_boolean.var_todays_temp_hot_close_windows', 'on') %}
-              Todays high temperature is hot. You should close the windows and let me control the air conditoner to keep it cool indoors.
+              It's hot outside, so keep your windows closed. I'll control the air conditioner to keep it cool in here.
             {% endif %}
             {% if is_state('input_boolean.var_todays_temp_ok_open_windows', 'on') %}
-              Todays high temperature is perfect. You should open the windows and let the fresh air in.
+              Today's temperature will be perfect. You should open the windows and let the fresh air in.
             {% endif %}
             {% if is_state('input_boolean.var_todays_temp_cold_close_windows', 'on') %}
-              Todays high temperature is cold. You should close the windows today.
+              It's cold outside. You should probably keep your windows closed today.
             {% endif %}
 
 
