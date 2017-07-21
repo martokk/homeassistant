@@ -401,7 +401,7 @@ script:
     - service_template: >
         {% if tts_message %}
           {% if is_state('input_boolean.option_notify2_tts', 'on') %}
-            tts.google_say
+            tts.amazon_polly_say
           {% else %}
             script.notify2_do_nothing
           {% endif %}
