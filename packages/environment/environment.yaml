@@ -54,8 +54,8 @@ sensor:
 
           {% if states.sensor.time.state[:2] | int >= 23 or states.sensor.time.state[:2] | int < 8 %}
             {################################ NIGHT TIME ################################}
-            {% if states.sensor.bedroom_temperature %}
-              {{ states.sensor.bedroom_temperature.state | float }}
+            {% if states.input_boolean.option_mode_sleep.state == 'on' %}
+              {{ ((states.sensor.bedroom_temperature.state | float + (temp / c) | float) / 2) | round(1) }}
             {% else %}
               {% if c > 0 %}
                {{ (temp / c) | round(1) | float }}

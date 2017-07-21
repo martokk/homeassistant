@@ -104,11 +104,8 @@ automation:
     action:
       - service: script.entertainment_center_turn_off
       - delay: "00:00:30"
-      - service: script.scene2
-        data:
-          rooms: 'all'
-          scene_name: 'off'
-          transition: 600
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.option_mode_sleep
       - service: input_select.select_option
         data:
           entity_id: input_select.var_lks_timebased
@@ -487,7 +484,8 @@ script:
             Good night!
       - delay: "00:00:02"
       # Turn Off - All Devices (TV, PS3, etc.)
-      - service: script.turn_off_everything
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.option_mode_sleep
 
 
 

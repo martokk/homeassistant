@@ -18,6 +18,9 @@ homeassistant:
     input_boolean.option_mode_movie:
       emulated_hue: true
       emulated_hue_name: "Movie Mode"
+    input_boolean.option_mode_sleep:
+      emulated_hue: true
+      emulated_hue_name: "Sleep Mode"
 # switch:
 # lights:
 # binary_sensor:
@@ -34,7 +37,7 @@ automation:
 ########## MODES #########################
 ##########################################
 
-  # Mode - Guest Mode
+#********** Guest Mode  ***********#
   - alias: mode_guest
     trigger:
       - platform: state
@@ -49,7 +52,7 @@ automation:
         entity_id: input_boolean.option_mode_silent
 
 
-  # Mode - Movie
+#********** Movie Mode  ***********#
   - alias: mode_movie
     trigger:
       # Input Boolean
@@ -70,7 +73,7 @@ automation:
         entity_id: input_boolean.option_mode_silent
 
 
-  # Mode - Chill Mode
+#********** Chill Mode  ***********#
   - alias: mode_chill
     trigger:
       - platform: state
@@ -89,7 +92,7 @@ automation:
       - service: input_boolean.turn_on
         entity_id: input_boolean.option_mode_smoking
 
-  # Mode - Away Mode
+#********** Away Mode  ***********#
   - alias: mode_away
     trigger:
       - platform: state
@@ -111,7 +114,7 @@ automation:
       - service: homeassistant.turn_on
         entity_id: input_boolean.option_mode_silent
 
-  # Mode - Smoking Mode
+#********** Smoking Mode  ***********#
   - alias: mode_smoking
     trigger:
       - platform: state
@@ -125,7 +128,24 @@ automation:
       - service: input_boolean.turn_on
         entity_id: input_boolean.option_fans_smoke_session_on
 
-  # Mode - Silent Mode
+#********** Sleep Mode  ***********#
+  - alias: mode_sleep
+    trigger:
+      - platform: state
+        entity_id: input_boolean.option_mode_sleep
+        to: 'on'
+    action:
+      # Turn Off - Normal Mode
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.option_mode_normal
+      # Turn Off Everyting
+      - service: script.turn_off_everything
+      # Turn On - Silent Mode
+      - service: homeassistant.turn_on
+        entity_id: input_boolean.option_mode_silent
+
+
+#********** Silent Mode  ***********#
   - alias: mode_silent
     trigger:
       - platform: state
@@ -145,6 +165,10 @@ automation:
       - service: input_boolean.turn_off
         entity_id: input_boolean.option_notify2_tts
 
+
+
+
+#********** Normal Mode  ***********#
   # Mode - Normal Mode
   - alias: mode_normal
     trigger:
@@ -167,8 +191,6 @@ automation:
       # Turn On - Timebased Lights
       - service: script.timebased_scene
 
-
-#********** Set Normal Mode  ***********#
   # Mode - Normal Mode
   - alias: mode_normal_set_other_modes
     trigger:
@@ -294,6 +316,10 @@ input_boolean:
     initial: 'off'
     name: "Away Mode"
 
+  option_mode_sleep:
+    initial: 'off'
+    name: "Sleep Mode"
+
 ##########################################
 ########## STORED VARIABLES ##############
 ##########################################
@@ -340,6 +366,7 @@ group:
       - input_boolean.option_mode_guest
       - input_boolean.option_mode_movie
       - input_boolean.option_mode_away
+      - input_boolean.option_mode_sleep
 
   # script_modes:
   #   entities:
