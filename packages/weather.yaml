@@ -142,7 +142,7 @@ automation:
         tts_entity_id: group.tts_devices
         tts_sound: 'intercom_ds9.mp3'
         tts_message: '{{ states("sensor.dark_sky_minutely_summary") }}'
-        tts_pause_chromecast_delay: '00:00:04'
+        tts_pause_delay: '00:00:04'
     - condition: template
       value_template: '{{"rain" in states.sensor.dark_sky_minutely_summary.state | lower or "drizzle" in states.sensor.dark_sky_minutely_summary.state | lower}}'
     - condition: template
@@ -183,7 +183,7 @@ automation:
         tts_entity_id: group.tts_devices
         tts_sound: 'intercom_ds9.mp3'
         tts_message: '{{ states("sensor.dark_sky_minutely_summary") }} {{ states("sensor.dark_sky_hourly_summary") }}'
-        tts_pause_chromecast_delay: '00:00:07'
+        tts_pause_delay: '00:00:07'
     - condition: template
       value_template: >
         {% if states.automation.rain_stop.attributes.last_triggered %}
@@ -217,7 +217,7 @@ automation:
         tts_entity_id: group.tts_devices
         tts_sound: 'intercom_ds9.mp3'
         tts_message: '{{ states("sensor.dark_sky_minutely_summary") }}'
-        tts_pause_chromecast_delay: '00:00:04'
+        tts_pause_delay: '00:00:04'
     - condition: template
       value_template: '{{"snow" in states.sensor.dark_sky_minutely_summary.state | lower}}'
     - condition: template
@@ -255,7 +255,7 @@ automation:
         telegram_message: |
           *{{ states("sensor.dark_sky_minutely_summary") }}*
           {{ states("sensor.dark_sky_hourly_summary") }}
-        tts_pause_chromecast_delay: '00:00:07'
+        tts_pause_delay: '00:00:07'
         tts_entity_id: group.tts_devices
         tts_sound: 'intercom_ds9.mp3'
         tts_message: '{{ states("sensor.dark_sky_minutely_summary") }} {{ states("sensor.dark_sky_hourly_summary") }}'
@@ -324,7 +324,7 @@ automation:
           tts_entity_id: group.tts_devices
           tts_sound: 'intercom_ds9.mp3'
           tts_message: 'Weather Alert! {{ states("sensor.weather_alert") }} in Kanosha Wisconsin. Repeat. Weather Alert! {{ states("sensor.weather_alert") }} in Kanosha Wisconsin. '
-          tts_pause_chromecast_delay: '00:00:10'
+          tts_pause_delay: '00:00:10'
       - delay: "00:00:10"
       - service: script.notify2
         data_template:

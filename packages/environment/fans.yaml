@@ -285,6 +285,43 @@ automation:
           entity_id: media_player.vlc
           volume_level: '{{ states.media_player.vlc.attributes.volume_level | float - 0.05 }}'
 
+  #********** TTS Interupt ***************************************#
+  - alias: tts_interupt_turn_off_sonoff_small_desk_fan1
+    trigger:
+      - platform: state
+        entity_id: input_boolean.var_tts_interupt
+        from: 'off'
+        to: 'on'
+    condition:
+      - condition: state
+        entity_id: switch.sonoff_small_desk_fan1
+        state: 'on'
+    action:
+      - service: switch.turn_off
+        entity_id: switch.sonoff_small_desk_fan1
+      - wait_template: "{{ states.input_boolean.var_tts_interupt.state == 'off' }}"
+        timeout: 00:02:00
+      - service: switch.turn_on
+        entity_id: switch.sonoff_small_desk_fan1
+
+  - alias: tts_interupt_turn_off_sonoff_box_fan1
+    trigger:
+      - platform: state
+        entity_id: input_boolean.var_tts_interupt
+        from: 'off'
+        to: 'on'
+    condition:
+      - condition: state
+        entity_id: switch.sonoff_sonoff_box_fan1
+        state: 'on'
+    action:
+      - service: switch.turn_off
+        entity_id: switch.sonoff_box_fan1
+      - wait_template: "{{ states.input_boolean.var_tts_interupt.state == 'off' }}"
+        timeout: 00:02:00
+      - service: switch.turn_on
+        entity_id: switch.sonoff_box_fan1
+
 ##########################################
 ########## SCRIPTS #######################
 ##########################################

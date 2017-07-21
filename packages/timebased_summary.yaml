@@ -45,30 +45,7 @@ script:
 
 
             The current bitcoin price is ${{ states.sensor.bitcoin.state | round(0) }}
-          tts_pause_chromecast_delay: >
-            {% set delay_seconds = 12 %}
-
-            {% if states('sensor.iphone6s_battery') | int < 30 and states('sensor.iphone6s_battery') | int > 0 %}
-              {% set delay_seconds = delay_seconds + 4 %}
-            {% endif %}
-            {% if states('sensor.watch_battery') | int < 30 and states('sensor.watch_battery') | int > 0 %}
-              {% set delay_seconds = delay_seconds + 4 %}
-            {% endif %}
-            {% if states('sensor.ipad_battery') | int < 30 and states('sensor.ipad_battery') | int > 0 %}
-              {% set delay_seconds = delay_seconds + 4 %}
-            {% endif %}
-
-            {% if is_state('input_boolean.var_todays_temp_hot_close_windows', 'on') %}
-              {% set delay_seconds = delay_seconds + 9 %}
-            {% endif %}
-            {% if is_state('input_boolean.var_todays_temp_ok_open_windows', 'on') %}
-              {% set delay_seconds = delay_seconds + 9 %}
-            {% endif %}
-            {% if is_state('input_boolean.var_todays_temp_cold_close_windows', 'on') %}
-              {% set delay_seconds = delay_seconds + 9 %}
-            {% endif %}
-
-            00:00:{{ delay_seconds }}
+          tts_pause_delay: '00:00:15'
 
   timebased_telegram_summary:
     sequence:

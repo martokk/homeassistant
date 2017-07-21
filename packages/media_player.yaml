@@ -190,11 +190,11 @@ automation:
   #       entity_id: media_player.vtv_chromecast
   #       state: 'playing'
   #     - condition: state
-  #       entity_id: input_boolean.var_chromecast_interupt
+  #       entity_id: input_boolean.var_tts_interupt
   #       state: 'off'
   #   action:
   #     - service: input_boolean.turn_on
-  #       entity_id: input_boolean.var_chromecast_interupt
+  #       entity_id: input_boolean.var_tts_interupt
   #
   # - alias: tts_complete_resume_video
   #   trigger:
@@ -207,17 +207,17 @@ automation:
   #       entity_id: media_player.vtv_chromecast
   #       state: 'paused'
   #     - condition: state
-  #       entity_id: input_boolean.var_chromecast_interupt
+  #       entity_id: input_boolean.var_tts_interupt
   #       state: 'on'
   #   action:
   #     - service: input_boolean.turn_off
-  #       entity_id: input_boolean.var_chromecast_interupt
+  #       entity_id: input_boolean.var_tts_interupt
 
-  #********** Chromecast Interupt ***************************************#
-  - alias: chromecast_interupt_pause_video
+  #********** TTS Interupt ***************************************#
+  - alias: tts_interupt_pause_video
     trigger:
       - platform: state
-        entity_id: input_boolean.var_chromecast_interupt
+        entity_id: input_boolean.var_tts_interupt
         from: 'off'
         to: 'on'
     condition:
@@ -228,10 +228,10 @@ automation:
       - service: media_player.media_pause
         entity_id: media_player.vtv_chromecast
 
-  - alias: chromecast_interupt_resume_video
+  - alias: tts_interupt_resume_video
     trigger:
       - platform: state
-        entity_id: input_boolean.var_chromecast_interupt
+        entity_id: input_boolean.var_tts_interupt
         from: 'on'
         to: 'off'
     condition:
@@ -381,7 +381,7 @@ input_boolean:
 ##########################################
 ########## STORED VARIABLES ##############
 ##########################################
-  var_chromecast_interupt: #Activated when TTS is playing, turns off when TTS is idle
+  var_tts_interupt: #Activated when TTS is playing, turns off when TTS is idle
     initial: off
   var_chromecast_screensaver_ready:
 
@@ -438,8 +438,8 @@ group:
       - automation.chromecast_resume_video_on_source_change
       - automation.tts_started_pause_video
       - automation.tts_complete_resume_video
-      - automation.chromecast_interupt_pause_video
-      - automation.chromecast_interupt_resume_video
+      - automation.tts_interupt_pause_video
+      - automation.tts_interupt_resume_video
       - automation.set_tts_vol_high
       - automation.set_tts_vol_low
       - automation.set_tts_vol_low2
@@ -447,7 +447,7 @@ group:
   homeassistant_media:
     entities:
       - input_boolean.var_chromecast_screensaver_ready
-      - input_boolean.var_chromecast_interupt
+      - input_boolean.var_tts_interupt
       - input_select.array_chromecast_playing_apps
       - input_select.array_chromecast_idle_apps
 

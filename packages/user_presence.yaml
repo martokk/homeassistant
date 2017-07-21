@@ -99,7 +99,7 @@ automation:
         tts_entity_id: group.tts_devices
         tts_sound: 'intercom_tos.mp3'
         tts_message: "Dan's is here!"
-        tts_pause_chromecast_delay: "00:00:09"
+        tts_pause_delay: "00:00:09"
     - delay: "00:00:03"
     - service: script.notify2
       data_template:

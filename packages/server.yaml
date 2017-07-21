@@ -424,7 +424,7 @@ automation:
           tts_entity_id: group.tts_devices
           tts_sound: 'intercom_ds9.mp3'
           tts_message: "FYI: There is a new update for Home Assistant available! The latest update is version {{ states.sensor.hass_version_latest.state }}"
-          tts_pause_chromecast_delay: "00:00:09"
+          tts_pause_delay: "00:00:09"
 
 
   #********** HASS Startup ***************************************#

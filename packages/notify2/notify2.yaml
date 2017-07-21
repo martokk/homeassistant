@@ -134,7 +134,7 @@ script:
         tts_message: "{{ tts_message }}"
         tts_entity_id: "{{ tts_entity_id }}"
         tts_sound: "{{ tts_sound }}"
-        tts_pause_chromecast_delay: "{{ tts_pause_chromecast_delay }}"
+        tts_pause_delay: "{{ tts_pause_delay }}"
 
   #********** SMS Notifications ***************************************#
   notify2_sms:
@@ -366,7 +366,7 @@ script:
     - service_template: >
         {% if tts_message %}
           {% if is_state('input_boolean.option_notify2_tts', 'on') %}
-            {% if is_state('media_player.vtv_chromecast', 'playing') %}
+            {% if is_state('media_player.vtv_chromecast', 'playing') or is_state('switch.air_conditioner', 'on') %}
               input_boolean.turn_on
             {% else %}
               script.notify2_do_nothing
@@ -378,7 +378,7 @@ script:
           script.notify2_do_nothing
         {% endif %}
       data_template:
-        entity_id: input_boolean.var_chromecast_interupt
+        entity_id: input_boolean.var_tts_interupt
 
     #*--------- TTS Sound --------------*#
     - service_template: >
@@ -416,31 +416,43 @@ script:
         topic: "device/tts/last_message"
         payload: '{{ tts_message }}'
     - condition: state
-      entity_id: input_boolean.var_chromecast_interupt
+      entity_id: input_boolean.var_tts_interupt
       state: 'on'
     - service: script.notify2_tts_resume
       data_template:
-        tts_pause_chromecast_delay: '{{ tts_pause_chromecast_delay }}'
+        tts_pause_delay: '{{ tts_pause_delay }}'
 
 
   #********** Do Nothing ***************************************#
   notify2_do_nothing:
-    alias: "vHome Notify2: Do Nothing"
     sequence:
 
 
   #********** TTS Notificaiton - Resume Chromecast if Paused ***************************************#
   notify2_tts_resume:
-    alias: "vHome Notify2: TTS Resume"
     sequence:
     - delay: >
-        {% if tts_pause_chromecast_delay %}
-          {{ tts_pause_chromecast_delay }}
+        {% if tts_pause_delay %}
+          {{ tts_pause_delay }}
         {% else %}
           00:00:03
         {% endif %}
+    - service_template: >
+        {% if states.media_player.vlc.state == 'playing' %}
+          script.notify2_tts_resume_after_wait
+        {% else %}
+          script.notify2_do_nothing
+        {% endif %}
+    - condition: template
+      value_template: "{{ states.media_player.vlc.state != 'playing' }}"
     - service: input_boolean.turn_off
-      entity_id: input_boolean.var_chromecast_interupt
+      entity_id: input_boolean.var_tts_interupt
+
+  notify2_tts_resume_after_wait:
+    sequence:
+    - wait_template: "{{ states.media_player.vlc.state != 'playing' }}"
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.var_tts_interupt
 
   repeat_last_message:
     sequence:
