@@ -88,9 +88,19 @@ automation:
       - condition: state
         entity_id: switch.sonoff_entertainment_center
         state: 'off'
-      - condition: time
-        after: '12:00:00'
-        before: '21:00:00'
+      # Time - After 12:00pm, Before 9:00pm
+      - condition: template
+        value_template: >
+          {% if states.sensor.dark_sky_daily_high_apparent_temperature.state | float > states.input_slider.var_indoor_temp_ok.state | float %}
+            {% set on_hour = 18 %}
+          {% else %}
+            {% set on_hour = 12 %}
+          {% endif %}
+          {% if now().hour >= on_hour and now().hour < 21 %}
+            true
+          {% else %}
+            false
+          {% endif %}
       - condition: state
         entity_id: input_boolean.override_turn_off_tv
         state: 'off'
