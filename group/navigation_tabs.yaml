@@ -59,7 +59,7 @@
     view: yes
     entities:
     - group.options_lights
-    - group.options_media
+    - group.options_media_player
     - group.options_notify2
     - group.options_environment
     - group.options_system
@@ -74,7 +74,6 @@
     icon: mdi:home-automation
     view: yes
     entities:
-    - group.stored_arrays
     - group.backend_volume_control
     - group.backend_environment
     - group.indoor_temperature_range_mode
@@ -85,7 +84,7 @@
     - group.backend_entertainment_center
     - group.backend_residents
     - group.backend_user_presence
-    - group.backend_media
+    - group.backend_media_player
     - group.backend_notify2
     - group.backend_bitcoin
     - group.backend_alarm

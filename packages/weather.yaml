@@ -126,12 +126,15 @@ sensor:
         friendly_name: 'Weather Alerts Message'
         value_template: >-
           {% set criteria = ["Special Statement", "Tornado Warning", "Tornado Watch", "Severe Thunderstorm Warning", "Flood Warning", "Severe Weather Statement", "Severe Thunderstorm Watch", "HUR", "TOR", "TOW", "WRN", "SEW", "FLO", "WAT", "SVR"] %}
+          {% set city = "kenosha" %}
+
           {% if states.sensor.pws_alerts %}
             {% for state in states.sensor.pws_alerts.attributes -%}
-              {% if "Message" in state | string %}
-                {% set message = states.sensor.pws_alerts.attributes[state] | string | truncate(250) %}
+              {% if "Description" in state | string %}
+                {% set description = states.sensor.pws_alerts.attributes[state] | string %}
+                {% set message = states.sensor.pws_alerts.attributes[state | replace("Description","Message")] | string %}
                 {% for item in criteria %}
-                  {% if item in message %}
+                  {% if item in description %}
                     {% if city in message | lower %}
                       {{ message }}
                     {% else %}

@@ -3,7 +3,7 @@ sensor:
     sensors:
       chromecast_playing_app:
         friendly_name: "Chromecast Playing App"
-        value_template: '{% if states.media_player.vtv_chromecast.attributes.app_name %}{{ states.media_player.vtv_chromecast.attributes.app_name }}{% else %}Off{% endif %}'
+        value_template: '{% if states.media_player.vtv_chromecast.attributes.app_name %}{{ states.media_player.vtv_chromecast.attributes.app_name | lower }}{% else %}off{% endif %}'
 
 media_player:
   - platform: cast
@@ -137,6 +137,8 @@ automation:
         entity_id: media_player.vtv_chromecast
         from: 'playing'
         to: 'idle'
+        for:
+          seconds: 10
     condition:
       - condition: template
         value_template: '{% if states.media_player.vtv_chromecast.attributes.app_name | lower in states.input_select.array_chromecast_idle_apps | lower %}true{%else%}false{%endif%}'
@@ -444,15 +446,14 @@ group:
       - automation.set_tts_vol_low
       - automation.set_tts_vol_low2
 
-  backend_media:
+  backend_media_player:
     entities:
       - input_boolean.var_chromecast_screensaver_ready
       - input_boolean.var_tts_interupt
       - input_select.array_chromecast_playing_apps
       - input_select.array_chromecast_idle_apps
 
-  options_media:
-    name: "Media"
+  options_media_player:
     entities:
       - input_boolean.option_chromecast_screensaver
 

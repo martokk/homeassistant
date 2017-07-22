@@ -462,6 +462,14 @@ fixd: # Neightbors: FIXD: The Active Car Health Monitor
   picture:
   track: false
   vendor: ISSC Technologies Corp.
+chromebook_ce43: # Neighbors
+  hide_if_away: false
+  icon:
+  mac: BT_C8:21:58:4B:15:C1
+  name: Chromebook CE43
+  picture:
+  track: false
+  vendor: Intel Corporate
 ##########################################
 ########## UNKNOWN #######################
 ##########################################
