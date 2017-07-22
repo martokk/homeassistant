@@ -347,6 +347,7 @@ group:
       - automation.mode_smoking
       - automation.mode_silent
       - automation.mode_normal
+      - automation.mode_sleep
       - automation.mode_normal_set_other_modes
       - automation.mode_normal_from_other_modes
       - automation.reset_modes_5am

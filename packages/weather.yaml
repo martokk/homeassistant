@@ -10,6 +10,10 @@ homeassistant:
         friendly_name: "Temp. High"
     sensor.dark_sky_daily_low_apparent_temperature:
         friendly_name: "Temp. Low (Apparent)"
+    sensor.dark_sky_daily_high_apparent_temperature_2:
+        friendly_name: "Tomorrow Temp. High (Apparent)"
+    sensor.dark_sky_daily_low_apparent_temperature_2:
+        friendly_name: "Tomorrow Temp. Low (Apparent)"
     sensor.dark_sky_daily_low_temperature:
         friendly_name: "Temp. Low"
     sensor.dark_sky_daily_max_precip_intensity:
@@ -76,6 +80,14 @@ sensor:
       - apparent_temperature_min
       - precip_intensity_max
       - wind_speed
+
+  - platform: darksky
+    api_key: !secret darksky_api_key
+    forcast: 1
+    monitored_conditions:
+      - apparent_temperature_max
+      - apparent_temperature_min
+
 
   - platform: wunderground
     api_key: !secret wunderground_api_key
@@ -499,6 +511,8 @@ group:
     - sensor.dark_sky_precip_probability
     - sensor.dark_sky_daily_max_precip_intensity
     - sensor.dark_sky_wind_speed
+    - sensor.dark_sky_daily_low_apparent_temperature_2
+    - sensor.dark_sky_daily_high_apparent_temperature_2
 
   automation_weather:
     entities:
