@@ -46,6 +46,21 @@ automation:
         entity_id: input_slider.var_tv_entertainment_center_volume
         value: '{{ states.input_slider.var_tv_entertainment_center_volume.state | int + 1 }}'
 
+  #********** CC Playing Volume Check ********************#
+  - alias: chromecast_playing_volume_check
+    trigger:
+      - platform: state
+        entity_id: media_player.vtv_chromecast
+        to: 'playing'
+    condition:
+      - condition: template
+        value_template: '{% if states.sensor.chromecast_playing_app.state | lower in states.input_select.array_chromecast_playing_apps | lower %}true{%else%}false{%endif%}'
+      - condition: template
+        value_template: '{{ states.input_slider.var_tv_entertainment_center_volume.state | int < 6 }}'
+    action:
+      - service: script.set_entertainment_center_tv_volume
+        data:
+          volume_level: 15
 
 
 ##########################################
