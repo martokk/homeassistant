@@ -27,21 +27,6 @@ mqtt:
   password: !secret mqtt_password
   keepalive: 60
 
-google:
-  client_id: !secret google_client_id
-  client_secret: !secret google_client_secret
-
-tts:
-  # - platform: google
-  #   cache: true
-  #   time_memory: 300
-  - platform: amazon_polly
-    aws_access_key_id: !secret aws_access_key_id
-    aws_secret_access_key: !secret aws_secret_access_key
-    region_name: 'us-east-2'
-    voice: Joanna
-
-
 emulated_hue:
   type: alexa
   host_ip: 192.168.1.3

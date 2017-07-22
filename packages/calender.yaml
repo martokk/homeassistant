@@ -6,6 +6,12 @@
 # switch:
 # lights:
 # binary_sensor:
+
+google:
+  client_id: !secret google_client_id
+  client_secret: !secret google_client_secret
+
+
 sensor:
   - platform: template
     sensors:
@@ -185,7 +191,7 @@ group:
       - automation.mike_at_work
       - automation.mike_not_at_work
 
-  homeassistant_calandar:
+  backend_calandar:
     entities:
       - input_boolean.var_mike_at_work
       - input_slider.var_mike_work_start_hour

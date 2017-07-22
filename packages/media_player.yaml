@@ -444,7 +444,7 @@ group:
       - automation.set_tts_vol_low
       - automation.set_tts_vol_low2
 
-  homeassistant_media:
+  backend_media:
     entities:
       - input_boolean.var_chromecast_screensaver_ready
       - input_boolean.var_tts_interupt

@@ -280,7 +280,7 @@ group:
       - automation.humidity_high
 #
 #
-#   homeassistant_template:
+#   backend_template:
 #     entities:
 #
 #

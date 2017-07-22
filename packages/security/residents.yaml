@@ -101,7 +101,7 @@ group:
       - automation.any_resident_home_automation
       - automation.motion_detected_no_resident_home
 
-#   homeassistant_residents:
+#   backend_residents:
 #     entities:
 #
 #

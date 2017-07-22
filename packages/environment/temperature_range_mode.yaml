@@ -573,7 +573,7 @@ group:
       - automation.set_indoor_humidity_ok
       - automation.set_indoor_humidity_high
 
-  homeassistant_temperature_range_mode:
+  backend_temperature_range_mode:
     entities:
       - input_slider.var_indoor_temp_very_hot
       - input_slider.var_indoor_temp_hot

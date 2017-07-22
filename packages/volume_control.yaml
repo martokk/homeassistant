@@ -315,7 +315,7 @@ group:
       - automation.set_state_entertainment_center_tv_volume_up
 
 
-  homeassistant_volume_control:
+  backend_volume_control:
     entities:
       - input_slider.var_tv_entertainment_center_volume
       - input_slider.var_tv_entertainment_center_volume_set

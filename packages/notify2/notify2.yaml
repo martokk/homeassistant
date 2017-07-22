@@ -544,7 +544,7 @@ group:
       - script.notify2_tts_resume_after_wait
       - script.repeat_last_message
 
-  homeassistant_notify2:
+  backend_notify2:
     entities:
       - input_boolean.var_notify2_15m_chromecast_on
       - sensor.last_tts_message

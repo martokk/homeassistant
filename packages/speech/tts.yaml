@@ -8,6 +8,16 @@
 # binary_sensor:
 # sensor:
 
+tts:
+  # - platform: google
+  #   cache: true
+  #   time_memory: 300
+  - platform: amazon_polly
+    aws_access_key_id: !secret aws_access_key_id
+    aws_secret_access_key: !secret aws_secret_access_key
+    region_name: 'us-east-2'
+    voice: Joanna
+
 # automation:
 ##########################################
 ########## NOTIFICATIONS #################

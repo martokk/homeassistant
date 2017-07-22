@@ -528,7 +528,7 @@ group:
       - automation.todays_temp_ok_open_windows
       - automation.todays_temp_cold_close_windows
 
-  homeassistant_weather:
+  backend_weather:
     entities:
       - input_boolean.var_todays_temp_ok_open_windows
       - input_boolean.var_todays_temp_hot_close_windows

@@ -354,7 +354,7 @@ group:
       - automation.timebased_11pm_quiet_mode
 
 
-  # homeassistant_modes:
+  # backend_modes:
   #   entities:
 
 

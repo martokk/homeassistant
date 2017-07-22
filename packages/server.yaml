@@ -869,7 +869,7 @@ group:
       - input_boolean.option_send_device_reconnect_notification
       - input_boolean.option_homeassistant_restart_sound
 
-  homeassistant_server:
+  backend_server:
     entities:
       # - input_boolean.var_startup
       - input_boolean.var_eventghost_on

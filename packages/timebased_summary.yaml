@@ -69,7 +69,7 @@ script:
           telegram_message: |
             {% if states.sensor.weather_alert.state | string | length > 1 %}
               *WEATHER ALERT:* {{ states("sensor.weather_alert") }}
-              *DETAILS:* {{ states("sensor.weather_alert") }}
+              *DETAILS:* {{ states("sensor.weather_alert_message") }}
 
             {% endif %}
             *Now:* {{ states.sensor.dark_sky_temperature.state | round(0)  }}°F - {{ states.sensor.dark_sky_summary.state }}
@@ -114,7 +114,7 @@ automation:
       #   value_template: '{{ states.sensor.time.state | string in states.input_select.array_timebased_summary_times.attributes.options | string }}'
      - platform: time
        minutes: 00
-       seconds: 05
+       seconds: 02
     condition:
       - condition: template
         value_template: '{{ states.sensor.time.state | string in states.input_select.array_timebased_summary_times.attributes.options | string }}'
@@ -142,7 +142,7 @@ group:
     entities:
       - automation.timebased_summary
 
-  homeassistant_timebased_summary:
+  backend_timebased_summary:
     entities:
       - input_select.array_timebased_summary_times
 

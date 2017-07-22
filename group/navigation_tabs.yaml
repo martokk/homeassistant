@@ -1,6 +1,6 @@
   dashboard:
-    name: "Dashboard"
     view: yes
+    icon: mdi:speedometer
     entities:
     - group.today
     - group.quick_scenes
@@ -9,7 +9,7 @@
     - group.bitcoin
 
   lights_view:
-    name: "Lights"
+    icon: mdi:lightbulb
     view: yes
     entities:
     - group.living_room_lights
@@ -19,7 +19,7 @@
     - group.scenes
 
   enviroment:
-    name: "Enviroment"
+    icon: mdi:thermometer-lines
     view: yes
     entities:
     - group.fans
@@ -33,7 +33,7 @@
     - group.indoor_temperature_range_mode
 
   media:
-    name: "Media"
+    icon: mdi:television-classic
     view: yes
     entities:
     - group.vtv
@@ -42,7 +42,7 @@
     - group.ambivision
 
   network:
-    name: "Network"
+    icon: mdi:server-network
     view: yes
     entities:
     - group.status_alert
@@ -55,6 +55,7 @@
 
   options:
     name: "Options"
+    icon: mdi:settings
     view: yes
     entities:
     - group.options_lights
@@ -69,34 +70,34 @@
     - group.options_residents
     - group.options_modes
 
-  hass:
-    name: "Home Assistant"
+  backend:
+    icon: mdi:home-automation
     view: yes
     entities:
     - group.stored_arrays
-    - group.homeassistant_volume_control
-    - group.homeassistant_environment
+    - group.backend_volume_control
+    - group.backend_environment
     - group.indoor_temperature_range_mode
-    - group.homeassistant_server
-    - group.homeassistant_fans
-    - group.homeassistant_air_conditioner
-    - group.homeassistant_room_states
-    - group.homeassistant_entertainment_center
-    - group.homeassistant_residents
-    - group.homeassistant_user_presence
-    - group.homeassistant_media
-    - group.homeassistant_notify2
-    - group.homeassistant_bitcoin
-    - group.homeassistant_alarm
-    - group.homeassistant_lights
-    - group.homeassistant_scene2
-    - group.homeassistant_timebased_summary
-    - group.homeassistant_temperature_range_mode
-    - group.homeassistant_weather
-    - group.homeassistant_modes
+    - group.backend_server
+    - group.backend_fans
+    - group.backend_air_conditioner
+    - group.backend_room_states
+    - group.backend_entertainment_center
+    - group.backend_residents
+    - group.backend_user_presence
+    - group.backend_media
+    - group.backend_notify2
+    - group.backend_bitcoin
+    - group.backend_alarm
+    - group.backend_lights
+    - group.backend_scene2
+    - group.backend_timebased_summary
+    - group.backend_temperature_range_mode
+    - group.backend_weather
+    - group.backend_modes
 
   automations:
-    name: "Automations"
+    icon: mdi:timetable
     view: yes
     entities:
     - group.automation_alarms
@@ -134,7 +135,7 @@
     - group.automation_modes
 
   scripts:
-    name: "Scripts"
+    icon: mdi:script
     view: yes
     entities:
     - group.script_alarms

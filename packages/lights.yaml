@@ -561,7 +561,7 @@ group:
       - automation.entertainment_center_motion_turn_on_lights
       - automation.entertainment_center_motion_turn_off_lights
 
-  homeassistant_lights:
+  backend_lights:
     entities:
       - input_boolean.var_kitchen_motion_on
       - input_slider.var_kitchen_brightness

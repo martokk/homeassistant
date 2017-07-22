@@ -362,7 +362,7 @@ group:
       - automation.tv_override_turn_on
       - automation.tv_override_turn_off
 
-  homeassistant_entertainment_center:
+  backend_entertainment_center:
     entities:
       - input_boolean.override_tv_helper
       - input_boolean.override_turn_on_tv
