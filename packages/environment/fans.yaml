@@ -24,13 +24,13 @@ automation:
       # - service: script.notify2
       #   data_template:
       #     telegram_message: '{{ trigger | string }}'
-      - service: input_boolean.turn_on
+      - service: script.turn_on
         data_template:
           entity_id: >
             {% if "turn_off" in trigger.event | string %}
-              input_boolean.override_turn_off_fans
+              script.override_turn_off_fans
             {% else %}
-              input_boolean.override_turn_on_fans
+              script.override_turn_on_fans
             {% endif %}
 
   - alias: fans_override_turn_on
@@ -325,7 +325,39 @@ automation:
 ##########################################
 ########## SCRIPTS #######################
 ##########################################
-# script:
+script:
+
+#********** Override - Turn ON  ***********#
+  override_turn_on_fans:
+    sequence:
+      # If Override already 'on'; turn off
+      - service_template: >
+          {% if states.input_boolean.override_turn_on_fans.state == 'on' %}
+            input_boolean.turn_off
+          {% else %}
+            script.do_nothing
+          {% endif %}
+        entity_id: input_boolean.override_turn_on_fans
+
+      # Turn On - Override Input Boolean
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.override_turn_on_fans
+
+#********** Override - Turn OFF  ***********#
+  override_turn_off_fans:
+    sequence:
+      # If Override already 'on'; turn off
+      - service_template: >
+          {% if states.input_boolean.override_turn_off_fans.state == 'on' %}
+            input_boolean.turn_off
+          {% else %}
+            script.do_nothing
+          {% endif %}
+        entity_id: input_boolean.override_turn_off_fans
+
+      # Turn On - Override Input Boolean
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.override_turn_off_fans
 
 
 
