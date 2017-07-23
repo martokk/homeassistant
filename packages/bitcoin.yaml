@@ -160,6 +160,28 @@ script:
           {% endfor -%}
         disable_notification: '{% if disable_notification %} {{ disable_notification }} {% endif %}'
 
+  coinmarketcap_favorites_summary:
+    sequence:
+    - service: script.notify2
+      data_template:
+        telegram_message: >
+          {%-for entity in states.group.coinmarketcap.attributes.entity_id -%}
+            {%- if entity[7:] | lower in states.input_select.array_favorite_cyptos.attributes.options | lower -%}
+              {%- set coin = states.sensor[entity[7:]].attributes.symbol -%}
+              {%- set coin_loopid = 1 -%}
+              {%- set coin_empty_space = 8 - coin  |  string | title | length -%}
+              {%- set usd =  states(entity) -%}
+              {%- set usd_loopid = 1 -%}
+              {%- set usd_empty_space = 8 - usd  |  string | title | length -%}
+
+              {%- set mbtc =  states.sensor[entity[7:]].attributes.price_mbtc -%}
+              {%- set mbtc_loopid = 1 -%}
+              {%- set mbtc_empty_space = 8- mbtc  |  string | title | length -%}
+              ``` {{coin}}  {%- for coin_loopid in range(1, coin_empty_space) %} {% endfor -%} {% for usd_loopid in range(1, usd_empty_space) %} {% endfor -%}${{ usd }} {% for mbtc_loopid in range(1, mbtc_empty_space) %} {% endfor -%}{{ mbtc }}m฿```
+            {% endif -%}
+          {% endfor -%}
+        disable_notification: '{% if disable_notification %} {{ disable_notification }} {% endif %}'
+
 input_slider:
 ##########################################
 ########## STORED VARIABLES ##############
@@ -168,6 +190,14 @@ input_slider:
     min: 0
     max: 999999
     step: 1
+
+input_select:
+    array_favorite_cyptos:
+      options:
+        - "bitcoin"
+        - "ethereum"
+        - "steem"
+        - "siacoin"
 
 
 ##########################################
@@ -183,6 +213,7 @@ group:
     entities:
       - script.chromecast_bitcoin_chart
       - script.coinmarketcap_summary
+      - script.coinmarketcap_favorites_summary
 
   bitcoin:
     name: "Bitcoin"
@@ -194,6 +225,7 @@ group:
   backend_bitcoin:
     entities:
       - input_slider.var_last_known_bitcoin_price
+      - input_select.array_favorite_cyptos
 
   coinmarketcap:
     entities:

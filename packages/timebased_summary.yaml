@@ -96,7 +96,7 @@ script:
           disable_notification: 'true'
 
       ### BITCOIN
-      - service: script.coinmarketcap_summary
+      - service: script.coinmarketcap_favorites_summary
         data:
           disable_notification: 'true'
 
