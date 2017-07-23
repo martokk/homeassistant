@@ -436,6 +436,8 @@ group:
       - input_boolean.option_fans_circulate_air
       - input_boolean.option_fans_temperature_controlled
 
-#
-#   script_template:
-#     entities:
+
+  script_fans:
+    entities:
+      - script.override_turn_off_fans
+      - script.override_turn_on_fans

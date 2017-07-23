@@ -326,6 +326,7 @@ group:
   automation_volume_control:
     entities:
       - automation.entertainment_center_tv_on_volume_sync
+      - automation.chromecast_playing_volume_check
       - automation.set_state_entertainment_center_tv_volume_down
       - automation.set_state_entertainment_center_tv_volume_up
 
