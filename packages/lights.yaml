@@ -28,15 +28,12 @@ automation:
   - alias: turn_on_kitchen_lights_movement
     trigger:
     - platform: state
-      entity_id: binary_sensor.kitchen_motion_sensor
+      entity_id: input_boolean.var_kitchen_motion_on
       from: 'off'
       to: 'on'
     action:
     - service: homeassistant.turn_on
       entity_id: script.kitchen_lights_timer_on
-    - service: input_boolean.turn_on
-      data:
-        entity_id: input_boolean.var_kitchen_motion_on
 
   - alias: turn_off_kitchen_lights_no_movement_7sec
     trigger:
@@ -55,6 +52,7 @@ automation:
         payload: "1"
     action:
     - service: script.kitchen_lights_timer_day
+
 
   #********** Set Variables ***************************************#
   - alias: setMin_var_kitchen_delay
@@ -157,7 +155,7 @@ automation:
   - alias: entertainment_center_motion_turn_on_lights
     trigger:
     - platform: state
-      entity_id: binary_sensor.entertainment_center_motion_sensor
+      entity_id: input_boolean.var_entertainment_center_motion_on
       from: 'off'
       to: 'on'
     condition:
@@ -196,8 +194,6 @@ automation:
       entity_id: binary_sensor.entertainment_center_motion_sensor
       from: 'on'
       to: 'off'
-      for:
-        minutes: 5
     condition:
       condition: or
       conditions:
@@ -412,8 +408,8 @@ script:
 ##########################################
 ########## STORED VARIABLES ##############
 ##########################################
-input_boolean:
-  var_kitchen_motion_on:
+# input_boolean:
+
 
 input_slider:
   var_kitchen_delay: #in Seconds
@@ -563,7 +559,6 @@ group:
 
   backend_lights:
     entities:
-      - input_boolean.var_kitchen_motion_on
       - input_slider.var_kitchen_brightness
       - input_slider.var_kitchen_color_temp
       - input_slider.var_kitchen_delay

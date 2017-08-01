@@ -50,7 +50,9 @@ automation:
       # Turn On - Mode - Silent
       - service: input_boolean.turn_on
         entity_id: input_boolean.option_mode_silent
-
+      # Turn On - Temperature Range Mode Reduced
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.option_indoor_temp_range_reduced
 
 #********** Movie Mode  ***********#
   - alias: mode_movie
@@ -113,6 +115,9 @@ automation:
       # Turn On - Silent Mode
       - service: homeassistant.turn_on
         entity_id: input_boolean.option_mode_silent
+      # Turn Off - Temperature Range Mode Reduced
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.option_indoor_temp_range_reduced
 
 #********** Smoking Mode  ***********#
   - alias: mode_smoking
@@ -190,6 +195,10 @@ automation:
         entity_id: input_boolean.option_fans_smoke_session_on
       # Turn On - Timebased Lights
       - service: script.timebased_scene
+      # Turn Off - Temperature Range Mode Reduced
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.option_indoor_temp_range_reduced
+
 
   # Mode - Normal Mode
   - alias: mode_normal_set_other_modes
@@ -216,6 +225,9 @@ automation:
       # Turn Off - Away Mode
       - service: input_boolean.turn_off
         entity_id: input_boolean.option_mode_away
+      # Turn Off - Sleep Mode
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.option_mode_sleep
 
 
   # Mode - Normal Mode
@@ -238,6 +250,9 @@ automation:
         to: 'off'
       - platform: state
         entity_id: input_boolean.option_mode_away
+        to: 'off'
+      - platform: state
+        entity_id: input_boolean.option_mode_sleep
         to: 'off'
     action:
       # Turn On - Normal Mode
@@ -272,7 +287,7 @@ automation:
       - platform: time
         at: '05:00:00'
     action:
-      # Turn On - Silent Mode
+      # Turn On - Normal Mode
       - service: input_boolean.turn_on
         entity_id: input_boolean.option_mode_normal
 

@@ -114,7 +114,7 @@ automation:
       #   value_template: '{{ states.sensor.time.state | string in states.input_select.array_timebased_summary_times.attributes.options | string }}'
      - platform: time
        minutes: 00
-       seconds: 02
+       seconds: 15
     condition:
       - condition: template
         value_template: '{{ states.sensor.time.state | string in states.input_select.array_timebased_summary_times.attributes.options | string }}'

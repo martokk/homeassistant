@@ -1,0 +1,110 @@
+# homeassistant:
+#   customize:
+    # input_boolean.template:
+    #   emulated_hue: true
+    #   emulated_hue_name: "Template Name"
+# switch:
+# lights:
+# binary_sensor:
+# sensor:
+
+automation:
+##########################################
+########## NOTIFICATIONS #################
+##########################################
+
+
+
+##########################################
+########## AUTOMATIONS ###################
+##########################################
+
+  #********** Kitchen Motion ***************************************#
+  - alias: var_kitchen_motion_on
+    trigger:
+    - platform: state
+      entity_id: binary_sensor.kitchen_motion_sensor
+      from: 'off'
+      to: 'on'
+    action:
+    - service: input_boolean.turn_on
+      data:
+        entity_id: input_boolean.var_kitchen_motion_on
+
+
+  #********** Enterainment Center Motion ***************************************#
+  - alias: var_entertainment_center_motion_on
+    trigger:
+    - platform: state
+      entity_id: binary_sensor.entertainment_center_motion_sensor
+      from: 'off'
+      to: 'on'
+    action:
+    - service: input_boolean.turn_on
+      data:
+        entity_id: input_boolean.var_entertainment_center_motion_on
+
+  - alias: var_entertainment_center_motion_off
+    trigger:
+    - platform: state
+      entity_id: binary_sensor.entertainment_center_motion_sensor
+      from: 'on'
+      to: 'off'
+      for:
+        minutes: 5
+    action:
+    - service: input_boolean.turn_off
+      data:
+        entity_id: input_boolean.var_entertainment_center_motion_on
+
+
+
+
+
+
+
+
+##########################################
+########## SCRIPTS #######################
+##########################################
+# script:
+
+
+
+
+input_boolean:
+##########################################
+########## STORED VARIABLES ##############
+##########################################
+  var_kitchen_motion_on:
+  var_entertainment_center_motion_on:
+
+
+##########################################
+########## OPTIONS #######################
+##########################################
+
+
+##########################################
+############### GROUPS ###################
+##########################################
+group:
+  automation_motion_detection:
+    entities:
+      - automation.var_kitchen_motion_on
+      - automation.var_entertainment_center_motion_on
+      - automation.var_entertainment_center_motion_off
+
+
+  backend_motion_detection:
+    entities:
+      - input_boolean.var_kitchen_motion_on
+      - input_boolean.var_entertainment_center_motion_on
+
+  # options_motion_detection:
+  #   entities:
+  #     - input_boolean.
+
+  # script_motion_detection:
+  #   entities:
+  #     - script.

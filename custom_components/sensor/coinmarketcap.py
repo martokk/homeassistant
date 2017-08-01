@@ -75,10 +75,10 @@ class CoinMarketCapSensor(Entity):
     def state(self):
         """Return the state of the sensor."""
         price = round(float(self._ticker.get('price_usd')), 2)
-        if price < 0.10:
+        if price < 0.50:
             price = round(float(self._ticker.get('price_usd')), 3)
-        if price < 0.010:
-            price = round(float(self._ticker.get('price_usd')), 4)
+        if price < 0.050:
+            price = round(float(self._ticker.get('price_usd')), 5)
         return price
 
     @property

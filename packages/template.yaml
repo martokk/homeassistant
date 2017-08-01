@@ -49,16 +49,16 @@
 #   automation_change_me:
 #     entities:
 #       - automation.
-#
-#
+
+
 #   backend_change_me:
 #     entities:
 #       - input_boolean.
-#
+
 #   options_change_me:
 #     entities:
 #       - input_boolean.
-#
+
 #   script_change_me:
 #     entities:
 #       - script.

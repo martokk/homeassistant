@@ -75,10 +75,10 @@ automation:
         entity_id: input_boolean.option_fans_circulate_air
         state: 'on'
       - condition: state
-        entity_id: input_boolean.var_indoor_temp_cool
+        entity_id: input_boolean.option_indoor_temp_cool
         state: 'off'
       - condition: state
-        entity_id: input_boolean.var_indoor_temp_cold
+        entity_id: input_boolean.option_indoor_temp_cold
         state: 'off'
     action:
       - service: input_boolean.turn_on
@@ -97,10 +97,10 @@ automation:
         minutes: 35
         seconds: 00
       - platform: state
-        entity_id: input_boolean.var_indoor_temp_cool
+        entity_id: input_boolean.option_indoor_temp_cool
         to: 'on'
       - platform: state
-        entity_id: input_boolean.var_indoor_temp_cold
+        entity_id: input_boolean.option_indoor_temp_cold
         to: 'on'
       - platform: state
         entity_id: input_boolean.option_fans_circulate_air
@@ -132,7 +132,7 @@ automation:
   - alias: fans_smoke_session_off
     trigger:
       - platform: state
-        entity_id: input_boolean.var_indoor_temp_cold
+        entity_id: input_boolean.option_indoor_temp_cold
         to: 'on'
       - platform: state
         entity_id: input_boolean.var_fans_smoke_session_on
@@ -145,10 +145,10 @@ automation:
   - alias: fans_temperature_controlled_on
     trigger:
       - platform: state
-        entity_id: input_boolean.var_indoor_temp_very_warm
+        entity_id: input_boolean.option_indoor_temp_very_warm
         to: 'on'
       - platform: state
-        entity_id: input_boolean.var_indoor_temp_hot
+        entity_id: input_boolean.option_indoor_temp_hot
         to: 'on'
     condition:
       - condition: state
@@ -161,13 +161,13 @@ automation:
   - alias: fans_temperature_controlled_off
     trigger:
       - platform: state
-        entity_id: input_boolean.var_indoor_temp_ok
+        entity_id: input_boolean.option_indoor_temp_ok
         to: 'on'
       - platform: state
-        entity_id: input_boolean.var_indoor_temp_cool
+        entity_id: input_boolean.option_indoor_temp_cool
         to: 'on'
       - platform: state
-        entity_id: input_boolean.var_indoor_temp_cold
+        entity_id: input_boolean.option_indoor_temp_cold
         to: 'on'
     condition:
       - condition: state

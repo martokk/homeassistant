@@ -210,7 +210,7 @@ automation:
         entity_id: device_tracker.dans_iphone6
         to: 'not_home'
         for:
-          minutes: 5
+          minutes: 15
     condition:
       - condition: state
         entity_id: input_boolean.var_dan_home

@@ -40,7 +40,7 @@ automation:
         value_template: '{% if  states.sensor.indoor_temperature.state  %}{% if states.sensor.indoor_temperature.state | float  > states.sensor.indoor_temp_very_hot_level.state | float %}true{%endif%}{%endif%}'
     action:
       - service: input_boolean.turn_on
-        entity_id: input_boolean.var_indoor_temp_very_hot
+        entity_id: input_boolean.option_indoor_temp_very_hot
 
   - alias: set_indoor_temp_hot
     trigger:
@@ -48,7 +48,7 @@ automation:
         value_template: '{% if  states.sensor.indoor_temperature.state  %}{% if states.sensor.indoor_temperature.state | float > states.sensor.indoor_temp_hot_level.state | float and states.sensor.indoor_temperature.state | float < states.sensor.indoor_temp_very_hot_level.state | float %}true{%endif%}{%endif%}'
     action:
       - service: input_boolean.turn_on
-        entity_id: input_boolean.var_indoor_temp_hot
+        entity_id: input_boolean.option_indoor_temp_hot
 
   - alias: set_indoor_temp_very_warm
     trigger:
@@ -56,7 +56,7 @@ automation:
         value_template: '{% if  states.sensor.indoor_temperature.state  %}{% if states.sensor.indoor_temperature.state | float > states.sensor.indoor_temp_very_warm_level.state | float and states.sensor.indoor_temperature.state | float < states.sensor.indoor_temp_hot_level.state | float %}true{%endif%}{%endif%}'
     action:
       - service: input_boolean.turn_on
-        entity_id: input_boolean.var_indoor_temp_very_warm
+        entity_id: input_boolean.option_indoor_temp_very_warm
 
   - alias: set_indoor_temp_warm
     trigger:
@@ -64,7 +64,7 @@ automation:
         value_template: '{% if  states.sensor.indoor_temperature.state  %}{% if states.sensor.indoor_temperature.state | float > states.sensor.indoor_temp_warm_level.state | float and states.sensor.indoor_temperature.state | float < states.sensor.indoor_temp_very_warm_level.state | float %}true{%endif%}{%endif%}'
     action:
       - service: input_boolean.turn_on
-        entity_id: input_boolean.var_indoor_temp_warm
+        entity_id: input_boolean.option_indoor_temp_warm
 
   - alias: set_indoor_temp_ok
     trigger:
@@ -72,7 +72,7 @@ automation:
         value_template: '{% if  states.sensor.indoor_temperature.state  %}{% if states.sensor.indoor_temperature.state | float > states.sensor.indoor_temp_ok_level.state | float and states.sensor.indoor_temperature.state | float  < states.sensor.indoor_temp_warm_level.state | float %}true{%endif%}{%endif%}'
     action:
       - service: input_boolean.turn_on
-        entity_id: input_boolean.var_indoor_temp_ok
+        entity_id: input_boolean.option_indoor_temp_ok
 
   - alias: set_indoor_temp_cool
     trigger:
@@ -80,7 +80,7 @@ automation:
         value_template: '{% if  states.sensor.indoor_temperature.state  %}{% if states.sensor.indoor_temperature.state | float > states.sensor.indoor_temp_cool_level.state | float and states.sensor.indoor_temperature.state | float < states.sensor.indoor_temp_ok_level.state | float %}true{%endif%}{%endif%}'
     action:
       - service: input_boolean.turn_on
-        entity_id: input_boolean.var_indoor_temp_cool
+        entity_id: input_boolean.option_indoor_temp_cool
 
   - alias: set_indoor_temp_cold
     trigger:
@@ -88,7 +88,7 @@ automation:
         value_template: '{% if  states.sensor.indoor_temperature.state  %}{% if states.sensor.indoor_temperature.state | float < states.sensor.indoor_temp_cool_level.state | float %}true{%endif%}{%endif%}'
     action:
       - service: input_boolean.turn_on
-        entity_id: input_boolean.var_indoor_temp_cold
+        entity_id: input_boolean.option_indoor_temp_cold
 
 ##########################################
 ########## SET INDOOR HUMIDITY RANGE #####
@@ -99,38 +99,38 @@ automation:
         value_template: '{% if  states.sensor.indoor_humidity.state  %}{% if states.sensor.indoor_humidity.state | float  > 65.0 %}true{%endif%}{%endif%}'
     action:
       - service: input_boolean.turn_on
-        entity_id: input_boolean.var_indoor_humidity_high
+        entity_id: input_boolean.option_indoor_humidity_high
 
       - service: input_boolean.turn_off
-        entity_id: input_boolean.var_indoor_humidity_ok
+        entity_id: input_boolean.option_indoor_humidity_ok
       - service: input_boolean.turn_off
-        entity_id: input_boolean.var_indoor_humidity_low
+        entity_id: input_boolean.option_indoor_humidity_low
 
   - alias: set_indoor_humidity_ok
     trigger:
       - platform: template
-        value_template: '{% if  states.sensor.indoor_humidity.state  %}{% if states.sensor.indoor_humidity.state | float > 25.0 | float and states.sensor.indoor_humidity.state | float < 65.0 %}true{%endif%}{%endif%}'
+        value_template: '{% if  states.sensor.indoor_humidity.state  %}{% if states.sensor.indoor_humidity.state | float > 15.0 | float and states.sensor.indoor_humidity.state | float < 65.0 %}true{%endif%}{%endif%}'
     action:
       - service: input_boolean.turn_on
-        entity_id: input_boolean.var_indoor_humidity_ok
+        entity_id: input_boolean.option_indoor_humidity_ok
 
       - service: input_boolean.turn_off
-        entity_id: input_boolean.var_indoor_humidity_high
+        entity_id: input_boolean.option_indoor_humidity_high
       - service: input_boolean.turn_off
-        entity_id: input_boolean.var_indoor_humidity_low
+        entity_id: input_boolean.option_indoor_humidity_low
 
   - alias: set_indoor_humidity_low
     trigger:
       - platform: template
-        value_template: '{% if  states.sensor.indoor_humidity.state  %}{% if states.sensor.indoor_humidity.state | float < 25.0 %}true{%endif%}{%endif%}'
+        value_template: '{% if  states.sensor.indoor_humidity.state  %}{% if states.sensor.indoor_humidity.state | float < 15.0 %}true{%endif%}{%endif%}'
     action:
       - service: input_boolean.turn_on
-        entity_id: input_boolean.var_indoor_humidity_low
+        entity_id: input_boolean.option_indoor_humidity_low
 
       - service: input_boolean.turn_off
-        entity_id: input_boolean.var_indoor_humidity_ok
+        entity_id: input_boolean.option_indoor_humidity_ok
       - service: input_boolean.turn_off
-        entity_id: input_boolean.var_indoor_humidity_high
+        entity_id: input_boolean.option_indoor_humidity_high
 
 ##########################################
 ########## SET OTHER INPUT BOOLEANS ######
@@ -138,136 +138,136 @@ automation:
   - alias: indoor_temp_very_hot
     trigger:
       - platform: state
-        entity_id: input_boolean.var_indoor_temp_very_hot
+        entity_id: input_boolean.option_indoor_temp_very_hot
         to: 'on'
     action:
       - service: input_boolean.turn_off
-        entity_id: input_boolean.var_indoor_temp_hot
+        entity_id: input_boolean.option_indoor_temp_hot
       - service: input_boolean.turn_off
-        entity_id: input_boolean.var_indoor_temp_very_warm
+        entity_id: input_boolean.option_indoor_temp_very_warm
       - service: input_boolean.turn_off
-        entity_id: input_boolean.var_indoor_temp_warm
+        entity_id: input_boolean.option_indoor_temp_warm
       - service: input_boolean.turn_off
-        entity_id: input_boolean.var_indoor_temp_ok
+        entity_id: input_boolean.option_indoor_temp_ok
       - service: input_boolean.turn_off
-        entity_id: input_boolean.var_indoor_temp_cool
+        entity_id: input_boolean.option_indoor_temp_cool
       - service: input_boolean.turn_off
-        entity_id: input_boolean.var_indoor_temp_cold
+        entity_id: input_boolean.option_indoor_temp_cold
 
   - alias: indoor_temp_hot
     trigger:
       - platform: state
-        entity_id: input_boolean.var_indoor_temp_hot
+        entity_id: input_boolean.option_indoor_temp_hot
         to: 'on'
     action:
       - service: input_boolean.turn_off
-        entity_id: input_boolean.var_indoor_temp_very_hot
+        entity_id: input_boolean.option_indoor_temp_very_hot
       - service: input_boolean.turn_off
-        entity_id: input_boolean.var_indoor_temp_very_warm
+        entity_id: input_boolean.option_indoor_temp_very_warm
       - service: input_boolean.turn_off
-        entity_id: input_boolean.var_indoor_temp_warm
+        entity_id: input_boolean.option_indoor_temp_warm
       - service: input_boolean.turn_off
-        entity_id: input_boolean.var_indoor_temp_ok
+        entity_id: input_boolean.option_indoor_temp_ok
       - service: input_boolean.turn_off
-        entity_id: input_boolean.var_indoor_temp_cool
+        entity_id: input_boolean.option_indoor_temp_cool
       - service: input_boolean.turn_off
-        entity_id: input_boolean.var_indoor_temp_cold
+        entity_id: input_boolean.option_indoor_temp_cold
 
   - alias: indoor_temp_very_warm
     trigger:
       - platform: state
-        entity_id: input_boolean.var_indoor_temp_very_warm
+        entity_id: input_boolean.option_indoor_temp_very_warm
         to: 'on'
     action:
       - service: input_boolean.turn_off
-        entity_id: input_boolean.var_indoor_temp_very_hot
+        entity_id: input_boolean.option_indoor_temp_very_hot
       - service: input_boolean.turn_off
-        entity_id: input_boolean.var_indoor_temp_hot
+        entity_id: input_boolean.option_indoor_temp_hot
       - service: input_boolean.turn_off
-        entity_id: input_boolean.var_indoor_temp_warm
+        entity_id: input_boolean.option_indoor_temp_warm
       - service: input_boolean.turn_off
-        entity_id: input_boolean.var_indoor_temp_ok
+        entity_id: input_boolean.option_indoor_temp_ok
       - service: input_boolean.turn_off
-        entity_id: input_boolean.var_indoor_temp_cool
+        entity_id: input_boolean.option_indoor_temp_cool
       - service: input_boolean.turn_off
-        entity_id: input_boolean.var_indoor_temp_cold
+        entity_id: input_boolean.option_indoor_temp_cold
 
   - alias: indoor_temp_warm
     trigger:
       - platform: state
-        entity_id: input_boolean.var_indoor_temp_warm
+        entity_id: input_boolean.option_indoor_temp_warm
         to: 'on'
     action:
       - service: input_boolean.turn_off
-        entity_id: input_boolean.var_indoor_temp_very_hot
+        entity_id: input_boolean.option_indoor_temp_very_hot
       - service: input_boolean.turn_off
-        entity_id: input_boolean.var_indoor_temp_hot
+        entity_id: input_boolean.option_indoor_temp_hot
       - service: input_boolean.turn_off
-        entity_id: input_boolean.var_indoor_temp_very_warm
+        entity_id: input_boolean.option_indoor_temp_very_warm
       - service: input_boolean.turn_off
-        entity_id: input_boolean.var_indoor_temp_ok
+        entity_id: input_boolean.option_indoor_temp_ok
       - service: input_boolean.turn_off
-        entity_id: input_boolean.var_indoor_temp_cool
+        entity_id: input_boolean.option_indoor_temp_cool
       - service: input_boolean.turn_off
-        entity_id: input_boolean.var_indoor_temp_cold
+        entity_id: input_boolean.option_indoor_temp_cold
 
   - alias: indoor_temp_ok
     trigger:
       - platform: state
-        entity_id: input_boolean.var_indoor_temp_ok
+        entity_id: input_boolean.option_indoor_temp_ok
         to: 'on'
     action:
       - service: input_boolean.turn_off
-        entity_id: input_boolean.var_indoor_temp_very_hot
+        entity_id: input_boolean.option_indoor_temp_very_hot
       - service: input_boolean.turn_off
-        entity_id: input_boolean.var_indoor_temp_hot
+        entity_id: input_boolean.option_indoor_temp_hot
       - service: input_boolean.turn_off
-        entity_id: input_boolean.var_indoor_temp_very_warm
+        entity_id: input_boolean.option_indoor_temp_very_warm
       - service: input_boolean.turn_off
-        entity_id: input_boolean.var_indoor_temp_warm
+        entity_id: input_boolean.option_indoor_temp_warm
       - service: input_boolean.turn_off
-        entity_id: input_boolean.var_indoor_temp_cool
+        entity_id: input_boolean.option_indoor_temp_cool
       - service: input_boolean.turn_off
-        entity_id: input_boolean.var_indoor_temp_cold
+        entity_id: input_boolean.option_indoor_temp_cold
 
   - alias: indoor_temp_cool
     trigger:
       - platform: state
-        entity_id: input_boolean.var_indoor_temp_cool
+        entity_id: input_boolean.option_indoor_temp_cool
         to: 'on'
     action:
       - service: input_boolean.turn_off
-        entity_id: input_boolean.var_indoor_temp_very_hot
+        entity_id: input_boolean.option_indoor_temp_very_hot
       - service: input_boolean.turn_off
-        entity_id: input_boolean.var_indoor_temp_hot
+        entity_id: input_boolean.option_indoor_temp_hot
       - service: input_boolean.turn_off
-        entity_id: input_boolean.var_indoor_temp_very_warm
+        entity_id: input_boolean.option_indoor_temp_very_warm
       - service: input_boolean.turn_off
-        entity_id: input_boolean.var_indoor_temp_warm
+        entity_id: input_boolean.option_indoor_temp_warm
       - service: input_boolean.turn_off
-        entity_id: input_boolean.var_indoor_temp_ok
+        entity_id: input_boolean.option_indoor_temp_ok
       - service: input_boolean.turn_off
-        entity_id: input_boolean.var_indoor_temp_cold
+        entity_id: input_boolean.option_indoor_temp_cold
 
 
   - alias: indoor_temp_cold
     trigger:
       - platform: state
-        entity_id: input_boolean.var_indoor_temp_cold
+        entity_id: input_boolean.option_indoor_temp_cold
         to: 'on'
     action:
       - service: input_boolean.turn_off
-        entity_id: input_boolean.var_indoor_temp_very_hot
+        entity_id: input_boolean.option_indoor_temp_very_hot
       - service: input_boolean.turn_off
-        entity_id: input_boolean.var_indoor_temp_hot
+        entity_id: input_boolean.option_indoor_temp_hot
       - service: input_boolean.turn_off
-        entity_id: input_boolean.var_indoor_temp_very_warm
+        entity_id: input_boolean.option_indoor_temp_very_warm
       - service: input_boolean.turn_off
-        entity_id: input_boolean.var_indoor_temp_warm
+        entity_id: input_boolean.option_indoor_temp_warm
       - service: input_boolean.turn_off
-        entity_id: input_boolean.var_indoor_temp_ok
+        entity_id: input_boolean.option_indoor_temp_ok
       - service: input_boolean.turn_off
-        entity_id: input_boolean.var_indoor_temp_cool
+        entity_id: input_boolean.option_indoor_temp_cool
 
   - alias: reset_option_target_temperature_offset
     trigger:
@@ -382,7 +382,10 @@ automation:
       - service: input_slider.select_value
         data:
           entity_id: input_slider.var_indoor_temp_time_of_day
-          value: -2
+          value: 0
+      # Turn On - Temperature Range Mode Reduced
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.option_indoor_temp_range_reduced
 
   # 9pm to 12am
   - alias: indoor_temp_time_9pm
@@ -399,6 +402,9 @@ automation:
         data:
           entity_id: input_slider.var_indoor_temp_time_of_day
           value: -1
+      # Turn Off - Temperature Range Mode Reduced
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.option_indoor_temp_range_reduced
 
 ##########################################
 ########## MIKE AT WORK TEMPERATURE ######
@@ -426,6 +432,73 @@ automation:
           value: 0
 
 ##########################################
+########## INDOOR TEMP RANGE REDUCED #####
+##########################################
+  - alias: indoor_temp_range_regular
+    trigger:
+      - platform: state
+        entity_id: input_boolean.option_indoor_temp_range_reduced
+        to: 'off'
+    action:
+      - service: input_slider.select_value
+        data:
+          entity_id: input_slider.var_indoor_temp_very_hot
+          value: 81
+      - service: input_slider.select_value
+        data:
+          entity_id: input_slider.var_indoor_temp_hot
+          value: 79
+      - service: input_slider.select_value
+        data:
+          entity_id: input_slider.var_indoor_temp_very_warm
+          value: 77
+      - service: input_slider.select_value
+        data:
+          entity_id: input_slider.var_indoor_temp_warm
+          value: 75
+      - service: input_slider.select_value
+        data:
+          entity_id: input_slider.var_indoor_temp_ok
+          value: 73
+      - service: input_slider.select_value
+        data:
+          entity_id: input_slider.var_indoor_temp_cool
+          value: 71
+
+
+  - alias: indoor_temp_range_reduced
+    trigger:
+      - platform: state
+        entity_id: input_boolean.option_indoor_temp_range_reduced
+        to: 'on'
+    action:
+      - service: input_slider.select_value
+        data:
+          entity_id: input_slider.var_indoor_temp_very_hot
+          value: 78
+      - service: input_slider.select_value
+        data:
+          entity_id: input_slider.var_indoor_temp_hot
+          value: 77
+      - service: input_slider.select_value
+        data:
+          entity_id: input_slider.var_indoor_temp_very_warm
+          value: 76
+      - service: input_slider.select_value
+        data:
+          entity_id: input_slider.var_indoor_temp_warm
+          value: 75
+      - service: input_slider.select_value
+        data:
+          entity_id: input_slider.var_indoor_temp_ok
+          value: 74
+      - service: input_slider.select_value
+        data:
+          entity_id: input_slider.var_indoor_temp_cool
+          value: 73
+
+
+##########################################
 ########## SCRIPTS #######################
 ##########################################s
 script:
@@ -449,17 +522,19 @@ input_boolean:
 ##########################################
 ########## STORED VARIABLES ##############
 ##########################################
-  var_indoor_temp_very_hot:
-  var_indoor_temp_hot:
-  var_indoor_temp_very_warm:
-  var_indoor_temp_warm:
-  var_indoor_temp_ok:
-  var_indoor_temp_cool:
-  var_indoor_temp_cold:
+  option_indoor_temp_range_reduced:
+    initial: 'off'
+  option_indoor_temp_very_hot:
+  option_indoor_temp_hot:
+  option_indoor_temp_very_warm:
+  option_indoor_temp_warm:
+  option_indoor_temp_ok:
+  option_indoor_temp_cool:
+  option_indoor_temp_cold:
 
-  var_indoor_humidity_high:
-  var_indoor_humidity_ok:
-  var_indoor_humidity_low:
+  option_indoor_humidity_high:
+  option_indoor_humidity_ok:
+  option_indoor_humidity_low:
 
 
 
@@ -529,19 +604,20 @@ input_slider:
 ##########################################
 group:
 
-  indoor_temperature_range_mode:
-    name: "Indoor Temperature Range Mode"
+  options_temperature_range_mode:
+    name: "Temperature Range Mode"
     entities:
-      - input_boolean.var_indoor_temp_very_hot
-      - input_boolean.var_indoor_temp_hot
-      - input_boolean.var_indoor_temp_very_warm
-      - input_boolean.var_indoor_temp_warm
-      - input_boolean.var_indoor_temp_ok
-      - input_boolean.var_indoor_temp_cool
-      - input_boolean.var_indoor_temp_cold
-      - input_boolean.var_indoor_humidity_high
-      - input_boolean.var_indoor_humidity_ok
-      - input_boolean.var_indoor_humidity_low
+      - input_boolean.option_indoor_temp_range_reduced
+      - input_boolean.option_indoor_temp_very_hot
+      - input_boolean.option_indoor_temp_hot
+      - input_boolean.option_indoor_temp_very_warm
+      - input_boolean.option_indoor_temp_warm
+      - input_boolean.option_indoor_temp_ok
+      - input_boolean.option_indoor_temp_cool
+      - input_boolean.option_indoor_temp_cold
+      - input_boolean.option_indoor_humidity_high
+      - input_boolean.option_indoor_humidity_ok
+      - input_boolean.option_indoor_humidity_low
 
   automation_temperature_range_mode:
     entities:
@@ -584,7 +660,7 @@ group:
       - input_slider.var_indoor_temp_time_of_day
       - input_slider.var_indoor_temp_mike_at_work
 
-  options_temperature_range_mode:
+  options_temperature_range:
     name: "Temperature Range"
     entities:
       - sensor.indoor_temp_very_hot_level
