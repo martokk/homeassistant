@@ -214,18 +214,21 @@ script:
       - service: switch.turn_off
         entity_id: switch.sonoff_entertainment_center
 
-      # Computer Screens Off
-      - service: script.computer_monitors_turn_off
-
       # Ligts Off
-      - delay: "00:00:05"
+      - service: script.scene2
+        data:
+          rooms: 'all'
+          scene_name: 'night_computer'
+          transition: 10
+      - delay: "00:00:06"
       - service: script.scene2
         data:
           rooms: 'all'
           scene_name: 'off'
-          transition: 180
+          transition: 60
 
-
+      # Computer Screens Off
+      - service: script.computer_monitors_turn_off
 
 ##########################################
 ########## SHELL COMMANDS #######################
