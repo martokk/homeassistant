@@ -21,15 +21,25 @@ script:
         data_template:
           tts_message: |
             It's {{ states.sensor.dark_sky_temperature.state | round(0)  }}° outside
-            {% if states.sensor.weather_alert.state | string | length > 1 %}
+            {%- if states.sensor.weather_alert.state | string | length > 1 -%}
               and there is currently a {{ states("sensor.weather_alert") }} weather alert in Kenosha Wisconsin.
-            {% else %}
+            {%- else -%}
             .
-            {% endif %}
+            {%- endif %}
 
 
             {{ states.sensor.dark_sky_minutely_summary.state }}
             {{ states.sensor.dark_sky_hourly_summary.state }}
+
+            {% if is_state('input_boolean.var_todays_temp_hot_close_windows', 'on') %}
+              Keep your windows closed today. I'll control the air conditioner to keep it cool in here.
+            {% endif %}
+            {% if is_state('input_boolean.var_todays_temp_ok_open_windows', 'on') %}
+              You should open the windows and let the fresh air in.
+            {% endif %}
+            {% if is_state('input_boolean.var_todays_temp_cold_close_windows', 'on') %}
+              You should probably keep your windows closed today.
+            {% endif %}
 
             {% if states('sensor.iphone6s_battery') | int < 30 and states('sensor.iphone6s_battery') | int > 0 %}
               Your iPhone's battery is at {{ states('sensor.iphone6s_battery') | int }}%.
@@ -40,17 +50,6 @@ script:
             {% if states('sensor.ipad_battery') | int < 30 and states('sensor.ipad_battery') | int > 0 %}
               Your iPad's battery is at {{ states('sensor.ipad_battery') | int }}%.
             {% endif %}
-
-            {% if is_state('input_boolean.var_todays_temp_hot_close_windows', 'on') %}
-              It's hot outside, so keep your windows closed. I'll control the air conditioner to keep it cool in here.
-            {% endif %}
-            {% if is_state('input_boolean.var_todays_temp_ok_open_windows', 'on') %}
-              Today's temperature will be perfect. You should open the windows and let the fresh air in.
-            {% endif %}
-            {% if is_state('input_boolean.var_todays_temp_cold_close_windows', 'on') %}
-              It's cold outside. You should probably keep your windows closed today.
-            {% endif %}
-
 
             The current bitcoin price is ${{ states.sensor.bitcoin.state | round(0) }}
           tts_pause_delay: '00:00:15'
