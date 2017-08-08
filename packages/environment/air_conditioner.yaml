@@ -225,6 +225,22 @@ automation:
       - service: switch.turn_on
         entity_id: switch.air_conditioner
 
+  #********** Turn off Air Conditioner if on over 2 hours ***********#
+  - alias: air_conditioner_turn_off_over_2h
+    trigger:
+      - platform: state
+        entity_id: switch.air_conditioner
+        to: 'on'
+        for:
+          hours: 2
+    action:
+      - condition: state
+        entity_id: input_boolean.var_air_conditioner_temperature_controlled_on
+        state: 'off'
+      - condition: state
+        entity_id: input_boolean.override_turn_on_air_conditioner
+        state: 'off'
+
 ##########################################
 ########## SCRIPTS #######################
 ##########################################
