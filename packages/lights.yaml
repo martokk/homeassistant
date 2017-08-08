@@ -32,7 +32,7 @@ automation:
       from: 'off'
       to: 'on'
     action:
-    - service: homeassistant.turn_on
+    - service: script.turn_on
       entity_id: script.kitchen_lights_timer_on
 
   - alias: turn_off_kitchen_lights_no_movement_7sec
@@ -228,9 +228,9 @@ script:
 
   kitchen_lights_on: #### NOTE: CALLED FROM ABOVE FUNCTION (Note the name differences)
     sequence:
-    - condition: state
-      entity_id: input_boolean.var_kitchen_motion_on
-      state: 'off'
+    # - condition: state
+    #   entity_id: input_boolean.var_kitchen_motion_on
+    #   state: 'off'
     - service: script.turn_on
       data_template:
         entity_id: >-
