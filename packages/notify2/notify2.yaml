@@ -367,7 +367,11 @@ script:
         {% if tts_message %}
           {% if is_state('input_boolean.option_notify2_tts', 'on') %}
             {% if is_state('media_player.vtv_chromecast', 'playing') or is_state('switch.air_conditioner', 'on') %}
-              input_boolean.turn_on
+              {% if tts_pause_delay == '00:00:00' %}
+                script.notify2_do_nothing
+              {% else %}
+                input_boolean.turn_on
+              {% endif %}
             {% else %}
               script.notify2_do_nothing
             {% endif %}

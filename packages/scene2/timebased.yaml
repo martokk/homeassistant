@@ -171,6 +171,7 @@ automation:
           tts_entity_id: group.tts_devices
           tts_sound: 'st_notifications/st_notification2.wav'
           tts_message: "The time, is 12pm."
+          tts_pause_delay: '00:00:00'
 
 ### 5pm
   - alias: flood_5pm
@@ -187,6 +188,7 @@ automation:
           tts_entity_id: group.tts_devices
           tts_sound: 'st_notifications/st_notification2.wav'
           tts_message: "The time, is 5pm."
+          tts_pause_delay: '00:00:00'
       - service: input_select.select_option
         data:
           entity_id: input_select.var_lks_timebased
@@ -207,6 +209,7 @@ automation:
           tts_entity_id: group.tts_devices
           tts_sound: 'st_notifications/st_notification2.wav'
           tts_message: "The time, is 7pm"
+          tts_pause_delay: '00:00:00'
       - service: input_select.select_option
         data:
           entity_id: input_select.var_lks_timebased
@@ -227,6 +230,7 @@ automation:
           tts_entity_id: group.tts_devices
           tts_sound: 'st_notifications/st_notification2.wav'
           tts_message: "9pm"
+          tts_pause_delay: '00:00:00'
       - service: input_select.select_option
         data:
           entity_id: input_select.var_lks_timebased
@@ -296,6 +300,7 @@ automation:
           tts_entity_id: group.tts_devices
           tts_sound: 'st_notifications/st_notification2.wav'
           tts_message: "11pm"
+          tts_pause_delay: '00:00:00'
 
 ### 12am
   - alias: timebased_12am
@@ -311,6 +316,7 @@ automation:
           tts_entity_id: group.tts_devices
           tts_sound: 'st_notifications/st_notification2.wav'
           tts_message: "12am"
+          tts_pause_delay: '00:00:00'
 
 ##########################################
 ########## AUTOMATIONS ###################
@@ -482,7 +488,6 @@ script:
             {%- endif %}
              am.
             Good night!
-      - delay: "00:00:02"
       # Turn Off - All Devices (TV, PS3, etc.)
       - service: input_boolean.turn_on
         entity_id: input_boolean.option_mode_sleep
