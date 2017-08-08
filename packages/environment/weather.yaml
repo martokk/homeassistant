@@ -141,6 +141,28 @@ sensor:
             {%- endfor -%}
           {% endif %}
 
+  - platform: template
+    sensors:
+      open_close_window_guide:
+        value_template: >-
+          {% if "rain" in states.sensor.dark_sky_hourly_summary.state or "drizzle" in states.sensor.dark_sky_hourly_summary.state %}
+            "Close - Rain Today"
+          {% else %}
+            {% if states.sun.sun.state == "below_horizon"%}
+              {% if states.dark_sky_apparent_temperature.state | int < 60 %}
+                "Close - Night Temperature Cold"
+              {% else %}
+                "Open - Night Temperature OK"
+              {% endif %}
+            {% else %}
+              {% if states.dark_sky_daily_high_apparent_temperature.state | int < 65 %}
+                "Close - Day Temperature Cold"
+              {% else %}
+                "Open - Day Temperature OK"
+              {% endif %}
+            {% endif %}
+          {% endif %}
+
 ##########################################
 ########## NOTIFICATIONS #################
 ##########################################
@@ -339,48 +361,6 @@ automation:
           chromecast_link: http://static.lakana.com/mmm-wisctv-media-us-east-1/weather/Local_Radar_Loop.gif
 
 
-  #********** Windows Open/Close ***********#
-  - alias: todays_temp_hot_close_windows
-    trigger:
-      - platform: template
-        value_template: '{{ states.sensor.dark_sky_daily_high_apparent_temperature.state | float > states.input_slider.var_indoor_temp_hot.state | float - 4 }}'
-    action:
-      - service: input_boolean.turn_on
-        entity_id: input_boolean.var_todays_temp_hot_close_windows
-
-      - service: input_boolean.turn_off
-        entity_id: input_boolean.var_todays_temp_ok_open_windows
-      - service: input_boolean.turn_off
-        entity_id: input_boolean.var_todays_temp_cold_close_windows
-
-  - alias: todays_temp_ok_open_windows
-    trigger:
-      - platform: template
-        value_template: '{{ states.sensor.dark_sky_daily_high_apparent_temperature.state | float > states.input_slider.var_indoor_temp_cool.state  | float - 5 and states.sensor.dark_sky_daily_high_apparent_temperature.state | float < states.input_slider.var_indoor_temp_hot.state | float - 4 }}'
-    action:
-      - service: input_boolean.turn_on
-        entity_id: input_boolean.var_todays_temp_ok_open_windows
-
-      - service: input_boolean.turn_off
-        entity_id: input_boolean.var_todays_temp_hot_close_windows
-      - service: input_boolean.turn_off
-        entity_id: input_boolean.var_todays_temp_cold_close_windows
-
-  - alias: todays_temp_cold_close_windows
-    trigger:
-      - platform: template
-        value_template: '{{ states.sensor.dark_sky_daily_high_apparent_temperature.state | float < states.input_slider.var_indoor_temp_cool.state | float - 5 and states.sensor.dark_sky_daily_high_apparent_temperature.state | float > states.input_slider.var_indoor_temp_cool.state | float - 15 }}'
-    action:
-      - service: input_boolean.turn_on
-        entity_id: input_boolean.var_todays_temp_cold_close_windows
-
-      - service: input_boolean.turn_off
-        entity_id: input_boolean.var_todays_temp_ok_open_windows
-      - service: input_boolean.turn_off
-        entity_id: input_boolean.var_todays_temp_hot_close_windows
-
-
-
 ##########################################
 ########## AUTOMATIONS ###################
 ##########################################
@@ -464,10 +444,7 @@ automation:
         transition: 600
 # Clear; Partly Cloudy; Mostly Cloudy; Light Snow; Snow; Heavy Snow; Drizzle; Light Rain; Rain; Heavy Rain; Overcast; Foggy; Windy and Overcast
 
-input_boolean:
-  var_todays_temp_hot_close_windows:
-  var_todays_temp_ok_open_windows:
-  var_todays_temp_cold_close_windows:
+# input_boolean:
 
 ##########################################
 ############### GROUPS ###################
@@ -486,6 +463,7 @@ group:
     - sensor.pws_alerts
     - sensor.weather_alert
     - sensor.weather_alert_message
+    - sensor.open_close_window_guide
 
   weather_summary:
     name: "Weather Summary"
@@ -522,15 +500,11 @@ group:
       - automation.weather_alert
       - automation.weather_based_day_le
       - automation.weather_based_day
-      - automation.todays_temp_hot_close_windows
-      - automation.todays_temp_ok_open_windows
-      - automation.todays_temp_cold_close_windows
 
-  backend_weather:
-    entities:
-      - input_boolean.var_todays_temp_ok_open_windows
-      - input_boolean.var_todays_temp_hot_close_windows
-      - input_boolean.var_todays_temp_cold_close_windows
+
+  # backend_weather:
+  #   entities:
+
 
 
   # script_weather:

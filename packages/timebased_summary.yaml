@@ -31,14 +31,11 @@ script:
             {{ states.sensor.dark_sky_minutely_summary.state }}
             {{ states.sensor.dark_sky_hourly_summary.state }}
 
-            {% if is_state('input_boolean.var_todays_temp_hot_close_windows', 'on') %}
+            {% if "closed" in states.sensor.open_close_window_guide.state | lower %}
               Keep your windows closed today. I'll control the air conditioner to keep it cool in here.
             {% endif %}
-            {% if is_state('input_boolean.var_todays_temp_ok_open_windows', 'on') %}
+            {% if "open" in states.sensor.open_close_window_guide.state | lower %}
               You should open the windows and let the fresh air in.
-            {% endif %}
-            {% if is_state('input_boolean.var_todays_temp_cold_close_windows', 'on') %}
-              You should probably keep your windows closed today.
             {% endif %}
 
             {% if states('sensor.iphone6s_battery') | int < 30 and states('sensor.iphone6s_battery') | int > 0 %}
@@ -73,7 +70,7 @@ script:
             {% endif %}
             *Now:* {{ states.sensor.dark_sky_temperature.state | round(0)  }}°F - {{ states.sensor.dark_sky_summary.state }}
             *Today:* {{ states.sensor.dark_sky_daily_low_temperature.state | round(0) }}°F to {{ states.sensor.dark_sky_daily_high_temperature.state | round(0) }}°F - {{ states.sensor.dark_sky_minutely_summary.state }} {{ states.sensor.dark_sky_hourly_summary.state }}
-            *Windows:* {% if states.input_boolean.var_todays_temp_hot_close_windows.state == 'on' %} Close {% elif states.input_boolean.var_todays_temp_ok_open_windows.state == 'on' %} Open {% elif states.input_boolean.var_todays_temp_cold_close_windows.state == 'on' %} Close {% else %} Close {% endif %}
+            *Windows:* {{ states.sensor.open_close_window_guide.state }}
 
             *Sunrise/Sunset:* {{ as_timestamp(states.sun.sun.attributes.next_rising) | timestamp_custom("%l:%M%P") }} /{{as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom("%l:%M%P") }}
 
