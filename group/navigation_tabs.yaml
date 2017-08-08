@@ -42,7 +42,7 @@
     - group.ambivision
 
   network:
-    icon: mdi:server-network
+    icon: mdi:lan
     view: yes
     entities:
     - group.status_alert
@@ -54,7 +54,6 @@
     - group.iot_status
 
   options:
-    name: "Options"
     icon: mdi:settings
     view: yes
     entities:

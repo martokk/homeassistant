@@ -267,11 +267,11 @@ automation:
   - alias: timebased_11pm_quiet_mode
     trigger:
       - platform: time
-        minutes: 55
+        minutes: 15
         seconds: 00
     condition:
       - condition: time
-        after: "22:55:00"
+        after: "23:15:00"
         before: "05:00:00"
       - condition: state
         entity_id: input_boolean.option_mode_normal

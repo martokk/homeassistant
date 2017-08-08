@@ -470,6 +470,14 @@ chromebook_ce43: # Neighbors
   picture:
   track: false
   vendor: Intel Corporate
+oneexpert_0461784: #Neighbors
+  hide_if_away: false
+  icon:
+  mac: BT_84:EB:18:24:D0:95
+  name: OneExpert (0461784)
+  picture:
+  track: true
+  vendor: Texas Instruments
 ##########################################
 ########## UNKNOWN #######################
 ##########################################
