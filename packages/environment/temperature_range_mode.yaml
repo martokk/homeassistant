@@ -366,7 +366,10 @@ automation:
       - service: input_slider.select_value
         data:
           entity_id: input_slider.var_indoor_temp_time_of_day
-          value: 0
+          value: 2
+      # Turn On - Temperature Range Mode Reduced
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.option_indoor_temp_range_reduced
 
   # 7pm to 9pm
   - alias: indoor_temp_time_7pm
@@ -382,7 +385,7 @@ automation:
       - service: input_slider.select_value
         data:
           entity_id: input_slider.var_indoor_temp_time_of_day
-          value: 0
+          value: 1
       # Turn On - Temperature Range Mode Reduced
       - service: input_boolean.turn_on
         entity_id: input_boolean.option_indoor_temp_range_reduced
@@ -401,7 +404,7 @@ automation:
       - service: input_slider.select_value
         data:
           entity_id: input_slider.var_indoor_temp_time_of_day
-          value: -1
+          value: 0
       # Turn Off - Temperature Range Mode Reduced
       - service: input_boolean.turn_off
         entity_id: input_boolean.option_indoor_temp_range_reduced
@@ -560,35 +563,35 @@ input_slider:
 
   var_indoor_temp_hot:
     name: Indoor Temp (HOT)
-    initial: 80
+    initial: 79
     min: 65
     max: 85
     step: 1
 
   var_indoor_temp_very_warm:
     name: Indoor Temp (VERY WARM)
-    initial: 78
+    initial: 77
     min: 65
     max: 85
     step: 1
 
   var_indoor_temp_warm:
     name: Indoor Temp (WARM)
-    initial: 76
+    initial: 75
     min: 65
     max: 85
     step: 1
 
   var_indoor_temp_ok:
     name: Indoor Temp (OK)
-    initial: 74
+    initial: 73
     min: 65
     max: 85
     step: 1
 
   var_indoor_temp_cool:
     name: Indoor Temp (COOL)
-    initial: 72
+    initial: 71
     min: 65
     max: 85
     step: 1
