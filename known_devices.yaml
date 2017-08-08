@@ -476,7 +476,7 @@ oneexpert_0461784: #Neighbors
   mac: BT_84:EB:18:24:D0:95
   name: OneExpert (0461784)
   picture:
-  track: true
+  track: false
   vendor: Texas Instruments
 ##########################################
 ########## UNKNOWN #######################

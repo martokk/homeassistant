@@ -151,6 +151,8 @@ sensor:
             {% if states.sun.sun.state == "below_horizon"%}
               {% if states.dark_sky_apparent_temperature.state | int < 60 %}
                 "Close - Night Temperature Cold"
+              {% elif states.dark_sky_apparent_temperature.state | int > 75 %}
+                "Close - Night Temperature Hot"
               {% else %}
                 "Open - Night Temperature OK"
               {% endif %}
