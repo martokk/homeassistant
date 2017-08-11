@@ -229,17 +229,13 @@ automation:
   - alias: air_conditioner_turn_off_over_2h
     trigger:
       - platform: state
-        entity_id: switch.air_conditioner
+        entity_id: input_select.var_air_conditioner_temperature_controlled_on
         to: 'on'
         for:
           hours: 2
     action:
-      - condition: state
-        entity_id: input_boolean.var_air_conditioner_temperature_controlled_on
-        state: 'off'
-      - condition: state
-        entity_id: input_boolean.override_turn_on_air_conditioner
-        state: 'off'
+      - service: input_boolean.turn_off
+        entity_id: input_select.var_air_conditioner_temperature_controlled_on
 
 ##########################################
 ########## SCRIPTS #######################

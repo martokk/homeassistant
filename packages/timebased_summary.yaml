@@ -31,11 +31,14 @@ script:
             {{ states.sensor.dark_sky_minutely_summary.state }}
             {{ states.sensor.dark_sky_hourly_summary.state }}
 
-            {% if "closed" in states.sensor.open_close_window_guide.state | lower %}
+            {% if "close" in states.sensor.open_close_window_guide.state | lower and "hot" in states.sensor.open_close_window_guide.state | lower  %}
               Keep your windows closed today. I'll control the air conditioner to keep it cool in here.
             {% endif %}
             {% if "open" in states.sensor.open_close_window_guide.state | lower %}
               You should open the windows and let the fresh air in.
+            {% endif %}
+            {% if "close" in states.sensor.open_close_window_guide.state | lower and "cold" in states.sensor.open_close_window_guide.state | lower  %}
+              It's probably best to keep your windows closed today.
             {% endif %}
 
             {% if states('sensor.iphone6s_battery') | int < 30 and states('sensor.iphone6s_battery') | int > 0 %}

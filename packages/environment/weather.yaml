@@ -149,15 +149,15 @@ sensor:
             "Close - Rain Today"
           {% else %}
             {% if states.sun.sun.state == "below_horizon"%}
-              {% if states.dark_sky_apparent_temperature.state | int < 60 %}
+              {% if states.sensor.dark_sky_apparent_temperature.state | int < 60 %}
                 "Close - Night Temperature Cold"
-              {% elif states.dark_sky_apparent_temperature.state | int > 75 %}
+              {% elif states.sensor.dark_sky_apparent_temperature.state | int > 75 %}
                 "Close - Night Temperature Hot"
               {% else %}
                 "Open - Night Temperature OK"
               {% endif %}
             {% else %}
-              {% if states.dark_sky_daily_high_apparent_temperature.state | int < 65 %}
+              {% if states.sensor.dark_sky_daily_high_apparent_temperature.state | int < 65 %}
                 "Close - Day Temperature Cold"
               {% else %}
                 "Open - Day Temperature OK"
