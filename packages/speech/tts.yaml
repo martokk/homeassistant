@@ -18,7 +18,11 @@ tts:
     region_name: 'us-east-2'
     voice: Joanna
 
-# automation:
+media_player:
+  - platform: vlc
+    arguments: '--alsa-audio-device=hw:1,0'
+
+automation:
 ##########################################
 ########## NOTIFICATIONS #################
 ##########################################
@@ -28,7 +32,53 @@ tts:
 ##########################################
 ########## AUTOMATIONS ###################
 ##########################################
+  #********** TTS Volume Levels ***************************************#
+  - alias: set_tts_vol_high
+    trigger:
+      - platform: time
+        at: '06:00:00'
+      - platform: homeassistant
+        event: start
+    condition:
+      - condition: time
+        before: '22:50:00'
+      - condition: time
+        after: '06:00:00'
+    action:
+      - service: media_player.volume_set
+        data_template:
+          entity_id: media_player.vlc
+          volume_level: 0.80
 
+  - alias: set_tts_vol_low
+    trigger:
+      - platform: time
+        at: '22:50:00'
+      - platform: homeassistant
+        event: start
+    condition:
+      - condition: time
+        after: '20:50:00'
+    action:
+      - service: media_player.volume_set
+        data_template:
+          entity_id: media_player.vlc
+          volume_level: 0.75
+
+  - alias: set_tts_vol_low2
+    trigger:
+      - platform: time
+        at: '00:00:00'
+      - platform: homeassistant
+        event: start
+    condition:
+      - condition: time
+        before: '06:00:00'
+    action:
+      - service: media_player.volume_set
+        data_template:
+          entity_id: media_player.vlc
+          volume_level: 0.75
 
 
 
@@ -55,20 +105,27 @@ tts:
 ##########################################
 ############### GROUPS ###################
 ##########################################
-# group:
-#   automation_change_me:
-#     entities:
-#       - automation.
-#
-#
-#   backend_change_me:
-#     entities:
-#       - input_boolean.
-#
-#   options_change_me:
-#     entities:
-#       - input_boolean.
-#
-#   script_change_me:
-#     entities:
-#       - script.
+group:
+  tts_devices:
+    name: "TTS Devices"
+    entities:
+      - media_player.vlc
+
+  automation_tts:
+    entities:
+      - automation.set_tts_vol_high
+      - automation.set_tts_vol_low
+      - automation.set_tts_vol_low2
+
+
+  # backend_tts:
+  #   entities:
+  #     - input_boolean.
+
+  # options_tts:
+  #   entities:
+  #     - input_boolean.
+
+  # script_tts:
+  #   entities:
+  #     - script.

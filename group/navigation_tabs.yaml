@@ -70,6 +70,7 @@
     - group.options_residents
     - group.options_modes
     - group.options_motion_detection
+    - group.options_tts
 
   backend:
     icon: mdi:database
@@ -96,6 +97,7 @@
     - group.backend_weather
     - group.backend_modes
     - group.backend_motion_detection
+    - group.backend_tts
 
   # automations:
   #   icon: mdi:timetable
@@ -135,6 +137,7 @@
   #   - group.automation_residents
   #   - group.automation_modes
   #   - group.automation_motion_detection
+  #   - group.automation_tts
   #
   # scripts:
   #   icon: mdi:script
@@ -174,3 +177,4 @@
   #   - group.script_modes
   #   - script.script_fans
   #   - group.script_motion_detection
+  #   - group.script_tts
