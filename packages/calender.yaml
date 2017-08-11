@@ -79,7 +79,7 @@ automation:
   - alias: mike_at_work
     trigger:
       - platform: time
-        minutes: 01
+        minutes: 31
         seconds: 00
       - platform: state
         entity_id: input_boolean.var_mike_home
@@ -87,16 +87,41 @@ automation:
         to: 'off'
     condition:
       - condition: template
-        value_template: '{{ states.sensor.time.state[:2] | int >= states.input_slider.var_mike_work_start_hour.state | int  }}'
-      - condition: template
-        value_template: '{{ states.sensor.time.state[:2] | int < states.input_slider.var_mike_work_end_hour.state | int  }}'
-      - condition: time
-        weekday:
-          - mon
-          - tue
-          - wed
-          - thu
-          - fri
+        value_template: >
+          {% set work_week = ['mon', 'tue', 'wed', 'thu', 'fri'] %}{#### If 3rd Shift, include last day that you are actualy off #####}
+          {% set third_shift = true %}
+          {% set today = now().strftime("%a") | lower%}
+          {% set hour = now().hour %}
+
+
+          {####### 3rd Shift ##########}
+          {% if third_shift %}
+            {####### Check Time ##########}
+            {% if hour | int >= states.input_slider.var_mike_work_start_hour.state | int or hour | int < states.input_slider.var_mike_work_end_hour.state | int %}
+              {####### Check Day ##########}
+              {% if today in work_week %}
+                {###### Check First/Last Day ######}
+                {% if today ==  work_week | first and hour | int < states.input_slider.var_mike_work_end_hour.state | int %}
+                  false
+                {% elif today ==  work_week | last and hour | int >= states.input_slider.var_mike_work_start_hour.state | int %}
+                  false
+                {% else %}
+                  true
+                {% endif %}
+              {% endif %}
+            {% endif %}
+
+          {####### Day Shift ##########}
+          {% else %}
+            {####### Check Time ##########}
+            {% if hour | int >= states.input_slider.var_mike_work_start_hour.state | int and hour | int < states.input_slider.var_mike_work_end_hour.state | int %}
+              {####### Check Day ##########}
+              {% if today in work_week %}
+                true
+              {% endif %}
+            {% endif %}
+
+          {% endif %}
       - condition: state
         entity_id: input_boolean.var_mike_home
         state: 'off'
@@ -106,20 +131,10 @@ automation:
 
   - alias: mike_not_at_work
     trigger:
-      - platform: time
-        minutes: 01
-        seconds: 00
       - platform: state
         entity_id: input_boolean.var_mike_home
         from: 'off'
         to: 'on'
-    condition:
-      condition: or
-      conditions:
-      - condition: template
-        value_template: '{{ states.sensor.time.state[:2] | int < states.input_slider.var_mike_work_start_hour.state | int  }}'
-      - condition: template
-        value_template: '{{ states.sensor.time.state[:2] | int >= states.input_slider.var_mike_work_end_hour.state | int  }}'
     action:
       - service: input_boolean.turn_off
         entity_id: input_boolean.var_mike_at_work
@@ -143,13 +158,13 @@ input_boolean:
 
 input_slider:
   var_mike_work_start_hour:
-    initial: 9
+    initial: 18
     min: 0
     max: 23
     step: 1
 
   var_mike_work_end_hour:
-    initial: 17
+    initial: 5
     min: 0
     max: 23
     step: 1

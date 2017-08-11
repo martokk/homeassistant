@@ -41,13 +41,19 @@ automation:
       data_template:
         tts_entity_id: group.tts_devices
         tts_sound: 'intercom_ds9.mp3'
-        tts_message: "Welcome home Mike!"
+        tts_message: >
+          Welcome home Mike!
+
     - delay: "00:00:07" ## Delay is for waiting on TV to fully turn on
 
     - service: script.notify2
       data_template:
         chromecast_entity_id: media_player.vtv_chromecast
         chromecast_link: http://192.168.1.3:8123/local/battlestar_galactica_intro.mp4
+
+    - delay: "00:01:00"
+    - service: script.timebased_tts_summary
+
 
   #********** Resident Dan Home ***************************************#
   # - alias: dan_home_theme_video
