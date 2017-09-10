@@ -60,7 +60,7 @@ automation:
     action:
       - service: script.set_entertainment_center_tv_volume
         data:
-          volume_level: 15
+          volume_level: 22
 
 
 ##########################################

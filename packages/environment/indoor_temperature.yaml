@@ -62,8 +62,8 @@ sensor:
                 {% else %}
                   {% set weight = 0.5 %}
                 {% endif %}
-                {% set temp = (temp + states.sensor.office_temperature.state | float) * weight %}
-                {% set c = (c + 1) * weight %}
+                {% set temp = temp + (states.sensor.office_temperature.state | float * weight) %}
+                {% set c = c + (1 * weight) %}
 
               {% endif %}
             {% endif %}
@@ -77,12 +77,12 @@ sensor:
                 {% if (as_timestamp(now())-as_timestamp(states.switch.sonoff_entertainment_center.last_changed)) > ( 45 * 60) and states.switch.sonoff_entertainment_center.state == 'off' %}
                   {% set weight = 0.5 %}
                 {% elif (as_timestamp(now())-as_timestamp(states.switch.sonoff_entertainment_center.last_changed)) > ( 30 * 60) and states.switch.sonoff_entertainment_center.state == 'off' %}
-                  {% set weight = 0.3 %}
+                  {% set weight = 0.25 %}
                 {% else %}
-                  {% set weight = 0.15 %}
+                  {% set weight = 0.05 %}
                 {% endif %}
-                {% set temp = (temp + states.sensor.entertainment_center_temperature.state | float) * weight %}
-                {% set c = (c + 1) * weight %}
+                {% set temp = temp + (states.sensor.entertainment_center_temperature.state | float * weight) %}
+                {% set c = c + (1 * weight) %}
 
               {% endif %}
             {% endif %}

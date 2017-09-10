@@ -259,7 +259,24 @@ automation:
       - service: input_boolean.turn_on
         entity_id: input_boolean.option_mode_normal
 
-
+  # Mode - From Sleep Mode to Normal Mode
+  - alias: mode_normal_from_other_modes
+    trigger:
+      - platform: state
+        entity_id: input_boolean.var_entertainment_center_motion_on
+        to: 'on'
+      - platform: state
+        entity_id: input_boolean.var_kitchen_motion_on
+        to: 'on'
+    condition:
+      condition: state
+      entity_id: input_boolean.option_mode_sleep
+      state: 'on'
+    action:
+      # Turn On - Normal Mode
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.option_mode_normal
+        
 ##########################################
 ########## AUTOMATIONS ###################
 ##########################################
