@@ -183,6 +183,33 @@ automation:
             - ID Badge
             - Phone & Watch
 
+  - alias: nfl_sunday_reminder
+    trigger:
+      # 12pm Games
+      - platform: time
+        at: '11:50:00'
+      # 3pm Games
+      - platform: time
+        at: '14:50:00'
+    condition:
+      # NFL Season - The National Football League (NFL) regular season begins the weekend after Labor Day in early September and ends in December or early January.
+      - condition: template
+        value_template: >
+              {% set nfl_season = [ 9, 10, 11, 12, 1 ] %}
+              {% if now().month in nfl_season%}
+                true
+              {% endif %}
+      # Sunday
+      - condition: time
+        weekday:
+          - sun
+    action:
+      - service: script.notify2
+        data_template:
+          telegram_message: |
+            Re: *NFL Streams*
+            https://www.reddit.com/r/nflstreams/
+
 ##########################################
 ########## AUTOMATIONS ###################
 ##########################################
