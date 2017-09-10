@@ -320,7 +320,7 @@ automation:
 ##########################################
 ########## TIMEBASDED TEMPERATURE ########
 ##########################################
-  # 12am to 10am
+  # 12am to 4am
   - alias: indoor_temp_time_12am
     trigger:
       - platform: time
@@ -336,7 +336,35 @@ automation:
           entity_id: input_slider.var_indoor_temp_time_of_day
           value: 0
 
-  # 10am to 4pm
+  # 4am to 7am
+  - alias: indoor_temp_time_4am
+    trigger:
+      - platform: time
+        minutes: 05
+        seconds: 00
+    condition:
+      - condition: time
+        after: '04:00:00'
+        before: '7:00:00'
+    action:
+      - service: input_slider.select_value
+        data:
+          entity_id: input_slider.var_indoor_temp_time_of_day
+          value: -1
+      # Turn On - Temperature Range Mode Reduced
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.option_indoor_temp_range_reduced
+
+  # 4am to 7am
+  - alias: indoor_temp_time_515am
+    trigger:
+      - platform: time
+        at: '05:15:00'
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.var_indoor_temp_hot
+
+  # 7am to 4pm
   - alias: indoor_temp_time_10am
     trigger:
       - platform: time
@@ -344,13 +372,16 @@ automation:
         seconds: 00
     condition:
       - condition: time
-        after: '10:00:00'
+        after: '7:00:00'
         before: '16:00:00'
     action:
       - service: input_slider.select_value
         data:
           entity_id: input_slider.var_indoor_temp_time_of_day
           value: 1
+      # Turn Off - Temperature Range Mode Reduced
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.option_indoor_temp_range_reduced
 
   # 4pm to 7pm
   - alias: indoor_temp_time_4pm

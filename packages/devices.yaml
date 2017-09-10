@@ -137,17 +137,19 @@ automation:
             Battery Fully Charged!
             {% if states("sensor.iphone6s_battery") | int == 100 %}*{% endif %}iPhone: {{ states("sensor.iphone6s_battery") | int }}%{% if states("sensor.iphone6s_battery") | int == 100 %}*{% endif %} |  {% if states("sensor.watch_battery") | int == 100 %}*{% endif %}Watch: {{ states("sensor.watch_battery") | int }}%{% if states("sensor.watch_battery") | int == 100 %}*{% endif %}
 
-  - alias: 10pm_charge_battery_reminder
+  - alias: 3pm_charge_battery_reminder
     trigger:
       - platform: time
-        at: '22:00:00'
+        at: '15:00:00'
+    condition:
+      - condition: state
+        entity_id: sensor.mike_work_day
+        state: 'on'
     action:
-      - condition: time
-        before: "22:59:59"
       - service: script.notify2
         data_template:
           telegram_message: |
-            10pm Re:
+            3pm Re:
             {% if states("sensor.iphone6s_battery") | int == 100 %}*{% endif %}iPhone: {{ states("sensor.iphone6s_battery") | int }}%{% if states("sensor.iphone6s_battery") | int == 100 %}*{% endif %}
             {% if states("sensor.watch_battery") | int == 100 %}*{% endif %}Watch: {{ states("sensor.watch_battery") | int }}%{% if states("sensor.watch_battery") | int == 100 %}*{% endif %}
 
@@ -271,7 +273,7 @@ group:
     entities:
       - automation.battery_low_notification
       - automation.battery_fully_charged_text_only
-      - automation.10pm_charge_battery_reminder
+      - automation.3pm_charge_battery_reminder
       - automation.new_device_found
 
   script_devices:
