@@ -66,122 +66,13 @@ sensor:
 
             {%- endif %}
 
-      mike_at_work:
-        value_template: >
-          {% set work_week = ['mon', 'tue', 'wed', 'thu', 'fri'] %}{#### If 3rd Shift, include last day that you are actualy off #####}
-          {% set third_shift = true %}
-          {% set today = now().strftime("%a") | lower%}
-          {% set hour = now().hour %}
-
-
-          {####### 3rd Shift ##########}
-          {% if third_shift %}
-            {####### Check Time ##########}
-            {% if hour | int >= states.input_slider.var_mike_work_start_hour.state | int or hour | int < states.input_slider.var_mike_work_end_hour.state | int %}
-              {####### Check Day ##########}
-              {% if today in work_week %}
-                {###### Check First/Last Day ######}
-                {% if today ==  work_week | first and hour | int < states.input_slider.var_mike_work_end_hour.state | int %}
-                  off
-                {% elif today ==  work_week | last and hour | int >= states.input_slider.var_mike_work_start_hour.state | int %}
-                  off
-                {% else %}
-                  on
-                {% endif %}
-              {% endif %}
-            {% endif %}
-
-          {####### Day Shift ##########}
-          {% else %}
-            {####### Check Time ##########}
-            {% if hour | int >= states.input_slider.var_mike_work_start_hour.state | int and hour | int < states.input_slider.var_mike_work_end_hour.state | int %}
-              {####### Check Day ##########}
-              {% if today in work_week %}
-                on
-              {% endif %}
-            {% endif %}
-
-          {% endif %}
-
-      mike_work_day:
-        value_template: >
-          {% set work_week = ['mon', 'tue', 'wed', 'thu'] %}
-          {% set today = now().strftime("%a") | lower%}
-
-          {% if today in work_week %}
-            on
-          {% else %}
-            off
-          {% endif %}
 
 
 automation:
 ##########################################
 ########## NOTIFICATIONS #################
 ##########################################
-  - alias: 505_checklist1
-    trigger:
-      - platform: time
-        at: '17:05:00'
-    condition:
-      - condition: state
-        entity_id: sensor.mike_work_day
-        state: 'on'
-    action:
-      - service: script.notify2
-        data_template:
-          telegram_message: |
-            5:05pm Re:
-            - Clear Eyes
-            - Deodorant
-            - Cologne
-            - Dishes
-            - Clean
-            - Vitamins
-            - Fill e-Cig
-            - Eat Something
-            - Ready Lunch
-          tts_message: >
-            It's 5:05pm. Heres your checklist reminder:
-            - Clear Eyes
-            - Deodorant
-            - Cologne
-            - Dishes
-            - Clean
-            - Vitamins
-            - Fill e-Cig
-            - Eat Something
-            - Ready Lunch
 
-  - alias: 540_checklist2
-    trigger:
-      - platform: time
-        at: '17:40:00'
-    condition:
-      - condition: state
-        entity_id: sensor.mike_work_day
-        state: 'on'
-    action:
-      - service: script.notify2
-        data_template:
-          telegram_message: |
-            5:40pm Re:
-            - Lunch
-            - Vitamins
-            - Cigarettes/Lighter
-            - Wallet
-            - Keys
-            - ID Badge
-            - Phone & Watch
-          tts_message: >
-            It's 5:40pm. Don't forget to bring the following items into work:
-            - Lunch
-            - Vitamins
-            - Cigarettes/Lighter
-            - Wallet
-            - Keys
-            - ID Badge
-            - Phone & Watch
 
   - alias: nfl_sunday_reminder
     trigger:
@@ -213,45 +104,7 @@ automation:
 ##########################################
 ########## AUTOMATIONS ###################
 ##########################################
-  - alias: mike_at_work
-    trigger:
-      - platform: time
-        minutes: 31
-        seconds: 00
-      - platform: state
-        entity_id: input_boolean.var_mike_home
-        from: 'on'
-        to: 'off'
-    condition:
-      - condition: state
-        entity_id: sensor.mike_at_work
-        state: 'on'
-    action:
-      - service: input_boolean.turn_on
-        entity_id: input_boolean.var_mike_at_work
 
-  - alias: mike_not_at_work
-    trigger:
-        ## Change if working first shift
-      - platform: template
-        value_template: '{{ now().hour | int < states.input_slider.var_mike_work_start_hour.state | int and now().hour | int > states.input_slider.var_mike_work_end_hour.state | int }}'
-    action:
-      - service: input_boolean.turn_off
-        entity_id: input_boolean.var_mike_at_work
-
-  - alias: mike_at_work_4am_turn_on_air_conditoiner
-    trigger:
-      - platform: time
-        at: '04:00:00'
-    condition:
-      - condition: state
-        entity_id: sensor.mike_at_work
-        state: 'on'
-      - condition: template
-        value_template: '{{ states.sensor.indoor_temperature.state | int > 70 }}'
-    action:
-      - service: switch.turn_on
-        entity_id: switch.air_conditioner
 
 ##########################################
 ########## SCRIPTS #######################
@@ -265,22 +118,7 @@ automation:
 ##########################################
 ########## STORED VARIABLES ##############
 ##########################################
-input_boolean:
-  var_mike_at_work:
-    initial: 'off'
 
-input_slider:
-  var_mike_work_start_hour:
-    initial: 18
-    min: 0
-    max: 23
-    step: 1
-
-  var_mike_work_end_hour:
-    initial: 5
-    min: 0
-    max: 23
-    step: 1
 
 
 
@@ -316,14 +154,12 @@ group:
 
   automation_calandar:
     entities:
-      - automation.mike_at_work
-      - automation.mike_not_at_work
+      - automation.nfl_sunday_reminder
 
-  backend_calandar:
-    entities:
-      - input_boolean.var_mike_at_work
-      - input_slider.var_mike_work_start_hour
-      - input_slider.var_mike_work_end_hour
+
+  # backend_calandar:
+  #   entities:
+
 
   # options_calandar:
   #   entities:

@@ -129,6 +129,7 @@ script:
         delay: "{{ delay }}"
         entity_id: "{{entity_id}}"
         next_scene: "{{ next_scene }}"
+        timebased_lights: "{{ timebased_lights }}"
     - service: script.notify2_tts
       data_template:
         tts_message: "{{ tts_message }}"
@@ -305,7 +306,7 @@ script:
   notify2_lights:
     sequence:
     - service_template: >
-        {% if is_state('input_boolean.option_notify2_lights', 'on') %}
+        {% if ( is_state('input_boolean.option_notify2_lights', 'on') and timebased_lights != 'true' ) or ( is_state('input_boolean.option_notify2_timebased_lights', 'on') and timebased_lights == 'true' ) %}
 
           {% if flood_color %}
             {% if blink_color %}
@@ -515,6 +516,8 @@ input_boolean:
   option_notify2_lights:
     initial: on
 
+  option_notify2_timebased_lights:
+    initial: on
 
 ##########################################
 ############### GROUPS ###################
@@ -556,3 +559,4 @@ group:
       - input_boolean.option_notify2_tts
       - input_boolean.option_notify2_chromecast
       - input_boolean.option_notify2_lights
+      - input_boolean.option_notify2_timebased_lights

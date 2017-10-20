@@ -43,6 +43,7 @@ automation:
     action:
     - service: script.scene2
       data:
+        timebased_lights: "true"
         rooms: 'all'
         scene_name: 'day'
         transition: 600
@@ -60,6 +61,7 @@ automation:
     action:
     - service: script.scene2
       data:
+        timebased_lights: "true"
         rooms: 'all'
         scene_name: 'day'
         transition: 600
@@ -134,6 +136,7 @@ automation:
     action:
       - service: script.notify2
         data:
+          timebased_lights: "true"
           flood_color: "red"
           entity_id: group.timebased_flood_lights
           delay: "00:00:10"
@@ -150,12 +153,13 @@ automation:
     action:
       - service: script.notify2
         data:
+          timebased_lights: "true"
           flood_color: "magenta"
           entity_id: group.timebased_flood_lights
           delay: "00:00:10"
           tts_entity_id: group.tts_devices
           tts_sound: 'st_notifications/st_notification2.wav'
-          tts_message: "The time, is 7am. Get ready to leave in 30 minutes."
+          tts_message: "The time, is 7am."
 
 ### 12pm
   - alias: flood_12pm
@@ -165,6 +169,7 @@ automation:
     action:
       - service: script.notify2
         data:
+          timebased_lights: "true"
           flood_color: "magenta"
           entity_id: group.timebased_flood_lights
           delay: "00:00:06"
@@ -181,6 +186,7 @@ automation:
     action:
       - service: script.notify2
         data:
+          timebased_lights: "true"
           flood_color: "magenta"
           entity_id: group.timebased_flood_lights
           delay: "00:00:05"
@@ -202,6 +208,7 @@ automation:
     action:
       - service: script.notify2
         data:
+          timebased_lights: "true"
           flood_color: "magenta"
           entity_id: group.timebased_flood_lights
           delay: "00:00:05"
@@ -223,6 +230,7 @@ automation:
     action:
       - service: script.notify2
         data:
+          timebased_lights: "true"
           flood_color: "red"
           entity_id: group.timebased_flood_lights
           delay: "00:00:05"
@@ -278,6 +286,7 @@ automation:
       - delay: "00:00:30"
       - service: script.scene2
         data:
+          timebased_lights: "true"
           rooms: 'all'
           scene_name: 'night_computer_red'
           transition: 600
@@ -294,6 +303,7 @@ automation:
     action:
       - service: script.notify2
         data:
+          timebased_lights: "true"
           flood_color: "red"
           entity_id: group.timebased_flood_lights
           delay: "00:00:05"
@@ -310,6 +320,7 @@ automation:
     action:
       - service: script.notify2
         data:
+          timebased_lights: "true"
           flood_color: "red"
           entity_id: group.timebased_flood_lights
           delay: "00:00:05"

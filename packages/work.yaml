@@ -1,0 +1,442 @@
+# homeassistant:
+#   customize:
+    # input_boolean.template:
+    #   emulated_hue: true
+    #   emulated_hue_name: "Template Name"
+# switch:
+# lights:
+# binary_sensor:
+sensor:
+  - platform: template
+    sensors:
+##########################################
+########## USER SETTINGS #################
+##########################################
+## NOTE: Only Change the 'User Settings'. Everything else is dynamicaly calculated using these variables.
+      # Exact time I leave the house for work
+      var_mike_leave_for_work_hour:
+        value_template: '17'
+      var_mike_leave_for_work_minute:
+        value_template: '45'
+
+      # Exact hours that work starts and ends
+      var_mike_work_start_hour:
+        value_template: '8'
+      var_mike_work_end_hour:
+        value_template: '5'
+
+      # Exact Days that I am at work. If Third Shift, include the day that you get off last.
+      var_mike_work_week_third_shift:
+        value_template: 'true'
+      var_mike_work_week:
+        value_template: "['mon', 'tue', 'wed', 'thu', 'fri']"
+
+
+##########################################
+########## SENSORS #######################
+##########################################
+
+      # Sensor: Determains if Mike "should" be at work based off time and day of week.
+      mike_at_work:
+        value_template: >
+          {% set work_week = states.sensor.var_mike_work_week.state %}
+          {% set third_shift = states.sensor.var_mike_work_week_third_shift.state %}
+
+          {% set today = now().strftime("%a") | lower%}
+          {% set hour = now().hour %}
+
+          {####### 3rd Shift ##########}
+          {% if third_shift %}
+            {####### Check Time ##########}
+            {% if hour | int >= states.sensor.var_mike_work_start_hour.state | int or hour | int < states.sensor.var_mike_work_end_hour.state | int %}
+              {####### Check Day ##########}
+              {% if today in work_week %}
+                {###### Check First/Last Day ######}
+                {% if today ==  work_week | first and hour | int < states.sensor.var_mike_work_end_hour.state | int %}
+                  off
+                {% elif today ==  work_week | last and hour | int >= states.sensor.var_mike_work_start_hour.state | int %}
+                  off
+                {% else %}
+                  on
+                {% endif %}
+              {% else %}
+                off
+              {% endif %}
+            {% else %}
+              off
+            {% endif %}
+
+          {####### Day Shift ##########}
+          {% else %}
+            {####### Check Time ##########}
+            {% if hour | int >= states.sensor.var_mike_work_start_hour.state | int and hour | int < states.sensor.var_mike_work_end_hour.state | int %}
+              {####### Check Day ##########}
+              {% if today in work_week %}
+                on
+              {% else %}
+                off
+              {% endif %}
+            {% else %}
+              off
+            {% endif %}
+          {% endif %}
+
+      # Sensor: Determains if today is a work day for Mike based off day of week.
+      mike_work_day:
+        value_template: >
+          {% set work_week = states.sensor.var_mike_work_week.state %}
+          {% set today = now().strftime("%a") | lower%}
+
+          {% if today in work_week %}
+            on
+          {% else %}
+            off
+          {% endif %}
+
+automation:
+##########################################
+########## MIKE - LEAVE FOR WORK #########
+##########################################
+
+# T-2h
+  - alias: leave_for_work_t2h
+    trigger:
+      - platform: template
+        value_template: >
+          {% if now().hour | int == states.sensor.var_mike_leave_for_work_hour.state | int - 2 %}
+            {% if now().minute | int == states.sensor.var_mike_leave_for_work_minute.state | int %}
+              true
+            {% endif %}
+          {% endif %}
+    condition:
+      - condition: state
+        entity_id: sensor.mike_work_day
+        state: 'on'
+    action:
+      # Turn Timebased Lights Off (Turn back on on T-0m)
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.option_notify2_timebased_lights
+
+      - service: script.notify2
+        data_template:
+          flood_color: "magenta"
+          entity_id: group.timebased_flood_lights
+          delay: "00:00:01"
+          next_scene: 'prework_cyan'
+          tts_entity_id: group.tts_devices
+          tts_sound: 'st_notifications/st_notification2.wav'
+          tts_message: "Get ready to leave for work in. T minus 2 hours"
+          tts_pause_delay: '00:00:00'
+          telegram_message: |
+            T-2h Re:
+            - Shower
+            - Clear Eyes
+            - Deodorant
+            - Cologne
+            - Vitamins
+            - Eat Something
+            - Clean up
+            - Ready Lunch
+
+
+# T-1h
+  - alias: leave_for_work_t1h
+    trigger:
+      - platform: template
+        value_template: >
+          {% if now().hour | int == states.sensor.var_mike_leave_for_work_hour.state | int - 1 %}
+            {% if now().minute | int == states.sensor.var_mike_leave_for_work_minute.state | int %}
+              true
+            {% endif %}
+          {% endif %}
+    condition:
+      - condition: state
+        entity_id: sensor.mike_work_day
+        state: 'on'
+    action:
+      - service: script.notify2
+        data_template:
+          flood_color: "magenta"
+          entity_id: group.timebased_flood_lights
+          delay: "00:00:01"
+          next_scene: 'prework_blue'
+          tts_entity_id: group.tts_devices
+          tts_sound: 'st_notifications/st_notification2.wav'
+          tts_message: "Leave for work in. T minus 1 hour"
+          tts_pause_delay: '00:00:00'
+
+
+# T-30m
+  - alias: leave_for_work_t30m
+    trigger:
+      - platform: template
+        value_template: >
+          {% if now().hour | int == states.sensor.var_mike_leave_for_work_hour.state | int %}
+            {% if now().minute | int == states.sensor.var_mike_leave_for_work_minute.state | int - 30 %}
+              true
+            {% endif %}
+          {% endif %}
+    condition:
+      - condition: state
+        entity_id: sensor.mike_work_day
+        state: 'on'
+    action:
+      - service: script.notify2
+        data_template:
+          flood_color: "magenta"
+          entity_id: group.timebased_flood_lights
+          delay: "00:00:01"
+          next_scene: 'prework_purple'
+          tts_entity_id: group.tts_devices
+          tts_sound: 'st_notifications/st_notification2.wav'
+          tts_message: "Leave for work in. T minus 30 minutes"
+          tts_pause_delay: '00:00:00'
+          telegram_message: |
+            T-30m Re:
+            - Fill e-Cig
+            - Download Podcasts
+            - Check Shirt Stains
+            - Brush Teeth
+            - Ready EDC Backpack
+            - Grab Lunch
+
+# T-15m
+  - alias: leave_for_work_t15m
+    trigger:
+      - platform: template
+        value_template: >
+          {% if now().hour | int == states.sensor.var_mike_leave_for_work_hour.state | int %}
+            {% if now().minute | int == states.sensor.var_mike_leave_for_work_minute.state | int - 15 %}
+              true
+            {% endif %}
+          {% endif %}
+    condition:
+      - condition: state
+        entity_id: sensor.mike_work_day
+        state: 'on'
+    action:
+      - service: script.notify2
+        data_template:
+          flood_color: "magenta"
+          entity_id: group.timebased_flood_lights
+          delay: "00:00:01"
+          next_scene: 'prework_red'
+          tts_entity_id: group.tts_devices
+          tts_sound: 'st_notifications/st_notification2.wav'
+          tts_message: "Leave for work in. T minus 15 minutes."
+          tts_pause_delay: '00:00:00'
+
+
+# T-10m
+  - alias: leave_for_work_t10m
+    trigger:
+      - platform: template
+        value_template: >
+          {% if now().hour | int == states.sensor.var_mike_leave_for_work_hour.state | int %}
+            {% if now().minute | int == states.sensor.var_mike_leave_for_work_minute.state | int - 10 %}
+              true
+            {% endif %}
+          {% endif %}
+    condition:
+      - condition: state
+        entity_id: sensor.mike_work_day
+        state: 'on'
+    action:
+      - service: script.notify2
+        data_template:
+          flood_color: "magenta"
+          entity_id: group.timebased_flood_lights
+          delay: "00:00:01"
+          next_scene: 'prework_t10m'
+          tts_entity_id: group.tts_devices
+          tts_sound: 'st_notifications/st_notification2.wav'
+          tts_message: "Leave for work in. T minus 10 minutes."
+          tts_pause_delay: '00:00:00'
+          telegram_message: |
+            T-10m DON'T FORGET:
+            - Cigarettes/Lighter/eCig
+            - Wallet
+            - Keys
+            - ID Badge
+            - Phone & Watch
+
+
+# T-5m
+  - alias: leave_for_work_t5m
+    trigger:
+      - platform: template
+        value_template: >
+          {% if now().hour | int == states.sensor.var_mike_leave_for_work_hour.state | int %}
+            {% if now().minute | int == states.sensor.var_mike_leave_for_work_minute.state | int - 5 %}
+              true
+            {% endif %}
+          {% endif %}
+    condition:
+      - condition: state
+        entity_id: sensor.mike_work_day
+        state: 'on'
+    action:
+      - service: script.notify2
+        data_template:
+          flood_color: "magenta"
+          entity_id: group.timebased_flood_lights
+          delay: "00:00:01"
+          next_scene: 'day_bright'
+          tts_entity_id: group.tts_devices
+          tts_sound: 'st_notifications/st_notification2.wav'
+          tts_message: "Leave for work in. T minus 5 minutes."
+          tts_pause_delay: '00:00:00'
+
+
+# T-0m
+  - alias: leave_for_work_t0m
+    trigger:
+      - platform: template
+        value_template: >
+          {% if now().hour | int == states.sensor.var_mike_leave_for_work_hour.state | int %}
+            {% if now().minute | int == states.sensor.var_mike_leave_for_work_minute.state | int %}
+              true
+            {% endif %}
+          {% endif %}
+    condition:
+      - condition: state
+        entity_id: sensor.mike_work_day
+        state: 'on'
+    action:
+
+      # Turn Timebased Lights Back On
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.option_notify2_timebased_lights
+
+      - service: script.notify2
+        data_template:
+          flood_color: "magenta"
+          entity_id: group.timebased_flood_lights
+          delay: "00:00:01"
+          tts_entity_id: group.tts_devices
+          tts_sound: 'st_notifications/st_notification2.wav'
+          tts_message: "It's time to leave for work. Have a good day. Goodbye"
+          tts_pause_delay: '00:00:00'
+      - service: script.timebased_scene
+
+
+##########################################
+########## NOTIFICATIONS #################
+##########################################
+
+
+
+##########################################
+########## AUTOMATIONS: MIKE OFF WORK ####
+##########################################
+
+  # Mike Off Work: T-1h
+  - alias: mike_off_work_t1h
+    trigger:
+      - platform: template
+        value_template: >
+          {% if now().hour | int == states.sensor.var_mike_work_end_hour.state | int - 1 %}
+            true
+          {% endif %}
+    condition:
+      - condition: state
+        entity_id: sensor.mike_at_work
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.var_mike_home
+        state: 'off'
+    action:
+      # Turn on Air Conditioner/Fans via Temp Control
+      - condition: template
+        value_template: '{% if  states.sensor.indoor_temperature.state  %}{% if states.sensor.indoor_temperature.state | float > states.sensor.indoor_temp_warm_level.state | float %}true{%endif%}{%endif%}'
+      - condition: template
+        value_template: '{% if  states.sensor.dark_sky_apparent_temperature.state  %}{% if states.sensor.dark_sky_apparent_temperature.state | int > 50 %}true{%endif%}{%endif%}'
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.option_indoor_temp_hot
+
+  # Mike Off Work: T-0h
+  - alias: mike_off_work_t0h
+    trigger:
+      - platform: template
+        value_template: >
+          {% if now().hour | int == states.sensor.var_mike_work_end_hour.state | int  %}
+            true
+          {% endif %}
+    condition:
+      - condition: state
+        entity_id: input_boolean.var_mike_home
+        state: 'off'
+    action:
+      # Turn on Air Conditioner/Fans via Temp Control
+      - condition: template
+        value_template: '{% if  states.sensor.indoor_temperature.state  %}{% if states.sensor.indoor_temperature.state | float > states.sensor.indoor_temp_warm_level.state | float %}true{%endif%}{%endif%}'
+      - condition: template
+        value_template: '{% if  states.sensor.dark_sky_apparent_temperature.state  %}{% if states.sensor.dark_sky_apparent_temperature.state | int > 50 %}true{%endif%}{%endif%}'
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.option_indoor_temp_hot
+
+
+##########################################
+########## AUTOMATIONS ###################
+##########################################
+
+
+
+##########################################
+########## SCRIPTS #######################
+##########################################
+# script:
+
+
+
+
+
+##########################################
+########## STORED VARIABLES ##############
+##########################################
+# input_slider:
+
+##########################################
+########## OPTIONS #######################
+##########################################
+
+
+##########################################
+############### GROUPS ###################
+##########################################
+group:
+  automation_work:
+    entities:
+      - automation.mike_at_work
+      - automation.mike_not_at_work
+      - automation.leave_for_work_t2h
+      - automation.leave_for_work_t1h
+      - automation.leave_for_work_t30m
+      - automation.leave_for_work_t15m
+      - automation.leave_for_work_t10m
+      - automation.leave_for_work_t5m
+      - automation.leave_for_work_t0m
+      - automation.mike_off_work_t1h
+      - automation.mike_off_work_t0h
+
+  backend_work:
+    entities:
+      - sensor.mike_at_work
+      - sensor.mike_work_day
+
+  hidden_work:
+    entities:
+      - sensor.var_mike_leave_for_work_hour
+      - sensor.var_mike_leave_for_work_minute
+      - sensor.var_mike_work_start_hour
+      - sensor.var_mike_work_end_hour
+      - sensor.var_mike_work_week_third_shift
+      - sensor.var_mike_work_week
+
+#   options_work:
+#     entities:
+#       - input_boolean.
+
+#   script_work:
+#     entities:
+#       - script.

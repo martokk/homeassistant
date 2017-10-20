@@ -71,6 +71,8 @@
     - group.options_modes
     - group.options_motion_detection
     - group.options_tts
+    - group.options_work
+
 
   backend:
     icon: mdi:database
@@ -98,6 +100,7 @@
     - group.backend_modes
     - group.backend_motion_detection
     - group.backend_tts
+    - group.backend_work
 
   # automations:
   #   icon: mdi:timetable
@@ -138,6 +141,7 @@
   #   - group.automation_modes
   #   - group.automation_motion_detection
   #   - group.automation_tts
+  #   - group.automation_work
   #
   # scripts:
   #   icon: mdi:script
@@ -178,3 +182,4 @@
   #   - script.script_fans
   #   - group.script_motion_detection
   #   - group.script_tts
+  #   - group.script_work

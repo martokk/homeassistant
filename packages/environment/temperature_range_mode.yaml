@@ -355,14 +355,6 @@ automation:
       - service: input_boolean.turn_on
         entity_id: input_boolean.option_indoor_temp_range_reduced
 
-  # 4am to 7am
-  - alias: indoor_temp_time_515am
-    trigger:
-      - platform: time
-        at: '05:15:00'
-    action:
-      - service: input_boolean.turn_on
-        entity_id: input_boolean.var_indoor_temp_hot
 
   # 7am to 4pm
   - alias: indoor_temp_time_10am
@@ -446,7 +438,7 @@ automation:
   - alias: indoor_temp_mike_at_work
     trigger:
       - platform: state
-        entity_id: input_boolean.var_mike_at_work
+        entity_id: sensor.mike_at_work
         to: 'on'
     action:
       - service: input_slider.select_value
@@ -457,7 +449,7 @@ automation:
   - alias: indoor_temp_mike_not_at_work
     trigger:
       - platform: state
-        entity_id: input_boolean.var_mike_at_work
+        entity_id: sensor.mike_at_work
         to: 'off'
     action:
       - service: input_slider.select_value
@@ -673,6 +665,7 @@ group:
       - automation.reset_var_indoor_temp_time_of_day
       - automation.reset_var_indoor_temp_mike_at_work
       - automation.indoor_temp_time_12am
+      - automation.indoor_temp_time_4am
       - automation.indoor_temp_time_10am
       - automation.indoor_temp_time_4pm
       - automation.indoor_temp_time_7pm
