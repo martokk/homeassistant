@@ -5,8 +5,8 @@ logbook:
       #********** Lights ***********#
       - script.call_last_known_scene
       - script.turn_on_kitchen_lights_movement
-      - input_slider.var_kitchen_color_temp
-      - input_slider.var_kitchen_delay
+      - input_number.var_kitchen_color_temp
+      - input_number.var_kitchen_delay
 
       #********** Motion Sensors ***********#
       - binary_sensor.entertainment_center_motion_sensor
@@ -23,9 +23,9 @@ logbook:
       #********** Devices ***********#
       - automation.set_state_entertainment_center_tv_volume_up
       - automation.set_state_entertainment_center_tv_volume_down
-      - input_slider.var_tv_entertainment_center_volume
-      - input_slider.var_tv_entertainment_center_volume_set
-      - input_slider.var_tv_entertainment_center_volume_stored
+      - input_number.var_tv_entertainment_center_volume
+      - input_number.var_tv_entertainment_center_volume_set
+      - input_number.var_tv_entertainment_center_volume_stored
 
     domains:
       - light

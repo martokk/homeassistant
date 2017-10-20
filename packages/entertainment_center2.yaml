@@ -94,7 +94,7 @@ automation:
       # Time - After 12:00pm, Before 9:00pm
       - condition: template
         value_template: >
-          {% if states.sensor.dark_sky_daily_high_apparent_temperature.state | float > states.input_slider.var_indoor_temp_ok.state | float %}
+          {% if states.sensor.dark_sky_daily_high_apparent_temperature.state | float > states.input_number.var_indoor_temp_ok.state | float %}
             {% set on_hour = 18 %}
           {% else %}
             {% set on_hour = 12 %}

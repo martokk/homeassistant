@@ -36,7 +36,7 @@ sensor:
     expire_after: 900
 
 
-input_slider:
+input_number:
   entertainment_center_animation_speed:
     name: Entertainment Center Animation Speed
     min: 0
@@ -123,7 +123,7 @@ automation:
     hide_entity: False
     trigger:
       - platform: state
-        entity_id: input_slider.entertainment_center_animation_speed
+        entity_id: input_number.entertainment_center_animation_speed
     action:
       - service: mqtt.publish
         data_template:

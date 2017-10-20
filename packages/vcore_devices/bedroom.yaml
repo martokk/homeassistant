@@ -33,7 +33,7 @@ sensor:
     unit_of_measurement: "%"
     expire_after: 900
 
-input_slider:
+input_number:
   bedroom_animation_speed:
     name: Bedroom Animation Speed
     min: 0
@@ -120,7 +120,7 @@ automation:
     hide_entity: False
     trigger:
       - platform: state
-        entity_id: input_slider.bedroom_animation_speed
+        entity_id: input_number.bedroom_animation_speed
     action:
       - service: mqtt.publish
         data_template:

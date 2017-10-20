@@ -202,7 +202,7 @@ automation:
   - alias: bedroom_temperature_cold_after_9pm
     trigger:
       - platform: template
-        value_template: "{% if states.sensor.bedroom_temperature.state | int < states.input_slider.var_indoor_temp_cool.state | int and states.sensor.bedroom_temperature.state | int > 1 %}true{%endif%}"
+        value_template: "{% if states.sensor.bedroom_temperature.state | int < states.input_number.var_indoor_temp_cool.state | int and states.sensor.bedroom_temperature.state | int > 1 %}true{%endif%}"
     condition:
       - condition: state
         entity_id: input_boolean.var_mike_home

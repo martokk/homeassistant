@@ -27,7 +27,7 @@ sensor:
     unit_of_measurement: "%"
     expire_after: 900
 
-input_slider:
+input_number:
   tables_animation_speed:
     name: Tables Animation Speed
     min: 0
@@ -114,7 +114,7 @@ automation:
     hide_entity: False
     trigger:
       - platform: state
-        entity_id: input_slider.tables_animation_speed
+        entity_id: input_number.tables_animation_speed
     action:
       - service: mqtt.publish
         data_template:

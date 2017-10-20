@@ -1,4 +1,4 @@
-input_slider:
+input_number:
   all_leds_animation_speed:
     name: All LEDs Animation Speed
     min: 0
@@ -151,27 +151,27 @@ automation:
   - alias: all_leds_animation_speed
     trigger:
       - platform: state
-        entity_id: input_slider.all_leds_animation_speed
+        entity_id: input_number.all_leds_animation_speed
     action:
-      - service: input_slider.select_value
+      - service: input_number.set_value
         data_template:
-          entity_id: input_slider.kitchen_animation_speed
+          entity_id: input_number.kitchen_animation_speed
           value: "{{ trigger.to_state.state }}"
-      - service: input_slider.select_value
+      - service: input_number.set_value
         data_template:
-          entity_id: input_slider.bedroom_animation_speed
+          entity_id: input_number.bedroom_animation_speed
           value: "{{ trigger.to_state.state }}"
-      - service: input_slider.select_value
+      - service: input_number.set_value
         data_template:
-          entity_id: input_slider.office_animation_speed
+          entity_id: input_number.office_animation_speed
           value: "{{ trigger.to_state.state }}"
-      - service: input_slider.select_value
+      - service: input_number.set_value
         data_template:
-          entity_id: input_slider.tables_animation_speed
+          entity_id: input_number.tables_animation_speed
           value: "{{ trigger.to_state.state }}"
-      - service: input_slider.select_value
+      - service: input_number.set_value
         data_template:
-          entity_id: input_slider.entertainment_center_animation_speed
+          entity_id: input_number.entertainment_center_animation_speed
           value: "{{ trigger.to_state.state }}"
 
 
@@ -196,7 +196,7 @@ group:
 
   inputs_all_vcore_devices:
     entities:
-      - input_slider.all_leds_animation_speed
+      - input_number.all_leds_animation_speed
       - input_select.all_led_effect
 
   led_strips_all_vcore_devices:
