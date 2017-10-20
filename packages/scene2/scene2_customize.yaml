@@ -42,6 +42,7 @@ homeassistant:
 #********** HIDDEN ***********#
     script.scene2:
       hidden: true
+
     script.scene2_chill_2_bedroom:
       hidden: true
     script.scene2_chill_2_kitchen:
@@ -50,6 +51,7 @@ homeassistant:
       hidden: true
     script.scene2_chill_2_office:
       hidden: true
+
     script.scene2_chill_bedroom:
       hidden: true
     script.scene2_chill_kitchen:
@@ -58,8 +60,16 @@ homeassistant:
       hidden: true
     script.scene2_chill_office:
       hidden: true
+
     script.scene2_day_bedroom:
       hidden: true
+    script.scene2_day_kitchen:
+      hidden: true
+    script.scene2_day_livingroom:
+      hidden: true
+    script.scene2_day_office:
+      hidden: true
+
     script.scene2_day_bright_bedroom:
       hidden: true
     script.scene2_day_bright_kitchen:
@@ -68,8 +78,7 @@ homeassistant:
       hidden: true
     script.scene2_day_bright_office:
       hidden: true
-    script.scene2_day_kitchen:
-      hidden: true
+
     script.scene2_day_le_bedroom:
       hidden: true
     script.scene2_day_le_kitchen:
@@ -78,14 +87,10 @@ homeassistant:
       hidden: true
     script.scene2_day_le_office:
       hidden: true
-    script.scene2_day_livingroom:
-      hidden: true
-    script.scene2_day_office:
-      hidden: true
+
     script.scene2_do_nothing:
       hidden: true
-    script.scene2_night_bedroom:
-      hidden: true
+
     script.scene2_night_blue_bedroom:
       hidden: true
     script.scene2_night_blue_kitchen:
@@ -94,6 +99,7 @@ homeassistant:
       hidden: true
     script.scene2_night_blue_office:
       hidden: true
+
     script.scene2_night_computer_bedroom:
       hidden: true
     script.scene2_night_computer_kitchen:
@@ -102,6 +108,7 @@ homeassistant:
       hidden: true
     script.scene2_night_computer_office:
       hidden: true
+
     script.scene2_night_computer_red_bedroom:
       hidden: true
     script.scene2_night_computer_red_kitchen:
@@ -110,6 +117,7 @@ homeassistant:
       hidden: true
     script.scene2_night_computer_red_office:
       hidden: true
+
     script.scene2_night_computer_blue_bedroom:
       hidden: true
     script.scene2_night_computer_blue_kitchen:
@@ -118,6 +126,7 @@ homeassistant:
       hidden: true
     script.scene2_night_computer_blue_office:
       hidden: true
+
     script.scene2_night_cyan_bedroom:
       hidden: true
     script.scene2_night_cyan_kitchen:
@@ -126,12 +135,16 @@ homeassistant:
       hidden: true
     script.scene2_night_cyan_office:
       hidden: true
+
     script.scene2_night_kitchen:
       hidden: true
     script.scene2_night_livingroom:
       hidden: true
     script.scene2_night_office:
       hidden: true
+    script.scene2_night_bedroom:
+      hidden: true
+
     script.scene2_night_red_bedroom:
       hidden: true
     script.scene2_night_red_kitchen:
@@ -140,6 +153,7 @@ homeassistant:
       hidden: true
     script.scene2_night_red_office:
       hidden: true
+
     script.scene2_off_bedroom:
       hidden: true
     script.scene2_off_kitchen:
@@ -149,18 +163,23 @@ homeassistant:
     script.scene2_off_office:
       hidden: true
 
+
+
     automation.bedroom_turn_off:
       hidden: true
     automation.bedroom_turn_on:
       hidden: true
+
     automation.kitchen_turn_off:
       hidden: true
     automation.kitchen_turn_on:
       hidden: true
+
     automation.livingroom_turn_off:
       hidden: true
     automation.livingroom_turn_on:
       hidden: true
+
     automation.office_turn_off:
       hidden: true
     automation.office_turn_on:

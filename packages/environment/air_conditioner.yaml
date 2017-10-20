@@ -323,7 +323,7 @@ group:
       - automation.air_conditioner_on_devices_volume_up
       - automation.air_conditioner_off_devices_volume_down
       - automation.tts_interupt_turn_off_air_conditioner
-
+      - automation.air_conditioner_turn_off_over_2h
 
 
   backend_air_conditioner:

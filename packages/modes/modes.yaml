@@ -260,7 +260,7 @@ automation:
         entity_id: input_boolean.option_mode_normal
 
   # Mode - From Sleep Mode to Normal Mode
-  - alias: mode_normal_from_other_modes
+  - alias: mode_sleep_to_mode_normal
     trigger:
       - platform: state
         entity_id: input_boolean.var_entertainment_center_motion_on
@@ -276,7 +276,7 @@ automation:
       # Turn On - Normal Mode
       - service: input_boolean.turn_on
         entity_id: input_boolean.option_mode_normal
-        
+
 ##########################################
 ########## AUTOMATIONS ###################
 ##########################################
@@ -382,6 +382,7 @@ group:
       - automation.mode_sleep
       - automation.mode_normal_set_other_modes
       - automation.mode_normal_from_other_modes
+      - automation.mode_sleep_to_mode_normal
       - automation.reset_modes_5am
       - automation.timebased_11pm_quiet_mode
 

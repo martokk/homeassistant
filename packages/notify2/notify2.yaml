@@ -495,31 +495,24 @@ input_boolean:
 ########## OPTIONS #######################
 ##########################################
   option_notify2_sms:
-    name: "SMS Notifications"
     initial: on
 
   option_notify2_email:
-    name: "Email Notifications"
     initial: on
 
   option_notify2_mlo:
-    name: "MLO Notifications"
     initial: on
 
   option_notify2_telegram:
-    name: "Telegram Notifications"
     initial: on
 
   option_notify2_tts:
-    name: "TTS Notifications"
     initial: on
 
   option_notify2_chromecast:
-    name: "Chromecast Notifications"
     initial: on
 
   option_notify2_lights:
-    name: "Lights Notifications"
     initial: on
 
 

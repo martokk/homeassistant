@@ -165,7 +165,7 @@ automation:
         entity_id: device_tracker.iphone6s
         to: 'not_home'
         for:
-          minutes: 10
+          minutes: 30
       - platform: state
         entity_id: input_boolean.var_desktop_computer_on
         to: 'off'
@@ -216,7 +216,7 @@ automation:
         entity_id: device_tracker.dans_iphone6
         to: 'not_home'
         for:
-          minutes: 30
+          minutes: 60
     condition:
       - condition: state
         entity_id: input_boolean.var_dan_home

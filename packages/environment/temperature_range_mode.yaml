@@ -682,6 +682,8 @@ group:
       - automation.set_indoor_humidity_low
       - automation.set_indoor_humidity_ok
       - automation.set_indoor_humidity_high
+      - automation.indoor_temp_range_reduced
+      - automation.indoor_temp_range_regular
 
   backend_temperature_range_mode:
     entities:
