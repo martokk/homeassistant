@@ -21,26 +21,36 @@ sensor:
 
       # Exact hours that work starts and ends
       var_mike_work_start_hour:
-        value_template: '8'
+        value_template: '18'
       var_mike_work_end_hour:
         value_template: '5'
 
       # Exact Days that I am at work. If Third Shift, include the day that you get off last.
-      var_mike_work_week_third_shift:
-        value_template: 'true'
       var_mike_work_week:
         value_template: "['mon', 'tue', 'wed', 'thu', 'fri']"
+      var_mike_work_week_third_shift:
+        value_template: 'true'
+      var_mike_work_week_third_shift_first_day:
+        value_template: "mon"
+      var_mike_work_week_third_shift_last_day:
+        value_template: "fri"
 
 
 ##########################################
 ########## SENSORS #######################
 ##########################################
+      now_hour:
+        value_template: '{{ now().hour | int }}'
+      now_minute:
+        value_template: '{{ now().minute | int }}'
 
       # Sensor: Determains if Mike "should" be at work based off time and day of week.
       mike_at_work:
         value_template: >
           {% set work_week = states.sensor.var_mike_work_week.state %}
           {% set third_shift = states.sensor.var_mike_work_week_third_shift.state %}
+          {% set third_shift_first_day = states.sensor.var_mike_work_week_third_shift_first_day.state %}
+          {% set third_shift_last_day = states.sensor.var_mike_work_week_third_shift_last_day.state %}
 
           {% set today = now().strftime("%a") | lower%}
           {% set hour = now().hour %}
@@ -52,9 +62,9 @@ sensor:
               {####### Check Day ##########}
               {% if today in work_week %}
                 {###### Check First/Last Day ######}
-                {% if today ==  work_week | first and hour | int < states.sensor.var_mike_work_end_hour.state | int %}
+                {% if today ==  third_shift_first_day and hour | int < states.sensor.var_mike_work_start_hour.state | int %}
                   off
-                {% elif today ==  work_week | last and hour | int >= states.sensor.var_mike_work_start_hour.state | int %}
+                {% elif today ==  third_shift_last_day and hour | int >= states.sensor.var_mike_work_end_hour.state | int %}
                   off
                 {% else %}
                   on
@@ -85,10 +95,20 @@ sensor:
       mike_work_day:
         value_template: >
           {% set work_week = states.sensor.var_mike_work_week.state %}
+          {% set third_shift = states.sensor.var_mike_work_week_third_shift.state %}
+          {% set third_shift_last_day = states.sensor.var_mike_work_week_third_shift_last_day.state %}
           {% set today = now().strftime("%a") | lower%}
 
           {% if today in work_week %}
-            on
+            {% if third_shift %}
+              {% if today == third_shift_last_day %}
+                off
+              {% else %}
+                on
+              {% endif %}
+            {% else %}
+              on
+            {% endif %}
           {% else %}
             off
           {% endif %}
@@ -98,45 +118,83 @@ automation:
 ########## MIKE - LEAVE FOR WORK #########
 ##########################################
 
-# T-2h
-  - alias: leave_for_work_t2h
+  # Option: Mike Prework Timebased Lights Turn ON
+  - alias: mike_prework_timebased_lights_on
     trigger:
-      - platform: template
-        value_template: >
-          {% if now().hour | int == states.sensor.var_mike_leave_for_work_hour.state | int - 2 %}
-            {% if now().minute | int == states.sensor.var_mike_leave_for_work_minute.state | int %}
-              true
-            {% endif %}
-          {% endif %}
+      - platform: state
+        entity_id: sensor.mike_work_day
+        to: 'on'
+      - platform: state
+        entity_id: input_boolean.mode_normal
+        to: 'on'
     condition:
       - condition: state
         entity_id: sensor.mike_work_day
         state: 'on'
     action:
-      # Turn Timebased Lights Off (Turn back on on T-0m)
+      # Turn on Prework Timebased Lights
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.option_notify2_prework_timebased_lights
+
+
+  # Option: Mike Prework Timebased Lights Turn OFF
+  - alias: mike_prework_timebased_lights_off
+    trigger:
+      - platform: state
+        entity_id: sensor.mike_work_day
+        to: 'off'
+    action:
+      # Turn off Prework Timebased Lights
       - service: input_boolean.turn_off
-        entity_id: input_boolean.option_notify2_timebased_lights
+        entity_id: input_boolean.option_notify2_prework_timebased_lights
+
+
+
+
+# T-2h
+  - alias: leave_for_work_t2h
+    trigger:
+      - platform: template
+        value_template: >
+          {% if states.sensor.now_hour.state| int == states.sensor.var_mike_leave_for_work_hour.state | int - 2 %}
+            {% if states.sensor.now_minute.state | int == states.sensor.var_mike_leave_for_work_minute.state | int %}
+              true
+            {% endif %}
+          {% endif %}
+    condition:
+      - condition: state
+        entity_id: input_boolean.option_notify2_prework_timebased_lights
+        state: 'on'
+    action:
+      # Turn On - Prework Mode
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.option_mode_prework
 
       - service: script.notify2
         data_template:
-          flood_color: "magenta"
+          flood_color: "red"
           entity_id: group.timebased_flood_lights
           delay: "00:00:01"
           next_scene: 'prework_cyan'
           tts_entity_id: group.tts_devices
-          tts_sound: 'st_notifications/st_notification2.wav'
-          tts_message: "Get ready to leave for work in. T minus 2 hours"
+          tts_sound: 'isaac/weapon_room.mp3'
+          tts_sound_delay: '00:00:05'
+          tts_message: "Get ready to leave for work in. T minus 2 hours. Your iPhone is at. {{ states('sensor.iphone6s_battery') | int }}%. and your Watch is at. {{ states('sensor.watch_battery') | int }}%. I  sent your pre work checklist to telegram for review."
           tts_pause_delay: '00:00:00'
           telegram_message: |
-            T-2h Re:
+            T-2h Batteries:
+            {% if states("sensor.iphone6s_battery") | int == 100 %}*{% endif %}iPhone: {{ states("sensor.iphone6s_battery") | int }}%{% if states("sensor.iphone6s_battery") | int == 100 %}*{% endif %}
+            {% if states("sensor.watch_battery") | int == 100 %}*{% endif %}Watch: {{ states("sensor.watch_battery") | int }}%{% if states("sensor.watch_battery") | int == 100 %}*{% endif %}
+
+            T-2h Checklist:
             - Shower
             - Clear Eyes
             - Deodorant
             - Cologne
             - Vitamins
-            - Eat Something
             - Clean up
             - Ready Lunch
+            - Eat Something
 
 
 # T-1h
@@ -144,24 +202,25 @@ automation:
     trigger:
       - platform: template
         value_template: >
-          {% if now().hour | int == states.sensor.var_mike_leave_for_work_hour.state | int - 1 %}
-            {% if now().minute | int == states.sensor.var_mike_leave_for_work_minute.state | int %}
+          {% if states.sensor.now_hour.state| int == states.sensor.var_mike_leave_for_work_hour.state | int - 1 %}
+            {% if states.sensor.now_minute.state | int == states.sensor.var_mike_leave_for_work_minute.state | int %}
               true
             {% endif %}
           {% endif %}
     condition:
       - condition: state
-        entity_id: sensor.mike_work_day
+        entity_id: input_boolean.option_notify2_prework_timebased_lights
         state: 'on'
     action:
       - service: script.notify2
         data_template:
-          flood_color: "magenta"
+          flood_color: "red"
           entity_id: group.timebased_flood_lights
           delay: "00:00:01"
           next_scene: 'prework_blue'
           tts_entity_id: group.tts_devices
-          tts_sound: 'st_notifications/st_notification2.wav'
+          tts_sound: 'isaac/weapon_room.mp3'
+          tts_sound_delay: '00:00:05'
           tts_message: "Leave for work in. T minus 1 hour"
           tts_pause_delay: '00:00:00'
 
@@ -171,58 +230,61 @@ automation:
     trigger:
       - platform: template
         value_template: >
-          {% if now().hour | int == states.sensor.var_mike_leave_for_work_hour.state | int %}
-            {% if now().minute | int == states.sensor.var_mike_leave_for_work_minute.state | int - 30 %}
+          {% if states.sensor.now_hour.state| int == states.sensor.var_mike_leave_for_work_hour.state | int %}
+            {% if states.sensor.now_minute.state | int == states.sensor.var_mike_leave_for_work_minute.state | int - 30 %}
               true
             {% endif %}
           {% endif %}
     condition:
       - condition: state
-        entity_id: sensor.mike_work_day
+        entity_id: input_boolean.option_notify2_prework_timebased_lights
         state: 'on'
     action:
       - service: script.notify2
         data_template:
-          flood_color: "magenta"
+          flood_color: "red"
           entity_id: group.timebased_flood_lights
           delay: "00:00:01"
           next_scene: 'prework_purple'
           tts_entity_id: group.tts_devices
-          tts_sound: 'st_notifications/st_notification2.wav'
-          tts_message: "Leave for work in. T minus 30 minutes"
+          tts_sound: 'isaac/secret_room_find.mp3'
+          tts_sound_delay: '00:00:04'
+          tts_message: "Leave for work in. T minus 30 minutes. I  sent your pre work checklist to telegram for review."
           tts_pause_delay: '00:00:00'
           telegram_message: |
             T-30m Re:
             - Fill e-Cig
             - Download Podcasts
-            - Check Shirt Stains
-            - Brush Teeth
             - Ready EDC Backpack
             - Grab Lunch
+            - Check Shirt Stains
+            - Check Clean Shave
+            - Brush Teeth
 
 # T-15m
   - alias: leave_for_work_t15m
     trigger:
       - platform: template
         value_template: >
-          {% if now().hour | int == states.sensor.var_mike_leave_for_work_hour.state | int %}
-            {% if now().minute | int == states.sensor.var_mike_leave_for_work_minute.state | int - 15 %}
+          {% if states.sensor.now_hour.state| int == states.sensor.var_mike_leave_for_work_hour.state | int %}
+            {% if states.sensor.now_minute.state | int == states.sensor.var_mike_leave_for_work_minute.state | int - 15 %}
               true
             {% endif %}
           {% endif %}
     condition:
       - condition: state
-        entity_id: sensor.mike_work_day
+        entity_id: input_boolean.option_notify2_prework_timebased_lights
         state: 'on'
     action:
       - service: script.notify2
         data_template:
-          flood_color: "magenta"
+          flood_color: "red"
           entity_id: group.timebased_flood_lights
           delay: "00:00:01"
           next_scene: 'prework_red'
           tts_entity_id: group.tts_devices
-          tts_sound: 'st_notifications/st_notification2.wav'
+          tts_sound: 'isaac/secret_room_find.mp3'
+          tts_sound_delay: '00:00:04'
           tts_message: "Leave for work in. T minus 15 minutes."
           tts_pause_delay: '00:00:00'
 
@@ -232,25 +294,34 @@ automation:
     trigger:
       - platform: template
         value_template: >
-          {% if now().hour | int == states.sensor.var_mike_leave_for_work_hour.state | int %}
-            {% if now().minute | int == states.sensor.var_mike_leave_for_work_minute.state | int - 10 %}
+          {% if states.sensor.now_hour.state| int == states.sensor.var_mike_leave_for_work_hour.state | int %}
+            {% if states.sensor.now_minute.state | int == states.sensor.var_mike_leave_for_work_minute.state | int - 10 %}
               true
             {% endif %}
           {% endif %}
     condition:
       - condition: state
-        entity_id: sensor.mike_work_day
+        entity_id: input_boolean.option_notify2_prework_timebased_lights
         state: 'on'
     action:
       - service: script.notify2
         data_template:
-          flood_color: "magenta"
+          flood_color: "red"
           entity_id: group.timebased_flood_lights
           delay: "00:00:01"
           next_scene: 'prework_t10m'
           tts_entity_id: group.tts_devices
-          tts_sound: 'st_notifications/st_notification2.wav'
-          tts_message: "Leave for work in. T minus 10 minutes."
+          tts_sound: 'isaac/isaacbosswin.mp3'
+          tts_sound_delay: '00:00:05'
+          tts_message: |
+            Leave for work in. T minus 10 minutes.
+            Do not forget the following items:
+              - Cigarettes and Vape
+              - Wallet
+              - Keys
+              - ID Badge
+              - iPhone
+              - and your Apple Watch
           tts_pause_delay: '00:00:00'
           telegram_message: |
             T-10m DON'T FORGET:
@@ -266,59 +337,59 @@ automation:
     trigger:
       - platform: template
         value_template: >
-          {% if now().hour | int == states.sensor.var_mike_leave_for_work_hour.state | int %}
-            {% if now().minute | int == states.sensor.var_mike_leave_for_work_minute.state | int - 5 %}
+          {% if states.sensor.now_hour.state| int == states.sensor.var_mike_leave_for_work_hour.state | int %}
+            {% if states.sensor.now_minute.state | int == states.sensor.var_mike_leave_for_work_minute.state | int - 5 %}
               true
             {% endif %}
           {% endif %}
     condition:
       - condition: state
-        entity_id: sensor.mike_work_day
+        entity_id: input_boolean.option_notify2_prework_timebased_lights
         state: 'on'
     action:
       - service: script.notify2
         data_template:
-          flood_color: "magenta"
+          flood_color: "red"
           entity_id: group.timebased_flood_lights
           delay: "00:00:01"
           next_scene: 'day_bright'
           tts_entity_id: group.tts_devices
-          tts_sound: 'st_notifications/st_notification2.wav'
+          tts_sound: 'isaac/secret_room_find.mp3'
+          tts_sound_delay: '00:00:04'
           tts_message: "Leave for work in. T minus 5 minutes."
           tts_pause_delay: '00:00:00'
-
+      - service: script.entertainment_center_turn_off
 
 # T-0m
   - alias: leave_for_work_t0m
     trigger:
       - platform: template
         value_template: >
-          {% if now().hour | int == states.sensor.var_mike_leave_for_work_hour.state | int %}
-            {% if now().minute | int == states.sensor.var_mike_leave_for_work_minute.state | int %}
+          {% if states.sensor.now_hour.state| int == states.sensor.var_mike_leave_for_work_hour.state | int %}
+            {% if states.sensor.now_minute.state | int == states.sensor.var_mike_leave_for_work_minute.state | int %}
               true
             {% endif %}
           {% endif %}
     condition:
       - condition: state
-        entity_id: sensor.mike_work_day
+        entity_id: input_boolean.option_notify2_prework_timebased_lights
         state: 'on'
     action:
-
-      # Turn Timebased Lights Back On
-      - service: input_boolean.turn_on
-        entity_id: input_boolean.option_notify2_timebased_lights
-
       - service: script.notify2
         data_template:
-          flood_color: "magenta"
+          flood_color: "red"
           entity_id: group.timebased_flood_lights
           delay: "00:00:01"
           tts_entity_id: group.tts_devices
-          tts_sound: 'st_notifications/st_notification2.wav'
+          tts_sound: 'isaac/weapon_room.mp3'
+          tts_sound_delay: '00:00:05'
           tts_message: "It's time to leave for work. Have a good day. Goodbye"
           tts_pause_delay: '00:00:00'
-      - service: script.timebased_scene
-
+      # Turn On - Normal Mode
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.option_mode_normal
+      - service: script.entertainment_center_turn_off
+      - service: script.computer_monitors_turn_off
 
 ##########################################
 ########## NOTIFICATIONS #################
@@ -394,7 +465,7 @@ automation:
 ##########################################
 ########## STORED VARIABLES ##############
 ##########################################
-# input_number:
+# input_boolean:
 
 ##########################################
 ########## OPTIONS #######################
@@ -423,6 +494,7 @@ group:
     entities:
       - sensor.mike_at_work
       - sensor.mike_work_day
+      - input_boolean.var_mike_leave_for_work_timebased_lights_on
 
   hidden_work:
     entities:
@@ -432,10 +504,10 @@ group:
       - sensor.var_mike_work_end_hour
       - sensor.var_mike_work_week_third_shift
       - sensor.var_mike_work_week
+      - sensor.var_mike_work_week_third_shift_last_day
 
-#   options_work:
-#     entities:
-#       - input_boolean.
+  # options_work:
+  #   entities:
 
 #   script_work:
 #     entities:

@@ -27,11 +27,19 @@ script:
             - light.tv_overhead_left
             - light.end_table_left
             - light.end_table_right
-            - light.tv_floor_left
-            - light.tv_floor_right
           brightness: 255
           color_temp: 200
           transition: '{{transition}}'
+
+      - service: light.lifx_effect_colorloop
+        data:
+          entity_id:
+            - light.tv_floor_left
+            - light.tv_floor_right
+          brightness: 150
+          period: 5
+          spread: 25
+          change: 50
 
       - service: light.turn_on
         data_template:
@@ -160,7 +168,7 @@ script:
           entity_id: input_select.var_lks_bedroom
           option: 'prework_t10m'
 
-          
+
 ##########################################
 ########## GROUPS ########################
 ##########################################

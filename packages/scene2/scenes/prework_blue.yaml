@@ -37,7 +37,7 @@ script:
             - light.tv_floor_left
             - light.tv_floor_right
           brightness: 155
-          rgb_color: [0,24,103]
+          rgb_color: [0,115,156]
 
       - service: light.turn_on
         data_template:

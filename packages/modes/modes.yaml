@@ -21,6 +21,9 @@ homeassistant:
     input_boolean.option_mode_sleep:
       emulated_hue: true
       emulated_hue_name: "Sleep Mode"
+    input_boolean.option_mode_prework:
+      emulated_hue: true
+      emulated_hue_name: "Prework Mode"
 # switch:
 # lights:
 # binary_sensor:
@@ -149,6 +152,20 @@ automation:
       - service: homeassistant.turn_on
         entity_id: input_boolean.option_mode_silent
 
+#********** Pre-Work Mode  ***********#
+  - alias: mode_prework
+    trigger:
+      - platform: state
+        entity_id: input_boolean.option_mode_prework
+        to: 'on'
+    action:
+      # Turn Off - Normal Mode
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.option_mode_normal
+
+      # Turn Off - Timebased Lights
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.option_notify2_timebased_lights
 
 #********** Silent Mode  ***********#
   - alias: mode_silent
@@ -184,6 +201,9 @@ automation:
       # Turn On - Light Notifications
       - service: input_boolean.turn_on
         entity_id: input_boolean.option_notify2_lights
+      # Turn On - Timebased Lights
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.option_notify2_timebased_lights
       # Turn On - Chromecast Notifications
       - service: input_boolean.turn_on
         entity_id: input_boolean.option_notify2_chromecast
@@ -228,13 +248,18 @@ automation:
       # Turn Off - Sleep Mode
       - service: input_boolean.turn_off
         entity_id: input_boolean.option_mode_sleep
-
+      # Turn Off - Prework Mode
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.option_mode_prework
 
   # Mode - Normal Mode
   - alias: mode_normal_from_other_modes
     trigger:
       - platform: state
         entity_id: input_boolean.option_mode_guest
+        to: 'off'
+      - platform: state
+        entity_id: input_boolean.option_mode_prework
         to: 'off'
       - platform: state
         entity_id: input_boolean.option_mode_movie
@@ -352,6 +377,9 @@ input_boolean:
     initial: 'off'
     name: "Sleep Mode"
 
+  option_mode_prework:
+    initial: 'off'
+    name: "Prework Mode"
 ##########################################
 ########## STORED VARIABLES ##############
 ##########################################
@@ -380,6 +408,7 @@ group:
       - automation.mode_silent
       - automation.mode_normal
       - automation.mode_sleep
+      - automation.mode_prework
       - automation.mode_normal_set_other_modes
       - automation.mode_normal_from_other_modes
       - automation.mode_sleep_to_mode_normal
@@ -401,6 +430,7 @@ group:
       - input_boolean.option_mode_movie
       - input_boolean.option_mode_away
       - input_boolean.option_mode_sleep
+      - input_boolean.option_mode_prework
 
   # script_modes:
   #   entities:

@@ -519,6 +519,8 @@ input_boolean:
   option_notify2_timebased_lights:
     initial: on
 
+  option_notify2_prework_timebased_lights:
+    initial: on
 ##########################################
 ############### GROUPS ###################
 ##########################################
@@ -560,3 +562,4 @@ group:
       - input_boolean.option_notify2_chromecast
       - input_boolean.option_notify2_lights
       - input_boolean.option_notify2_timebased_lights
+      - input_boolean.option_notify2_prework_timebased_lights
