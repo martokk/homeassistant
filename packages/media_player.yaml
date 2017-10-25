@@ -385,6 +385,7 @@ input_select:
       - "YouTube"
       - "Spotify"
       - "Plex"
+      - "Chrome Mirroring"
 
   array_chromecast_idle_apps:
     options:

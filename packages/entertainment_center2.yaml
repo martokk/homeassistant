@@ -11,6 +11,19 @@ homeassistant:
     input_boolean.var_steam_on:
       emulated_hue: true
       emulated_hue_name: "Steam"
+
+    input_boolean.var_ps3_on:
+      emulated_hue: true
+      emulated_hue_name: "PS3"
+
+    script.ps3_turn_on:
+      emulated_hue: true
+      emulated_hue_name: "Playstation"
+
+    script.chromecast_turn_on:
+      emulated_hue: true
+      emulated_hue_name: "Chromecast"
+
 switch:
   - platform: mqtt
     name: ambivision
@@ -243,10 +256,7 @@ automation:
     action:
       - service: homeassistant.turn_on
         entity_id: input_boolean.var_ps3_on
-      - service: mqtt.publish
-        data:
-          topic: "device/eventghost/input_game"
-          payload: '1'
+      - service: script.ps3_turn_on
 
   - alias: ps3_turn_off
     trigger:
@@ -263,10 +273,9 @@ automation:
     action:
       - service: homeassistant.turn_off
         entity_id: input_boolean.var_ps3_on
-      - service: mqtt.publish
-        data:
-          topic: "device/eventghost/input_cbl"
-          payload: '1'
+      - service: script.chromecast_turn_on
+
+
   #********** STEAM ***************************************#
   - alias: steam_turn_on
     trigger:
