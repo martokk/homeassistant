@@ -41,6 +41,7 @@ script:
               It's probably best to keep your windows closed today.
             {% endif %}
 
+            <break time=".9s" />
             {% if states('sensor.iphone6s_battery') | int < 30 and states('sensor.iphone6s_battery') | int > 0 %}
               Your iPhone's battery is at {{ states('sensor.iphone6s_battery') | int }}%.
             {% endif %}
@@ -51,8 +52,9 @@ script:
               Your iPad's battery is at {{ states('sensor.ipad_battery') | int }}%.
             {% endif %}
 
+            <break time=".9s" />
             The current bitcoin price is ${{ states.sensor.bitcoin.state | round(0) }}
-          tts_pause_delay: '00:00:15'
+          tts_pause_delay: '00:00:17'
 
   timebased_telegram_summary:
     sequence:

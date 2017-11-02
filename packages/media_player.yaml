@@ -104,10 +104,10 @@ automation:
         entity_id: input_boolean.var_steam_on
         state: 'off'
       - condition: state
-        entity_id: media_player.vtv_chromecast
-        state: 'off'
-      - condition: state
         entity_id: input_boolean.option_chromecast_screensaver
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.var_chromecast_screensaver_ready
         state: 'on'
     action:
       - service: script.set_entertainment_center_tv_volume
