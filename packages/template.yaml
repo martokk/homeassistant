@@ -50,8 +50,11 @@
 #     entities:
 #       - automation.
 
-
 #   backend_change_me:
+#     entities:
+#       - input_boolean.
+
+#   hidden_change_me:
 #     entities:
 #       - input_boolean.
 
