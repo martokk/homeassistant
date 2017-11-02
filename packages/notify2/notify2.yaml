@@ -45,12 +45,6 @@ notify:
   #   platform: ios
   #   target: 'ef95be9c-abb9-3494-b2ec-16837a198b2f'
 
-telegram_bot:
-  platform: polling
-  api_key: !secret telegram_api_key
-  allowed_chat_ids:
-    - 343498992
-
 sensor:
   - platform: mqtt
     state_topic: "device/tts/last_message"
