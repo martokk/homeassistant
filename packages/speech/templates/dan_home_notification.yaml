@@ -1,0 +1,40 @@
+# >-
+# {% macro greeting() -%}
+#   {{ [
+#     "<phoneme alphabet='ipa' ph='kɑˈplɑʔ'>Qapla'!</phoneme> Commander Gappin.",
+#     "Live long, and prosper Commander Gappin."
+#   ] | random }}
+# {%- endmacro %}
+#
+# {% macro random_phrase() -%}
+#   {{ [
+#   "You may address our Captain with his prefered gender pronoun:
+#   <break time='.4s' />
+#   Dear Leader!
+#   <break time='.4s' />
+#   Dear Leader Vill-a-real!
+#   <break time='.4s' />
+#   Failure to do so may result in, arrest for crimes against the state per-su-ent to Article 14 Section 31, of the Starfleet Charter.",
+#
+#   "Please note that we will no longer be serving Klingon
+#     Rakta-jinos,<break time='.2s' />
+#     <prosody volume='x-loud'>Ghagh</prosody>,<break time='.3s' />
+#     Heart of Targh,<break time='.2s' />
+#     or Blood wine <break time='.2s' />
+#   due to accusations of cultural appropreation of the Klingon race. Starfleet would like to remind you that we believe...<break time='.2s' />
+#   Klingon lives matter!<break time='.9s' />
+#   However,<break time='.1s' /> Andorian Ale, will continue to be served. Starfleet has not yet released a statement reguarding if Blue lives matter. <break time='.2s' /> Stand-by for further updates."
+#
+#   ] | random }}
+# {%- endmacro %}
+#
+# <p>
+#   {{ greeting() }}
+#   Welcome aboard the U S S Von Me Sees, a Defiant Class Starfleet warship, under the most honourable, Captain Vill-a-real.
+# </p>
+# <p>
+#   {{ random_phrase() }}
+# </p>
+# <p>
+#   Please enjoy your visit aboard the U S S Von Me Sees.
+# </p>
