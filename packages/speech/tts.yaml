@@ -17,6 +17,7 @@ tts:
     aws_secret_access_key: !secret aws_secret_access_key
     region_name: 'us-east-2'
     voice: Joanna
+    text_type: ssml
 
 media_player:
   - platform: vlc
@@ -85,10 +86,127 @@ automation:
 ##########################################
 ########## SCRIPTS #######################
 ##########################################
-# script:
+script:
+  tts_test:
+    sequence:
+      - service: script.notify2
+        data:
+          tts_message: |
+            Here is a number <w role="amazon:VBD">read</w>
+            as a cardinal number:
+            <say-as interpret-as="cardinal">12345</say-as>.
+            Here is a word spelled out:
+            <say-as interpret-as="spell-out">hello</say-as>.
+
+            <break time=".9s" />
+
+            I want to tell you a secret.
+            <amazon:effect name="whispered">I am not a real human.</amazon:effect>.
+            Can you believe it?
+
+            <break time=".9s" />
+
+            I already told you I
+            <emphasis level="strong">really like</emphasis>
+            that person.
+
+            <break time=".9s" />
+
+            <p>This is the first paragraph. There should be a pause after this text is spoken.</p>
+            <p>This is the second paragraph.</p>
+
+            <break time=".9s" />
+
+            You say, <phoneme alphabet="ipa" ph="pɪˈkɑːn">pecan</phoneme>.
+            I say, <phoneme alphabet="ipa" ph="ˈpi.kæn">pecan</phoneme>.
+
+            You say, <phoneme alphabet="ipa" ph="qχɑpˈlɑʔ">Qapla'</phoneme>.
+            I say, <phoneme alphabet="ipa" ph="kɑˈplɑʔ">Qapla'</phoneme>. or. <phoneme alphabet="ipa" ph="kæpˈlæʔ">Qapla'</phoneme>.
+
+            <break time=".9s" />
+
+            Normal volume for the first sentence.
+            <prosody volume="x-loud">Louder volume for the second sentence</prosody>.
+            When I wake up, <prosody rate="x-slow">I speak quite slowly</prosody>.
+            I can speak with my normal pitch,
+            <prosody pitch="x-high"> but also with a much higher pitch </prosody>,
+            and also <prosody pitch="low">with a lower pitch</prosody>.
+
+            <break time=".9s" />
+
+            <s>This is a sentence</s>
+            <s>There should be a short pause before this second sentence</s>
+            This sentence ends with a period and should have the same pause.
+
+            <break time=".9s" />
+
+            Here is a number spoken as a cardinal number:
+            <say-as interpret-as="cardinal">12345</say-as>.
+            Here is the same number with each digit spoken separately:
+            <say-as interpret-as="digits">12345</say-as>.
+            Here is a word spelled out: <say-as interpret-as="spell-out">hello</say-as>
+
+            <break time=".9s" />
+
+            My favorite chemical element is <sub alias="aluminum">Al</sub>,
+            but Al prefers <sub alias="magnesium">Mg</sub>.
 
 
+            <break time=".9s" />
 
+            The word <say-as interpret-as="characters">read</say-as> may be interpreted
+            as either the present simple form <w role="amazon:VB">read</w>,
+            or the past participle form <w role="amazon:VBD">read</w>.
+
+            <break time=".9s" />
+
+            Amazon Polly SSML Demo is now complete.
+
+
+  tts_test2:
+    sequence:
+      - service: script.notify2
+        data_template:
+          tts_message: |
+            {% macro greeting() -%}
+              {{ [
+                "<phoneme alphabet='ipa' ph='kɑˈplɑʔ'>Qapla'!</phoneme> Commander Gappin.",
+                "Live long, and prosper Commander Gappin."
+              ] | random }}
+            {%- endmacro %}
+
+            {% macro random_phrase() -%}
+              {{ [
+              "You may address our Captain with his prefered gender pronoun:
+              <break time='.4s' />
+              Dear Leader!
+              <break time='.4s' />
+              Dear Leader Vill-a-real!
+              <break time='.4s' />
+              Failure to do so may result in, arrest for crimes against the state per-su-ent to Article 14 Section 31, of the Starfleet Charter.",
+
+              "Please note that we will no longer be serving Klingon
+                Rakta-jinos,<break time='.2s' />
+                <prosody volume='x-loud'>Ghagh</prosody>,<break time='.3s' />
+                Heart of Targh,<break time='.2s' />
+                or Blood wine <break time='.2s' />
+              due to accusations of culture appropreation of the Klingon race. Starfleet would like to remind you that we believe...<break time='.2s' />
+              Klingon lives matter!<break time='.4s' />"
+
+              ] | random }}
+            {%- endmacro %}
+            <speak>
+            <p>
+              {{ greeting() }}
+              Welcome aboard the U S S Von Me Sees, a Defiant Class Starfleet warship, under the most honourable, Captain Vill-a-real.
+            </p>
+            <p>
+              {{ random_phrase() }}
+            </p>
+            <p>
+              Please enjoy your visit aboard the U S S Von Me Sees.
+            </p>
+            </speak>
 
 # input_boolean:
 ##########################################
@@ -126,6 +244,7 @@ group:
   #   entities:
   #     - input_boolean.
 
-  # script_tts:
-  #   entities:
-  #     - script.
+  script_tts:
+    entities:
+      - script.tts_test
+      - script.tts_test2

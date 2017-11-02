@@ -416,7 +416,7 @@ script:
         {% endif %}
       data_template:
         entity_id: "{% if tts_entity_id %} {{ tts_entity_id }} {% else %} media_player.vlc {% endif %}"
-        message: '{{ tts_message }}'
+        message: '{% set speak = "<speak>" in tts_message %}{% if speak == false %}<speak>{% endif %}{{ tts_message }}{% if speak == false %}</speak>{% endif %}'
     - service: mqtt.publish
       data_template:
         topic: "device/tts/last_message"
