@@ -46,7 +46,23 @@ automation:
         entity_id: input_number.var_tv_entertainment_center_volume
         value: '{{ states.input_number.var_tv_entertainment_center_volume.state | int + 1 }}'
 
-  #********** CC Playing Volume Check ********************#
+  #********** Volume Check ********************#
+  - alias: device_volume_check
+    trigger:
+      - platform: state
+        entity_id: input_boolean.var_ps3_on
+        to: 'on'
+      - platform: state
+        entity_id: input_boolean.var_steam_on
+        to: 'on'
+    condition:
+      - condition: template
+        value_template: '{{ states.input_number.var_tv_entertainment_center_volume.state | int < 6 }}'
+    action:
+      - service: script.set_entertainment_center_tv_volume
+        data:
+          volume_level: 22
+
   - alias: chromecast_playing_volume_check
     trigger:
       - platform: state
@@ -327,6 +343,7 @@ group:
     entities:
       - automation.entertainment_center_tv_on_volume_sync
       - automation.chromecast_playing_volume_check
+      - automation.device_volume_check
       - automation.set_state_entertainment_center_tv_volume_down
       - automation.set_state_entertainment_center_tv_volume_up
 
