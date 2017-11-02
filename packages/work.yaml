@@ -39,21 +39,21 @@ sensor:
 ##########################################
 ########## SENSORS #######################
 ##########################################
-      now_hour:
-        value_template: '{{ now().hour | int }}'
-      now_minute:
-        value_template: '{{ now().minute | int }}'
+
 
       # Sensor: Determains if Mike "should" be at work based off time and day of week.
       mike_at_work:
+        entity_id:
+          - sensor.now_day
+          - sensor.now_hour
         value_template: >
           {% set work_week = states.sensor.var_mike_work_week.state %}
           {% set third_shift = states.sensor.var_mike_work_week_third_shift.state %}
           {% set third_shift_first_day = states.sensor.var_mike_work_week_third_shift_first_day.state %}
           {% set third_shift_last_day = states.sensor.var_mike_work_week_third_shift_last_day.state %}
 
-          {% set today = now().strftime("%a") | lower%}
-          {% set hour = now().hour %}
+          {% set today = states.sensor.now_day.state %}
+          {% set hour = states.sensor.now_hour.state %}
 
           {####### 3rd Shift ##########}
           {% if third_shift %}
@@ -93,11 +93,13 @@ sensor:
 
       # Sensor: Determains if today is a work day for Mike based off day of week.
       mike_work_day:
+        entity_id:
+          - sensor.now_day
         value_template: >
           {% set work_week = states.sensor.var_mike_work_week.state %}
           {% set third_shift = states.sensor.var_mike_work_week_third_shift.state %}
           {% set third_shift_last_day = states.sensor.var_mike_work_week_third_shift_last_day.state %}
-          {% set today = now().strftime("%a") | lower%}
+          {% set today = states.sensor.now_day.state %}
 
           {% if today in work_week %}
             {% if third_shift %}

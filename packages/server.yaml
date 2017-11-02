@@ -183,6 +183,14 @@ sensor:
       - 'time'
       - 'date'
 
+  - platform: template
+    sensors:
+      now_hour:
+        value_template: '{{ now().hour | int }}'
+      now_minute:
+        value_template: '{{ now().minute | int }}'
+      now_day:
+        value_template: '{{ now().strftime("%a") | lower }}'
 
   #********** HASS Version  ***********#
   - platform: command_line
@@ -882,3 +890,9 @@ group:
       - script.turn_on_all_automations
       - script.reset_overrides
       # - script.restart_eventghost
+
+  hidden_server:
+    entities:
+      - sensor.now_day
+      - sensor.now_hour
+      - sensor.now_minute
