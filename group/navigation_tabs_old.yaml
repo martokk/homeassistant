@@ -1,0 +1,192 @@
+  # dashboard:
+  #   view: yes
+  #   icon: mdi:speedometer
+  #   entities:
+  #   - group.today
+  #   - group.quick_scenes
+  #   - group.batteries
+  #   - group.upcoming_events
+  #   - group.bitcoin
+  #
+  # lights_view:
+  #   icon: mdi:lightbulb
+  #   view: yes
+  #   entities:
+  #   - group.living_room_lights
+  #   - group.office_lights
+  #   - group.kitchen_lights
+  #   - group.bedroom_lights
+  #   - group.scenes
+  #
+  # enviroment:
+  #   icon: mdi:thermometer-lines
+  #   view: yes
+  #   entities:
+  #   - group.fans
+  #   - group.air_conditioner
+  #   - group.motion_sensors
+  #   - group.humidity_sensors
+  #   - group.temperature_sensors
+  #   - group.weather_current
+  #   - group.weather_summary
+  #   - group.weather_details
+  #   - group.indoor_temperature_range_mode
+  #
+  # media:
+  #   icon: mdi:television-classic
+  #   view: yes
+  #   entities:
+  #   - group.vtv
+  #   - group.entertainment_center
+  #   - group.media_scenes
+  #   - group.ambivision
+  #
+  # network:
+  #   icon: mdi:lan
+  #   view: yes
+  #   entities:
+  #   - group.status_alert
+  #   - group.server_status
+  #   - group.downloads
+  #   - group.connection_speed
+  #   # - group.cloud_status
+  #   # - group.pihole
+  #   - group.iot_status
+  #
+  # config:
+  #   icon: mdi:settings
+  #   view: yes
+  #   entities:
+  #   - group.options_lights
+  #   - group.options_media_player
+  #
+  # options:
+  #   icon: mdi:settings
+  #   view: yes
+  #   entities:
+  #   - group.options_lights
+  #   - group.options_media_player
+  #   - group.options_notify2
+  #   - group.options_environment
+  #   - group.options_system
+  #   - group.options_alarms
+  #   - group.options_fans
+  #   - group.options_temperature_range_mode
+  #   - group.options_temperature_range
+  #   - group.options_air_conditioner
+  #   - group.options_residents
+  #   - group.options_modes
+  #   - group.options_motion_detection
+  #   - group.options_tts
+  #   - group.options_work
+  #
+  #
+  # backend:
+  #   icon: mdi:database
+  #   view: yes
+  #   entities:
+  #   - group.backend_volume_control
+  #   - group.backend_environment
+  #   - group.indoor_temperature_range_mode
+  #   - group.backend_server
+  #   - group.backend_fans
+  #   - group.backend_air_conditioner
+  #   - group.backend_room_states
+  #   - group.backend_entertainment_center
+  #   - group.backend_residents
+  #   - group.backend_user_presence
+  #   - group.backend_media_player
+  #   - group.backend_notify2
+  #   - group.backend_bitcoin
+  #   - group.backend_alarm
+  #   - group.backend_lights
+  #   - group.backend_scene2
+  #   - group.backend_timebased_summary
+  #   - group.backend_temperature_range_mode
+  #   - group.backend_weather
+  #   - group.backend_modes
+  #   - group.backend_motion_detection
+  #   - group.backend_tts
+  #   - group.backend_work
+  #
+  # # automations:
+  # #   icon: mdi:timetable
+  # #   view: yes
+  # #   entities:
+  # #   - group.automation_alarms
+  # #   - group.automation_bitcoin
+  # #   - group.automation_bose_remote
+  # #   - group.automation_calender
+  # #   - group.automation_devices
+  # #   - group.automation_entertainment_center
+  # #   - group.automation_environment
+  # #   - group.automation_ifttt
+  # #   - group.automation_lights
+  # #   - group.automation_media_player
+  # #   - group.automation_server
+  # #   - group.automation_timebased_telegram
+  # #   - group.automation_timebased
+  # #   - group.automation_user_presence
+  # #   - group.automation_notify2_lights
+  # #   - group.automation_notify2
+  # #   - group.automation_sonoff_box_fan1
+  # #   - group.automation_sonoff_entertainment_center
+  # #   - group.automation_silver_lamp
+  # #   - group.automation_small_desk_fan1
+  # #   - group.automation_tables
+  # #   - group.automation_office
+  # #   - group.automation_kitchen
+  # #   - group.automation_vcore_entertainment_center
+  # #   - group.automation_bedroom
+  # #   - group.automation_all_vcore_devices
+  # #   - group.automation_volume_control
+  # #   - group.automation_weather
+  # #   - group.automation_fans
+  # #   - group.automation_temperature_range_mode
+  # #   - group.automation_air_conditioner
+  # #   - group.automation_residents
+  # #   - group.automation_modes
+  # #   - group.automation_motion_detection
+  # #   - group.automation_tts
+  # #   - group.automation_work
+  # #
+  # # scripts:
+  # #   icon: mdi:script
+  # #   view: yes
+  # #   entities:
+  # #   - group.script_alarms
+  # #   - group.script_bitcoin
+  # #   - group.script_bose_remote
+  # #   - group.script_calender
+  # #   - group.script_devices
+  # #   - group.script_entertainment_center
+  # #   - group.script_environment
+  # #   - group.script_ifttt
+  # #   - group.script_lights
+  # #   - group.script_media_player
+  # #   - group.script_server
+  # #   - group.script_timebased_telegram
+  # #   - group.script_timebased
+  # #   - group.script_user_presence
+  # #   - group.script_notify2_lights
+  # #   - group.script_notify2
+  # #   - group.script_sonoff_box_fan1
+  # #   - group.script_sonoff_entertainment_center
+  # #   - group.script_silver_lamp
+  # #   - group.script_small_desk_fan1
+  # #   - group.script_tables
+  # #   - group.script_office
+  # #   - group.script_kitchen
+  # #   - group.script_vcore_entertainment_center
+  # #   - group.script_bedroom
+  # #   - group.script_all_vcore_devices
+  # #   - group.script_volume_control
+  # #   - group.script_air_conditioner
+  # #   - group.script_temperature_range_mode
+  # #   - group.script_residents
+  # #   - group.script_user_presence
+  # #   - group.script_modes
+  # #   - script.script_fans
+  # #   - group.script_motion_detection
+  # #   - group.script_tts
+  # #   - group.script_work

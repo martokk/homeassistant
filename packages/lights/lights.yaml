@@ -1,0 +1,555 @@
+##########################################
+########## COMPONENTS ####################
+##########################################
+light:
+  - platform: lifx
+
+#-----------------------------------------------------#
+
+automation:
+##########################################
+########## NOTIFICATIONS #################
+##########################################
+
+##########################################
+########## AUTOMATIONS ###################
+##########################################
+
+  #********** Kitchen Motion ***************************************#
+  - alias: turn_on_kitchen_lights_movement
+    trigger:
+    - platform: state
+      entity_id: input_boolean.var_kitchen_motion_on
+      from: 'off'
+      to: 'on'
+    action:
+    - service: script.turn_on
+      entity_id: script.kitchen_lights_timer_on
+
+  - alias: turn_off_kitchen_lights_no_movement_7sec
+    trigger:
+    - platform: state
+      entity_id: binary_sensor.kitchen_motion_sensor
+      from: 'on'
+      to: 'off'
+    action:
+    - service: homeassistant.turn_on
+      entity_id: script.kitchen_lights_timer_off
+
+  - alias: turn_on_kitchen_lights_sink_movement
+    trigger:
+      - platform: mqtt
+        topic: device/kitchen/pir3
+        payload: "1"
+    action:
+    - service: script.kitchen_lights_timer_day
+
+
+  #********** Set Variables ***************************************#
+  - alias: setMin_var_kitchen_delay
+    trigger:
+    - platform: state
+      entity_id: input_boolean.var_kitchen_motion_on
+      from: "off"
+      to: "on"
+      for:
+        seconds: 4
+    condition:
+    - condition: state
+      entity_id: binary_sensor.kitchen_mqtt_button
+      state: 'off'
+      for:
+        seconds: 300
+    action:
+    - service: input_number.set_value
+      data_template:
+        entity_id: input_number.var_kitchen_delay
+        value: 6
+
+  - alias: setMid_var_kitchen_delay
+    trigger:
+    - platform: state
+      entity_id: input_boolean.var_kitchen_motion_on
+      to: "on"
+      for:
+        seconds: 30
+    condition:
+    - condition: state
+      entity_id: binary_sensor.kitchen_mqtt_button
+      state: 'off'
+      for:
+        seconds: 300
+    action:
+    - service: input_number.set_value
+      data_template:
+        entity_id: input_number.var_kitchen_delay
+        value: 15
+
+  - alias: setMax_var_kitchen_delay
+    trigger:
+    - platform: state
+      entity_id: input_boolean.var_kitchen_motion_on
+      to: "on"
+      for:
+        seconds: 90
+    condition:
+    - condition: state
+      entity_id: binary_sensor.kitchen_mqtt_button
+      state: 'off'
+      for:
+        seconds: 300
+    action:
+    - service: input_number.set_value
+      data_template:
+        entity_id: input_number.var_kitchen_delay
+        value: 60
+
+
+
+  #********** Bedroom Motion ***************************************#
+  # - alias: bedroom_motion_turn_on_lights
+  #   trigger:
+  #   - platform: state
+  #     entity_id: binary_sensor.bedroom_motion_sensor
+  #     from: 'off'
+  #     to: 'on'
+  #   action:
+  #   - service: light.turn_on
+  #     entity_id: light.sonoff_silver_lamp
+  #   - service: input_select.select_option
+  #     data:
+  #       entity_id: input_select.bedroom_led_effect
+  #       option: 'Static'
+  #   - service: light.turn_on
+  #     data:
+  #       entity_id: light.bedroom_led_strip
+  #       brightness: 25
+  #       rgb_color: [255, 175, 125]
+  #
+  #
+  # - alias: bedroom_motion_turn_off_lights
+  #   trigger:
+  #   - platform: state
+  #     entity_id: binary_sensor.bedroom_motion_sensor
+  #     from: 'on'
+  #     to: 'off'
+  #     # for:
+  #     #   minutes: 5
+  #   action:
+  #   - service: script.call_last_known_scene
+        # data:
+        #     rooms: 'bedroom'
+
+
+
+  #********** Enterainment Center Motion ***************************************#
+  - alias: entertainment_center_motion_turn_on_lights
+    trigger:
+    - platform: state
+      entity_id: input_boolean.var_entertainment_center_motion_on
+      from: 'off'
+      to: 'on'
+    condition:
+      condition: or
+      conditions:
+        - condition: template
+          value_template: '{% if states.input_select.var_lks_livingroom.state == "off" %} true {%endif%}'
+    action:
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.entertainment_center_led_effect
+        option: 'Static'
+    - service: light.turn_on
+      data:
+        entity_id: light.entertainment_center_led_strip
+        brightness: 50
+        rgb_color: [150, 1, 0]
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.tables_led_effect
+        option: 'Static'
+    - service: light.turn_on
+      data:
+        entity_id: light.tables_led_strip
+        brightness: 50
+        rgb_color: [150, 1, 0]
+    - service: light.turn_on
+      data:
+        entity_id: light.office_led_strip
+        brightness: 50
+        rgb_color: [150, 1, 0]
+
+  - alias: entertainment_center_motion_turn_off_lights
+    trigger:
+    - platform: state
+      entity_id: binary_sensor.entertainment_center_motion_sensor
+      from: 'on'
+      to: 'off'
+    condition:
+      condition: or
+      conditions:
+        - condition: template
+          value_template: '{% if states.input_select.var_lks_livingroom.state == "off" %} true {%endif%}'
+    action:
+    - service: light.turn_off
+      entity_id: light.entertainment_center_led_strip
+    - service: light.turn_off
+      entity_id: light.tables_led_strip
+    - service: light.turn_off
+      entity_id: light.office_led_strip
+
+#-----------------------------------------------------#
+
+##########################################
+########## SCRIPTS #######################
+##########################################
+script:
+  #********** SceneGen ***************************************#
+  # scenegen:
+  #   alias: "SceneGen: Save Scene"
+  #   sequence:
+  #   - service: shell_command.scenegen
+
+  #**********  Kitchen Motion Lights ***************************************#
+  kitchen_lights_timer_on:
+    sequence:
+    - service: script.turn_off
+      entity_id: script.kitchen_lights_timer_off
+    - service: script.kitchen_lights_on
+
+
+  kitchen_lights_on: #### NOTE: CALLED FROM ABOVE FUNCTION (Note the name differences)
+    sequence:
+    # - condition: state
+    #   entity_id: input_boolean.var_kitchen_motion_on
+    #   state: 'off'
+    - service: script.turn_on
+      data_template:
+        entity_id: >-
+
+          {% if states.input_select.var_lks_kitchen.state in states.input_select.array_day_scenes.attributes.options %}
+            script.kitchen_lights_timer_day
+          {% elif states.input_select.var_lks_kitchen.state in states.input_select.array_low_light_scenes.attributes.options  %}
+            script.kitchen_lights_timer_low_light
+          {%else%}
+            {% if states.automation.turn_off_kitchen_lights_no_movement_7sec.attributes.last_triggered %}
+              {% if (as_timestamp(now())-as_timestamp(states.automation.turn_off_kitchen_lights_no_movement_7sec.attributes.last_triggered)) > 30  %}
+                script.kitchen_lights_timer_warm
+              {% else %}
+                script.kitchen_lights_timer_bright_dynamic
+              {% endif %}
+            {%else%}
+              script.kitchen_lights_timer_warm
+            {%endif%}
+          {%endif %}
+
+
+  kitchen_lights_timer_off:
+    sequence:
+    - delay: >-
+        {% if states.input_number.var_kitchen_delay.state | int > 6 %}
+          {% print "%02d:%02d:%02d" % (states.input_number.var_kitchen_delay.state | int  // 60 // 60, states.input_number.var_kitchen_delay.state | int  // 60 % 60, states.input_number.var_kitchen_delay.state | int  % 60) %}
+        {%else%}
+          00:00:06
+        {%endif%}
+    - service: input_number.set_value
+      data_template:
+        entity_id: input_number.var_kitchen_brightness
+        value: '{{ states.light.kitchen_right.attributes.brightness }}'
+    - service: input_number.set_value
+      data_template:
+        entity_id: input_number.var_kitchen_color_temp
+        value: '{{ states.light.kitchen_right.attributes.color_temp }}'
+    - service: script.turn_off
+      data:
+        entity_id: script.kitchen_lights_timer_on
+    - service: script.turn_off
+      data:
+        entity_id: script.kitchen_lights_timer_warm
+    - service: script.turn_off
+      data:
+        entity_id: script.kitchen_lights_timer_day
+    - service: script.turn_off
+      data:
+        entity_id: script.kitchen_lights_timer_bright_dynamic
+    - service: script.turn_off
+      data:
+        entity_id: script.kitchen_lights_timer_bright_long
+    - service: input_boolean.turn_off
+      data:
+        entity_id: input_boolean.var_kitchen_motion_on
+    - service: script.call_last_known_scene
+      data_template:
+        rooms: 'kitchen'
+
+
+  kitchen_lights_timer_warm:
+    sequence:
+    - service: light.turn_on
+      data:
+        entity_id:
+          - light.kitchen_left
+          - light.kitchen_right
+        brightness: 135
+        color_temp: 250
+        transition: 0
+    - service: input_number.set_value
+      data:
+        entity_id: input_number.var_kitchen_brightness
+        value: 135
+    - service: input_number.set_value
+      data:
+        entity_id: input_number.var_kitchen_color_temp
+        value: 250
+    - delay: '00:00:07'
+    - service: script.turn_on
+      entity_id: script.kitchen_lights_timer_bright_long
+
+  kitchen_lights_timer_low_light:
+    sequence:
+    - service: light.turn_on
+      data:
+        entity_id:
+          - light.kitchen_left
+          - light.kitchen_right
+        brightness: 100
+        color_temp: 250
+        transition: 0
+    - service: input_number.set_value
+      data:
+        entity_id: input_number.var_kitchen_brightness
+        value: 100
+    - service: input_number.set_value
+      data:
+        entity_id: input_number.var_kitchen_color_temp
+        value: 250
+    - delay: '00:00:03'
+    - service: script.turn_on
+      entity_id: script.kitchen_lights_timer_bright_long
+
+
+  kitchen_lights_timer_day:
+    sequence:
+    - service: light.turn_on
+      data:
+        entity_id:
+          - light.kitchen_left
+          - light.kitchen_right
+        brightness: 255
+        color_temp: 200
+        transition: 1
+    - service: input_number.set_value
+      data_template:
+        entity_id: input_number.var_kitchen_delay
+        value: 50
+    - service: input_number.set_value
+      data_template:
+        entity_id: input_number.var_kitchen_brightness
+        value: 255
+
+
+  kitchen_lights_timer_bright_dynamic:
+    sequence:
+    - service: light.turn_on
+      data:
+        entity_id:
+          - light.kitchen_left
+          - light.kitchen_right
+        transition: 0
+      data_template:
+        color_temp: >
+          {% if states("input_number.var_kitchen_color_temp") %}
+            {%if states("input_number.var_kitchen_color_temp") | int < 250 %}
+              {{ states("input_number.var_kitchen_color_temp") | int }}
+            {%else%}
+              250
+            {%endif%}
+          {%else%}
+            250
+          {%endif%}
+        brightness: >
+          {% if states("input_number.var_kitchen_brightness") %}
+            {%if states("input_number.var_kitchen_brightness") | int > 135 %}
+              {{ states("input_number.var_kitchen_brightness") | int }}
+            {%else%}
+              135
+            {%endif%}
+          {%else%}
+            135
+          {%endif%}
+    - delay: '00:00:01'
+    - service: script.turn_on
+      entity_id: script.kitchen_lights_timer_bright_long
+
+
+  kitchen_lights_timer_bright_long:
+    sequence:
+    - service: light.turn_on
+      data:
+        entity_id:
+          - light.kitchen_left
+          - light.kitchen_right
+          # - light.office_led_strip
+        brightness: 255
+        color_temp: 200
+      data_template:
+        transition: '20'
+
+#-----------------------------------------------------#
+
+# input_boolean:
+##########################################
+########## BACKEND #######################
+##########################################
+input_number:
+  var_kitchen_delay: #in Seconds
+    initial: 7
+    min: 1
+    max: 900
+    step: 1
+
+  var_kitchen_brightness: #in Seconds
+    min: 1
+    max: 255
+    step: 1
+
+  var_kitchen_color_temp: #in Seconds
+    min: 1
+    max: 1000
+    step: 1
+
+##########################################
+########## OPTIONS #######################
+##########################################
+
+##########################################
+########## CONFIG ########################
+##########################################
+
+#-----------------------------------------------------#
+
+# homeassistant:
+#   customize:
+##########################################
+########## EMULATED HUE ##################
+##########################################
+    # input_boolean.template:
+    #   emulated_hue: true
+    #   emulated_hue_name: "Template Name"
+
+#-----------------------------------------------------#
+
+group:
+##########################################
+############### GROUPS ###################
+##########################################
+  ambient_lights:
+    name: "Ambient"
+    entities:
+    - light.end_table_left
+    - light.end_table_right
+    - light.tv_floor_left
+    - light.tv_floor_right
+    - light.office_led_strip
+    - light.tables_led_strip
+    - light.entertainment_center_led_strip
+    - light.bedroom_led_strip
+
+  tv_lights:
+    name: "TV Lights"
+    entities:
+    - light.tv_overhead_left
+    - light.tv_overhead_right
+    - light.tv_floor_left
+    - light.tv_floor_right
+    - light.entertainment_center_led_strip
+
+  overhead_lights:
+    name: "Overhead"
+    entities:
+    - light.living_room_overhead
+    - light.tv_overhead_left
+    - light.tv_overhead_right
+    - light.office_left
+    - light.office_center
+    - light.office_right
+
+  timebased_hourly_flash_lights:
+    name: "Timebased - Hourly Flash Lights"
+    entities:
+    - light.living_room_overhead
+    - light.tv_overhead_left
+    - light.tv_overhead_right
+    - light.office_left
+    - light.office_center
+    - light.office_right
+    - light.bedroom_led_strip
+
+  timebased_flood_lights:
+    name: "Timebased - Hourly Flash Lights"
+    entities:
+    - light.living_room_overhead
+    - light.tv_overhead_left
+    - light.tv_overhead_right
+    - light.office_left
+    - light.office_center
+    - light.office_right
+    - light.bedroom_led_strip
+    - light.end_table_left
+    - light.end_table_right
+    - light.tv_floor_left
+    - light.tv_floor_right
+    - light.tables_led_strip
+    - light.entertainment_center_led_strip
+    - light.office_led_strip
+
+##########################################
+############### AUTO-GROUPS ##############
+##########################################
+  automation_lights:
+    entities:
+      - automation.turn_on_kitchen_lights_movement
+      - automation.turn_off_kitchen_lights_no_movement_7sec
+      - automation.turn_on_kitchen_lights_sink_movement
+      - automation.setMin_var_kitchen_delay
+      - automation.setMid_var_kitchen_delay
+      - automation.setMax_var_kitchen_delay
+      - automation.bedroom_motion_turn_on_lights
+      - automation.bedroom_motion_turn_off_lights
+      - automation.entertainment_center_motion_turn_on_lights
+      - automation.entertainment_center_motion_turn_off_lights
+
+  backend_lights:
+    entities:
+      - input_number.var_kitchen_brightness
+      - input_number.var_kitchen_color_temp
+      - input_number.var_kitchen_delay
+
+#   config_lights:
+#     entities:
+#       - input_boolean.
+
+  hidden_lights:
+    entities:
+      - script.kitchen_lights_timer_on
+      - script.kitchen_lights_timer_off
+      - script.kitchen_lights_timer_warm
+      - script.kitchen_lights_timer_bright
+      - script.kitchen_lights_timer_bright_dynamic
+      - script.kitchen_lights_timer_bright_long
+      - script.kitchen_lights_timer_day
+
+#   options_lights:
+#     entities:
+#       - input_boolean.
+
+  script_lights:
+    entities:
+      - script.kitchen_lights_timer_on
+      - script.kitchen_lights_on
+      - script.kitchen_lights_timer_off
+      - script.kitchen_lights_timer_warm
+      - script.kitchen_lights_timer_low_light
+      - script.kitchen_lights_timer_day
+      - script.kitchen_lights_timer_bright_dynamic
+      - script.kitchen_lights_timer_bright_long

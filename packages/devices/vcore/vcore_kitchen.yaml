@@ -1,0 +1,249 @@
+##########################################
+########## COMPONENTS ####################
+##########################################
+light:
+  - platform: mqtt
+    name: "Kitchen LED Strip"
+    command_topic: "device/kitchen/led1/power"
+    state_topic: "device/kitchen/led1/power/pub"
+    rgb_command_topic: "device/kitchen/led1/color"
+    rgb_state_topic: "device/kitchen/led1/color/pub"
+    brightness_command_topic: "device/kitchen/led1/brightness"
+    brightness_state_topic: "device/kitchen/led1/brightness/pub"
+    optimistic: false
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: true
+
+binary_sensor:
+  - platform: mqtt
+    name: "Kitchen Motion Sensor"
+    state_topic: "device/kitchen/pir1"
+    device_class: motion
+    payload_on: "1"
+    payload_off: "0"
+
+  - platform: mqtt
+    name: "Sink Motion Sensor"
+    state_topic: "device/kitchen/pir3"
+    device_class: motion
+    payload_on: "1"
+    payload_off: "0"
+
+  - platform: mqtt
+    name: "Kitchen MQTT Button"
+    state_topic: "device/kitchen/button1"
+    payload_on: "1"
+    payload_off: "0"
+
+sensor:
+  - platform: mqtt
+    name: "Kitchen Temperature"
+    state_topic: "device/kitchen/temperature"
+    qos: 0
+    unit_of_measurement: "ºF"
+    expire_after: 900
+
+  - platform: mqtt
+    name: "Kitchen Humidity"
+    state_topic: "device/kitchen/humidity"
+    qos: 0
+    unit_of_measurement: "%"
+    expire_after: 900
+
+#-----------------------------------------------------#
+
+automation:
+##########################################
+########## NOTIFICATIONS #################
+##########################################
+
+##########################################
+########## AUTOMATIONS ###################
+##########################################
+  - alias: kitchen_leds_input_effects
+    trigger:
+      - platform: state
+        entity_id: input_select.kitchen_led_effect
+    action:
+      - service: mqtt.publish
+        data_template:
+          topic: "device/kitchen/led1/effect"
+          payload: >
+            {% for opt in states.input_select.kitchen_led_effect.attributes.options -%}
+              {% if trigger.to_state.state | string == opt %}
+                {{loop.index - 1}}
+              {%endif%}
+            {%- endfor -%}
+
+  - alias: kitchen_leds_animation_speed
+    trigger:
+      - platform: state
+        entity_id: input_number.kitchen_animation_speed
+    action:
+      - service: mqtt.publish
+        data_template:
+          topic: "device/kitchen/led1/speed"
+          payload: '{{ trigger.to_state.state | int }}'
+
+  - alias: mqtt_button_setMax_var_kitchen_delay
+    trigger:
+    - platform: state
+      entity_id: binary_sensor.kitchen_mqtt_button
+      to: "on"
+    action:
+      - service: light.turn_on
+        data_template:
+          entity_id:
+            - light.kitchen_left
+            - light.kitchen_right
+          brightness: 255
+          color_temp: 200
+          transition: 1
+      - service: light.turn_on
+        data_template:
+          entity_id: light.kitchen_led_strip
+          brightness: 150
+          rgb_color: [255, 175, 125]
+          transition: 1
+      - service: input_select.select_option
+        data:
+          entity_id: input_select.kitchen_led_effect
+          option: 'Static'
+
+      - service: input_number.set_value
+        data_template:
+          entity_id: input_number.var_kitchen_delay
+          value: 300
+
+#-----------------------------------------------------#
+
+# script:
+##########################################
+########## SCRIPTS #######################
+##########################################
+
+#-----------------------------------------------------#
+
+# input_boolean:
+##########################################
+########## BACKEND #######################
+##########################################
+
+##########################################
+########## OPTIONS #######################
+##########################################
+
+##########################################
+########## CONFIG #######################
+##########################################
+input_number:
+  kitchen_animation_speed:
+    name: Kitchen Animation Speed
+    min: 0
+    max: 255
+    step: 5
+
+input_select:
+  kitchen_led_effect:
+    name: Kitchen LED Effect
+    options:
+      - "Static"
+      - "Blink"
+      - "Breath"
+      - "Color Wipe"
+      - "Color Wipe Random"
+      - "Random Color"
+      - "Single Dynamic"
+      - "Multi Dynamic"
+      - "Rainbow"
+      - "Rainbow Cycle"
+      - "Scan"
+      - "Dual Scan"
+      - "Fade"
+      - "Theater Chase"
+      - "Theater Chase Rainbow"
+      - "Running Lights"
+      - "Twinkle"
+      - "Twinkle Random"
+      - "Twinkle Fade"
+      - "Twinkle Fade Random"
+      - "Sparkle"
+      - "Flash Sparkle"
+      - "Hyper Sparkle"
+      - "Strobe"
+      - "Strobe Rainbow"
+      - "Multi Strobe"
+      - "Blink Rainbow"
+      - "Chase White"
+      - "Chase Color"
+      - "Chase Random"
+      - "Chase Rainbow"
+      - "Chase Flash"
+      - "Chase Flash Random"
+      - "Chase Rainbow White"
+      - "Chase Blackout"
+      - "Chase Blackout Rainbow"
+      - "Color Sweep Random"
+      - "Running Color"
+      - "Running Red Blue"
+      - "Running Random"
+      - "Larson Scanner"
+      - "Comet"
+      - "Fireworks"
+      - "Fireworks Random"
+      - "Merry Christmas"
+      - "Fire Flicker"
+      - "Fire Flicker (soft)"
+      - "vHome Wipe to Random"
+      - "vHome Wipe to White"
+      - "vHome Breathe"
+    initial: "Static"
+
+#-----------------------------------------------------#
+
+# homeassistant:
+#   customize:
+##########################################
+########## EMULATED HUE ##################
+##########################################
+    # input_boolean.template:
+    #   emulated_hue: true
+    #   emulated_hue_name: "Template Name"
+
+#-----------------------------------------------------#
+
+group:
+##########################################
+############### GROUPS ###################
+##########################################
+
+##########################################
+############### AUTO-GROUPS ##############
+##########################################
+  automation_vcore_kitchen:
+    entities:
+      - automation.kitchen_leds_input_effects
+      - automation.kitchen_leds_animation_speed
+      - automation.mqtt_button_setMax_var_kitchen_delay
+
+#   backend_vcore_kitchen:
+#     entities:
+#       - input_boolean.
+
+  config_vcore_kitchen:
+    entities:
+      - input_number.kitchen_leds_animation_speed
+      - input_select.kitchen_led_effect
+
+#   hidden_vcore_kitchen:
+#     entities:
+#       - input_boolean.
+
+#   options_vcore_kitchen:
+#     entities:
+#       - input_boolean.
+
+#   script_vcore_kitchen:
+#     entities:
+#       - script.

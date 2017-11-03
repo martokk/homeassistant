@@ -1,0 +1,128 @@
+sensor:
+
+  - platform: template
+    sensors:
+##########################################
+########## WORK SHIFT ####################
+##########################################
+## NOTE: Only Change the 'User Settings'. Everything else is dynamicaly calculated using these variables.
+      # Exact time I leave the house for work
+      var_mike_leave_for_work_hour:
+        value_template: '17'
+      var_mike_leave_for_work_minute:
+        value_template: '45'
+
+      # Exact hours that work starts and ends
+      var_mike_work_start_hour:
+        value_template: '18'
+      var_mike_work_end_hour:
+        value_template: '5'
+
+      # Exact Days that I am at work. If Third Shift, include the day that you get off last.
+      var_mike_work_week:
+        value_template: "['mon', 'tue', 'wed', 'thu', 'fri']"
+      var_mike_work_week_third_shift:
+        value_template: 'true'
+      var_mike_work_week_third_shift_first_day:
+        value_template: "mon"
+      var_mike_work_week_third_shift_last_day:
+        value_template: "fri"
+
+##########################################
+########## BITCOIN #######################
+##########################################
+      config_bitcoin_notification_price_threshold:
+        value_template: '150'
+
+input_select:
+  array_favorite_cyptos:
+    options:
+      - "bitcoin"
+      - "ethereum"
+      - "steem"
+      - "siacoin"
+
+
+##########################################
+########## TIMEBASED SUMMARY #############
+##########################################
+
+  array_timebased_summary_times:
+    options:
+      - "02:30"
+      - "06:00"
+      - "13:00"
+      - "17:00"
+      - "22:30"
+      - "23:20"
+
+
+##########################################
+########## PREWORK CHECKLISTS ############
+##########################################
+
+  config_array_prework_checklist_t2h:
+    options:
+      - "Shower"
+      - "Clear Eyes"
+      - "Deodorant"
+      - "Cologne"
+      - "Vitamins"
+      - "Clean up"
+      - "Ready Lunch"
+      - "Eat Something"
+
+  config_array_prework_checklist_t1h:
+    options:
+      - "Fill e-Cig"
+      - "Download Podcasts"
+      - "Pack Lunch into EDC"
+      - "Ready EDC Backpack"
+      - "Finish Smoking/Coffee"
+      - "Check Clean Shave"
+      - "Finish Hair"
+      - "Brush Teeth"
+      - "Clear Eyes (Use and Pack)"
+      - "Check Shirt/Pants Stains"
+      - "(1) Spray of Cologne"
+      - "Take Piss"
+      - "Final Check (You __should__ be ready to leave)"
+
+  config_array_prework_checklist_dont_forget:
+    options:
+      - "Cigarrettes"
+      - "Lighter"
+      - "Vape"
+      - "Wallet"
+      - "ID Badge"
+      - "iPhone"
+      - "Apple Watch"
+      - "Keys"
+
+group:
+##########################################
+########## TTS ###########################
+##########################################
+
+  # MAIN TTS GROUP - List of all TTS Devices for TTS Notifications
+  tts_devices:
+    name: "TTS Devices"
+    entities:
+      - media_player.vlc
+
+##########################################
+########## USER PRESENCE #################
+##########################################
+  residents: # Used in automations
+    entities:
+    - input_boolean.var_mike_home
+    - input_boolean.var_dan_home
+    - input_boolean.var_override_home
+
+  guests: # Used in automations
+    entities:
+    - input_boolean.var_dummy_home
+
+  smoking_guests: # Used in automations
+    entities:
+    - input_boolean.var_dan_home

@@ -1,0 +1,276 @@
+##########################################
+########## COMPONENTS ####################
+##########################################
+sensor:
+  - platform: coinmarketcap
+    currency: bitcoin
+  - platform: coinmarketcap
+    currency: ethereum
+  - platform: coinmarketcap
+    currency: ripple
+  - platform: coinmarketcap
+    currency: litecoin
+  - platform: coinmarketcap
+    currency: ethereum-classic
+  - platform: coinmarketcap
+    currency: dash
+  - platform: coinmarketcap
+    currency: bitshares
+  - platform: coinmarketcap
+    currency: monero
+  - platform: coinmarketcap
+    currency: stratis
+  - platform: coinmarketcap
+    currency: siacoin
+  - platform: coinmarketcap
+    currency: steem
+  - platform: coinmarketcap
+    currency: factom
+  - platform: coinmarketcap
+    currency: counterparty
+  - platform: coinmarketcap
+    currency: potcoin
+  - platform: coinmarketcap
+    currency: peerplays-ppy
+
+
+  - platform: template
+    sensors:
+      bitcoin_percent_change_24h:
+        friendly_name: 'Percent Change 24h'
+        value_template: >-
+            {%- if states.sensor.bitcoin %}
+                {{ states.sensor.bitcoin.attributes.percent_change_24h }}
+            {% else %}
+
+            {%- endif %}
+        unit_of_measurement: '%'
+
+      bitcoin_percent_change_7d:
+        friendly_name: 'Percent Change 7d'
+        value_template: >-
+            {%- if states.sensor.bitcoin %}
+                {{ states.sensor.bitcoin.attributes.percent_change_7d }}
+            {% else %}
+
+            {%- endif %}
+        unit_of_measurement: '%'
+
+#-----------------------------------------------------#
+
+automation:
+##########################################
+############### NOTIFICATIONS ############
+##########################################
+  - alias: bitcoin_up
+    trigger:
+      # - platform: numeric_state
+      #   entity_id: sensor.bitcoin_percent_change_24h
+      #   above: 2
+      - platform: template
+        value_template: '{{ states.sensor.bitcoin.state | round(0) | int > states.input_number.var_last_known_bitcoin_price.state | int  + states.sensor.config_bitcoin_notification_price_threshold.state | int }}'
+    action:
+      - service: script.notify2
+        data_template:
+          telegram_message: |
+            *Bitcoin: ${{ states.sensor.bitcoin.state | round(0) }}*
+            24h: {{ states.sensor.bitcoin_percent_change_24h.state | round(1) }}%
+            7d:  {{ states.sensor.bitcoin_percent_change_7d.state | round(1) }}%
+          telegram_url: http://bitcoincharts.com/charts/chart.png?width=848&height=480&m=bitstampUSD&SubmitButton=Draw&r=2&i=5-min&c=0&s=&e=&Prev=&Next=&t=C&b=&a1=&m1=10&a2=&m2=25&x=0&i1=&i2=&i3=&i4=&v=1&cv=0&ps=0&l=0&p=0&
+          flood_color: "cyan"
+          blink_color: "gold"
+          blink_color2: "green"
+          chromecast_entity_id: media_player.vtv_chromecast
+          chromecast_link: http://bitcoincharts.com/charts/chart.png?width=848&height=480&m=bitstampUSD&SubmitButton=Draw&r=2&i=5-min&c=0&s=&e=&Prev=&Next=&t=C&b=&a1=&m1=10&a2=&m2=25&x=0&i1=&i2=&i3=&i4=&v=1&cv=0&ps=0&l=0&p=0&
+          tts_entity_id: group.tts_devices
+          tts_sound: 'other/smb_coin.wav'
+          tts_message: "Bitcoin's up! The current bitcoin price is ${{ states.sensor.bitcoin.state | round(0) }}"
+          tts_pause_delay: "00:00:07"
+      - service: input_number.set_value
+        data_template:
+          entity_id: input_number.var_last_known_bitcoin_price
+          value: '{{ states.sensor.bitcoin.state | round(0) }}'
+
+  - alias: bitcoin_down
+    trigger:
+      # - platform: numeric_state
+      #   entity_id: sensor.bitcoin_percent_change_24h
+      #   below: -2
+      - platform: template
+        value_template: '{{ states.sensor.bitcoin.state | round(0) | int  < states.input_number.var_last_known_bitcoin_price.state | int  - states.sensor.config_bitcoin_notification_price_threshold.state | int }}'
+    action:
+      - service: script.notify2
+        data_template:
+          telegram_message: |
+            *Bitcoin: ${{ states.sensor.bitcoin.state | round(2) }}*
+            24h: {{ states.sensor.bitcoin_percent_change_24h.state | round(1) }}%
+            7d:  {{ states.sensor.bitcoin_percent_change_7d.state | round(1) }}%
+          telegram_url: http://bitcoincharts.com/charts/chart.png?width=848&height=480&m=bitstampUSD&SubmitButton=Draw&r=2&i=5-min&c=0&s=&e=&Prev=&Next=&t=C&b=&a1=&m1=10&a2=&m2=25&x=0&i1=&i2=&i3=&i4=&v=1&cv=0&ps=0&l=0&p=0&
+          flood_color: "cyan"
+          blink_color: "gold"
+          blink_color2: "red"
+          chromecast_entity_id: media_player.vtv_chromecast
+          chromecast_link: http://bitcoincharts.com/charts/chart.png?width=848&height=480&m=bitstampUSD&SubmitButton=Draw&r=2&i=5-min&c=0&s=&e=&Prev=&Next=&t=C&b=&a1=&m1=10&a2=&m2=25&x=0&i1=&i2=&i3=&i4=&v=1&cv=0&ps=0&l=0&p=0&
+          tts_entity_id: group.tts_devices
+          tts_sound: 'other/smb_coin.wav'
+          tts_message: "Bitcoin's down! The current bitcoin price is ${{ states.sensor.bitcoin.state | round(0) }}"
+          tts_pause_delay: "00:00:07"
+      - service: input_number.set_value
+        data_template:
+          entity_id: input_number.var_last_known_bitcoin_price
+          value: '{{ states.sensor.bitcoin.state | round(0) }}'
+
+##########################################
+########## AUTOMATIONS ###################
+##########################################
+
+#-----------------------------------------------------#
+
+##########################################
+########## SCRIPTS #######################
+##########################################
+script:
+  chromecast_bitcoin_chart:
+    sequence:
+    - service: script.notify2
+      data_template:
+        chromecast_entity_id: media_player.vtv_chromecast
+        chromecast_link: http://bitcoincharts.com/charts/chart.png?width=848&height=480&m=bitstampUSD&SubmitButton=Draw&r=2&i=5-min&c=0&s=&e=&Prev=&Next=&t=C&b=&a1=&m1=10&a2=&m2=25&x=0&i1=&i2=&i3=&i4=&v=1&cv=0&ps=0&l=0&p=0&
+        tts_entity_id: group.tts_devices
+        tts_sound: 'other/smb_coin.wav'
+        tts_message: "The current bitcoin price is ${{ states.sensor.bitcoin.state | round(0) }}"
+        tts_pause_delay: "00:00:07"
+
+  coinmarketcap_summary:
+    sequence:
+    - service: script.notify2
+      data_template:
+        telegram_message: >
+          {%-for entity in states.group.coinmarketcap.attributes.entity_id -%}
+            {%- set coin = states.sensor[entity[7:]].attributes.symbol -%}
+            {%- set coin_loopid = 1 -%}
+            {%- set coin_empty_space = 8 - coin  |  string | title | length -%}
+            {%- set usd =  states(entity) -%}
+            {%- set usd_loopid = 1 -%}
+            {%- set usd_empty_space = 8 - usd  |  string | title | length -%}
+
+            {%- set mbtc =  states.sensor[entity[7:]].attributes.price_mbtc -%}
+            {%- set mbtc_loopid = 1 -%}
+            {%- set mbtc_empty_space = 8- mbtc  |  string | title | length -%}
+            ``` {{coin}}  {%- for coin_loopid in range(1, coin_empty_space) %} {% endfor -%} {% for usd_loopid in range(1, usd_empty_space) %} {% endfor -%}${{ usd }} {% for mbtc_loopid in range(1, mbtc_empty_space) %} {% endfor -%}{{ mbtc }}m฿```
+          {% endfor -%}
+        disable_notification: '{% if disable_notification %} {{ disable_notification }} {% endif %}'
+
+  coinmarketcap_favorites_summary:
+    sequence:
+    - service: script.notify2
+      data_template:
+        telegram_message: >
+          {%-for entity in states.group.coinmarketcap.attributes.entity_id -%}
+            {%- if entity[7:] | lower in states.input_select.array_favorite_cyptos.attributes.options | lower -%}
+              {%- set coin = states.sensor[entity[7:]].attributes.symbol -%}
+              {%- set coin_loopid = 1 -%}
+              {%- set coin_empty_space = 8 - coin  |  string | title | length -%}
+              {%- set usd =  states(entity) -%}
+              {%- set usd_loopid = 1 -%}
+              {%- set usd_empty_space = 8 - usd  |  string | title | length -%}
+
+              {%- set mbtc =  states.sensor[entity[7:]].attributes.price_mbtc -%}
+              {%- set mbtc_loopid = 1 -%}
+              {%- set mbtc_empty_space = 8- mbtc  |  string | title | length -%}
+              ``` {{coin}}  {%- for coin_loopid in range(1, coin_empty_space) %} {% endfor -%} {% for usd_loopid in range(1, usd_empty_space) %} {% endfor -%}${{ usd }} {% for mbtc_loopid in range(1, mbtc_empty_space) %} {% endfor -%}{{ mbtc }}m฿```
+            {% endif -%}
+          {% endfor -%}
+        disable_notification: '{% if disable_notification %} {{ disable_notification }} {% endif %}'
+
+#-----------------------------------------------------#
+
+input_number:
+##########################################
+########## BACKEND #######################
+##########################################
+  var_last_known_bitcoin_price:
+    min: 0
+    max: 999999
+    step: 1
+
+##########################################
+########## OPTIONS #######################
+##########################################
+
+##########################################
+########## CONFIG ########################
+##########################################
+
+#-----------------------------------------------------#
+
+homeassistant:
+  customize:
+##########################################
+########## EMULATED HUE ##################
+##########################################
+    script.chromecast_bitcoin_chart:
+      emulated_hue: true
+      emulated_hue_name: "Bitcoin Chart"
+
+#-----------------------------------------------------#
+
+# group:
+##########################################
+############### GROUPS ###################
+##########################################
+  coinmarketcap:
+    entities:
+      - sensor.bitcoin
+      - sensor.ethereum
+      - sensor.ripple
+      - sensor.litecoin
+      - sensor.ethereum_classic
+      - sensor.dash
+      - sensor.bitshares
+      - sensor.monero
+      - sensor.stratis
+      - sensor.siacoin
+      - sensor.steem
+      - sensor.factom
+      - sensor.counterparty
+      - sensor.potcoin
+      - sensor.peerplays
+
+  bitcoin:
+    name: "Bitcoin"
+    entities:
+      - sensor.bitcoin
+      - sensor.bitcoin_percent_change_24h
+      - sensor.bitcoin_percent_change_7d
+
+##########################################
+############### AUTO-GROUPS ##############
+##########################################
+  automation_bitcoin:
+    entities:
+      - automation.bitcoin_up
+      - automation.bitcoin_down
+
+  backend_bitcoin:
+    entities:
+      - input_number.var_last_known_bitcoin_price
+      - input_select.array_favorite_cyptos
+
+#   config_bitcoin:
+#     entities:
+#       - input_boolean.
+
+#   hidden_bitcoin:
+#     entities:
+#       - input_boolean.
+
+#   options_bitcoin:
+#     entities:
+#       - input_boolean.
+
+  script_bitcoin:
+    entities:
+      - script.chromecast_bitcoin_chart
+      - script.coinmarketcap_summary
+      - script.coinmarketcap_favorites_summary

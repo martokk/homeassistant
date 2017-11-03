@@ -1,0 +1,254 @@
+##########################################
+########## COMPONENTS ####################
+##########################################
+# sensor:
+
+#-----------------------------------------------------#
+
+automation:
+##########################################
+########## NOTIFICATIONS #################
+##########################################
+
+##########################################
+########## AUTOMATIONS ###################
+##########################################
+  - alias: vcore_device_restarted
+    trigger:
+      - platform: mqtt
+        topic: device/+/device
+        payload: "restarted"
+    action:
+      # covert vCore Device to the Room its in
+      - service: script.call_last_known_scene
+        data_template:
+          rooms: >
+            {% set topic = trigger.topic.split('/')[-2] %}
+
+            {% if "tables" in topic or "entertainment_center" in topic %}
+              livingroom
+            {% elif "office" in topic %}
+              office
+            {% elif "kitchen" in topic %}
+              kitchen
+            {% elif "bedroom" in topic %}
+              bedroom
+            {% else %}
+              all
+            {% endif %}
+          scene_name: >
+            {% set topic = trigger.topic.split('/')[-2] %}
+
+            {% if "tables" in topic or "entertainment_center" in topic %}
+              {{ states.input_select.var_lks_livingroom.state }}
+            {% elif "office" in topic %}
+              {{ states.input_select.var_lks_office.state }}
+            {% elif "kitchen" in topic %}
+              {{ states.input_select.var_lks_kitchen.state }}
+            {% elif "bedroom" in topic %}
+              {{ states.input_select.var_lks_bedroom.state }}
+            {% else %}
+              {{ states.input_select.var_lks_timebased.state }}
+            {% endif %}
+          transition: 1
+
+      - condition: state
+        entity_id: input_boolean.option_send_device_reconnect_notification
+        state: 'on'
+      - service: script.notify2
+        data_template:
+          telegram_message: |
+            *Device "{{ trigger.topic.split('/')[-2] }}" Reconnected*
+            topic     *{{trigger.topic}}*
+            payload  *{{trigger.payload}}*
+
+
+##########################################
+########## AUTOMATIONS ###################
+##########################################
+  - alias: all_leds_input_effect
+    trigger:
+      - platform: state
+        entity_id: input_select.all_led_effect
+    action:
+      - service: input_select.select_option
+        data_template:
+          entity_id: input_select.kitchen_led_effect
+          option: "{{ trigger.to_state.state }}"
+      - service: input_select.select_option
+        data_template:
+          entity_id: input_select.office_led_effect
+          option: "{{ trigger.to_state.state }}"
+      - service: input_select.select_option
+        data_template:
+          entity_id: input_select.tables_led_effect
+          option: "{{ trigger.to_state.state }}"
+      - service: input_select.select_option
+        data_template:
+          entity_id: input_select.entertainment_center_led_effect
+          option: "{{ trigger.to_state.state }}"
+      - service: input_select.select_option
+        data_template:
+          entity_id: input_select.bedroom_led_effect
+          option: "{{ trigger.to_state.state }}"
+
+  - alias: all_leds_animation_speed
+    trigger:
+      - platform: state
+        entity_id: input_number.all_leds_animation_speed
+    action:
+      - service: input_number.set_value
+        data_template:
+          entity_id: input_number.kitchen_animation_speed
+          value: "{{ trigger.to_state.state }}"
+      - service: input_number.set_value
+        data_template:
+          entity_id: input_number.bedroom_animation_speed
+          value: "{{ trigger.to_state.state }}"
+      - service: input_number.set_value
+        data_template:
+          entity_id: input_number.office_animation_speed
+          value: "{{ trigger.to_state.state }}"
+      - service: input_number.set_value
+        data_template:
+          entity_id: input_number.tables_animation_speed
+          value: "{{ trigger.to_state.state }}"
+      - service: input_number.set_value
+        data_template:
+          entity_id: input_number.entertainment_center_animation_speed
+          value: "{{ trigger.to_state.state }}"
+
+#-----------------------------------------------------#
+
+# script:
+##########################################
+########## SCRIPTS #######################
+##########################################
+
+#-----------------------------------------------------#
+
+input_boolean:
+##########################################
+########## BACKEND #######################
+##########################################
+
+##########################################
+########## OPTIONS #######################
+##########################################
+  option_send_device_reconnect_notification:
+    name: "vCore Device Reconnect Notification"
+    initial: off
+
+##########################################
+########## CONFIG #######################
+##########################################
+input_number:
+  all_leds_animation_speed:
+    name: All LEDs Animation Speed
+    min: 0
+    max: 255
+    step: 5
+
+input_select:
+  all_led_effect:
+    name: All LED Effect
+    options:
+      - "Static"
+      - "Blink"
+      - "Breath"
+      - "Color Wipe"
+      - "Color Wipe Random"
+      - "Random Color"
+      - "Single Dynamic"
+      - "Multi Dynamic"
+      - "Rainbow"
+      - "Rainbow Cycle"
+      - "Scan"
+      - "Dual Scan"
+      - "Fade"
+      - "Theater Chase"
+      - "Theater Chase Rainbow"
+      - "Running Lights"
+      - "Twinkle"
+      - "Twinkle Random"
+      - "Twinkle Fade"
+      - "Twinkle Fade Random"
+      - "Sparkle"
+      - "Flash Sparkle"
+      - "Hyper Sparkle"
+      - "Strobe"
+      - "Strobe Rainbow"
+      - "Multi Strobe"
+      - "Blink Rainbow"
+      - "Chase White"
+      - "Chase Color"
+      - "Chase Random"
+      - "Chase Rainbow"
+      - "Chase Flash"
+      - "Chase Flash Random"
+      - "Chase Rainbow White"
+      - "Chase Blackout"
+      - "Chase Blackout Rainbow"
+      - "Color Sweep Random"
+      - "Running Color"
+      - "Running Red Blue"
+      - "Running Random"
+      - "Larson Scanner"
+      - "Comet"
+      - "Fireworks"
+      - "Fireworks Random"
+      - "Merry Christmas"
+      - "Fire Flicker"
+      - "Fire Flicker (soft)"
+      - "vHome Wipe to Random"
+      - "vHome Wipe to White"
+      - "vHome Breathe"
+    initial: "Static"
+
+#-----------------------------------------------------#
+
+# homeassistant:
+#   customize:
+##########################################
+########## EMULATED HUE ##################
+##########################################
+    # input_boolean.template:
+    #   emulated_hue: true
+    #   emulated_hue_name: "Template Name"
+
+#-----------------------------------------------------#
+
+group:
+##########################################
+############### GROUPS ###################
+##########################################
+
+##########################################
+############### AUTO-GROUPS ##############
+##########################################
+  automation_vcore_all:
+    entities:
+      - automation.vcore_device_restarted
+      - automation.all_leds_input_effect
+      - automation.all_leds_animation_speed
+
+#   backend_vcore_all:
+#     entities:
+#       - input_boolean.
+
+#   hidden_vcore_all:
+#     entities:
+#       - input_boolean.
+
+  config_vcore_all:
+    entities:
+      - input_number.all_leds_animation_speed
+      - input_select.all_led_effect
+
+  options_vcore_all:
+    entities:
+      - input_boolean.option_send_device_reconnect_notification
+
+#   script_vcore_all:
+#     entities:
+#       - script.

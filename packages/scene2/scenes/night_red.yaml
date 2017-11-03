@@ -171,3 +171,14 @@ script:
         data:
           entity_id: input_select.var_lks_bedroom
           option: 'night_red'
+
+##########################################
+############### GROUPS ###################
+##########################################
+group:
+  hidden_scene2_night_red:
+    entities:
+      - script.scene2_night_red_bedroom
+      - script.scene2_night_red_kitchen
+      - script.scene2_night_red_livingroom
+      - script.scene2_night_red_office

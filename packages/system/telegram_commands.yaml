@@ -1,0 +1,104 @@
+##########################################
+########## COMPONENTS ####################
+##########################################
+telegram_bot:
+  platform: polling
+  api_key: !secret telegram_api_key
+  allowed_chat_ids:
+    - 343498992 # @liberty_minded user
+    - 240044026 # IFTTT
+    - -296159061 # @ vHome group
+
+#-----------------------------------------------------#
+
+automation:
+##########################################
+########## NOTIFICATIONS #################
+##########################################
+  - alias: telegram_command_notify2_tts
+    trigger:
+      - platform: event
+        event_type: telegram_command
+        event_data:
+          command: '/notify2_tts'
+      - platform: event
+        event_type: telegram_command
+        event_data:
+          command: '/s'
+    action:
+      - service: script.notify2
+        data_template:
+          tts_message: |
+            {% set args_modified = trigger.event.data["args"] | join(', ') | replace(",","") %}
+            {{ args_modified | string }}
+
+##########################################
+########## AUTOMATIONS ###################
+##########################################
+
+#-----------------------------------------------------#
+
+# script:
+##########################################
+########## SCRIPTS #######################
+##########################################
+
+#-----------------------------------------------------#
+
+# input_boolean:
+##########################################
+########## BACKEND #######################
+##########################################
+
+##########################################
+########## OPTIONS #######################
+##########################################
+
+##########################################
+########## CONFIG ########################
+##########################################
+
+#-----------------------------------------------------#
+
+# homeassistant:
+#   customize:
+##########################################
+########## EMULATED HUE ##################
+##########################################
+    # input_boolean.template:
+    #   emulated_hue: true
+    #   emulated_hue_name: "Template Name"
+
+#-----------------------------------------------------#
+
+group:
+##########################################
+############### GROUPS ###################
+##########################################
+
+##########################################
+############### AUTO-GROUPS ##############
+##########################################
+  automation_telegram_commands:
+    entities:
+      - automation.telegram_command_notify2_tts
+
+#   backend_telegram_commands:
+#     entities:
+#       - input_boolean.
+
+#   config_telegram_commands:
+#     entities:
+#       - input_boolean.
+
+#   hidden_telegram_commands:
+#     entities:
+#       - input_boolean.
+
+#   options_telegram_commands:
+#     entities:
+#       - input_boolean.
+
+#   script_telegram_commands:
+#     entities:
+#       - script.

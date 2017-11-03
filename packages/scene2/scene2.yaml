@@ -1,108 +1,18 @@
 ##########################################
-########## SCRIPTS #######################
+########## COMPONENTS ####################
 ##########################################
-script:
+# sensor:
 
-  scene2_test:
-    sequence:
-      - service: script.scene2
-        data_template:
-          scene_name: 'night_red'
-          rooms:
-            - 'livingroom'
-            - 'office'
-          transition: 3
+#-----------------------------------------------------#
 
-  scene2: # [scene_name], [rooms], [transition]
-    sequence:
-      # Living rooms
-      - service_template: >
-          {% if (not rooms or "all" in rooms or "livingroom" in rooms) and states.input_boolean.var_livingroom_on.state == "on" %}
-            script.scene2_{{scene_name}}_livingroom
-          {% elif states.input_boolean.var_livingroom_on.state == "off" %}
-            script.scene2_off_livingroom
-          {% else %}
-            script.scene2_do_nothing
-          {% endif %}
-        data_template:
-          transition: '{% if transition %} {{transition}} {%else%} 1 {% endif %}'
-
-      # Office
-      - service_template: >
-          {% if (not rooms or "all" in rooms or "office" in rooms) and states.input_boolean.var_office_on.state == "on" %}
-            script.scene2_{{scene_name}}_office
-          {% elif states.input_boolean.var_office_on.state == "off" %}
-            script.scene2_off_office
-          {% else %}
-            script.scene2_do_nothing
-          {% endif %}
-        data_template:
-          transition: '{% if transition %} {{transition}} {%else%} 1 {% endif %}'
-
-      # Kitchen
-      - service_template: >
-          {% if (not rooms or "all" in rooms or "kitchen" in rooms) and states.input_boolean.var_kitchen_on.state == "on" %}
-            script.scene2_{{scene_name}}_kitchen
-          {% elif states.input_boolean.var_kitchen_on.state == "off" %}
-            script.scene2_off_kitchen
-          {% else %}
-            script.scene2_do_nothing
-          {% endif %}
-        data_template:
-          transition: '{% if transition %} {{transition}} {%else%} 1 {% endif %}'
-
-      # Bedroom
-      - service_template: >
-          {% if (not rooms or "all" in rooms or "bedroom" in rooms) and states.input_boolean.var_bedroom_on.state == "on" %}
-            script.scene2_{{scene_name}}_bedroom
-          {% elif states.input_boolean.var_bedroom_on.state == "off" %}
-            script.scene2_off_bedroom
-          {% else %}
-            script.scene2_do_nothing
-          {% endif %}
-        data_template:
-          transition: '{% if transition %} {{transition}} {%else%} 1 {% endif %}'
-      - service: script.turn_off
-        entity_id: script.scene2
-
-
-  scene2_do_nothing:
-    sequence:
-
-  scene2_on_day_lights:
-    sequence:
-      - service: script.scene2
-        data_template:
-          scene_name: 'day'
-          rooms: 'all'
-          transition: 1
-
-  scene2_on_night_lights:
-    sequence:
-      - service: script.scene2
-        data_template:
-          scene_name: 'night_computer_red'
-          rooms: 'all'
-          transition: 1
-
-  scene2_on_normal_lights:
-    sequence:
-      - service: script.timebased_scene
-
-  turn_on_all_room_light:
-    sequence:
-      - service: input_boolean.turn_on
-        entity_id:
-          - input_boolean.var_kitchen_on
-          - input_boolean.var_bedroom_on
-          - input_boolean.var_livingroom_on
-          - input_boolean.var_office_on
+automation:
+##########################################
+########## NOTIFICATIONS #################
+##########################################
 
 ##########################################
 ########## AUTOMATIONS ###################
 ##########################################
-automation:
-
   #********** LIVING ROOM ***********#
   - alias: livingroom_turn_on
     trigger:
@@ -211,22 +121,121 @@ automation:
           scene_name: 'off'
           transition: 1
 
+#-----------------------------------------------------#
 
+##########################################
+########## SCRIPTS #######################
+##########################################
+script:
+  scene2_test:
+    sequence:
+      - service: script.scene2
+        data_template:
+          scene_name: 'night_red'
+          rooms:
+            - 'livingroom'
+            - 'office'
+          transition: 3
+
+##########################################
+########## SCENE2 #######################
+##########################################
+  scene2: # [scene_name], [rooms], [transition]
+    sequence:
+      # Living rooms
+      - service_template: >
+          {% if (not rooms or "all" in rooms or "livingroom" in rooms) and states.input_boolean.var_livingroom_on.state == "on" %}
+            script.scene2_{{scene_name}}_livingroom
+          {% elif states.input_boolean.var_livingroom_on.state == "off" %}
+            script.scene2_off_livingroom
+          {% else %}
+            script.scene2_do_nothing
+          {% endif %}
+        data_template:
+          transition: '{% if transition %} {{transition}} {%else%} 1 {% endif %}'
+
+      # Office
+      - service_template: >
+          {% if (not rooms or "all" in rooms or "office" in rooms) and states.input_boolean.var_office_on.state == "on" %}
+            script.scene2_{{scene_name}}_office
+          {% elif states.input_boolean.var_office_on.state == "off" %}
+            script.scene2_off_office
+          {% else %}
+            script.scene2_do_nothing
+          {% endif %}
+        data_template:
+          transition: '{% if transition %} {{transition}} {%else%} 1 {% endif %}'
+
+      # Kitchen
+      - service_template: >
+          {% if (not rooms or "all" in rooms or "kitchen" in rooms) and states.input_boolean.var_kitchen_on.state == "on" %}
+            script.scene2_{{scene_name}}_kitchen
+          {% elif states.input_boolean.var_kitchen_on.state == "off" %}
+            script.scene2_off_kitchen
+          {% else %}
+            script.scene2_do_nothing
+          {% endif %}
+        data_template:
+          transition: '{% if transition %} {{transition}} {%else%} 1 {% endif %}'
+
+      # Bedroom
+      - service_template: >
+          {% if (not rooms or "all" in rooms or "bedroom" in rooms) and states.input_boolean.var_bedroom_on.state == "on" %}
+            script.scene2_{{scene_name}}_bedroom
+          {% elif states.input_boolean.var_bedroom_on.state == "off" %}
+            script.scene2_off_bedroom
+          {% else %}
+            script.scene2_do_nothing
+          {% endif %}
+        data_template:
+          transition: '{% if transition %} {{transition}} {%else%} 1 {% endif %}'
+      - service: script.turn_off
+        entity_id: script.scene2
+
+
+  scene2_do_nothing:
+    sequence:
+
+  scene2_on_day_lights:
+    sequence:
+      - service: script.scene2
+        data_template:
+          scene_name: 'day'
+          rooms: 'all'
+          transition: 1
+
+  scene2_on_night_lights:
+    sequence:
+      - service: script.scene2
+        data_template:
+          scene_name: 'night_computer_red'
+          rooms: 'all'
+          transition: 1
+
+  scene2_on_normal_lights:
+    sequence:
+      - service: script.timebased_scene
+
+  turn_on_all_room_light:
+    sequence:
+      - service: input_boolean.turn_on
+        entity_id:
+          - input_boolean.var_kitchen_on
+          - input_boolean.var_bedroom_on
+          - input_boolean.var_livingroom_on
+          - input_boolean.var_office_on
+
+#-----------------------------------------------------#
 
 input_boolean:
 ##########################################
-########## STORED VARIABLES ##############
+########## BACKEND #######################
 ##########################################
   var_kitchen_on:
   var_bedroom_on:
   var_livingroom_on:
   var_office_on:
 
-
-
-##########################################
-########## STORED ARRAYS #################
-##########################################
 input_select:
   array_low_light_scenes:
     options:
@@ -241,12 +250,63 @@ input_select:
       - "day_le"
       - "day_bright"
 
+##########################################
+########## OPTIONS #######################
+##########################################
 
+##########################################
+########## CONFIG ########################
+##########################################
+
+#-----------------------------------------------------#
+
+homeassistant:
+  customize:
+##########################################
+########## EMULATED HUE ##################
+##########################################
+    script.scene2_on_normal_lights:
+      emulated_hue: true
+      emulated_hue_name: "Normal Lights"
+
+    script.scene2_on_day_lights:
+      emulated_hue: true
+      emulated_hue_name: "Day Lights"
+
+    script.scene2_on_night_lights:
+      emulated_hue: true
+      emulated_hue_name: "Night Lights"
+
+    input_boolean.var_livingroom_on:
+      emulated_hue: true
+      emulated_hue_name: "Living Room"
+
+    input_boolean.var_office_on:
+      emulated_hue: true
+      emulated_hue_name: "Office"
+
+    input_boolean.var_kitchen_on:
+      emulated_hue: true
+      emulated_hue_name: "Kitchen"
+
+    input_boolean.var_bedroom_on:
+      emulated_hue: true
+      emulated_hue_name: "Bedroom"
+
+    script.turn_on_all_room_light:
+      emulated_hue: true
+      emulated_hue_name: "All Room"
+
+#-----------------------------------------------------#
+
+group:
 ##########################################
 ############### GROUPS ###################
 ##########################################
-group:
-#********** SCENES ***************************************#
+  tools_test_scene2:
+    entities:
+      - script.scene2_test
+
   scenes:
     name: "Scenes"
     entities:
@@ -272,21 +332,24 @@ group:
     - script.scene2_prework_t10m
     - script.scene2_off
 
-  quick_scenes:
-    name: "Quick Scenes"
+##########################################
+############### AUTO-GROUPS ##############
+##########################################
+  automation_scene2:
     entities:
-    - script.timebased_scene
-    - script.scene2_day
-    - script.scene2_off
+      - automation.bedroom_turn_off
+      - automation.bedroom_turn_on
+      - automation.kitchen_turn_off
+      - automation.kitchen_turn_on
+      - automation.livingroom_turn_off
+      - automation.livingroom_turn_on
+      - automation.office_turn_off
+      - automation.office_turn_on
 
   backend_scene2:
     entities:
       - input_select.array_low_light_scenes
       - input_select.array_day_scenes
-
-#********** ROOM STATES ***************************************#
-  backend_room_states:
-    entities:
       - input_select.var_lks_timebased
       - input_boolean.var_livingroom_on
       - input_select.var_lks_livingroom
@@ -297,11 +360,21 @@ group:
       - input_boolean.var_bedroom_on
       - input_select.var_lks_bedroom
 
+#   config_scene2:
+#     entities:
+#       - input_boolean.
+
+#   hidden_scene2:
+#     entities:
+#       - input_boolean.
+
+#   options_scene2:
+#     entities:
+#       - input_boolean.
 
   script_scene2:
     entities:
       - script.scene2_on_day_lights
       - script.scene2_on_night_lights
       - script.scene2_on_normal_lights
-      - script.scene2_test
       - script.turn_on_all_room_light

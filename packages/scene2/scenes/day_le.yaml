@@ -156,3 +156,14 @@ script:
         data:
           entity_id: input_select.var_lks_bedroom
           option: 'day_le'
+
+##########################################
+############### GROUPS ###################
+##########################################
+group:
+  hidden_scene2_day_le:
+    entities:
+      - script.scene2_day_le_bedroom
+      - script.scene2_day_le_kitchen
+      - script.scene2_day_le_livingroom
+      - script.scene2_day_le_office

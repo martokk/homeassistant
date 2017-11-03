@@ -1,17 +1,11 @@
-# homeassistant:
-#   customize:
-    # input_boolean.template:
-    #   emulated_hue: true
-    #   emulated_hue_name: "Template Name"
-# switch:
-# lights:
-# binary_sensor:
-# sensor:
-
+##########################################
+########## COMPONENTS ####################
+##########################################
 tts:
   # - platform: google
   #   cache: true
   #   time_memory: 300
+
   - platform: amazon_polly
     aws_access_key_id: !secret aws_access_key_id
     aws_secret_access_key: !secret aws_secret_access_key
@@ -23,12 +17,12 @@ media_player:
   - platform: vlc
     arguments: '--alsa-audio-device=hw:1,0'
 
+#-----------------------------------------------------#
+
 automation:
 ##########################################
 ########## NOTIFICATIONS #################
 ##########################################
-
-
 
 ##########################################
 ########## AUTOMATIONS ###################
@@ -81,7 +75,7 @@ automation:
           entity_id: media_player.vlc
           volume_level: 0.75
 
-
+#-----------------------------------------------------#
 
 ##########################################
 ########## SCRIPTS #######################
@@ -208,41 +202,67 @@ script:
             </p>
             </speak>
 
+#-----------------------------------------------------#
+
 # input_boolean:
 ##########################################
-########## STORED VARIABLES ##############
+########## BACKEND #######################
 ##########################################
-
-
 
 ##########################################
 ########## OPTIONS #######################
 ##########################################
 
+##########################################
+########## CONFIG ########################
+##########################################
 
+#-----------------------------------------------------#
+
+# homeassistant:
+#   customize:
+##########################################
+########## EMULATED HUE ##################
+##########################################
+    # input_boolean.template:
+    #   emulated_hue: true
+    #   emulated_hue_name: "Template Name"
+
+#-----------------------------------------------------#
+
+group:
 ##########################################
 ############### GROUPS ###################
 ##########################################
-group:
-  tts_devices:
-    name: "TTS Devices"
+  tools_test_tts:
     entities:
-      - media_player.vlc
+      - script.tts_test
+      - script.tts_test2
 
+##########################################
+############### AUTO-GROUPS ##############
+##########################################
   automation_tts:
     entities:
       - automation.set_tts_vol_high
       - automation.set_tts_vol_low
       - automation.set_tts_vol_low2
 
+#   backend_tts:
+#     entities:
+#       - input_boolean.
 
-  # backend_tts:
-  #   entities:
-  #     - input_boolean.
+#   config_tts:
+#     entities:
+#       - input_boolean.
 
-  # options_tts:
-  #   entities:
-  #     - input_boolean.
+#   hidden_tts:
+#     entities:
+#       - input_boolean.
+
+#   options_tts:
+#     entities:
+#       - input_boolean.
 
   script_tts:
     entities:

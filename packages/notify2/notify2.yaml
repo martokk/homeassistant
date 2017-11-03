@@ -1,10 +1,6 @@
-homeassistant:
-  customize:
-    script.repeat_last_message:
-      emulated_hue: true
-      emulated_hue_name: "Last Message"
-      hidden: true
-
+##########################################
+########## COMPONENTS ####################
+##########################################
 notify:
   - name: gmail
     platform: smtp
@@ -49,6 +45,33 @@ sensor:
   - platform: mqtt
     state_topic: "device/tts/last_message"
     name: last_tts_message
+
+#-----------------------------------------------------#
+
+automation:
+##########################################
+########## NOTIFICATIONS #################
+##########################################
+
+##########################################
+########## AUTOMATIONS ###################
+##########################################
+  - alias: notify2_15m_chromecast_off
+    trigger:
+      - platform: state
+        entity_id: input_boolean.var_notify2_15m_chromecast_on
+        to: 'on'
+        for:
+          minutes: 15
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_notify2_15m_chromecast_on
+      - condition: template
+        value_template: '{{ states.media_player.vtv_chromecast.attributes.app_name | lower in states.input_select.array_chromecast_idle_apps | lower }}'
+      - service: media_player.turn_off
+        entity_id: media_player.vtv_chromecast
+
+#-----------------------------------------------------#
 
 script:
 ##########################################
@@ -461,31 +484,14 @@ script:
         tts_message: '{{ states.sensor.last_tts_message.state }}'
 
 
-automation:
-  - alias: notify2_15m_chromecast_off
-    trigger:
-      - platform: state
-        entity_id: input_boolean.var_notify2_15m_chromecast_on
-        to: 'on'
-        for:
-          minutes: 15
-    action:
-      - service: input_boolean.turn_off
-        entity_id: input_boolean.var_notify2_15m_chromecast_on
-      - condition: template
-        value_template: '{{ states.media_player.vtv_chromecast.attributes.app_name | lower in states.input_select.array_chromecast_idle_apps | lower }}'
-      - service: media_player.turn_off
-        entity_id: media_player.vtv_chromecast
-
-
+#-----------------------------------------------------#
 
 input_boolean:
 ##########################################
-########## STORED VARIABLES ##############
+########## BACKEND #######################
 ##########################################
   var_notify2_15m_chromecast_on:
     initial: off
-
 
 ##########################################
 ########## OPTIONS #######################
@@ -516,13 +522,62 @@ input_boolean:
 
   option_notify2_prework_timebased_lights:
     initial: on
+
+##########################################
+########## CONFIG ########################
+##########################################
+
+#-----------------------------------------------------#
+
+homeassistant:
+  customize:
+##########################################
+########## EMULATED HUE ##################
+##########################################
+    script.repeat_last_message:
+      emulated_hue: true
+      emulated_hue_name: "Last Message"
+      hidden: true
+
+#-----------------------------------------------------#
+
+group:
 ##########################################
 ############### GROUPS ###################
 ##########################################
-group:
+
+##########################################
+############### AUTO-GROUPS ##############
+##########################################
   automation_notify2:
     entities:
       - automation.notify2_15m_chromecast_off
+
+  backend_notify2:
+    entities:
+      - input_boolean.var_notify2_15m_chromecast_on
+      - sensor.last_tts_message
+
+#   config_notify2:
+#     entities:
+#       - input_boolean.
+
+#   hidden_notify2:
+#     entities:
+#       - input_boolean.
+
+  options_notify2:
+    name: "Notify2 Notifications"
+    entities:
+      - input_boolean.option_notify2_sms
+      - input_boolean.option_notify2_email
+      - input_boolean.option_notify2_mlo
+      - input_boolean.option_notify2_telegram
+      - input_boolean.option_notify2_tts
+      - input_boolean.option_notify2_chromecast
+      - input_boolean.option_notify2_lights
+      - input_boolean.option_notify2_timebased_lights
+      - input_boolean.option_notify2_prework_timebased_lights
 
   script_notify2:
     entities:
@@ -540,21 +595,3 @@ group:
       - script.notify2_tts_resume
       - script.notify2_tts_resume_after_wait
       - script.repeat_last_message
-
-  backend_notify2:
-    entities:
-      - input_boolean.var_notify2_15m_chromecast_on
-      - sensor.last_tts_message
-
-  options_notify2:
-    name: "Notify2 Notifications"
-    entities:
-      - input_boolean.option_notify2_sms
-      - input_boolean.option_notify2_email
-      - input_boolean.option_notify2_mlo
-      - input_boolean.option_notify2_telegram
-      - input_boolean.option_notify2_tts
-      - input_boolean.option_notify2_chromecast
-      - input_boolean.option_notify2_lights
-      - input_boolean.option_notify2_timebased_lights
-      - input_boolean.option_notify2_prework_timebased_lights

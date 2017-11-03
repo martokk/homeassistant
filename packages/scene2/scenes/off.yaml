@@ -80,7 +80,7 @@ script:
         data:
           entity_id: input_select.var_lks_kitchen
           option: 'off'
-          
+
       # Kitchen Light Motion On
       - service_template: >
           {% if states.input_boolean.var_kitchen_motion_on.state == "on" %}
@@ -132,3 +132,15 @@ script:
         data:
           entity_id: input_select.var_lks_bedroom
           option: 'off'
+
+
+##########################################
+############### GROUPS ###################
+##########################################
+group:
+  hidden_scene2_off:
+    entities:
+      - script.scene2_off_bedroom
+      - script.scene2_off_kitchen
+      - script.scene2_off_livingroom
+      - script.scene2_off_office

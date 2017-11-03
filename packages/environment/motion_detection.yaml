@@ -1,19 +1,14 @@
-# homeassistant:
-#   customize:
-    # input_boolean.template:
-    #   emulated_hue: true
-    #   emulated_hue_name: "Template Name"
-# switch:
-# lights:
-# binary_sensor:
+##########################################
+########## COMPONENTS ####################
+##########################################
 # sensor:
+
+#-----------------------------------------------------#
 
 automation:
 ##########################################
 ########## NOTIFICATIONS #################
 ##########################################
-
-
 
 ##########################################
 ########## AUTOMATIONS ###################
@@ -58,53 +53,78 @@ automation:
         entity_id: input_boolean.var_entertainment_center_motion_on
 
 
+#-----------------------------------------------------#
 
-
-
-
-
-
+# script:
 ##########################################
 ########## SCRIPTS #######################
 ##########################################
-# script:
 
-
-
+#-----------------------------------------------------#
 
 input_boolean:
 ##########################################
-########## STORED VARIABLES ##############
+########## BACKEND #######################
 ##########################################
   var_kitchen_motion_on:
   var_entertainment_center_motion_on:
-
 
 ##########################################
 ########## OPTIONS #######################
 ##########################################
 
+##########################################
+########## CONFIG ########################
+##########################################
 
+#-----------------------------------------------------#
+
+# homeassistant:
+#   customize:
+##########################################
+########## EMULATED HUE ##################
+##########################################
+    # input_boolean.template:
+    #   emulated_hue: true
+    #   emulated_hue_name: "Template Name"
+
+#-----------------------------------------------------#
+
+group:
 ##########################################
 ############### GROUPS ###################
 ##########################################
-group:
+
+##########################################
+############### AUTO-GROUPS ##############
+##########################################
   automation_motion_detection:
     entities:
       - automation.var_kitchen_motion_on
       - automation.var_entertainment_center_motion_on
       - automation.var_entertainment_center_motion_off
 
-
   backend_motion_detection:
     entities:
       - input_boolean.var_kitchen_motion_on
       - input_boolean.var_entertainment_center_motion_on
 
-  # options_motion_detection:
-  #   entities:
-  #     - input_boolean.
+#   config_motion_detection:
+#     entities:
+#       - input_boolean.
 
-  # script_motion_detection:
-  #   entities:
-  #     - script.
+  hidden_motion_detection:
+    entities:
+      - binary_sensor.kitchen_motion_sensor
+      - binary_sensor.sink_motion_sensor
+      - binary_sensor.entertainment_center_motion_sensor
+      - binary_sensor.bedroom_motion_sensor
+      - binary_sensor.office_motion_sensor
+
+#   options_motion_detection:
+#     entities:
+#       - input_boolean.
+
+#   script_motion_detection:
+#     entities:
+#       - script.

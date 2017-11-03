@@ -1,11 +1,6 @@
-# homeassistant:
-#   customize:
-    # input_boolean.template:
-    #   emulated_hue: true
-    #   emulated_hue_name: "Template Name"
-# switch:
-# lights:
-# binary_sensor:
+##########################################
+########## COMPONENTS ####################
+##########################################
 sensor:
   - platform: template
     sensors:
@@ -101,9 +96,6 @@ sensor:
           {% endif %}
 
 
-
-
-
       indoor_humidity:
         friendly_name: "Indoor Humidity"
         unit_of_measurement: '%'
@@ -195,6 +187,9 @@ sensor:
             {% endif %}
           {% endif %}
 
+
+#-----------------------------------------------------#
+
 automation:
 ##########################################
 ########## NOTIFICATIONS #################
@@ -271,36 +266,64 @@ automation:
 ########## AUTOMATIONS ###################
 ##########################################
 
+#-----------------------------------------------------#
 
-
-
+# script:
 ##########################################
 ########## SCRIPTS #######################
 ##########################################
-# script:
 
-
-
+#-----------------------------------------------------#
 
 # input_boolean:
 ##########################################
-########## STORED VARIABLES ##############
+########## BACKEND #######################
 ##########################################
-
-
 
 ##########################################
 ########## OPTIONS #######################
 ##########################################
 
+##########################################
+########## CONFIG ########################
+##########################################
 
+#-----------------------------------------------------#
+
+# homeassistant:
+#   customize:
+##########################################
+########## EMULATED HUE ##################
+##########################################
+    # input_boolean.template:
+    #   emulated_hue: true
+    #   emulated_hue_name: "Template Name"
+
+#-----------------------------------------------------#
+
+group:
 ##########################################
 ############### GROUPS ###################
 ##########################################
-group:
 
-  temperature_sensors:
-    name: "Temperature"
+##########################################
+############### AUTO-GROUPS ##############
+##########################################
+  automation_indoor_temperature:
+    entities:
+      - automation.bedroom_temperature_cold_after_9pm
+      - automation.humidity_low
+      - automation.humidity_high
+
+#   backend_indoor_temperature:
+#     entities:
+#       - input_boolean.
+
+#   config_indoor_temperature:
+#     entities:
+#       - input_boolean.
+
+  hidden_indoor_temperature:
     entities:
       - sensor.dark_sky_temperature
       - sensor.indoor_temperature
@@ -309,10 +332,6 @@ group:
       - sensor.entertainment_center_temperature
       - sensor.office_temperature
       - sensor.bedroom_temperature
-
-  humidity_sensors:
-    name: "Humidity"
-    entities:
       - sensor.dark_sky_humidity
       - sensor.indoor_humidity
       - sensor.kitchen_humidity
@@ -320,33 +339,10 @@ group:
       - sensor.office_humidity
       - sensor.entertainment_center_humidity
       - sensor.bedroom_humidity
-
-  motion_sensors:
-    name: "Motion"
-    entities:
-      - binary_sensor.kitchen_motion_sensor
-      - binary_sensor.sink_motion_sensor
-      - binary_sensor.entertainment_center_motion_sensor
-      - binary_sensor.bedroom_motion_sensor
-      - binary_sensor.office_motion_sensor
-
-
-
-
-  automation_environment:
-    entities:
-      - automation.bedroom_temperature_cold_after_9pm
-      - automation.humidity_low
-      - automation.humidity_high
-#
-#
-#   backend_template:
+#   options_indoor_temperature:
 #     entities:
-#
-#
-#   options_template:
+#       - input_boolean.
+
+#   script_indoor_temperature:
 #     entities:
-#
-#
-#   script_template:
-#     entities:
+#       - script.

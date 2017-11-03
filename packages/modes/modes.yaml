@@ -1,40 +1,14 @@
-homeassistant:
-  customize:
-    input_boolean.option_mode_normal:
-      emulated_hue: true
-      emulated_hue_name: "Normal Mode"
-    input_boolean.option_mode_silent:
-      emulated_hue: true
-      emulated_hue_name: "Silent Mode"
-    input_boolean.option_mode_smoke:
-      emulated_hue: true
-      emulated_hue_name: "Smoke Session"
-    input_boolean.option_mode_chill:
-      emulated_hue: true
-      emulated_hue_name: "Chill Mode"
-    input_boolean.option_mode_guest:
-      emulated_hue: true
-      emulated_hue_name: "Guests Mode"
-    input_boolean.option_mode_movie:
-      emulated_hue: true
-      emulated_hue_name: "Movie Mode"
-    input_boolean.option_mode_sleep:
-      emulated_hue: true
-      emulated_hue_name: "Sleep Mode"
-    input_boolean.option_mode_prework:
-      emulated_hue: true
-      emulated_hue_name: "Prework Mode"
-# switch:
-# lights:
-# binary_sensor:
+##########################################
+########## COMPONENTS ####################
+##########################################
 # sensor:
+
+#-----------------------------------------------------#
 
 automation:
 ##########################################
 ########## NOTIFICATIONS #################
 ##########################################
-
-
 
 ##########################################
 ########## MODES #########################
@@ -333,13 +307,14 @@ automation:
       - service: input_boolean.turn_on
         entity_id: input_boolean.option_mode_normal
 
+#-----------------------------------------------------#
+
+# script:
 ##########################################
 ########## SCRIPTS #######################
 ##########################################
-# script:
 
-
-
+#-----------------------------------------------------#
 
 input_boolean:
 ##########################################
@@ -380,30 +355,67 @@ input_boolean:
   option_mode_prework:
     initial: 'off'
     name: "Prework Mode"
-##########################################
-########## STORED VARIABLES ##############
-##########################################
 
-
+##########################################
+########## BACKEND #######################
+##########################################
 
 ##########################################
 ########## OPTIONS #######################
 ##########################################
 
+##########################################
+########## CONFIG ########################
+##########################################
 
+#-----------------------------------------------------#
+
+homeassistant:
+  customize:
+##########################################
+########## EMULATED HUE ##################
+##########################################
+    input_boolean.option_mode_normal:
+      emulated_hue: true
+      emulated_hue_name: "Normal Mode"
+    input_boolean.option_mode_silent:
+      emulated_hue: true
+      emulated_hue_name: "Silent Mode"
+    input_boolean.option_mode_smoke:
+      emulated_hue: true
+      emulated_hue_name: "Smoke Session"
+    input_boolean.option_mode_chill:
+      emulated_hue: true
+      emulated_hue_name: "Chill Mode"
+    input_boolean.option_mode_guest:
+      emulated_hue: true
+      emulated_hue_name: "Guests Mode"
+    input_boolean.option_mode_movie:
+      emulated_hue: true
+      emulated_hue_name: "Movie Mode"
+    input_boolean.option_mode_sleep:
+      emulated_hue: true
+      emulated_hue_name: "Sleep Mode"
+    input_boolean.option_mode_prework:
+      emulated_hue: true
+      emulated_hue_name: "Prework Mode"
+
+#-----------------------------------------------------#
+
+group:
 ##########################################
 ############### GROUPS ###################
 ##########################################
-group:
+
+##########################################
+############### AUTO-GROUPS ##############
+##########################################
   automation_modes:
     entities:
       - automation.mode_guest
       - automation.mode_movie
       - automation.mode_chill
       - automation.mode_away
-      # - automation.
-      # - automation.
-      # - automation.
       - automation.mode_smoking
       - automation.mode_silent
       - automation.mode_normal
@@ -415,10 +427,17 @@ group:
       - automation.reset_modes_5am
       - automation.timebased_11pm_quiet_mode
 
+#   backend_modes:
+#     entities:
+#       - input_boolean.
 
-  # backend_modes:
-  #   entities:
+#   config_modes:
+#     entities:
+#       - input_boolean.
 
+#   hidden_modes:
+#     entities:
+#       - input_boolean.
 
   options_modes:
     entities:
@@ -432,6 +451,6 @@ group:
       - input_boolean.option_mode_sleep
       - input_boolean.option_mode_prework
 
-  # script_modes:
-  #   entities:
-  #     - script.
+#   script_modes:
+#     entities:
+#       - script.
