@@ -204,6 +204,7 @@
       - group.backend_bitcoin
       - group.backend_bose_remote
       - group.backend_calender
+      - group.backend_config
       - group.backend_devices
       - group.backend_entertainment_center
       - group.backend_environment

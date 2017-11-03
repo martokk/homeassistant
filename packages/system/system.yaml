@@ -58,7 +58,7 @@ automation:
   #         telegram_message: |
   #           Home Assistant updated to v{{ states.updater.updater.state}}
   #           {{ states.updater.updater.attributes.release_notes }}
-  #         tts_entity_id: group.tts_devices
+  #         tts_entity_id: group.config_tts_devices
   #         tts_sound: 'intercom_ds9.mp3'
   #         tts_message: "FYI: There is a new update for Home Assistant available!"
   #         mlo_message: "Update Home Assistant to {{ states.updater.updater.state}}.  {{ states.updater.updater.attributes.release_notes }}"
@@ -73,7 +73,7 @@ automation:
         data_template:
           telegram_message: |
             Home Assistant updated to v{{ states.sensor.hass_version_latest.state }}
-          tts_entity_id: group.tts_devices
+          tts_entity_id: group.config_tts_devices
           tts_sound: 'intercom_ds9.mp3'
           tts_message: "FYI: There is a new update for Home Assistant available! The latest update is version {{ states.sensor.hass_version_latest.state }}"
           tts_pause_delay: "00:00:09"

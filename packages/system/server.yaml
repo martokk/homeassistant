@@ -416,7 +416,7 @@ automation:
   #           {{ states.sensor.sabnzbd_disk_free.state }}GB Free
   #         flood_color: "red"
   #         blink_color: "magenta"
-  #         tts_entity_id: group.tts_devices
+  #         tts_entity_id: group.config_tts_devices
   #         tts_sound: 'intercom_ds9.mp3'
   #         tts_message: "Warning Disk Space Low! There is only {{ states.sensor.sabnzbd_disk_free.state | int | round(0) }} gigs free on Dell Laptop's V drive."
 

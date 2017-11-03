@@ -104,7 +104,7 @@ automation:
           flood_color: "cyan"
           blink_color: "blueviolet"
           blink_color2: "red"
-          tts_entity_id: group.tts_devices
+          tts_entity_id: group.config_tts_devices
           tts_sound: 'intercom_ds9.mp3'
           tts_message: >
             Battery low!

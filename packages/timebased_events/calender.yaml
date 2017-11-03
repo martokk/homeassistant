@@ -38,7 +38,7 @@ automation:
           telegram_message: |
             Re: *NFL Streams*
             https://www.reddit.com/r/nflstreams/
-          tts_entity_id: group.tts_devices
+          tts_entity_id: group.config_tts_devices
           tts_sound: 'other/fox_football.m4a'
           tts_pause_delay: "00:00:07"
 

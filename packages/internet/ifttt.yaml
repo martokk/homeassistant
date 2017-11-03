@@ -56,7 +56,7 @@ automation:
           telegram_message: |
             *NFL GAME START:*
             {{ states.sensor.dweet_vhome_message.state }}
-          tts_entity_id: group.tts_devices
+          tts_entity_id: group.config_tts_devices
           tts_sound: 'other/espn_alert.m4a'
           tts_pause_delay: "00:00:03"
           tts_message: |
@@ -79,7 +79,7 @@ automation:
           telegram_message: |
             *NFL GAME UPDATE:*
             {{ states.sensor.dweet_vhome_message.state }}
-          tts_entity_id: group.tts_devices
+          tts_entity_id: group.config_tts_devices
           tts_sound: 'other/espn_alert.m4a'
           tts_pause_delay: "00:00:03"
           tts_message: |
@@ -101,7 +101,7 @@ automation:
           telegram_message: |
             *NFL GAME ENDED:*
             {{ states.sensor.dweet_vhome_message.state }}
-          tts_entity_id: group.tts_devices
+          tts_entity_id: group.config_tts_devices
           tts_sound: 'other/espn_alert.m4a'
           tts_pause_delay: "00:00:03"
           tts_message: |
@@ -129,7 +129,7 @@ automation:
           telegram_message: |
             *BREAKING NEWS:*
             {{ states.sensor.dweet_vhome_message.state }}
-          tts_entity_id: group.tts_devices
+          tts_entity_id: group.config_tts_devices
           tts_sound: 'other/breaking_news.m4a'
           tts_pause_delay: "00:00:03"
           tts_message: |
@@ -152,7 +152,7 @@ automation:
           telegram_message: |
             *TRUMP:*
             {{ states.sensor.dweet_vhome_message.state }}
-          tts_entity_id: group.tts_devices
+          tts_entity_id: group.config_tts_devices
           tts_sound: 'other/hailt_to_the_chief.m4a'
           tts_pause_delay: "00:00:03"
           tts_message: |

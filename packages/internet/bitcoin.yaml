@@ -68,7 +68,7 @@ automation:
       #   entity_id: sensor.bitcoin_percent_change_24h
       #   above: 2
       - platform: template
-        value_template: '{{ states.sensor.bitcoin.state | round(0) | int > states.input_number.var_last_known_bitcoin_price.state | int  + states.sensor.config_bitcoin_notification_price_threshold.state | int }}'
+        value_template: '{{ states.sensor.bitcoin.state | round(0) | int > states.input_number.var_last_known_bitcoin_price.state | int  + states.input_text.config_bitcoin_notification_price_threshold.state | int }}'
     action:
       - service: script.notify2
         data_template:
@@ -82,7 +82,7 @@ automation:
           blink_color2: "green"
           chromecast_entity_id: media_player.vtv_chromecast
           chromecast_link: http://bitcoincharts.com/charts/chart.png?width=848&height=480&m=bitstampUSD&SubmitButton=Draw&r=2&i=5-min&c=0&s=&e=&Prev=&Next=&t=C&b=&a1=&m1=10&a2=&m2=25&x=0&i1=&i2=&i3=&i4=&v=1&cv=0&ps=0&l=0&p=0&
-          tts_entity_id: group.tts_devices
+          tts_entity_id: group.config_tts_devices
           tts_sound: 'other/smb_coin.wav'
           tts_message: "Bitcoin's up! The current bitcoin price is ${{ states.sensor.bitcoin.state | round(0) }}"
           tts_pause_delay: "00:00:07"
@@ -97,7 +97,7 @@ automation:
       #   entity_id: sensor.bitcoin_percent_change_24h
       #   below: -2
       - platform: template
-        value_template: '{{ states.sensor.bitcoin.state | round(0) | int  < states.input_number.var_last_known_bitcoin_price.state | int  - states.sensor.config_bitcoin_notification_price_threshold.state | int }}'
+        value_template: '{{ states.sensor.bitcoin.state | round(0) | int  < states.input_number.var_last_known_bitcoin_price.state | int  - states.input_text.config_bitcoin_notification_price_threshold.state | int }}'
     action:
       - service: script.notify2
         data_template:
@@ -111,7 +111,7 @@ automation:
           blink_color2: "red"
           chromecast_entity_id: media_player.vtv_chromecast
           chromecast_link: http://bitcoincharts.com/charts/chart.png?width=848&height=480&m=bitstampUSD&SubmitButton=Draw&r=2&i=5-min&c=0&s=&e=&Prev=&Next=&t=C&b=&a1=&m1=10&a2=&m2=25&x=0&i1=&i2=&i3=&i4=&v=1&cv=0&ps=0&l=0&p=0&
-          tts_entity_id: group.tts_devices
+          tts_entity_id: group.config_tts_devices
           tts_sound: 'other/smb_coin.wav'
           tts_message: "Bitcoin's down! The current bitcoin price is ${{ states.sensor.bitcoin.state | round(0) }}"
           tts_pause_delay: "00:00:07"
@@ -136,7 +136,7 @@ script:
       data_template:
         chromecast_entity_id: media_player.vtv_chromecast
         chromecast_link: http://bitcoincharts.com/charts/chart.png?width=848&height=480&m=bitstampUSD&SubmitButton=Draw&r=2&i=5-min&c=0&s=&e=&Prev=&Next=&t=C&b=&a1=&m1=10&a2=&m2=25&x=0&i1=&i2=&i3=&i4=&v=1&cv=0&ps=0&l=0&p=0&
-        tts_entity_id: group.tts_devices
+        tts_entity_id: group.config_tts_devices
         tts_sound: 'other/smb_coin.wav'
         tts_message: "The current bitcoin price is ${{ states.sensor.bitcoin.state | round(0) }}"
         tts_pause_delay: "00:00:07"
@@ -167,7 +167,7 @@ script:
       data_template:
         telegram_message: >
           {%-for entity in states.group.coinmarketcap.attributes.entity_id -%}
-            {%- if entity[7:] | lower in states.input_select.array_favorite_cyptos.attributes.options | lower -%}
+            {%- if entity[7:] | lower in states.input_select.config_array_favorite_cyptos.attributes.options | lower -%}
               {%- set coin = states.sensor[entity[7:]].attributes.symbol -%}
               {%- set coin_loopid = 1 -%}
               {%- set coin_empty_space = 8 - coin  |  string | title | length -%}
@@ -255,7 +255,7 @@ homeassistant:
   backend_bitcoin:
     entities:
       - input_number.var_last_known_bitcoin_price
-      - input_select.array_favorite_cyptos
+      - input_select.config_array_favorite_cyptos
 
 #   config_bitcoin:
 #     entities:

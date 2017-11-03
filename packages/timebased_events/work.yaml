@@ -11,10 +11,10 @@ sensor:
           - sensor.now_day
           - sensor.now_hour
         value_template: >
-          {% set work_week = states.sensor.var_mike_work_week.state %}
-          {% set third_shift = states.sensor.var_mike_work_week_third_shift.state %}
-          {% set third_shift_first_day = states.sensor.var_mike_work_week_third_shift_first_day.state %}
-          {% set third_shift_last_day = states.sensor.var_mike_work_week_third_shift_last_day.state %}
+          {% set work_week = states.input_text.config_mike_work_week.state %}
+          {% set third_shift = states.input_text.config_mike_work_week_third_shift.state %}
+          {% set third_shift_first_day = states.input_text.config_mike_work_week_third_shift_first_day.state %}
+          {% set third_shift_last_day = states.input_text.config_mike_work_week_third_shift_last_day.state %}
 
           {% set today = states.sensor.now_day.state %}
           {% set hour = states.sensor.now_hour.state %}
@@ -22,13 +22,13 @@ sensor:
           {####### 3rd Shift ##########}
           {% if third_shift %}
             {####### Check Time ##########}
-            {% if hour | int >= states.sensor.var_mike_work_start_hour.state | int or hour | int < states.sensor.var_mike_work_end_hour.state | int %}
+            {% if hour | int >= states.input_text.config_mike_work_start_hour.state | int or hour | int < states.input_text.config_mike_work_end_hour.state | int %}
               {####### Check Day ##########}
               {% if today in work_week %}
                 {###### Check First/Last Day ######}
-                {% if today ==  third_shift_first_day and hour | int < states.sensor.var_mike_work_start_hour.state | int %}
+                {% if today ==  third_shift_first_day and hour | int < states.input_text.config_mike_work_start_hour.state | int %}
                   off
-                {% elif today ==  third_shift_last_day and hour | int >= states.sensor.var_mike_work_end_hour.state | int %}
+                {% elif today ==  third_shift_last_day and hour | int >= states.input_text.config_mike_work_end_hour.state | int %}
                   off
                 {% else %}
                   on
@@ -43,7 +43,7 @@ sensor:
           {####### Day Shift ##########}
           {% else %}
             {####### Check Time ##########}
-            {% if hour | int >= states.sensor.var_mike_work_start_hour.state | int and hour | int < states.sensor.var_mike_work_end_hour.state | int %}
+            {% if hour | int >= states.input_text.config_mike_work_start_hour.state | int and hour | int < states.input_text.config_mike_work_end_hour.state | int %}
               {####### Check Day ##########}
               {% if today in work_week %}
                 on
@@ -60,9 +60,9 @@ sensor:
         entity_id:
           - sensor.now_day
         value_template: >
-          {% set work_week = states.sensor.var_mike_work_week.state %}
-          {% set third_shift = states.sensor.var_mike_work_week_third_shift.state %}
-          {% set third_shift_last_day = states.sensor.var_mike_work_week_third_shift_last_day.state %}
+          {% set work_week = states.input_text.config_mike_work_week.state %}
+          {% set third_shift = states.input_text.config_mike_work_week_third_shift.state %}
+          {% set third_shift_last_day = states.input_text.config_mike_work_week_third_shift_last_day.state %}
           {% set today = states.sensor.now_day.state %}
 
           {% if today in work_week %}
@@ -98,8 +98,8 @@ automation:
     trigger:
       - platform: template
         value_template: >
-          {% if states.sensor.now_hour.state| int == states.sensor.var_mike_leave_for_work_hour.state | int - 2 %}
-            {% if states.sensor.now_minute.state | int == states.sensor.var_mike_leave_for_work_minute.state | int %}
+          {% if states.sensor.now_hour.state| int == states.input_text.config_mike_leave_for_work_hour.state | int - 2 %}
+            {% if states.sensor.now_minute.state | int == states.input_text.config_mike_leave_for_work_minute.state | int %}
               true
             {% endif %}
           {% endif %}
@@ -114,7 +114,7 @@ automation:
           entity_id: group.timebased_flood_lights
           delay: "00:00:01"
           next_scene: 'prework_cyan'
-          tts_entity_id: group.tts_devices
+          tts_entity_id: group.config_tts_devices
           tts_sound: 'isaac/weapon_room.mp3'
           tts_sound_delay: '00:00:05'
           tts_message: "Get ready to leave for work in. T minus 2 hours. Your iPhone is at. {{ states('sensor.iphone6s_battery') | int }}%. and your Watch is at. {{ states('sensor.watch_battery') | int }}%. I  sent your pre work checklist to telegram for review."
@@ -135,8 +135,8 @@ automation:
     trigger:
       - platform: template
         value_template: >
-          {% if states.sensor.now_hour.state| int == states.sensor.var_mike_leave_for_work_hour.state | int - 1 %}
-            {% if states.sensor.now_minute.state | int == states.sensor.var_mike_leave_for_work_minute.state | int %}
+          {% if states.sensor.now_hour.state| int == states.input_text.config_mike_leave_for_work_hour.state | int - 1 %}
+            {% if states.sensor.now_minute.state | int == states.input_text.config_mike_leave_for_work_minute.state | int %}
               true
             {% endif %}
           {% endif %}
@@ -151,7 +151,7 @@ automation:
           entity_id: group.timebased_flood_lights
           delay: "00:00:01"
           next_scene: 'prework_purple'
-          tts_entity_id: group.tts_devices
+          tts_entity_id: group.config_tts_devices
           tts_sound: 'isaac/weapon_room.mp3'
           tts_sound_delay: '00:00:05'
           tts_message: "Leave for work in. T minus 1 hour.  I  sent your pre work checklist to telegram for review."
@@ -167,8 +167,8 @@ automation:
     trigger:
       - platform: template
         value_template: >
-          {% if states.sensor.now_hour.state| int == states.sensor.var_mike_leave_for_work_hour.state | int %}
-            {% if states.sensor.now_minute.state | int == states.sensor.var_mike_leave_for_work_minute.state | int - 30 %}
+          {% if states.sensor.now_hour.state| int == states.input_text.config_mike_leave_for_work_hour.state | int %}
+            {% if states.sensor.now_minute.state | int == states.input_text.config_mike_leave_for_work_minute.state | int - 30 %}
               true
             {% endif %}
           {% endif %}
@@ -183,7 +183,7 @@ automation:
           entity_id: group.timebased_flood_lights
           delay: "00:00:01"
           next_scene: 'prework_red'
-          tts_entity_id: group.tts_devices
+          tts_entity_id: group.config_tts_devices
           tts_sound: 'isaac/secret_room_find.mp3'
           tts_sound_delay: '00:00:04'
           tts_message: "Leave for work in. T minus 30 minutes."
@@ -195,8 +195,8 @@ automation:
     trigger:
       - platform: template
         value_template: >
-          {% if states.sensor.now_hour.state| int == states.sensor.var_mike_leave_for_work_hour.state | int %}
-            {% if states.sensor.now_minute.state | int == states.sensor.var_mike_leave_for_work_minute.state | int - 10 %}
+          {% if states.sensor.now_hour.state| int == states.input_text.config_mike_leave_for_work_hour.state | int %}
+            {% if states.sensor.now_minute.state | int == states.input_text.config_mike_leave_for_work_minute.state | int - 10 %}
               true
             {% endif %}
           {% endif %}
@@ -211,7 +211,7 @@ automation:
           entity_id: group.timebased_flood_lights
           delay: "00:00:01"
           next_scene: 'prework_t10m'
-          tts_entity_id: group.tts_devices
+          tts_entity_id: group.config_tts_devices
           tts_sound: 'isaac/isaacbosswin.mp3'
           tts_sound_delay: '00:00:05'
           tts_message: |
@@ -236,8 +236,8 @@ automation:
     trigger:
       - platform: template
         value_template: >
-          {% if states.sensor.now_hour.state| int == states.sensor.var_mike_leave_for_work_hour.state | int %}
-            {% if states.sensor.now_minute.state | int == states.sensor.var_mike_leave_for_work_minute.state | int - 5 %}
+          {% if states.sensor.now_hour.state| int == states.input_text.config_mike_leave_for_work_hour.state | int %}
+            {% if states.sensor.now_minute.state | int == states.input_text.config_mike_leave_for_work_minute.state | int - 5 %}
               true
             {% endif %}
           {% endif %}
@@ -252,7 +252,7 @@ automation:
           entity_id: group.timebased_flood_lights
           delay: "00:00:01"
           next_scene: 'day_bright'
-          tts_entity_id: group.tts_devices
+          tts_entity_id: group.config_tts_devices
           tts_sound: 'isaac/secret_room_find.mp3'
           tts_sound_delay: '00:00:04'
           tts_message: "Leave for work in. T minus 5 minutes."
@@ -264,8 +264,8 @@ automation:
     trigger:
       - platform: template
         value_template: >
-          {% if states.sensor.now_hour.state| int == states.sensor.var_mike_leave_for_work_hour.state | int %}
-            {% if states.sensor.now_minute.state | int == states.sensor.var_mike_leave_for_work_minute.state | int %}
+          {% if states.sensor.now_hour.state| int == states.input_text.config_mike_leave_for_work_hour.state | int %}
+            {% if states.sensor.now_minute.state | int == states.input_text.config_mike_leave_for_work_minute.state | int %}
               true
             {% endif %}
           {% endif %}
@@ -279,7 +279,7 @@ automation:
           flood_color: "red"
           entity_id: group.timebased_flood_lights
           delay: "00:00:01"
-          tts_entity_id: group.tts_devices
+          tts_entity_id: group.config_tts_devices
           tts_sound: 'isaac/weapon_room.mp3'
           tts_sound_delay: '00:00:05'
           tts_message: "It's time to leave for work. Have a good day. Goodbye"
@@ -342,7 +342,7 @@ automation:
     trigger:
       - platform: template
         value_template: >
-          {% if now().hour | int == states.sensor.var_mike_work_end_hour.state | int - 1 %}
+          {% if now().hour | int == states.input_text.config_mike_work_end_hour.state | int - 1 %}
             true
           {% endif %}
     condition:
@@ -366,7 +366,7 @@ automation:
     trigger:
       - platform: template
         value_template: >
-          {% if now().hour | int == states.sensor.var_mike_work_end_hour.state | int  %}
+          {% if now().hour | int == states.input_text.config_mike_work_end_hour.state | int  %}
             true
           {% endif %}
     condition:
@@ -452,14 +452,14 @@ group:
 
   hidden_work:
     entities:
-      - sensor.var_mike_leave_for_work_hour
-      - sensor.var_mike_leave_for_work_minute
-      - sensor.var_mike_work_start_hour
-      - sensor.var_mike_work_end_hour
-      - sensor.var_mike_work_week_third_shift
-      - sensor.var_mike_work_week
-      - sensor.var_mike_work_week_third_shift_first_day
-      - sensor.var_mike_work_week_third_shift_last_day
+      - input_text.config_mike_leave_for_work_hour
+      - input_text.config_mike_leave_for_work_minute
+      - input_text.config_mike_work_start_hour
+      - input_text.config_mike_work_end_hour
+      - input_text.config_mike_work_week_third_shift
+      - input_text.config_mike_work_week
+      - input_text.config_mike_work_week_third_shift_first_day
+      - input_text.config_mike_work_week_third_shift_last_day
 
 #   options_work:
 #     entities:

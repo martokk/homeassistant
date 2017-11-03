@@ -145,7 +145,7 @@ automation:
           entity_id: group.timebased_flood_lights
           delay: "00:00:10"
           next_scene: day
-          tts_entity_id: group.tts_devices
+          tts_entity_id: group.config_tts_devices
           tts_sound: 'st_notifications/st_notification2.wav'
           tts_message: "The time, is 5:30am"
 
@@ -161,7 +161,7 @@ automation:
           flood_color: "magenta"
           entity_id: group.timebased_flood_lights
           delay: "00:00:10"
-          tts_entity_id: group.tts_devices
+          tts_entity_id: group.config_tts_devices
           tts_sound: 'st_notifications/st_notification2.wav'
           tts_message: "The time, is 7am."
 
@@ -177,7 +177,7 @@ automation:
           flood_color: "magenta"
           entity_id: group.timebased_flood_lights
           delay: "00:00:06"
-          tts_entity_id: group.tts_devices
+          tts_entity_id: group.config_tts_devices
           tts_sound: 'st_notifications/st_notification2.wav'
           tts_message: "The time, is 12pm."
           tts_pause_delay: '00:00:00'
@@ -195,7 +195,7 @@ automation:
           entity_id: group.timebased_flood_lights
           delay: "00:00:05"
           next_scene: 'night_cyan'
-          tts_entity_id: group.tts_devices
+          tts_entity_id: group.config_tts_devices
           tts_sound: 'st_notifications/st_notification2.wav'
           tts_message: "The time, is 5pm."
           tts_pause_delay: '00:00:00'
@@ -217,7 +217,7 @@ automation:
           entity_id: group.timebased_flood_lights
           delay: "00:00:05"
           next_scene: night_blue
-          tts_entity_id: group.tts_devices
+          tts_entity_id: group.config_tts_devices
           tts_sound: 'st_notifications/st_notification2.wav'
           tts_message: "The time, is 7pm"
           tts_pause_delay: '00:00:00'
@@ -239,7 +239,7 @@ automation:
           entity_id: group.timebased_flood_lights
           delay: "00:00:05"
           next_scene: night_red
-          tts_entity_id: group.tts_devices
+          tts_entity_id: group.config_tts_devices
           tts_sound: 'st_notifications/st_notification2.wav'
           tts_message: "9pm"
           tts_pause_delay: '00:00:00'
@@ -311,7 +311,7 @@ automation:
           flood_color: "red"
           entity_id: group.timebased_flood_lights
           delay: "00:00:05"
-          tts_entity_id: group.tts_devices
+          tts_entity_id: group.config_tts_devices
           tts_sound: 'st_notifications/st_notification2.wav'
           tts_message: "11pm"
           tts_pause_delay: '00:00:00'
@@ -328,7 +328,7 @@ automation:
           flood_color: "red"
           entity_id: group.timebased_flood_lights
           delay: "00:00:05"
-          tts_entity_id: group.tts_devices
+          tts_entity_id: group.config_tts_devices
           tts_sound: 'st_notifications/st_notification2.wav'
           tts_message: "12am"
           tts_pause_delay: '00:00:00'

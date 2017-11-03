@@ -1,53 +1,48 @@
-sensor:
-
-  - platform: template
-    sensors:
+input_text:
 ##########################################
 ########## WORK SHIFT ####################
 ##########################################
-## NOTE: Only Change the 'User Settings'. Everything else is dynamicaly calculated using these variables.
-      # Exact time I leave the house for work
-      var_mike_leave_for_work_hour:
-        value_template: '17'
-      var_mike_leave_for_work_minute:
-        value_template: '45'
 
-      # Exact hours that work starts and ends
-      var_mike_work_start_hour:
-        value_template: '18'
-      var_mike_work_end_hour:
-        value_template: '5'
+  # Exact time I leave the house for work
+  config_mike_leave_for_work_hour:
+    initial: 17
+  config_mike_leave_for_work_minute:
+    initial: 45
 
-      # Exact Days that I am at work. If Third Shift, include the day that you get off last.
-      var_mike_work_week:
-        value_template: "['mon', 'tue', 'wed', 'thu', 'fri']"
-      var_mike_work_week_third_shift:
-        value_template: 'true'
-      var_mike_work_week_third_shift_first_day:
-        value_template: "mon"
-      var_mike_work_week_third_shift_last_day:
-        value_template: "fri"
+  # Exact hours that work starts and ends
+  config_mike_work_start_hour:
+    initial: 18
+  config_mike_work_end_hour:
+    initial: 5
+
+  # Exact Days that I am at work. If Third Shift, include the day that you get off last.
+  config_mike_work_week:
+    initial: "['mon', 'tue', 'wed', 'thu', 'fri']"
+  config_mike_work_week_third_shift:
+    initial: true
+  config_mike_work_week_third_shift_first_day:
+    initial: "mon"
+  config_mike_work_week_third_shift_last_day:
+    initial: "fri"
 
 ##########################################
 ########## BITCOIN #######################
 ##########################################
-      config_bitcoin_notification_price_threshold:
-        value_template: '150'
+  config_bitcoin_notification_price_threshold:
+    initial: 150
 
 input_select:
-  array_favorite_cyptos:
+  config_array_favorite_cyptos:
     options:
       - "bitcoin"
       - "ethereum"
       - "steem"
       - "siacoin"
 
-
 ##########################################
 ########## TIMEBASED SUMMARY #############
 ##########################################
-
-  array_timebased_summary_times:
+  config_array_timebased_summary_times:
     options:
       - "02:30"
       - "06:00"
@@ -56,11 +51,9 @@ input_select:
       - "22:30"
       - "23:20"
 
-
 ##########################################
 ########## PREWORK CHECKLISTS ############
 ##########################################
-
   config_array_prework_checklist_t2h:
     options:
       - "Shower"
@@ -103,9 +96,8 @@ group:
 ##########################################
 ########## TTS ###########################
 ##########################################
-
   # MAIN TTS GROUP - List of all TTS Devices for TTS Notifications
-  tts_devices:
+  config_tts_devices:
     name: "TTS Devices"
     entities:
       - media_player.vlc
@@ -113,16 +105,36 @@ group:
 ##########################################
 ########## USER PRESENCE #################
 ##########################################
-  residents: # Used in automations
+  config_residents: # Used in automations
     entities:
     - input_boolean.var_mike_home
     - input_boolean.var_dan_home
     - input_boolean.var_override_home
 
-  guests: # Used in automations
+  config_guests: # Used in automations
     entities:
     - input_boolean.var_dummy_home
 
-  smoking_guests: # Used in automations
+  config_smoking_guests: # Used in automations
     entities:
     - input_boolean.var_dan_home
+
+##########################################
+########## AUTO-GROUPS ###################
+##########################################
+  backend_config:
+    entitites:
+      - input_text.config_mike_leave_for_work_hour
+      - input_text.config_mike_leave_for_work_minute
+      - input_text.config_mike_work_start_hour
+      - input_text.config_mike_work_end_hour
+      - input_text.config_mike_work_week
+      - input_text.config_mike_work_week_third_shift
+      - input_text.config_mike_work_week_third_shift_first_day
+      - input_text.config_mike_work_week_third_shift_last_day
+      - input_text.config_bitcoin_notification_price_threshold
+      - input_select.config_array_favorite_cyptos
+      - input_select.config_array_timebased_summary_times
+      - input_select.config_array_prework_checklist_t2h
+      - input_select.config_array_prework_checklist_t1h
+      - input_select.config_array_prework_checklist_dont_forget

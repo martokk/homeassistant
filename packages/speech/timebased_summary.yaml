@@ -16,13 +16,13 @@ automation:
   - alias: timebased_summary
     trigger:
       # - platform: template
-      #   value_template: '{{ states.sensor.time.state | string in states.input_select.array_timebased_summary_times.attributes.options | string }}'
+      #   value_template: '{{ states.sensor.time.state | string in states.input_select.config_array_timebased_summary_times.attributes.options | string }}'
      - platform: time
        minutes: 00
        seconds: 15
     condition:
       - condition: template
-        value_template: '{{ states.sensor.time.state | string in states.input_select.array_timebased_summary_times.attributes.options | string }}'
+        value_template: '{{ states.sensor.time.state | string in states.input_select.config_array_timebased_summary_times.attributes.options | string }}'
     action:
       - service: script.timebased_summary
 
@@ -172,7 +172,7 @@ group:
 
   backend_timebased_summary:
     entities:
-      - input_select.array_timebased_summary_times
+      - input_select.config_array_timebased_summary_times
 
 #   config_timebased_summary:
 #     entities:
