@@ -182,3 +182,14 @@ script:
         data:
           entity_id: input_select.var_lks_bedroom
           option: 'night_computer_blue'
+
+##########################################
+############### GROUPS ###################
+##########################################
+group:
+  hidden_scene2_night_computer_blue:
+    entities:
+      - script.scene2_night_computer_blue_bedroom
+      - script.scene2_night_computer_blue_kitchen
+      - script.scene2_night_computer_blue_livingroom
+      - script.scene2_night_computer_blue_office

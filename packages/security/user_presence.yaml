@@ -1,0 +1,451 @@
+##########################################
+########## COMPONENTS ####################
+##########################################
+# sensor:
+
+#-----------------------------------------------------#
+
+automation:
+##########################################
+########## NOTIFICATIONS #################
+##########################################
+
+  #********** Resident Mike Home ***************************************#
+  - alias: mike_home_theme_video
+    trigger:
+      - platform: state
+        entity_id: input_boolean.var_mike_home
+        from: 'off'
+        to: 'on'
+    condition:
+      - condition: state
+        entity_id: input_boolean.override_turn_off_tv
+        state: 'off'
+    action:
+      # TODO: If TV off, turn on, add in delays (as seen below). If TV already on, then don't use delays. Delays are nessesary since the TV needs to cold boot and takes about 16-17 seconds to cold boot.
+    - service: switch.turn_on
+      entity_id: switch.sonoff_entertainment_center
+
+    - delay: "00:00:10" ## Delay is for waiting on TV to fully turn on
+    - service: script.set_entertainment_center_tv_volume
+      data:
+        volume_level: 20
+
+    - service: script.notify2
+      data_template:
+        tts_entity_id: group.config_tts_devices
+        tts_sound: 'st_notifications/intercom_ds9.mp3'
+        tts_message: >
+          Welcome home Mike!
+
+    - delay: "00:00:07" ## Delay is for waiting on TV to fully turn on
+
+    - service: script.notify2
+      data_template:
+        chromecast_entity_id: media_player.vtv_chromecast
+        chromecast_link: http://192.168.1.3:8123/local/video/user_theme_songs/battlestar_galactica_intro.mp4
+
+    - delay: "00:01:00"
+    - service: script.timebased_tts_summary
+
+
+  #********** Resident Dan Home ***************************************#
+  # - alias: dan_home_theme_video
+  #   trigger:
+  #     - platform: state
+  #       entity_id: input_boolean.var_dan_home
+  #       from: 'off'
+  #       to: 'on'
+  #   action:
+  #   - delay: "00:00:03"
+  #   - service: script.notify2
+  #     data_template:
+  #       chromecast_entity_id: media_player.vtv_chromecast
+  #       chromecast_link: http://192.168.1.3:8123/local/video/user_theme_songs/bushes_of_love.mp4
+  #       tts_entity_id: group.config_tts_devices
+  #       tts_sound: 'st_notifications/intercom_ds9.mp3'
+  #       tts_message: "Welcome home Dan!"
+
+  #********** Temp Dan Home ***************************************#
+  - alias: dan_home_notification
+    trigger:
+    - platform: state
+      entity_id: input_boolean.var_dan_home
+      from: "off"
+      to: "on"
+    condition:
+      - condition: state
+        entity_id: input_boolean.var_mike_home
+        state: 'on'
+    action:
+    - service: script.notify2
+      data_template:
+        telegram_message: |
+          Dan's Here!
+    - condition: template
+      value_template: >
+        {% if states.automation.dan_home_notification.attributes.last_triggered %}
+          {% if (as_timestamp(now())-as_timestamp(states.automation.dan_home_notification.attributes.last_triggered)) > (8 * 60 * 60)  %}
+            true
+          {% endif %}
+        {%else%}
+          true
+        {%endif%}
+    - service: script.notify2
+      data_template:
+        flood_color: "green"
+        entity_id: group.ambient_lights
+        delay: "00:00:02"
+        tts_entity_id: group.config_tts_devices
+        tts_sound: 'st_notifications/intercom_tos.mp3'
+        tts_message: "Dan's is here!"
+        tts_pause_delay: "00:00:09"
+    - delay: "00:00:03"
+    - service: script.notify2
+      data_template:
+        chromecast_volume_level: '18'
+        chromecast_entity_id: media_player.vtv_chromecast
+        chromecast_link: http://192.168.1.3:8123/local/video/user_theme_songs/bushes_of_love.mp4
+    - delay: "00:00:57"
+    - service: script.notify2
+      data_template:
+        tts_entity_id: group.config_tts_devices
+        tts_message: >-
+          {% macro greeting() -%}
+            {{ [
+              "<phoneme alphabet='ipa' ph='kɑˈplɑʔ'>Qapla'!</phoneme> Commander Gappin.",
+              "Live long, and prosper Commander Gappin."
+            ] | random }}
+          {%- endmacro %}
+
+          {% macro random_phrase() -%}
+            {{ [
+            "You may address our Captain with his prefered gender pronoun:
+            <break time='.4s' />
+            Dear Leader!
+            <break time='.4s' />
+            Dear Leader Vill-a-real!
+            <break time='.4s' />
+            Failure to do so may result in, arrest for crimes against the state per-su-ent to Article 14 Section 31, of the Starfleet Charter.",
+
+            "Please note that we will no longer be serving Klingon
+              Rakta-jinos,<break time='.2s' />
+              <prosody volume='x-loud'>Ghagh</prosody>,<break time='.3s' />
+              Heart of Targh,<break time='.2s' />
+              or Blood wine <break time='.2s' />
+            due to accusations of culture appropreation of the Klingon race. Starfleet would like to remind you that we believe...<break time='.2s' />
+            Klingon lives matter!<break time='.4s' />"
+
+            ] | random }}
+          {%- endmacro %}
+
+          <p>
+            {{ greeting }}
+            Welcome aboard the U S S Von Me Sees, a Defiant Class Starfleet warship, under the most honourable, Captain Vill-a-real.
+          </p>
+          <p>
+          	{{ random_phrase }}
+          </p>
+          <p>
+            Please enjoy your visit aboard the U S S Von Me Sees.
+          </p>
+
+  - alias: dan_here_filler_task_reminder
+    trigger:
+      - platform: time
+        at: '22:00:00'
+    condition:
+      - condition: state
+        entity_id: input_boolean.var_dan_home
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.var_mike_home
+        state: 'on'
+    action:
+      - service: script.notify2
+        data_template:
+          telegram_message: "REMINDER: Do 5m Filler Tasks"
+
+
+
+  # - alias: dan_home_start_smoke_session
+  #   trigger:
+  #   - platform: state
+  #     entity_id: input_boolean.var_dan_home
+  #     from: "off"
+  #     to: "on"
+  #     for:
+  #       minutes: 25
+  #   action:
+  #     - service: input_boolean.turn_on
+  #       entity_id: input_boolean.var_smoke_session_on
+  #     - delay: '00:30:00'
+  #     - service: input_boolean.turn_off
+  #       entity_id: input_boolean.var_smoke_session_on
+  #     - delay: '02:30:00'
+  #     - service: input_boolean.turn_on
+  #       entity_id: input_boolean.var_smoke_session_on
+  #     - delay: '00:30:00'
+  #     - service: input_boolean.turn_off
+  #       entity_id: input_boolean.var_smoke_session_on
+
+##########################################
+########## AUTOMATIONS ###################
+##########################################
+
+  #********** Mike Presence ***********#
+  - alias: mike_away
+    trigger:
+      - platform: state
+        entity_id: device_tracker.iphone6s
+        to: 'not_home'
+        for:
+          minutes: 30
+      - platform: state
+        entity_id: input_boolean.var_desktop_computer_on
+        to: 'off'
+    condition:
+      - condition: state
+        entity_id: input_boolean.var_mike_home
+        state: 'on'
+      - condition: state
+        entity_id: device_tracker.dans_iphone6
+        state: 'not_home'
+      - condition: state
+        entity_id: device_tracker.iphone6s
+        state: 'not_home'
+      - condition: state
+        entity_id: input_boolean.var_desktop_computer_on
+        state: 'off'
+    action:
+      - service: homeassistant.turn_off
+        entity_id: input_boolean.var_mike_home
+
+  - alias: mike_home
+    trigger:
+      - platform: state
+        entity_id: device_tracker.iphone6s
+        to: 'home'
+      - platform: state
+        entity_id: device_tracker.watch
+        to: 'home'
+      - platform: state
+        entity_id: device_tracker.dans_iphone6
+        to: 'home'
+      - platform: state
+        entity_id: input_boolean.var_desktop_computer_on
+        to: 'on'
+    condition:
+      - condition: state
+        entity_id: input_boolean.var_mike_home
+        state: 'off'
+
+    action:
+      - service: homeassistant.turn_on
+        entity_id: input_boolean.var_mike_home
+
+  #********** Dan Presence ***************************************#
+  - alias: dan_away
+    trigger:
+      - platform: state
+        entity_id: device_tracker.dans_iphone6
+        to: 'not_home'
+        for:
+          minutes: 60
+    condition:
+      - condition: state
+        entity_id: input_boolean.var_dan_home
+        state: 'on'
+    action:
+      - service: homeassistant.turn_off
+        entity_id: input_boolean.var_dan_home
+
+  - alias: dan_home
+    trigger:
+      - platform: state
+        entity_id: device_tracker.dans_iphone6
+        to: 'home'
+    condition:
+      - condition: state
+        entity_id: input_boolean.var_dan_home
+        state: 'off'
+    action:
+      - service: homeassistant.turn_on
+        entity_id: input_boolean.var_dan_home
+
+
+  #********** Residents Presence ***********#
+  - alias: residents_home
+    trigger:
+      - platform: state
+        entity_id: group.config_residents
+        from: 'on'
+        to: 'off'
+    action:
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.var_residents_home
+
+
+  - alias: residents_away
+    trigger:
+      - platform: state
+        entity_id: group.config_residents
+        from: 'off'
+        to: 'on'
+    action:
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.var_residents_home
+
+
+  #********** Guest Presence ***********#
+  - alias: guest_home
+    trigger:
+      - platform: state
+        entity_id: group.config_guests
+        from: 'on'
+        to: 'off'
+    action:
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.option_mode_guest
+
+  - alias: guest_away
+    trigger:
+      - platform: state
+        entity_id: group.config_guests
+        from: 'off'
+        to: 'on'
+    action:
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.option_mode_guest
+
+
+  #********** Smoking Guest Presence ***********#
+  - alias: smoking_guest_away
+    trigger:
+      - platform: state
+        entity_id: group.config_smoking_guests
+        from: 'on'
+        to: 'off'
+    action:
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.option_mode_smoking
+
+  - alias: smoking_guest_home
+    trigger:
+      - platform: state
+        entity_id: group.config_smoking_guests
+        from: 'off'
+        to: 'on'
+    action:
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.option_mode_smoking
+
+
+#-----------------------------------------------------#
+
+script:
+  alexa_mike_home:
+    sequence:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.var_mike_home
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.var_override_home
+
+  alexa_dan_home:
+    sequence:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.var_dan_home
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.var_override_home
+
+#-----------------------------------------------------#
+
+input_boolean:
+##########################################
+########## BACKEND #######################
+##########################################
+  var_mike_home:
+    icon: mdi:cellphone-iphone
+
+  var_dan_home:
+    icon: mdi:cellphone-iphone
+
+  var_residents_home:
+
+  var_override_home:
+
+  var_dummy_home:
+
+##########################################
+########## OPTIONS #######################
+##########################################
+
+##########################################
+########## CONFIG ########################
+##########################################
+
+#-----------------------------------------------------#
+
+homeassistant:
+  customize:
+##########################################
+########## EMULATED HUE ##################
+##########################################
+    script.alexa_mike_home:
+      emulated_hue: true
+      emulated_hue_name: "Mike's Home"
+    script.alexa_dan_home:
+      emulated_hue: true
+      emulated_hue_name: "Dan's Home"
+
+#-----------------------------------------------------#
+
+group:
+##########################################
+############### GROUPS ###################
+##########################################
+
+##########################################
+############### AUTO-GROUPS ##############
+##########################################
+  automation_user_presence:
+    entities:
+      - automation.mike_away
+      - automation.mike_home
+      - automation.dan_away
+      - automation.dan_home
+      - automation.residents_home
+      - automation.residents_away
+      - automation.guest_away
+      - automation.guest_home
+      - automation.smoking_guest_away
+      - automation.smoking_guest_home
+      - automation.mike_home_theme_video
+      - automation.dan_home_theme_video
+      - automation.dan_home_notification
+      - automation.dan_here_filler_task_reminder
+      # - automation.dan_home_start_smoke_session
+
+  backend_user_presence:
+    entities:
+    - input_boolean.var_residents_home
+    - input_boolean.var_mike_home
+    - input_boolean.var_dan_home
+    - input_boolean.var_override_home
+
+#   hidden_user_presence:
+#     entities:
+#       - input_boolean.
+
+#   options_user_presence:
+#     entities:
+#       - input_boolean.
+
+  script_user_presence:
+    entities:
+      - script.alexa_mike_home
+      - script.alexa_dan_home
+
+#   sensor_user_presence:
+#     entities:
+#       - sensor.

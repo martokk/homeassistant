@@ -1,0 +1,140 @@
+input_text:
+##########################################
+########## WORK SHIFT ####################
+##########################################
+
+  # Exact time I leave the house for work
+  config_mike_leave_for_work_hour:
+    initial: 17
+  config_mike_leave_for_work_minute:
+    initial: 45
+
+  # Exact hours that work starts and ends
+  config_mike_work_start_hour:
+    initial: 18
+  config_mike_work_end_hour:
+    initial: 5
+
+  # Exact Days that I am at work. If Third Shift, include the day that you get off last.
+  config_mike_work_week:
+    initial: "['mon', 'tue', 'wed', 'thu', 'fri']"
+  config_mike_work_week_third_shift:
+    initial: true
+  config_mike_work_week_third_shift_first_day:
+    initial: "mon"
+  config_mike_work_week_third_shift_last_day:
+    initial: "fri"
+
+##########################################
+########## BITCOIN #######################
+##########################################
+  config_bitcoin_notification_price_threshold:
+    initial: 250
+
+input_select:
+  config_array_favorite_cyptos:
+    options:
+      - "bitcoin"
+      - "ethereum"
+      - "steem"
+      - "siacoin"
+
+##########################################
+########## TIMEBASED SUMMARY #############
+##########################################
+  config_array_timebased_summary_times:
+    options:
+      - "02:30"
+      - "06:00"
+      - "13:00"
+      - "17:00"
+      - "22:30"
+      - "23:20"
+
+##########################################
+########## PREWORK CHECKLISTS ############
+##########################################
+  config_array_prework_checklist_t2h:
+    options:
+      - "Shower"
+      - "Clear Eyes"
+      - "Deodorant"
+      - "Cologne"
+      - "Vitamins"
+      - "Clean up"
+      - "Ready Lunch"
+      - "Eat Something"
+
+  config_array_prework_checklist_t1h:
+    options:
+      - "Fill e-Cig"
+      - "Download Podcasts"
+      - "Pack Lunch into EDC"
+      - "Ready EDC Backpack"
+      - "Finish Smoking/Coffee"
+      - "Check Clean Shave"
+      - "Finish Hair"
+      - "Brush Teeth"
+      - "Clear Eyes (Use and Pack)"
+      - "Check Shirt/Pants Stains"
+      - "(1) Spray of Cologne"
+      - "Take Piss"
+      - "Final Check (You __should__ be ready to leave)"
+
+  config_array_prework_checklist_dont_forget:
+    options:
+      - "Cigarrettes"
+      - "Lighter"
+      - "Vape"
+      - "Wallet"
+      - "ID Badge"
+      - "iPhone"
+      - "Apple Watch"
+      - "Keys"
+
+group:
+##########################################
+########## TTS ###########################
+##########################################
+  # MAIN TTS GROUP - List of all TTS Devices for TTS Notifications
+  config_tts_devices:
+    name: "TTS Devices"
+    entities:
+      - media_player.vlc
+
+##########################################
+########## USER PRESENCE #################
+##########################################
+  config_residents: # Used in automations
+    entities:
+    - input_boolean.var_mike_home
+    - input_boolean.var_dan_home
+    - input_boolean.var_override_home
+
+  config_guests: # Used in automations
+    entities:
+    - input_boolean.var_dummy_home
+
+  config_smoking_guests: # Used in automations
+    entities:
+    - input_boolean.var_dan_home
+
+##########################################
+########## AUTO-GROUPS ###################
+##########################################
+  hidden_config:
+    entities:
+      - input_text.config_mike_leave_for_work_hour
+      - input_text.config_mike_leave_for_work_minute
+      - input_text.config_mike_work_start_hour
+      - input_text.config_mike_work_end_hour
+      - input_text.config_mike_work_week
+      - input_text.config_mike_work_week_third_shift
+      - input_text.config_mike_work_week_third_shift_first_day
+      - input_text.config_mike_work_week_third_shift_last_day
+      - input_text.config_bitcoin_notification_price_threshold
+      - input_select.config_array_favorite_cyptos
+      - input_select.config_array_timebased_summary_times
+      - input_select.config_array_prework_checklist_t2h
+      - input_select.config_array_prework_checklist_t1h
+      - input_select.config_array_prework_checklist_dont_forget

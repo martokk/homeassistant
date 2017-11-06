@@ -1,5 +1,5 @@
 ##########################################
-########## vHOME v0.11.1 ################
+########## vHOME v0.11.6 ################
 ##########################################
 homeassistant:
   name: vHome
@@ -13,24 +13,23 @@ homeassistant:
 
 http:
   api_password: !secret http_api_password
-  base_url: http://192.168.1.3:8123
-  trusted_networks:
-    - 192.168.1.0/24
+  base_url: !secret http_base_url
+  trusted_networks: !secret http_trusted_networks
   ip_ban_enabled: True
   login_attempts_threshold: 5
 
 mqtt:
-  broker: 192.168.1.3
-  port: 1883
-  client_id: home-assistant-1
+  broker: !secret mqtt_broker
+  port: !secret mqtt_port
+  client_id: !secret mqtt_client_id
   username: !secret mqtt_username
   password: !secret mqtt_password
   keepalive: 60
 
 emulated_hue:
   type: alexa
-  host_ip: 192.168.1.3
-  listen_port: 8300
+  host_ip: !secret emulated_hue_host_ip
+  listen_port: !secret emulated_hue_port
   off_maps_to_on_domains:
     - script
   expose_by_default: true
@@ -42,9 +41,9 @@ emulated_hue:
 #     - https://home-assistant.io/atom.xml
 
 influxdb:
-  host: 192.168.1.3
-  port: 8086
-  database: home_assistant
+  host: !secret influxdb_host
+  port: !secret influxdb_port
+  database: !secret influxdb_database
 
 updater:
   reporting: False

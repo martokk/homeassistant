@@ -1,0 +1,127 @@
+##########################################
+########## COMPONENTS ####################
+##########################################
+telegram_bot:
+  platform: polling
+  api_key: !secret telegram_api_key
+  allowed_chat_ids: !secret telegram_allowed_chat_ids
+
+
+#-----------------------------------------------------#
+
+automation:
+##########################################
+########## NOTIFICATIONS #################
+##########################################
+  - alias: telegram_command_notify2_tts
+    trigger:
+      - platform: event
+        event_type: telegram_command
+        event_data:
+          command: '/notify2_tts'
+      - platform: event
+        event_type: telegram_command
+        event_data:
+          command: '/s'
+    action:
+      - service: script.notify2
+        data_template:
+          tts_message: |
+            {% set args_modified = trigger.event.data["args"] | join(', ') | replace(",","") %}
+            {{ args_modified | string }}
+
+##########################################
+########## AUTOMATIONS ###################
+##########################################
+
+  - alias: telegram_command_restart
+    trigger:
+      - platform: event
+        event_type: telegram_command
+        event_data:
+          command: '/restart'
+    action:
+      - service: shell_command.restart_all
+
+  - alias: telegram_command_all_automations
+    trigger:
+      - platform: event
+        event_type: telegram_command
+        event_data:
+          command: '/all_automations'
+      - platform: event
+        event_type: telegram_command
+        event_data:
+          command: '/aa'
+    action:
+      - service: script.turn_on_all_automations
+
+#-----------------------------------------------------#
+
+# script:
+##########################################
+########## SCRIPTS #######################
+##########################################
+
+
+#-----------------------------------------------------#
+
+# input_boolean:
+##########################################
+########## BACKEND #######################
+##########################################
+
+##########################################
+########## OPTIONS #######################
+##########################################
+
+##########################################
+########## CONFIG ########################
+##########################################
+
+#-----------------------------------------------------#
+
+# homeassistant:
+#   customize:
+##########################################
+########## EMULATED HUE ##################
+##########################################
+    # input_boolean.template:
+    #   emulated_hue: true
+    #   emulated_hue_name: "Template Name"
+
+#-----------------------------------------------------#
+
+group:
+##########################################
+############### GROUPS ###################
+##########################################
+
+##########################################
+############### AUTO-GROUPS ##############
+##########################################
+  automation_telegram_commands:
+    entities:
+      - automation.telegram_command_notify2_tts
+      - automation.telegram_command_restart
+      - automation.telegram_command_all_automations
+
+#   backend_telegram_commands:
+#     entities:
+#       - input_boolean.
+
+#   hidden_telegram_commands:
+#     entities:
+#       - input_boolean.
+
+#   options_telegram_commands:
+#     entities:
+#       - input_boolean.
+
+#   script_telegram_commands:
+#     entities:
+#       - script.
+
+#   sensor_telegram_commands:
+#     entities:
+#       - sensor.

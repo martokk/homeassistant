@@ -1,4 +1,22 @@
 ##########################################
+########## COMPONENTS ####################
+##########################################
+# sensor:
+
+#-----------------------------------------------------#
+
+# automation:
+##########################################
+########## NOTIFICATIONS #################
+##########################################
+
+##########################################
+########## AUTOMATIONS ###################
+##########################################
+
+#-----------------------------------------------------#
+
+##########################################
 ########## SCRIPTS #######################
 ##########################################
 script:
@@ -72,10 +90,12 @@ script:
         data_template:
           transition: '{% if transition %} {{ transition }} {%else%} 1 {% endif %}'
 
-##########################################
-########## STORED VARIABLES ##############
-##########################################
+#-----------------------------------------------------#
 
+
+##########################################
+########## BACKEND #######################
+##########################################
 input_select:
   var_lks_livingroom:
     options:
@@ -133,6 +153,11 @@ input_select:
       - "night_computer"
       - "night_computer_blue"
       - "night_computer_red"
+      - "prework_blue"
+      - "prework_cyan"
+      - "prework_purple"
+      - "prework_red"
+      - "prework_t10m"
       - "off"
 
   var_lks_bedroom:
@@ -177,14 +202,59 @@ input_select:
       - "prework_t10m"
       - "off"
 
+##########################################
+########## OPTIONS #######################
+##########################################
 
+##########################################
+########## CONFIG ########################
+##########################################
+
+#-----------------------------------------------------#
+
+homeassistant:
+  customize:
+##########################################
+########## EMULATED HUE ##################
+##########################################
+    script.call_last_known_scene:
+      emulated_hue: true
+      emulated_hue_name: "Fix Lights"
+
+#-----------------------------------------------------#
+
+group:
 ##########################################
 ############### GROUPS ###################
 ##########################################
-# group:
-#   automation_devices:
+
+##########################################
+############### AUTO-GROUPS ##############
+##########################################
+#   automation_last_known_scene:
 #     entities:
-#
-#
-#   script_devices:
+#       - automation.
+
+  backend_last_known_scene:
+    entities:
+      - input_select.var_lks_livingroom
+      - input_select.var_lks_office
+      - input_select.var_lks_kitchen
+      - input_select.var_lks_bedroom
+      - input_select.var_lks_timebased
+
+#   hidden_last_known_scene:
 #     entities:
+#       - input_boolean.
+
+#   options_last_known_scene:
+#     entities:
+#       - input_boolean.
+
+  script_last_known_scene:
+    entities:
+      - script.call_last_known_scene
+
+#   sensor_last_known_scene:
+#     entities:
+#       - sensor.

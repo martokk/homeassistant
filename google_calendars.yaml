@@ -47,3 +47,9 @@
   - device_id: stardates
     name: Stardates
     track: true
+
+- cal_id: 8ou8acem923kj8ato1u85jjekg@group.calendar.google.com
+  entities:
+  - device_id: official_nascar_2017_schedule___monster_energy_nascar_cup_series
+    name: Official NASCAR 2017 Schedule  - Monster Energy NASCAR Cup Series
+    track: true

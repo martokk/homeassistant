@@ -1,0 +1,137 @@
+##########################################
+########## COMPONENTS ####################
+##########################################
+google:
+  client_id: !secret google_client_id
+  client_secret: !secret google_client_secret
+
+
+#-----------------------------------------------------#
+
+automation:
+##########################################
+########## NOTIFICATIONS #################
+##########################################
+  - alias: nfl_sunday_reminder
+    trigger:
+      # 12pm Games
+      - platform: time
+        at: '11:50:00'
+      # 3pm Games
+      - platform: time
+        at: '14:50:00'
+    condition:
+      # NFL Season - The National Football League (NFL) regular season begins the weekend after Labor Day in early September and ends in December or early January.
+      - condition: template
+        value_template: >
+              {% set nfl_season = [ 9, 10, 11, 12, 1 ] %}
+              {% if now().month in nfl_season%}
+                true
+              {% endif %}
+      # Sunday
+      - condition: time
+        weekday:
+          - sun
+    action:
+      - service: script.notify2
+        data_template:
+          telegram_message: |
+            Re: *NFL Streams*
+            https://www.reddit.com/r/nflstreams/
+          tts_entity_id: group.config_tts_devices
+          tts_sound: 'other/fox_football.m4a'
+          tts_pause_delay: "00:00:07"
+
+
+  - alias: nascar_race_started
+    trigger:
+      - platform: state
+        entity_id: calendar.official_nascar_2017_schedule___monster_energy_nascar_cup_series
+        to: 'on'
+    action:
+      - service: script.notify2
+        data_template:
+          telegram_message: |
+            *NASCAR RACE STARTED*
+          tts_entity_id: group.config_tts_devices
+          tts_sound: 'other/nascar_boogity_boogity_boogity.m4a'
+          tts_pause_delay: "00:00:16"
+
+##########################################
+########## AUTOMATIONS ###################
+##########################################
+
+#-----------------------------------------------------#
+
+# script:
+##########################################
+########## SCRIPTS #######################
+##########################################
+
+#-----------------------------------------------------#
+
+# input_boolean:
+##########################################
+########## BACKEND #######################
+##########################################
+
+##########################################
+########## OPTIONS #######################
+##########################################
+
+##########################################
+########## CONFIG ########################
+##########################################
+
+#-----------------------------------------------------#
+
+# homeassistant:
+#   customize:
+##########################################
+########## EMULATED HUE ##################
+##########################################
+    # input_boolean.template:
+    #   emulated_hue: true
+    #   emulated_hue_name: "Template Name"
+
+#-----------------------------------------------------#
+
+group:
+##########################################
+############### GROUPS ###################
+##########################################
+
+##########################################
+############### AUTO-GROUPS ##############
+##########################################
+  automation_calender:
+    entities:
+      - automation.nfl_sunday_reminder
+      - automation.nascar_race_started
+
+#   backend_calender:
+#     entities:
+#       - input_boolean.
+
+#   hidden_calender:
+#     entities:
+#       - input_boolean.
+
+#   options_calender:
+#     entities:
+#       - input_boolean.
+
+#   script_calender:
+#     entities:
+#       - script.
+
+  sensor_calender:
+    entities:
+      - calendar.chicago_bears
+      - calendar.default
+      - calendar.green_bay_packers
+      - calendar.official_nascar_2017_schedule___monster_energy_nascar_cup_series
+      - calendar.rev20
+      - calendar.stardates
+      - calendar.subspace_radio
+      - calendar.twit_live_schedule

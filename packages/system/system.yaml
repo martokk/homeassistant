@@ -1,0 +1,342 @@
+##########################################
+########## COMPONENTS ####################
+##########################################
+sensor:
+  #********** Time & Date ***************************************#
+  - platform: time_date
+    display_options:
+      - 'time'
+      - 'date'
+
+  - platform: template
+    sensors:
+      now_hour:
+        value_template: '{{ now().hour | int }}'
+      now_minute:
+        value_template: '{{ now().minute | int }}'
+      now_day:
+        value_template: '{{ now().strftime("%a") | lower }}'
+
+  #********** System Monitor ***************************************#
+  # - platform: systemmonitor
+  #   resources:
+  #     - type: disk_free
+  #       arg: /v
+  #     - type: memory_free
+  #     - type: processor_use
+  #     - type: since_last_boot
+  #     - type: last_boot
+  #     - type: processor_use
+  #     - type: memory_use_percent
+
+  #********** HASS Version  ***********#
+  - platform: command_line
+    command: python3 -c "import requests; print(requests.get('https://pypi.python.org/pypi/homeassistant/json').json()['info']['version'])"
+    name: hass_version_latest
+    scan_interval: 1200
+
+  -  platform: command_line
+     command: "/usr/local/bin/hass --version"
+     name: hass_version_current
+     scan_interval: 1200
+
+#-----------------------------------------------------#
+
+automation:
+##########################################
+########## NOTIFICATIONS #################
+##########################################
+  # #********** Home Assistant Update ***************************************#
+  # # NOTE: This component is causing ```UndefinedError: 'None' has no attribute 'state'```  error. Due to updater.updater component not loading?
+  # - alias: HOME ASSISTANT Update Notificaiton
+  #   trigger:
+  #     - platform: state
+  #       entity_id: updater.updater
+  #   action:
+  #     - service: script.notify2
+  #       data_template:
+  #         telegram_message: |
+  #           Home Assistant updated to v{{ states.updater.updater.state}}
+  #           {{ states.updater.updater.attributes.release_notes }}
+  #         tts_entity_id: group.config_tts_devices
+  #         tts_sound: 'st_notifications/intercom_ds9.mp3'
+  #         tts_message: "FYI: There is a new update for Home Assistant available!"
+  #         mlo_message: "Update Home Assistant to {{ states.updater.updater.state}}.  {{ states.updater.updater.attributes.release_notes }}"
+
+
+  - alias: home_assistant_update_notification2
+    trigger:
+      - platform: template
+        value_template: '{{ states.sensor.hass_version_latest.state != states.sensor.hass_version_current.state }}'
+    action:
+      - service: script.notify2
+        data_template:
+          telegram_message: |
+            Home Assistant updated to v{{ states.sensor.hass_version_latest.state }}
+          tts_entity_id: group.config_tts_devices
+          tts_sound: 'st_notifications/intercom_ds9.mp3'
+          tts_message: "FYI: There is a new update for Home Assistant available! The latest update is version {{ states.sensor.hass_version_latest.state }}"
+          tts_pause_delay: "00:00:09"
+
+
+  #********** HASS Startup ***************************************#
+  - alias: 'HASS Startup'
+    trigger:
+      - platform: homeassistant
+        event: start
+    action:
+      - service: homeassistant.turn_on
+        entity_id: group.all_automations
+      # - service: script.timebased_scene
+      - service: script.notify2
+        data:
+          telegram_message: "Home Assistant Server Restarted!"
+      - condition: state
+        entity_id: input_boolean.option_homeassistant_restart_sound
+        state: 'on'
+      - condition: time
+        after: '09:00:00'
+        before: '21:00:00'
+      - service: script.notify2
+        data:
+          tts_sound: startup/startup_ds9.wav
+
+  #Temporary Soltuion to homeasstant start event not triggering >> https://github.com/home-assistant/home-assistant/issues/7058
+  # - alias: temporary_hass_startup
+  #   trigger:
+  #     - platform: time
+  #       seconds: '/5'
+  #   condition:
+  #     - condition: state
+  #       entity_id: input_boolean.var_startup
+  #       state: 'on'
+  #   action:
+  #     - service: input_boolean.turn_off
+  #       entity_id: input_boolean.var_startup
+  #     - service: homeassistant.turn_on
+  #       entity_id: group.all_automations
+  #     - service: script.timebased_scene
+  #     - service: script.notify2
+  #       data:
+  #         telegram_message: "Home Assistant Server Restarted!"
+  #
+  #     - condition: time
+  #       after: '09:00:00'
+  #       before: '21:00:00'
+  #     - service: script.notify2
+  #       data:
+  #         tts_sound: startup/startup_ds9.wav
+
+  - alias: failed_login_attempt
+    trigger:
+      - platform: state
+        entity_id: persistent_notification.httplogin
+    condition:
+      - condition: template
+        value_template: "{{ trigger.to_state.state != 'None' }}"
+    action:
+      - service: script.notify2
+        data_template:
+          telegram_message: |
+            Failed Home Assistant Login Attempt!!
+            {{ trigger.to_state.state }}
+
+##########################################
+########## AUTOMATIONS ###################
+##########################################
+
+  #********** NavBar Option On/Off ***********#
+  - alias: option_navbar_on
+    trigger:
+      - platform: state
+        entity_id: input_boolean.option_show_all_navtabs
+        to: 'on'
+    action:
+      - service: script.navbar_show
+
+  - alias: option_navbar_off
+    trigger:
+      - platform: state
+        entity_id: input_boolean.option_show_all_navtabs
+        to: 'off'
+      - platform: homeassistant
+        event: start
+    action:
+      - service: script.navbar_hide
+
+  #********** Logger ***************************************#
+  - alias: log_level
+    trigger:
+      platform: state
+      entity_id: input_select.option_log_level
+    action:
+      service: logger.set_level
+      data_template:
+        homeassistant.components: "{{ trigger.to_state.state }}"
+
+  #********** Reset Override Input Booleans at 5am ***********#
+  - alias: reset_overrides_5am
+    trigger:
+      - platform: time
+        at: '05:00:00'
+    action:
+      - service: script.reset_overrides
+#-----------------------------------------------------#
+
+
+##########################################
+########## SCRIPTS #######################
+##########################################
+script: # IMPORTANT! Used in MANY automations
+  do_nothing:
+    sequence:
+
+  turn_on_all_automations:
+    sequence:
+      - service: homeassistant.turn_on
+        entity_id: group.all_automations
+
+  reset_overrides:
+    sequence:
+      - service: input_boolean.turn_off
+        entity_id:
+          - input_boolean.override_turn_on_tv
+          - input_boolean.override_turn_off_tv
+          - input_boolean.override_turn_on_fans
+          - input_boolean.override_turn_off_fans
+          - input_boolean.override_turn_off_air_conditioner
+          - input_boolean.override_turn_off_air_conditioner
+          - input_boolean.var_override_home
+
+  navbar_hide:
+    sequence:
+      - service: group.set_visibility
+        entity_id:
+          - group.automations_view
+          - group.backend_view
+          - group.hidden_view
+          - group.scripts_view
+          - group.sensors_view
+          - group.default_view
+        data:
+          visible: False
+
+  navbar_show:
+    sequence:
+      - service: group.set_visibility
+        entity_id:
+          - group.automations
+          - group.backend
+          - group.hidden
+          - group.scripts
+          - group.sensors
+          - group.default_view
+        data:
+          visible: True
+
+shell_command: 
+  restart_all: docker restart mosquitto && docker restart influxdb && systemctl restart home-assistant
+
+#-----------------------------------------------------#
+
+input_boolean:
+##########################################
+########## BACKEND #######################
+##########################################
+  # var_startup: #Turns off after startup.
+  #   initial: on
+
+
+##########################################
+########## OPTIONS #######################
+##########################################
+  option_homeassistant_restart_sound:
+
+  option_show_all_navtabs:
+    initial: off
+
+input_select:
+  option_log_level:
+    name: Error Log Level
+    options:
+      - critical
+      - fatal
+      - error
+      - warning
+      - warn
+      - info
+      - debug
+      - notset
+    initial: warn
+
+##########################################
+########## CONFIG ########################
+##########################################
+
+#-----------------------------------------------------#
+
+homeassistant:
+  customize:
+##########################################
+########## EMULATED HUE ##################
+##########################################
+    script.turn_on_all_automations:
+      emulated_hue: true
+      emulated_hue_name: "All Automations"
+    script.reset_overrides:
+      emulated_hue: true
+      emulated_hue_name: "Reset Overrides"
+#-----------------------------------------------------#
+
+group:
+##########################################
+############### GROUPS ###################
+##########################################
+
+##########################################
+############### AUTO-GROUPS ##############
+##########################################
+  automation_system:
+    entities:
+      - automation.temporary_hass_startup
+      - automation.hass_startup
+      - automation.home_assistant_update_notificaiton
+      - automation.home_assistant_update_notification2
+      - automation.log_level
+      - automation.failed_login_attempt
+      - automation.reset_overrides_5am
+      - automation.option_navbar_on
+      - automation.option_navbar_off
+
+  backend_system:
+    entities:
+      - input_boolean.var_startup
+
+  # hidden_system:
+  #   entities:
+
+
+  options_system:
+    name: "System"
+    control: hidden
+    entities:
+      - input_select.option_log_level
+      - input_boolean.option_send_device_reconnect_notification
+      - input_boolean.option_homeassistant_restart_sound
+      - input_boolean.option_show_all_navtabs
+
+  script_system:
+    entities:
+      - script.do_nothing
+      - script.turn_on_all_automations
+      - script.reset_overrides
+      - script.navbar_show
+      - script.navbar_hide
+
+  sensor_system:
+    entities:
+      - sensor.time
+      - sensor.date
+      - sensor.now_day
+      - sensor.now_hour
+      - sensor.now_minute

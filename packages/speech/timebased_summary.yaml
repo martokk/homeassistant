@@ -1,0 +1,192 @@
+##########################################
+########## COMPONENTS ####################
+##########################################
+# sensor:
+
+#-----------------------------------------------------#
+
+automation:
+##########################################
+########## NOTIFICATIONS #################
+##########################################
+
+##########################################
+########## AUTOMATIONS ###################
+##########################################
+  - alias: timebased_summary
+    trigger:
+      # - platform: template
+      #   value_template: '{{ states.sensor.time.state | string in states.input_select.config_array_timebased_summary_times.attributes.options | string }}'
+     - platform: time
+       minutes: 00
+       seconds: 15
+    condition:
+      - condition: template
+        value_template: '{{ states.sensor.time.state | string in states.input_select.config_array_timebased_summary_times.attributes.options | string }}'
+    action:
+      - service: script.timebased_summary
+
+#-----------------------------------------------------#
+
+#********** Timebased Telegram Summary ***************************************#
+script:
+  timebased_summary:
+    sequence:
+      - service: script.timebased_tts_summary
+      - delay: "00:00:01"
+      - service: script.timebased_telegram_summary
+
+
+  timebased_tts_summary:
+    sequence:
+      ### HEADER
+      - service: script.notify2
+        data_template:
+          tts_message: |
+            It's {{ states.sensor.dark_sky_temperature.state | round(0)  }}° outside
+            {%- if states.sensor.weather_alert.state | string | length > 1 -%}
+              and there is currently a {{ states("sensor.weather_alert") }} weather alert in Kenosha Wisconsin.
+            {%- else -%}
+            .
+            {%- endif %}
+
+
+            {{ states.sensor.dark_sky_minutely_summary.state }}
+            {{ states.sensor.dark_sky_hourly_summary.state }}
+
+            {% if "close" in states.sensor.open_close_window_guide.state | lower and "hot" in states.sensor.open_close_window_guide.state | lower  %}
+              Keep your windows closed today. I'll control the air conditioner to keep it cool in here.
+            {% endif %}
+            {% if "open" in states.sensor.open_close_window_guide.state | lower %}
+              You should open the windows and let the fresh air in.
+            {% endif %}
+            {% if "close" in states.sensor.open_close_window_guide.state | lower and "cold" in states.sensor.open_close_window_guide.state | lower  %}
+              It's probably best to keep your windows closed today.
+            {% endif %}
+
+            <break time=".9s" />
+            {% if states('sensor.iphone6s_battery') | int < 30 and states('sensor.iphone6s_battery') | int > 0 %}
+              Your iPhone's battery is at {{ states('sensor.iphone6s_battery') | int }}%.
+            {% endif %}
+            {% if states('sensor.watch_battery') | int < 30 and states('sensor.watch_battery') | int > 0 %}
+              Your Watch's battery is at {{ states('sensor.watch_battery') | int }}%.
+            {% endif %}
+            {% if states('sensor.ipad_battery') | int < 30 and states('sensor.ipad_battery') | int > 0 %}
+              Your iPad's battery is at {{ states('sensor.ipad_battery') | int }}%.
+            {% endif %}
+
+            <break time=".9s" />
+            The current bitcoin price is ${{ states.sensor.bitcoin.state | round(0) }}
+          tts_pause_delay: '00:00:17'
+
+  timebased_telegram_summary:
+    sequence:
+      ### HEADER
+      - service: script.notify2
+        data_template:
+          telegram_message: |
+            *█████ {{ states.sensor.date.state }} ██████*
+
+      ### WEATHER
+      - service: script.notify2
+        data_template:
+          telegram_message: |
+            {% if states.sensor.weather_alert.state | string | length > 1 %}
+              *WEATHER ALERT:* {{ states("sensor.weather_alert") }}
+              *DETAILS:* {{ states("sensor.weather_alert_message") }}
+
+            {% endif %}
+            *Now:* {{ states.sensor.dark_sky_temperature.state | round(0)  }}°F - {{ states.sensor.dark_sky_summary.state }}
+            *Today:* {{ states.sensor.dark_sky_daily_low_temperature.state | round(0) }}°F to {{ states.sensor.dark_sky_daily_high_temperature.state | round(0) }}°F - {{ states.sensor.dark_sky_minutely_summary.state }} {{ states.sensor.dark_sky_hourly_summary.state }}
+            *Windows:* {{ states.sensor.open_close_window_guide.state }}
+
+            *Sunrise/Sunset:* {{ as_timestamp(states.sun.sun.attributes.next_rising) | timestamp_custom("%l:%M%P") }} /{{as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom("%l:%M%P") }}
+
+          disable_notification: 'true'
+
+      - service: script.notify2
+        data_template:
+          telegram_url: http://sirocco.accuweather.com/nxssa_r1_h_500x620d/r1h/inxr1kmkea_h.gif
+          disable_notification: 'true'
+
+
+      ### DEVICE BATTERIES
+      - service: script.notify2
+        data_template:
+          telegram_message: |
+            *iPhone:* {{ states.sensor.iphone6s_battery.state | round(0) }}%
+            *Watch:* {{ states.sensor.watch_battery.state | round(0) }}%
+            *iPad:* {{ states.sensor.ipad_battery.state | round(0) }}%
+          disable_notification: 'true'
+
+      ### BITCOIN
+      - service: script.coinmarketcap_favorites_summary
+        data:
+          disable_notification: 'true'
+
+      - service: script.notify2
+        data_template:
+          telegram_url: http://bitcoincharts.com/charts/chart.png?width=848&height=480&m=bitstampUSD&SubmitButton=Draw&r=2&i=5-min&c=0&s=&e=&Prev=&Next=&t=C&b=&a1=&m1=10&a2=&m2=25&x=0&i1=&i2=&i3=&i4=&v=1&cv=0&ps=0&l=0&p=0&
+          disable_notification: 'true'
+
+#-----------------------------------------------------#
+
+# input_boolean:
+##########################################
+########## BACKEND #######################
+##########################################
+
+
+##########################################
+########## OPTIONS #######################
+##########################################
+
+##########################################
+########## CONFIG ########################
+##########################################
+
+#-----------------------------------------------------#
+
+homeassistant:
+  customize:
+##########################################
+########## EMULATED HUE ##################
+##########################################
+    script.timebased_tts_summary:
+      emulated_hue: true
+      emulated_hue_name: "My Intelligence Briefing"
+
+#-----------------------------------------------------#
+
+group:
+##########################################
+############### GROUPS ###################
+##########################################
+
+##########################################
+############### AUTO-GROUPS ##############
+##########################################
+  automation_timebased_summary:
+    entities:
+      - automation.timebased_summary
+
+  # backend_timebased_summary:
+  #   entities:
+
+#   hidden_timebased_summary:
+#     entities:
+#       - input_boolean.
+
+#   options_timebased_summary:
+#     entities:
+#       - input_boolean.
+
+  script_timebased_summary:
+    entities:
+      - script.timebased_summary
+      - script.timebased_tts_summary
+      - script.timebased_telegram_summary
+
+#   sensor_timebased_summary:
+#     entities:
+#       - sensor.

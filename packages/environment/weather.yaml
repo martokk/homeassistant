@@ -1,61 +1,6 @@
-homeassistant:
-  customize:
-    sensor.dark_sky_apparent_temperature:
-        friendly_name: "Outdoor Temperature (Apparent)"
-    sensor.dark_sky_cloud_coverage:
-        friendly_name: "Cloud Coverage"
-    sensor.dark_sky_daily_high_apparent_temperature:
-        friendly_name: "Temp. High (Apparent)"
-    sensor.dark_sky_daily_high_temperature:
-        friendly_name: "Temp. High"
-    sensor.dark_sky_daily_low_apparent_temperature:
-        friendly_name: "Temp. Low (Apparent)"
-    sensor.dark_sky_daily_high_apparent_temperature_2:
-        friendly_name: "Tomorrow Temp. High (Apparent)"
-    sensor.dark_sky_daily_low_apparent_temperature_2:
-        friendly_name: "Tomorrow Temp. Low (Apparent)"
-    sensor.dark_sky_daily_low_temperature:
-        friendly_name: "Temp. Low"
-    sensor.dark_sky_daily_max_precip_intensity:
-        friendly_name: "Precipitation Intensity"
-    sensor.dark_sky_daily_summary:
-        friendly_name: "This Week"
-    sensor.dark_sky_dew_point:
-        friendly_name: "Dew Point"
-    sensor.dark_sky_hourly_summary:
-        friendly_name: "Today"
-    sensor.dark_sky_humidity:
-        friendly_name: "Outdoor Humidity"
-    sensor.dark_sky_icon:
-        friendly_name: "Icon"
-        icon: '{{ "mdi:"+states("sensor.dark_sky_icon") }}'
-    sensor.dark_sky_minutely_summary:
-        friendly_name: "This Hour"
-    sensor.dark_sky_nearest_storm_bearing:
-        friendly_name: "Storm Bearing"
-    sensor.dark_sky_nearest_storm_distance:
-        friendly_name: "Storm Distance"
-    sensor.dark_sky_ozone:
-        friendly_name: Ozone
-    sensor.dark_sky_precip:
-        friendly_name: Precipitation Type
-    sensor.dark_sky_precip_intensity:
-        friendly_name: "Precipitation Intensity"
-    sensor.dark_sky_precip_probability:
-        friendly_name: "Precipitation Probability"
-    sensor.dark_sky_pressure:
-        friendly_name: Pressure
-    sensor.dark_sky_summary:
-        friendly_name: Now
-    sensor.dark_sky_temperature:
-        friendly_name: Outdoor Temperature
-    sensor.dark_sky_visibility:
-        friendly_name: Visibility
-    sensor.dark_sky_wind_bearing:
-        friendly_name: "Wind Bearing"
-    sensor.dark_sky_wind_speed:
-        friendly_name: "Wind Speed"
-
+##########################################
+########## COMPONENTS ####################
+##########################################
 sensor:
   - platform: darksky
     api_key: !secret darksky_api_key
@@ -82,7 +27,6 @@ sensor:
       - wind_speed
     update_interval:
       minutes: 10
-
 
   - platform: wunderground
     api_key: !secret wunderground_api_key
@@ -165,10 +109,12 @@ sensor:
             {% endif %}
           {% endif %}
 
+#-----------------------------------------------------#
+
+automation:
 ##########################################
 ########## NOTIFICATIONS #################
 ##########################################
-automation:
   #********** Rain ***************************************#
   - alias: rain_start
     trigger:
@@ -182,8 +128,8 @@ automation:
         telegram_message: |
           *{{ states("sensor.dark_sky_minutely_summary") }}*
           {{ states("sensor.dark_sky_hourly_summary") }}
-        tts_entity_id: group.tts_devices
-        tts_sound: 'intercom_ds9.mp3'
+        tts_entity_id: group.config_tts_devices
+        tts_sound: 'st_notifications/intercom_ds9.mp3'
         tts_message: '{{ states("sensor.dark_sky_minutely_summary") }}'
         tts_pause_delay: '00:00:04'
     - condition: template
@@ -223,8 +169,8 @@ automation:
         telegram_message: |
           *{{ states("sensor.dark_sky_minutely_summary") }}*
           {{ states("sensor.dark_sky_hourly_summary") }}
-        tts_entity_id: group.tts_devices
-        tts_sound: 'intercom_ds9.mp3'
+        tts_entity_id: group.config_tts_devices
+        tts_sound: 'st_notifications/intercom_ds9.mp3'
         tts_message: '{{ states("sensor.dark_sky_minutely_summary") }} {{ states("sensor.dark_sky_hourly_summary") }}'
         tts_pause_delay: '00:00:05'
     - condition: template
@@ -257,8 +203,8 @@ automation:
         telegram_message: |
           *{{ states("sensor.dark_sky_minutely_summary") }}*
           {{ states("sensor.dark_sky_hourly_summary") }}
-        tts_entity_id: group.tts_devices
-        tts_sound: 'intercom_ds9.mp3'
+        tts_entity_id: group.config_tts_devices
+        tts_sound: 'st_notifications/intercom_ds9.mp3'
         tts_message: '{{ states("sensor.dark_sky_minutely_summary") }}'
         tts_pause_delay: '00:00:04'
     - condition: template
@@ -299,8 +245,8 @@ automation:
           *{{ states("sensor.dark_sky_minutely_summary") }}*
           {{ states("sensor.dark_sky_hourly_summary") }}
         tts_pause_delay: '00:00:05'
-        tts_entity_id: group.tts_devices
-        tts_sound: 'intercom_ds9.mp3'
+        tts_entity_id: group.config_tts_devices
+        tts_sound: 'st_notifications/intercom_ds9.mp3'
         tts_message: '{{ states("sensor.dark_sky_minutely_summary") }} {{ states("sensor.dark_sky_hourly_summary") }}'
     - condition: template
       value_template: >
@@ -351,8 +297,8 @@ automation:
           blink_color: "red"
           chromecast_entity_id: media_player.vtv_chromecast
           chromecast_link: https://sirocco.accuweather.com/nxssa_r1_h_500x620d/r1h/inxr1kmkea_h.gif
-          tts_entity_id: group.tts_devices
-          tts_sound: 'intercom_ds9.mp3'
+          tts_entity_id: group.config_tts_devices
+          tts_sound: 'st_notifications/intercom_ds9.mp3'
           tts_message: 'Weather Alert! {{ states("sensor.weather_alert") }} in Kenosha Wisconsin. Repeat. Weather Alert! {{ states("sensor.weather_alert") }} in Kenosha Wisconsin. '
           tts_pause_delay: '00:00:10'
       - delay: "00:00:10"
@@ -446,37 +392,155 @@ automation:
         transition: 600
 # Clear; Partly Cloudy; Mostly Cloudy; Light Snow; Snow; Heavy Snow; Drizzle; Light Rain; Rain; Heavy Rain; Overcast; Foggy; Windy and Overcast
 
-# input_boolean:
 
+#-----------------------------------------------------#
+
+# script:
+##########################################
+########## SCRIPTS #######################
+##########################################
+
+#-----------------------------------------------------#
+
+# input_boolean:
+##########################################
+########## BACKEND #######################
+##########################################
+
+##########################################
+########## OPTIONS #######################
+##########################################
+
+##########################################
+########## CONFIG ########################
+##########################################
+
+#-----------------------------------------------------#
+
+homeassistant:
+  customize:
+##########################################
+########## EMULATED HUE ##################
+##########################################
+    # input_boolean.template:
+    #   emulated_hue: true
+    #   emulated_hue_name: "Template Name"
+
+##########################################
+########## DARKSKY CUSTOMIZE #############
+##########################################
+    sensor.dark_sky_apparent_temperature:
+        friendly_name: "Outdoor Temperature (Apparent)"
+    sensor.dark_sky_cloud_coverage:
+        friendly_name: "Cloud Coverage"
+    sensor.dark_sky_daily_high_apparent_temperature:
+        friendly_name: "Temp. High (Apparent)"
+    sensor.dark_sky_daily_high_temperature:
+        friendly_name: "Temp. High"
+    sensor.dark_sky_daily_low_apparent_temperature:
+        friendly_name: "Temp. Low (Apparent)"
+    sensor.dark_sky_daily_high_apparent_temperature_2:
+        friendly_name: "Tomorrow Temp. High (Apparent)"
+    sensor.dark_sky_daily_low_apparent_temperature_2:
+        friendly_name: "Tomorrow Temp. Low (Apparent)"
+    sensor.dark_sky_daily_low_temperature:
+        friendly_name: "Temp. Low"
+    sensor.dark_sky_daily_max_precip_intensity:
+        friendly_name: "Precipitation Intensity"
+    sensor.dark_sky_daily_summary:
+        friendly_name: "This Week"
+    sensor.dark_sky_dew_point:
+        friendly_name: "Dew Point"
+    sensor.dark_sky_hourly_summary:
+        friendly_name: "Today"
+    sensor.dark_sky_humidity:
+        friendly_name: "Outdoor Humidity"
+    sensor.dark_sky_icon:
+        friendly_name: "Icon"
+        icon: '{{ "mdi:"+states("sensor.dark_sky_icon") }}'
+    sensor.dark_sky_minutely_summary:
+        friendly_name: "This Hour"
+    sensor.dark_sky_nearest_storm_bearing:
+        friendly_name: "Storm Bearing"
+    sensor.dark_sky_nearest_storm_distance:
+        friendly_name: "Storm Distance"
+    sensor.dark_sky_ozone:
+        friendly_name: Ozone
+    sensor.dark_sky_precip:
+        friendly_name: Precipitation Type
+    sensor.dark_sky_precip_intensity:
+        friendly_name: "Precipitation Intensity"
+    sensor.dark_sky_precip_probability:
+        friendly_name: "Precipitation Probability"
+    sensor.dark_sky_pressure:
+        friendly_name: Pressure
+    sensor.dark_sky_summary:
+        friendly_name: Now
+    sensor.dark_sky_temperature:
+        friendly_name: Outdoor Temperature
+    sensor.dark_sky_visibility:
+        friendly_name: Visibility
+    sensor.dark_sky_wind_bearing:
+        friendly_name: "Wind Bearing"
+    sensor.dark_sky_wind_speed:
+        friendly_name: "Wind Speed"
+
+#-----------------------------------------------------#
+
+group:
 ##########################################
 ############### GROUPS ###################
 ##########################################
-group:
-
   weather_current:
     name: "Current Weather"
     entities:
+      - sensor.dark_sky_minutely_summary
+      - sensor.dark_sky_hourly_summary
+      - sensor.dark_sky_daily_summary
+      - sun.sun
+      - sensor.dark_sky_icon
+      - sensor.dark_sky_summary
+      - sensor.dark_sky_temperature
+      - sensor.dark_sky_apparent_temperature
+      - sensor.dark_sky_humidity
+      - sensor.pws_alerts
+      - sensor.weather_alert
+      - sensor.weather_alert_message
+      - sensor.open_close_window_guide
+
+##########################################
+############### AUTO-GROUPS ##############
+##########################################
+  automation_weather:
+    entities:
+      - automation.rain_start
+      - automation.rain_stop
+      - automation.snow_start
+      - automation.snow_stop
+      - automation.high_wind
+      - automation.weather_alert
+      - automation.weather_based_day_le
+      - automation.weather_based_day
+
+#   backend_weather:
+#     entities:
+#       - input_boolean.
+
+  # hidden_weather:
+  #   entities:
+
+
+#   options_weather:
+#     entities:
+#       - input_boolean.
+
+#   script_weather:
+#     entities:
+#       - script.
+
+  sensor_weather:
+    entities:
     - sun.sun
-    - sensor.dark_sky_icon
-    - sensor.dark_sky_summary
-    - sensor.dark_sky_temperature
-    - sensor.dark_sky_apparent_temperature
-    - sensor.dark_sky_humidity
-    - sensor.pws_alerts
-    - sensor.weather_alert
-    - sensor.weather_alert_message
-    - sensor.open_close_window_guide
-
-  weather_summary:
-    name: "Weather Summary"
-    entities:
-    - sensor.dark_sky_minutely_summary
-    - sensor.dark_sky_hourly_summary
-    - sensor.dark_sky_daily_summary
-
-  weather_details:
-    name: "Details"
-    entities:
     - sensor.dark_sky_daily_low_temperature
     - sensor.dark_sky_daily_high_temperature
     - sensor.dark_sky_daily_low_apparent_temperature
@@ -491,23 +555,15 @@ group:
     - sensor.dark_sky_wind_speed
     - sensor.dark_sky_daily_low_apparent_temperature_2
     - sensor.dark_sky_daily_high_apparent_temperature_2
-
-  automation_weather:
-    entities:
-      - automation.rain_start
-      - automation.rain_stop
-      - automation.snow_start
-      - automation.snow_stop
-      - automation.high_wind
-      - automation.weather_alert
-      - automation.weather_based_day_le
-      - automation.weather_based_day
-
-
-  # backend_weather:
-  #   entities:
-
-
-
-  # script_weather:
-  #   entities:
+    - sensor.dark_sky_minutely_summary
+    - sensor.dark_sky_hourly_summary
+    - sensor.dark_sky_daily_summary
+    - sensor.dark_sky_icon
+    - sensor.dark_sky_summary
+    - sensor.dark_sky_temperature
+    - sensor.dark_sky_apparent_temperature
+    - sensor.dark_sky_humidity
+    - sensor.pws_alerts
+    - sensor.weather_alert
+    - sensor.weather_alert_message
+    - sensor.open_close_window_guide

@@ -1,7 +1,0 @@
-  today:
-    name: "Today"
-    entities:
-    - sensor.dark_sky_temperature
-    - sensor.dark_sky_summary
-    - sensor.indoor_temperature
-    - input_boolean.option_temp_controlled_air_conditioner

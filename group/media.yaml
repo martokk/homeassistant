@@ -1,0 +1,18 @@
+##########################################
+########## VIEW ##########################
+##########################################
+  media_view:
+    icon: mdi:television-classic
+    view: yes
+    entities:
+      - group.media_media_players
+
+##########################################
+########## GROUPS ########################
+##########################################
+
+  media_media_players:
+    entities:
+      - media_player.plex_web_chrome
+      - media_player.vlc
+      - media_player.vtv_chromecast

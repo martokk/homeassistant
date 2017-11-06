@@ -1,0 +1,529 @@
+script:
+##########################################
+########## TEST SCRIPTS ##################
+##########################################
+  flood_light_test:
+    sequence:
+    - service: script.flood_light
+      data:
+        flood_color: "magenta"
+        entity_id: group.ambient_lights
+        delay: "00:00:05"
+
+  flood_scene_test:
+    sequence:
+    - service: script.flood_scene
+      data:
+        flood_scene: chill
+        delay: "00:00:05"
+
+  flood_and_change_scene_test:
+    sequence:
+    - service: script.flood_and_change_scene
+      data:
+        flood_color: "magenta"
+        delay: "00:00:10"
+        next_scene: 'night_cyan'
+
+  flood_and_blink_test:
+    sequence:
+    - service: script.flood_and_blink
+      data:
+        flood_color: "gold"
+        blink_color: "green"
+
+  flood_and_blink2_test:
+    sequence:
+    - service: script.flood_and_blink2
+      data:
+        flood_color: "gold"
+        blink_color: "cyan"
+        blink_color2: "red"
+
+  flood_and_breathe_test:
+    sequence:
+    - service: script.flood_and_breathe
+      data:
+        flood_color: "cyan"
+        breathe_color: "green"
+
+  breathe_light_test:
+    sequence:
+    - service: script.breathe_light
+      data:
+        breathe_color: "green"
+        entity_id: group.ambient_lights
+
+  flash_light_test:
+    sequence:
+    - service: script.flash_light
+      data:
+        flash_color: "magenta"
+        entity_id: group.all_lights
+
+  blink_light_test:
+    sequence:
+    - service: script.blink_light
+      data:
+        blink_color: "red"
+        entity_id: group.ambient_lights
+
+  blink2_light_test:
+    sequence:
+    - service: script.blink2_light
+      data:
+        blink_color: "green"
+        blink_color2: "yellow"
+        entity_id: group.ambient_lights
+
+##########################################
+########## FLOOD LIGHTS ##################
+##########################################
+  flood_light:
+    alias: Flood Lights [entity_id(optional); flood_color; delay(optional)]
+    sequence:
+    - service: light.turn_on
+      data_template:
+        color_name: '{{ flood_color }}'
+        entity_id: "{% if entity_id %}{{entity_id}}{% else %}group.all_lights{% endif %}"
+        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        transition: 1
+    - delay: "{% if delay %}{{delay}}{% else %}00:00:05{% endif %}"
+    - service: script.call_last_known_scene
+
+##########################################
+########## FLOOD SCENE ##################
+##########################################
+  # NOTE: Removing Flood Scene. Needs var_last_known_scene_helper replacement
+  # flood_scene:
+  #   alias: Flood Scene [flood_scene(entity_id); delay]
+  #   sequence:
+  #   - service: input_select.select_option
+  #     data_template:
+  #       entity_id: input_select.var_last_known_scene_helper
+  #       option: '{{ states.input_select.var_lks_timebased.state }}'
+  #   - service: script.scene2
+  #     data_template:
+  #       rooms: 'all'
+  #       scene_name: '{{ flood_scene }}'
+  #       transition: 1
+  #   - delay: "{% if delay %}{{delay}}{% else %}00:00:05{% endif %}"
+  #   - service: input_select.select_option
+  #     data_template:
+  #       entity_id: input_select.var_lks_timebased
+  #       option: '{{ states.input_select.var_last_known_scene_helper.state }}'
+  #   - service: script.call_last_known_scene
+  #   - condition: template
+  #     value_template: >
+  #       {% if is_state("input_boolean.var_kitchen_motion_on", "on") %}
+  #         true
+  #       {%else%}
+  #         false
+  #       {% endif %}
+  #   - delay: "00:00:01"
+  #   - service: script.kitchen_lights_on
+
+  10m_flood_day_bright:
+    sequence:
+    - service: script.turn_off
+      entity_id: script.flood_scene
+    - service: script.flood_scene
+      data:
+        flood_scene: day_bright
+        delay: "00:10:00"
+
+##########################################
+########## FLOOD AND CHANGE SCENE ########
+##########################################
+  flood_and_change_scene:
+    alias: Flood Lights and change to new Scene [flood_color; delay(optional); next_scene]
+    sequence:
+    - service: light.turn_on
+      data_template:
+        color_name: '{{ flood_color }}'
+        entity_id: "{% if entity_id %}{{entity_id}}{% else %}group.all_lights{% endif %}"
+        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        transition: 1
+    - delay: "{% if delay %}{{delay}}{% else %}00:00:05{% endif %}"
+    - service: script.scene2
+      data_template:
+        scene_name: "{{ next_scene }}"
+        transition: 1
+
+##########################################
+########## BREATHE LIGHTS ################
+##########################################
+  breathe_light:
+    alias: Breathe Lights [entity_id; breathe_color]
+    sequence:
+    - delay: "00:00:00"
+    - service: light.turn_on
+      data_template:
+        color_name: '{{ breathe_color }}'
+        entity_id: "{% if entity_id %}{{entity_id}}{% else %}group.all_lights{% endif %}"
+        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        transition: 1
+    - delay: "00:00:00"
+    - service: script.call_last_known_scene
+
+##########################################
+########## FLASH LIGHTS ##################
+##########################################
+  flash_light:
+    alias: Flash Lights [entity_id; flash_color]
+    sequence:
+    - delay: "00:00:00"
+    - service: light.turn_on
+      data_template:
+        entity_id: "{% if entity_id %}{{entity_id}}{% else %}group.all_lights{% endif %}"
+        color_name: '{{ flash_color }}'
+        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        transition: 0
+    - delay:
+        milliseconds: 200
+    - service: script.call_last_known_scene
+      data_template:
+        transition: "0"
+
+##########################################
+########## BLINK LIGHTS ##################
+##########################################
+  blink_light:
+    alias: Blink Lights [entity_id; blink_color]
+    sequence:
+    - delay: "00:00:00"
+    - service: light.turn_on
+      data_template:
+        entity_id: "{% if entity_id %}{{entity_id}}{% else %}group.all_lights{% endif %}"
+        color_name: '{{ blink_color }}'
+        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        transition: 0
+    - delay: "00:00:00"
+    - service: script.call_last_known_scene
+      data:
+        transition: "0"
+    - delay: "00:00:00"
+    - service: light.turn_on
+      data_template:
+        entity_id: "{% if entity_id %}{{entity_id}}{% else %}group.all_lights{% endif %}"
+        color_name: '{{ blink_color }}'
+        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        transition: 0
+    - delay: "00:00:00"
+    - service: script.call_last_known_scene
+      data:
+        transition: "0"
+    - delay: "00:00:00"
+    - service: light.turn_on
+      data_template:
+        entity_id: "{% if entity_id %}{{entity_id}}{% else %}group.all_lights{% endif %}"
+        color_name: '{{ blink_color }}'
+        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        transition: 0
+    - delay: "00:00:00"
+    - service: script.call_last_known_scene
+      data:
+        transition: "0"
+    - delay: "00:00:00"
+    - service: light.turn_on
+      data_template:
+        entity_id: "{% if entity_id %}{{entity_id}}{% else %}group.all_lights{% endif %}"
+        color_name: '{{ blink_color }}'
+        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        transition: 0
+    - delay: "00:00:00"
+    - service: script.call_last_known_scene
+      data:
+        transition: "0"
+
+##########################################
+########## BLINK 2 LIGHTS ################
+##########################################
+  blink2_light:
+    alias: Blink Lights [entity_id; blink_color; blink_color2]
+    sequence:
+    - delay: "00:00:00"
+    - service: light.turn_on
+      data_template:
+        entity_id: "{% if entity_id %}{{entity_id}}{% else %}group.all_lights{% endif %}"
+        color_name: '{{ blink_color }}'
+        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        transition: 0
+    - delay: "00:00:00"
+    - service: light.turn_on
+      data_template:
+        entity_id: "{% if entity_id %}{{entity_id}}{% else %}group.all_lights{% endif %}"
+        color_name: '{{ blink_color2 }}'
+        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        transition: 0
+    - delay: "00:00:00"
+    - service: light.turn_on
+      data_template:
+        entity_id: "{% if entity_id %}{{entity_id}}{% else %}group.all_lights{% endif %}"
+        color_name: '{{ blink_color }}'
+        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        transition: 0
+    - delay: "00:00:00"
+    - service: light.turn_on
+      data_template:
+        entity_id: "{% if entity_id %}{{entity_id}}{% else %}group.all_lights{% endif %}"
+        color_name: '{{ blink_color2 }}'
+        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        transition: 0
+    - delay: "00:00:00"
+    - service: light.turn_on
+      data_template:
+        entity_id: "{% if entity_id %}{{entity_id}}{% else %}group.all_lights{% endif %}"
+        color_name: '{{ blink_color }}'
+        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        transition: 0
+    - delay: "00:00:00"
+    - service: light.turn_on
+      data_template:
+        entity_id: "{% if entity_id %}{{entity_id}}{% else %}group.all_lights{% endif %}"
+        color_name: '{{ blink_color2 }}'
+        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        transition: 0
+    - delay: "00:00:00"
+    - service: script.call_last_known_scene
+      data:
+        transition: "0"
+
+##########################################
+########## FLOOD & BLINK #################
+##########################################
+  flood_and_blink:
+    alias: Flood and Blink Lights [flood_color; blink_color]
+    sequence:
+    #*--------- Turn on Floods --------------*#
+    - service: light.turn_on
+      data_template:
+        entity_id: group.overhead_lights
+        color_name: '{{ flood_color }}'
+        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        transition: 1
+    - service: light.turn_off
+      data_template:
+        entity_id: group.ambient_lights
+        transition: 1
+    - delay: "00:00:01"
+    #*--------- Blink On --------------*#
+    - service: light.turn_on
+      data_template:
+        entity_id: group.ambient_lights
+        color_name: '{{ blink_color }}'
+        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        transition: 0
+    - delay: "00:00:00"
+    #*--------- Blink Off --------------*#
+    - service: light.turn_on
+      data_template:
+        entity_id: group.overhead_lights
+        color_name: '{{ flood_color }}'
+        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        transition: 0
+    - service: light.turn_off
+      data_template:
+        entity_id: group.ambient_lights
+        transition: 0
+    - delay: "00:00:00"
+    #*--------- Blink On --------------*#
+    - service: light.turn_on
+      data_template:
+        entity_id: group.ambient_lights
+        color_name: '{{ blink_color }}'
+        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        transition: 0
+    - delay: "00:00:00"
+    #*--------- Blink Off --------------*#
+    - service: light.turn_on
+      data_template:
+        entity_id: group.overhead_lights
+        color_name: '{{ flood_color }}'
+        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        transition: 0
+    - service: light.turn_off
+      data_template:
+        entity_id: group.ambient_lights
+        transition: 0
+    - delay: "00:00:00"
+    #*--------- Blink On --------------*#
+    - service: light.turn_on
+      data_template:
+        entity_id: group.ambient_lights
+        color_name: '{{ blink_color }}'
+        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        transition: 0
+    - delay: "00:00:00"
+    #*--------- Blink Off --------------*#
+    - service: light.turn_on
+      data_template:
+        entity_id: group.overhead_lights
+        color_name: '{{ flood_color }}'
+        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        transition: 0
+    - service: light.turn_off
+      data_template:
+        entity_id: group.ambient_lights
+        transition: 0
+    - delay: "00:00:00"
+    #*--------- Back to Flood Color --------------*#
+    - service: light.turn_on
+      data_template:
+        entity_id: group.overhead_lights
+        color_name: '{{ flood_color }}'
+        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        transition: 0
+    - service: light.turn_off
+      data_template:
+        entity_id: group.ambient_lights
+        transition: 0
+    - delay: "00:00:00"
+    #*--------- Back to Last Know Scene --------------*#
+    - service: script.call_last_known_scene
+
+##########################################
+########## FLOOD & BLINK 2 ###############
+##########################################
+  flood_and_blink2:
+    alias: Flood and Blink Lights [flood_color; blink_color, blink_color2]
+    sequence:
+    - service: light.turn_on
+      data_template:
+        entity_id: group.overhead_lights
+        color_name: '{{ flood_color }}'
+        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        transition: 0
+    - service: light.turn_off
+      data_template:
+        entity_id: group.ambient_lights
+        transition: 0
+    - delay: "00:00:01"
+    - service: light.turn_on
+      data_template:
+        entity_id: group.ambient_lights
+        color_name: '{{ blink_color }}'
+        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        transition: 0
+    - delay: "00:00:00"
+    - service: light.turn_on
+      data_template:
+        entity_id: group.ambient_lights
+        color_name: '{{ blink_color2 }}'
+        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        transition: 0
+    - delay: "00:00:00"
+    - service: light.turn_on
+      data_template:
+        entity_id: group.ambient_lights
+        color_name: '{{ blink_color }}'
+        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        transition: 0
+    - delay: "00:00:00"
+    - service: light.turn_on
+      data_template:
+        entity_id: group.ambient_lights
+        color_name: '{{ blink_color2 }}'
+        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        transition: 0
+    - delay: "00:00:00"
+    - service: light.turn_on
+      data_template:
+        entity_id: group.ambient_lights
+        color_name: '{{ blink_color }}'
+        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        transition: 0
+    - delay: "00:00:00"
+    - service: light.turn_on
+      data_template:
+        entity_id: group.ambient_lights
+        color_name: '{{ blink_color2 }}'
+        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        transition: 0
+    - delay: "00:00:00"
+    - service: light.turn_on
+      data_template:
+        entity_id: group.overhead_lights
+        color_name: '{{ flood_color }}'
+        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        transition: 0
+    - service: light.turn_off
+      data_template:
+        entity_id: group.ambient_lights
+        transition: 0
+    - delay: "00:00:00"
+    - service: script.call_last_known_scene
+
+##########################################
+########## FLOOD & BREATHE ###############
+##########################################
+  flood_and_breathe:
+    alias: Flood and Breathe Lights [flood_color; breathe_color]
+    sequence:
+    - service: light.turn_on
+      data_template:
+        color_name: '{{ flood_color }}'
+        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        transition: 1
+    - delay: "00:00:01"
+    - service: light.turn_on
+      data_template:
+        color_name: '{{ breathe_color }}'
+        entity_id: group.ambient_lights
+        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        transition: 1
+    - delay: "00:00:00"
+    - service: light.turn_on
+      data_template:
+        color_name: '{{ flood_color }}'
+        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        transition: 1
+    - delay: "00:00:00"
+    - service: light.turn_on
+      data_template:
+        color_name: '{{ breathe_color }}'
+        entity_id: group.ambient_lights
+        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        transition: 1
+    - delay: "00:00:00"
+    - service: light.turn_on
+      data_template:
+        color_name: '{{ flood_color }}'
+        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        transition: 1
+    - delay: "00:00:01"
+    - service: script.call_last_known_scene
+
+##########################################
+############### GROUPS ###################
+##########################################
+group:
+  script_light_effects:
+    entities:
+      - script.flood_light
+      # - script.flood_scene
+      - script.10m_flood_day_bright
+      - script.flood_and_change_scene
+      - script.breathe_light
+      - script.flash_light
+      - script.blink_light
+      - script.blink2_light
+      - script.flood_and_blink
+      - script.flood_and_blink2
+      - script.flood_and_breathe
+
+  tools_test_light_effects:
+    name: "Test - Light Effects"
+    control: hidden
+    entities:
+      - script.breathe_light_test
+      - script.flash_light_test
+      - script.blink_light_test
+      - script.blink2_light_test
+      - script.flood_scene_test
+      - script.flood_light_test
+      - script.flood_and_change_scene_test
+      - script.flood_and_breathe_test
+      - script.flood_and_blink_test
+      - script.flood_and_blink2_test
+      - script.5m_flood_day

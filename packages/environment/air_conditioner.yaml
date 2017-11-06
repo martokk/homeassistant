@@ -1,20 +1,19 @@
-homeassistant:
-  customize:
-    input_boolean.override_air_conditioner_helper:
-      emulated_hue: true
-      emulated_hue_name: "Air Conditioner"
-    script.fix_air_conditioner_sync:
-      emulated_hue: true
-      emulated_hue_name: "Fix Air Conditioner"
+##########################################
+########## COMPONENTS ####################
+##########################################
 switch:
   - platform: mqtt
     name: air_conditioner
     command_topic: "device/office/ir_send"
     payload_on: "0x10AF8877"
     payload_off: "0x10AF8877"
-# lights:
-# binary_sensor:
-# sensor:
+
+#-----------------------------------------------------#
+
+# automation:
+##########################################
+########## NOTIFICATIONS #################
+##########################################
 
 automation:
 ##########################################
@@ -65,14 +64,9 @@ automation:
       - service: switch.turn_off
         entity_id: switch.air_conditioner
 
-
-
-
 ##########################################
 ########## AUTOMATIONS ###################
 ##########################################
-
-
   #******** Air Conditioner - Temp/Humidity Controlled - Turn On/Off **********************#
   - alias: air_conditioner_temperature_controlled_on
     trigger:
@@ -237,6 +231,8 @@ automation:
       - service: input_boolean.turn_off
         entity_id: input_select.var_air_conditioner_temperature_controlled_on
 
+#-----------------------------------------------------#
+
 ##########################################
 ########## SCRIPTS #######################
 ##########################################
@@ -280,9 +276,11 @@ script:
       - service: input_boolean.turn_on
         entity_id: input_boolean.override_turn_off_air_conditioner
 
+#-----------------------------------------------------#
+
 input_boolean:
 ##########################################
-########## STORED VARIABLES ##############
+########## BACKEND #######################
 ##########################################
   var_air_conditioner_temperature_controlled_on:
 
@@ -300,17 +298,34 @@ input_boolean:
     name: "Temperature controlled Air Conditioner"
     initial: on
 
+##########################################
+########## CONFIG ########################
+##########################################
 
+#-----------------------------------------------------#
+
+homeassistant:
+  customize:
+##########################################
+########## EMULATED HUE ##################
+##########################################
+    input_boolean.override_air_conditioner_helper:
+      emulated_hue: true
+      emulated_hue_name: "Air Conditioner"
+    script.fix_air_conditioner_sync:
+      emulated_hue: true
+      emulated_hue_name: "Fix Air Conditioner"
+
+#-----------------------------------------------------#
+
+group:
 ##########################################
 ############### GROUPS ###################
 ##########################################
-group:
 
-  air_conditioner:
-    name: "Air Conditioner"
-    entities:
-      - switch.air_conditioner
-
+##########################################
+############### AUTO-GROUPS ##############
+##########################################
   automation_air_conditioner:
     entities:
       - automation.air_conditioner_temperature_controlled_on
@@ -325,7 +340,6 @@ group:
       - automation.tts_interupt_turn_off_air_conditioner
       - automation.air_conditioner_turn_off_over_2h
 
-
   backend_air_conditioner:
     entities:
       - input_boolean.var_air_conditioner_temperature_controlled_on
@@ -333,14 +347,21 @@ group:
       - input_boolean.override_turn_on_air_conditioner
       - input_boolean.override_turn_off_air_conditioner
 
+#   hidden_air_conditioner:
+#     entities:
+#       - input_boolean.
+
   options_air_conditioner:
     name: "Air Conditioner"
     entities:
       - input_boolean.option_air_conditioner_temperature_controlled
-#
-#
+
   script_air_conditioner:
     entities:
       - script.fix_air_conditioner_sync
       - script.override_turn_on_air_conditioner
       - script.override_turn_off_air_conditioner
+
+  sensor_air_conditioner:
+    entities:
+      - switch.air_conditioner

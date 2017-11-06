@@ -157,3 +157,14 @@ script:
         data:
           entity_id: input_select.var_lks_bedroom
           option: 'night'
+
+##########################################
+############### GROUPS ###################
+##########################################
+group:
+  hidden_scene2_night:
+    entities:
+      - script.scene2_night_bedroom
+      - script.scene2_night_kitchen
+      - script.scene2_night_livingroom
+      - script.scene2_night_office

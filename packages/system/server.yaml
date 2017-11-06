@@ -1,0 +1,677 @@
+##########################################
+########## COMPONENTS ####################
+##########################################
+panel_iframe:
+  modem:
+    title: 'Modem'
+    url: !secret modem_url
+    icon: mdi:wan
+
+  router:
+    title: 'Router'
+    url: !secret router_url
+    icon: mdi:access-point-network
+
+binary_sensor:
+  # - platform: command_line
+  #   name: "qBittorrent"
+  #   command: netstat -na | find "8085" | find /c "LISTENING" > nul && (echo 1) || (echo 0)
+  #   device_class: connectivity
+  #   payload_on: 1
+  #   payload_off: 0
+  #
+  # - platform: command_line
+  #   name: "SABnzbd"
+  #   command: netstat -na | find "8090" | find /c "LISTENING" > nul && (echo 1) || (echo 0)
+  #   device_class: connectivity
+  #   payload_on: 1
+  #   payload_off: 0
+  #
+  # - platform: command_line
+  #   name: "sonarr"
+  #   command: netstat -na | find "8989" | find /c "LISTENING" > nul && (echo 1) || (echo 0)
+  #   device_class: connectivity
+  #   payload_on: 1
+  #   payload_off: 0
+  #
+  # - platform: command_line
+  #   name: "CouchPotato"
+  #   command: netstat -na | find "5050" | find /c "LISTENING" > nul && (echo 1) || (echo 0)
+  #   device_class: connectivity
+  #   payload_on: 1
+  #   payload_off: 0
+  #
+  - platform: command_line
+    command: netstat -na | grep "1883" | grep "ESTABLISHED" > nul && (echo 1) || (echo 0)
+    name: "MQTT Server"
+    device_class: connectivity
+    payload_on: 1
+    payload_off: 0
+    hidden: true
+    scan_interval: 120
+
+    #Note: install xprintidle on remote computer to determain idle time
+  - platform: command_line
+    command: ping -W 1 -c 1 192.168.1.80 > /dev/null 2>&1 && ssh martokk@desktop 'idle=$(export DISPLAY=:0 && sudo -u martokk xprintidle); [ $idle -lt 60000 ] && echo 1 || echo 0' || echo 0
+    name: "Desktop Computer"
+    device_class: connectivity
+    payload_on: 1
+    payload_off: 0
+    scan_interval: 30
+    hidden: true
+
+  - platform: ping
+    host: 192.168.1.1
+    name: "ARRIS Modem"
+    scan_interval: 120
+
+  - platform: ping
+    host: 192.168.1.2
+    name: "Linksys DDWRT Router"
+    scan_interval: 120
+
+  - platform: ping
+    host: 192.168.1.50
+    name: "PS3 Ping"
+    scan_interval: 10
+
+sensor:
+  #********** PI HOLE ***************************************#
+  # - platform: pi_hole
+  #   host: 192.168.1.3
+
+  #********** SABNZBD ***************************************#
+  # - platform: sabnzbd
+  #   host: 192.168.1.3
+  #   port: 8090
+  #   api_key: !secret sabnzbd_api_key
+  #   monitored_variables:
+  #   - current_status
+  #   - speed
+  #   - queue_size
+  #   - queue_remaining
+  #   - disk_size
+  #   - disk_free
+
+  #********** SONARR ***************************************#
+  # - platform: sonarr
+  #   api_key: !secret sonarr_api_key
+  #   host: 192.168.1.3
+  #   port: 8989
+  #   monitored_conditions:
+  #     - upcoming     #   The number of upcoming episodes.
+  #     - diskspace    #   Available disk space.
+  #   days: 1          #   How many days to look ahead for the upcoming sensor, 1 means today only (Default: 1).
+  #   unit: TB           #    (Optional): The unit to display disk space in (Default: GB).
+
+  #********** IFTTT CLOUD ***************************************#
+  # - platform: scrape
+  #   resource: http://status.ifttt.com/
+  #   name: "IFTTT Status"
+  #   select: '.component-status'
+  #   scan_interval: 300
+
+  #********** SPEED TEST ***************************************#
+  - platform: speedtest
+    minute:
+      - 0
+      - 30
+    monitored_conditions:
+      # - ping
+      - download
+      - upload
+
+
+
+##########################################
+########## TEMPLATES #####################
+##########################################
+  - platform: template
+    sensors:
+
+      # pihole_queries_blocked_today:
+      #   friendly_name: "DNS Queries Blocked Today"
+      #   value_template: >-
+      #       {%- if states.sensor.pihole.state %}
+      #           {{ states.sensor.pihole.state }}
+      #       {% else %}
+      #           0
+      #       {%- endif %}
+      #
+      # pihole_queries_today:
+      #   friendly_name: "DNS Queries Today"
+      #   value_template: >-
+      #       {%- if states.sensor.pihole.attributes.queries_today  %}
+      #           {{ states.sensor.pihole.attributes.queries_today }}
+      #       {% else %}
+      #           0
+      #       {%- endif %}
+      #
+      # pihole_percentage_today:
+      #   friendly_name: "Today's Percentaged Blocked"
+      #   unit_of_measurement: '%'
+      #   value_template: >-
+      #       {%- if states.sensor.pihole.attributes.percentage_today %}
+      #           {{ states.sensor.pihole.attributes.percentage_today }}
+      #       {% else %}
+      #           0
+      #       {%- endif %}
+      #
+      # pihole_domains_blocked:
+      #   friendly_name: "Domains Being Blocked"
+      #   value_template: >-
+      #       {%- if states.sensor.pihole.attributes.domains_blocked %}
+      #           {{ states.sensor.pihole.attributes.domains_blocked }}
+      #       {% else %}
+      #           0
+      #       {%- endif %}
+      #
+      # server_sabnzbd:
+      #   friendly_name: "SABnzbd"
+      #   value_template: '{% if is_state("binary_sensor.sabnzbd", "on") %}online{% else %}OFFLINE{% endif %}'
+      #
+      # server_qbittorrent:
+      #   friendly_name: "qBittorrent"
+      #   value_template: '{% if is_state("binary_sensor.qbittorrent", "on") %}online{% else %}OFFLINE{% endif %}'
+      #
+      # server_sonarr:
+      #   friendly_name: "Sonarr"
+      #   value_template: '{% if is_state("binary_sensor.sonarr", "on") %}online{% else %}OFFLINE{% endif %}'
+      #
+      # server_couchpotato:
+      #   friendly_name: "CouchPotato"
+      #   value_template: '{% if is_state("binary_sensor.couchpotato", "on") %}online{% else %}OFFLINE{% endif %}'
+
+      # server_pihole:
+      #   friendly_name: "Pi-Hole"
+      #   value_template: '{% if is_state("device_tracker.pihole", "home") %}online{% else %}OFFLINE{% endif %}'
+
+      server_modem:
+        friendly_name: "ARRIS Modem"
+        value_template: '{% if is_state("binary_sensor.arris_modem", "on") %}online{% else %}OFFLINE{% endif %}'
+
+      server_router:
+        friendly_name: "Linksys DD-WRT Router"
+        value_template: '{% if is_state("binary_sensor.linksys_ddwrt_router", "on") %}online{% else %}OFFLINE{% endif %}'
+
+      server_mqtt:
+        friendly_name: "MQTT Server"
+        value_template: '{% if is_state("binary_sensor.mqtt_server", "on") %}online{% else %}OFFLINE{% endif %}'
+
+      server_eventghost:
+        friendly_name: "Eventghost Server"
+        value_template: '{% if is_state("input_boolean.var_eventghost_on", "on") %}online{% else %}OFFLINE{% endif %}'
+
+      ##################################
+      ######### CLOUD TEMPLATES ########
+      ##################################
+
+      # cloud_ifttt:
+      #   friendly_name: "IFTTT Cloud"
+      #   value_template: '{% if "Operational" in states("sensor.ifttt_status") %}online{% else %}Unknown{% endif %}'
+
+      ##################################
+      ########### IOT TEMPLATES ########
+      ##################################
+
+      iot_echo_dot:
+        friendly_name: "Echo Dot"
+        value_template: '{% if is_state("device_tracker.echo_dot", "home") %}online{% else %}OFFLINE{% endif %}'
+
+      iot_esp8266_kitchen:
+        friendly_name: "ESP8266 - Kitchen"
+        value_template: '{% if is_state("device_tracker.esp8266_kitchen", "home") %}online{% else %}OFFLINE{% endif %}'
+
+      iot_esp8266_office:
+        friendly_name: "ESP8266 - Office"
+        value_template: '{% if is_state("device_tracker.esp8266_office", "home") %}online{% else %}OFFLINE{% endif %}'
+
+      iot_esp8266_office_air_freshener:
+        friendly_name: "ESP8266 - Office Air Freshener"
+        value_template: '{% if is_state("device_tracker.esp8266_office_air_freshener", "home") %}online{% else %}OFFLINE{% endif %}'
+
+      iot_esp8266_tables:
+        friendly_name: "ESP8266 - Tables"
+        value_template: '{% if is_state("device_tracker.esp8266_tables", "home") %}online{% else %}OFFLINE{% endif %}'
+
+      iot_esp8266_entertainment_center:
+        friendly_name: "ESP8266 - Entertainment Center"
+        value_template: '{% if is_state("device_tracker.esp8266_entertainment_center", "home") %}online{% else %}OFFLINE{% endif %}'
+
+      iot_esp8266_bedroom:
+        friendly_name: "ESP8266 - Bedroom"
+        value_template: '{% if is_state("device_tracker.esp8266_bedroom", "home") %}online{% else %}OFFLINE{% endif %}'
+
+      ###############################
+      #### VHOME STATUS ALERTS ######
+      ###############################
+
+      server_status_alert:
+        friendly_name: 'Server Status'
+        value_template: >
+          {% if not is_state('sensor.server_modem',"online") %}
+            sensor.server_modem - {{ states.sensor.server_modem.state }};
+          {%endif%}
+          {% if not is_state('sensor.server_router',"online") %}
+            sensor.server_router - {{ states.sensor.server_router.state }};
+          {%endif%}
+          {% if not is_state('sensor.server_mqtt',"online") %}
+            sensor.server_mqtt - {{ states.sensor.server_mqtt.state }};
+          {%endif%}
+          {% if not is_state('sensor.server_eventghost',"online") %}
+            sensor.server_eventghost - {{ states.sensor.server_eventghost.state }};
+          {%endif%}
+        # {% if not is_state('sensor.server_sabnzbd',"online") %}
+        #   sensor.server_sabnzbd - {{ states.sensor.server_sabnzbd.state }};
+        # {%endif%}
+        # {% if not is_state('sensor.server_qbittorrent',"online") %}
+        #   sensor.server_qbittorrent - {{ states.sensor.server_qbittorrent.state }};
+        # {%endif%}
+        # {% if not is_state('sensor.server_sonarr',"online") %}
+        #   sensor.server_sonarr - {{ states.sensor.server_sonarr.state }};
+        # {%endif%}
+        # {% if not is_state('sensor.server_couchpotato',"online") %}
+        #   sensor.server_couchpotato - {{ states.sensor.server_couchpotato.state }};
+        # {%endif%}
+
+      # cloud_status_alert:
+      #   friendly_name: 'Cloud Status'
+      #   value_template: >
+        # {% if not is_state('sensor.cloud_ifttt',"online") %} sensor.cloud_ifttt - {{ states('sensor.cloud_ifttt') }}; {%endif%}
+
+      iot_status_alert:
+        friendly_name: 'IoT Status'
+        value_template: >
+          {% if not is_state('sensor.iot_echo_dot',"online") %}
+            sensor.iot_echo_dot - {{ states.sensor.iot_echo_dot.state }}
+          {%endif%}
+          {% if not is_state('sensor.iot_esp8266_kitchen',"online") %}
+            sensor.iot_esp8266_kitchen - {{ states.sensor.iot_esp8266_kitchen.state }};
+          {%endif%}
+          {% if not is_state('sensor.iot_esp8266_office',"online") %}
+            sensor.iot_esp8266_office - {{ states.sensor.iot_esp8266_office.state }};
+          {%endif%}
+          {% if not is_state('sensor.iot_esp8266_office_air_freshener',"online") %}
+            sensor.iot_esp8266_office_air_freshener - {{ states.sensor.iot_esp8266_office_air_freshener.state }};
+          {%endif%}
+          {% if not is_state('sensor.iot_esp8266_tables',"online") %}
+            sensor.iot_esp8266_tables - {{ states.sensor.iot_esp8266_tables.state }};
+          {%endif%}
+          {% if not is_state('sensor.iot_esp8266_entertainment_center',"online") %}
+            sensor.iot_esp8266_entertainment_center - {{ states.sensor.iot_esp8266_entertainment_center.state }};
+          {%endif%}
+          {% if not is_state('sensor.iot_esp8266_bedroom',"online") %}
+            sensor.iot_esp8266_bedroom - {{ states.sensor.iot_esp8266_bedroom.state }};
+          {%endif%}
+
+      # sonarr_upcoming_episodes:
+      #   friendly_name: "Upcoming Episodes"
+      #   value_template: >
+      #     {% if states.sensor.sonarr_upcoming %}
+      #       {% if states.sensor.sonarr_upcoming.state | int > 0 %}
+      #         {% for episode in states.sensor.sonarr_upcoming.attributes %}
+      #           {% if "icon" not in episode | string and "unit_of_measurement" not in episode | string  and "friendly_name"  not in episode | string %}
+      #             {{episode}} |
+      #           {%endif %}
+      #         {% endfor %}
+      #       {% endif %}
+      #     {% endif %}
+
+#-----------------------------------------------------#
+
+automation:
+##########################################
+########## NOTIFICATIONS #################
+##########################################
+
+
+
+  #********** Server Service Down ***************************************#
+  - alias: server_service_down
+    trigger:
+      - platform: state
+        entity_id: sensor.server_status_alert
+    condition:
+      - condition: template
+        value_template: '{{ states.sensor.server_status_alert.state | string != "" }}'
+    action:
+      - service: script.notify2
+        data_template:
+          telegram_message: |
+            Server Service Down! -
+            {{ states.sensor.server_status_alert.state }}
+
+
+  # - alias: cloud_service_down
+  #   trigger:
+  #     - platform: state
+  #       entity_id: sensor.cloud_status_alert
+  #   condition:
+  #     - condition: template
+  #       value_template: '{{ states.sensor.cloud_status_alert.state | string != "" }}'
+  #   action:
+  #     - service: script.notify2
+  #       data_template:
+  #         telegram_message: |
+  #           Cloud Service Down! -
+  #           {{ states.sensor.cloud_status_alert.state }}
+
+
+  - alias: iot_device_down
+    trigger:
+      - platform: state
+        entity_id: sensor.iot_status_alert
+    condition:
+      - condition: template
+        value_template: '{{ states.sensor.iot_status_alert.state | string != "" }}'
+    action:
+      - service: script.notify2
+        data_template:
+          telegram_message: |
+            IoT Device Down! -
+            {{ states.sensor.iot_status_alert.state }}
+
+
+  #********** Sonarr Notifications ***************************************#
+  # - alias: "Upcoming Episodes"
+  #   trigger:
+  #     - platform: numeric_state
+  #       entity_id: sensor.sonarr_upcoming
+  #       above: 0
+  #   action:
+  #     - service: script.notify2
+  #       data_template:
+  #         email_message: |
+  #           Upcoming Episodes! -
+  #           {% for episode in states.sensor.sonarr_upcoming.attributes %}
+  #             {% if "icon" not in episode | string and "unit_of_measurement" not in episode | string  and "friendly_name"  not in episode | string %}
+  #               {{episode}} |
+  #
+  #             {%endif %}
+  #           {% endfor %}
+
+  #********** Server ***************************************#
+
+  # - alias: "Disk Space Low"
+  #   trigger:
+  #     - platform: numeric_state
+  #       entity_id: sensor.sabnzbd_disk_free
+  #       below: 8
+  #   action:
+  #     - condition: template
+  #       value_template: >
+  #         {% if states.automation.disk_space_low.attributes.last_triggered %}
+  #           {% if (as_timestamp(now())-as_timestamp(states.automation.disk_space_low.attributes.last_triggered)) > (2 * 60 * 60)  %}
+  #             true
+  #           {% else %}
+  #             false
+  #           {% endif %}
+  #         {%else%}
+  #           true
+  #         {%endif%}
+  #     - service: script.notify2
+  #       data_template:
+  #         telegram_message: |
+  #           V: Disk Space Low! -
+  #           {{ states.sensor.sabnzbd_disk_free.state }}GB Free
+  #         flood_color: "red"
+  #         blink_color: "magenta"
+  #         tts_entity_id: group.config_tts_devices
+  #         tts_sound: 'st_notifications/intercom_ds9.mp3'
+  #         tts_message: "Warning Disk Space Low! There is only {{ states.sensor.sabnzbd_disk_free.state | int | round(0) }} gigs free on Dell Laptop's V drive."
+
+
+  #********** SpeetTest Notification ***************************************#
+  - alias: speedtest_speed_low
+    trigger:
+      - platform: numeric_state
+        entity_id: sensor.speedtables_download
+        below: 15
+    action:
+      - condition: template
+        value_template: >
+          {% if states.automation.speedtables_speed_low.attributes.last_triggered %}
+            {% if (as_timestamp(now())-as_timestamp(states.automation.speedtables_speed_low.attributes.last_triggered)) > (2 * 60 * 60)  %}
+              true
+            {% else %}
+              false
+            {% endif %}
+          {%else%}
+            true
+          {%endif%}
+      - service: script.notify2
+        data_template:
+          telegram_message: |
+            Speed Test LOW! -
+            {{ states.sensor.speedtables_download.state }}Mbit/s
+
+
+
+##########################################
+########## AUTOMATIONS ###################
+##########################################
+  #********** Desktop Computer On/Off ***************************************#
+  - alias: desktop_computer_on
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.desktop_computer
+        to: 'on'
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.var_desktop_computer_on
+      - condition: state
+        entity_id: input_select.var_lks_office
+        state: 'off'
+      - condition: state
+        entity_id: input_select.var_lks_livingroom
+        state: 'off'
+      - service: script.scene2
+        data_template:
+          scene_name: 'night_computer_red'
+          rooms:
+            - 'livingroom'
+          transition: 15
+      - service: script.scene2
+        data_template:
+          scene_name: 'night_computer_red'
+          rooms:
+            - 'office'
+          transition: 90
+
+  - alias: desktop_computer_off
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.desktop_computer
+        to: 'off'
+        for:
+          minutes: 10
+      - platform: state
+        entity_id: script.computer_monitors_turn_off
+        to: 'on'
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_desktop_computer_on
+
+  #********** Check Eventghost ***************************************#
+  # Send Request
+  - alias: send_eventghost_mqtt_state_request
+    trigger:
+      - platform: time
+        seconds: '/30'
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.var_eventghost_mqtt_request_state_sent
+      - service: mqtt.publish
+        data:
+          topic: "device/eventghost/request_state"
+          payload: "request_state"
+
+  # Recieve Reply
+  - alias: recieve_reply_eventghost_mqtt_state_request
+    trigger:
+      platform: mqtt
+      topic: device/eventghost/set_state_eventghost_state
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.var_eventghost_on
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_eventghost_mqtt_request_state_sent
+
+  # NO Reply
+  - alias: no_reply_eventghost_mqtt_state_request
+    trigger:
+      platform: state
+      entity_id: input_boolean.var_eventghost_mqtt_request_state_sent
+      to: 'on'
+      for:
+        minutes: 5
+    condition:
+      - condition: state
+        entity_id: input_boolean.var_eventghost_mqtt_request_state_sent
+        state: 'on'
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_eventghost_on
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.var_eventghost_mqtt_request_state_sent
+
+
+
+
+
+
+#-----------------------------------------------------#
+
+# script:
+##########################################
+########## SCRIPTS #######################
+##########################################
+
+#-----------------------------------------------------#
+
+input_boolean:
+##########################################
+########## BACKEND #######################
+##########################################
+  var_eventghost_mqtt_request_state_sent:
+
+  var_eventghost_on:
+
+  var_desktop_computer_on:
+##########################################
+########## OPTIONS #######################
+##########################################
+
+##########################################
+########## CONFIG ########################
+##########################################
+
+#-----------------------------------------------------#
+
+# homeassistant:
+#   customize:
+##########################################
+########## EMULATED HUE ##################
+##########################################
+    # input_boolean.template:
+    #   emulated_hue: true
+    #   emulated_hue_name: "Template Name"
+
+#-----------------------------------------------------#
+
+group:
+##########################################
+############### GROUPS ###################
+##########################################
+
+##########################################
+############### AUTO-GROUPS ##############
+##########################################
+  automation_server:
+    entities:
+      - automation.server_service_down
+      - automation.cloud_service_down
+      - automation.iot_device_down
+      - automation.speedtest_speed_low
+      - automation.send_eventghost_mqtt_state_request
+      - automation.recieve_reply_eventghost_mqtt_state_request
+      - automation.no_reply_eventghost_mqtt_state_request
+      - automation.desktop_computer_on
+      - automation.desktop_computer_off
+
+  backend_server:
+    entities:
+      - input_boolean.var_eventghost_on
+      - input_boolean.var_desktop_computer_on
+      - input_boolean.var_eventghost_mqtt_request_state_sent
+
+  # hidden_server:
+  #   entities:
+
+
+#   options_server:
+#     entities:
+#       - input_boolean.
+
+  script_server:
+    entities:
+      - script.restart_eventghost
+
+  sensor_server:
+    entities:
+    - sensor.cloud_status_alert
+    - sensor.server_status_alert
+    - sensor.iot_status_alert
+
+    - sensor.iot_echo_dot
+    - sensor.iot_esp8266_kitchen
+    - sensor.iot_esp8266_office
+    - sensor.iot_esp8266_office_air_freshener
+    - sensor.iot_esp8266_tables
+    - sensor.iot_esp8266_entertainment_center
+    - sensor.iot_esp8266_bedroom
+
+    - sensor.cloud_ifttt
+    - sensor.cloud_lifx
+
+    - sensor.server_modem
+    - sensor.server_router
+    - sensor.server_mqtt
+    - sensor.server_eventghost
+    - sensor.server_sabnzbd
+    - sensor.server_qbittorrent
+    - sensor.server_sonarr
+    - sensor.server_couchpotato
+
+    - binary_sensor.mqtt_server
+    - binary_sensor.arris_modem
+    - binary_sensor.linksys_ddwrt_router
+    - binary_sensor.sabnzbd
+    - binary_sensor.qbittorrent
+    - binary_sensor.sonarr
+    - binary_sensor.couchpotato
+    - binary_sensor.ps3_ping
+    - binary_sensor.desktop_computer
+
+    - sensor.ifttt_status
+    - sensor.lifx_status
+    - sensor.hass_version_latest
+    - sensor.hass_version_current
+
+    - sensor.speedtest_ping
+    - sensor.speedtest_download
+    - sensor.speedtest_upload
+
+    - sensor.sabnzbd_status
+    - sensor.sabnzbd_speed
+    - sensor.sabnzbd_queue
+    - sensor.sabnzbd_left
+    - sensor.sabnzbd_disk
+    - sensor.sabnzbd_disk_free
+
+    - sensor.sonarr_disk_space
+
+    - sensor.pihole_queries_blocked_today
+    - sensor.pihole_queries_today
+    - sensor.pihole_percentage_today
+    - sensor.pihole_domains_blocked

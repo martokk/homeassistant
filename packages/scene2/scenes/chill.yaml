@@ -190,3 +190,14 @@ script:
         data:
           entity_id: input_select.var_lks_bedroom
           option: 'chill'
+
+##########################################
+############### GROUPS ###################
+##########################################
+group:
+  hidden_scene2_chill:
+    entities:
+      - script.scene2_chill_bedroom
+      - script.scene2_chill_kitchen
+      - script.scene2_chill_livingroom
+      - script.scene2_chill_office

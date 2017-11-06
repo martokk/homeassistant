@@ -1,17 +1,17 @@
-homeassistant:
-  customize:
-    input_boolean.override_fans_helper:
-      emulated_hue: true
-      emulated_hue_name: "All Fans"
-# switch:
-# lights:
-# binary_sensor:
+##########################################
+########## COMPONENTS ####################
+##########################################
 # sensor:
 
+#-----------------------------------------------------#
+
 automation:
+##########################################
+########## NOTIFICATIONS #################
+##########################################
 
 ##########################################
-########## OVERRIDES ###################
+########## OVERRIDES #####################
 ##########################################
   - alias: fans_override
     trigger:
@@ -58,7 +58,6 @@ automation:
         entity_id: switch.sonoff_small_desk_fan1
       - service: switch.turn_off
         entity_id: switch.sonoff_box_fan1
-
 
 ##########################################
 ########## AUTOMATIONS ###################
@@ -322,11 +321,12 @@ automation:
       - service: switch.turn_on
         entity_id: switch.sonoff_box_fan1
 
+#-----------------------------------------------------#
+
 ##########################################
 ########## SCRIPTS #######################
 ##########################################
 script:
-
 #********** Override - Turn ON  ***********#
   override_turn_on_fans:
     sequence:
@@ -359,12 +359,12 @@ script:
       - service: input_boolean.turn_on
         entity_id: input_boolean.override_turn_off_fans
 
-
+#-----------------------------------------------------#
 
 input_boolean:
-#########################################
-######### STORED VARIABLES ##############
-#########################################
+##########################################
+########## BACKEND #######################
+##########################################
   var_fans_circulate_air_on:
   var_fans_temperature_controlled_on:
   var_fans_smoke_session_on:
@@ -375,7 +375,6 @@ input_boolean:
   override_fans_helper:
   override_turn_on_fans:
   override_turn_off_fans:
-
 
 ##########################################
 ########## OPTIONS #######################
@@ -388,20 +387,31 @@ input_boolean:
     name: "Circulate air every 2 hours (for 15m)"
     initial: on
 
+##########################################
+########## CONFIG ########################
+##########################################
 
+#-----------------------------------------------------#
+
+homeassistant:
+  customize:
+##########################################
+########## EMULATED HUE ##################
+##########################################
+    input_boolean.override_fans_helper:
+      emulated_hue: true
+      emulated_hue_name: "All Fans"
+
+#-----------------------------------------------------#
+
+group:
 ##########################################
 ############### GROUPS ###################
 ##########################################
-group:
 
-  fans:
-    name: "Fans"
-    entities:
-      # - input_boolean.override_turn_on_fans
-      - switch.sonoff_box_fan1
-      - switch.sonoff_small_desk_fan1
-
-
+##########################################
+############### AUTO-GROUPS ##############
+##########################################
   automation_fans:
     entities:
       - automation.fans_circulate_air_on
@@ -420,7 +430,6 @@ group:
       - automation.tts_interupt_turn_off_sonoff_box_fan1
       - automation.tts_interupt_turn_off_sonoff_small_desk_fan1
 
-
   backend_fans:
     entities:
       - input_boolean.var_fans_circulate_air_on
@@ -430,14 +439,22 @@ group:
       - input_boolean.override_turn_on_fans
       - input_boolean.override_turn_off_fans
 
+#   hidden_fans:
+#     entities:
+#       - input_boolean.
+
   options_fans:
     name: "Fans"
+    control: hidden
     entities:
       - input_boolean.option_fans_circulate_air
       - input_boolean.option_fans_temperature_controlled
-
 
   script_fans:
     entities:
       - script.override_turn_off_fans
       - script.override_turn_on_fans
+
+#   sensor_fans:
+#     entities:
+#       - sensor.
