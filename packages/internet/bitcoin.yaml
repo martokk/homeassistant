@@ -73,18 +73,18 @@ automation:
       - service: script.notify2
         data_template:
           telegram_message: |
-            *Bitcoin: ${{ states.sensor.bitcoin.state | round(0) }}*
+            *Bitcoin: ${{ (states.sensor.bitcoin.state | int /25 ) | round() * 25  }}*
             24h: {{ states.sensor.bitcoin_percent_change_24h.state | round(1) }}%
             7d:  {{ states.sensor.bitcoin_percent_change_7d.state | round(1) }}%
-          telegram_url: http://bitcoincharts.com/charts/chart.png?width=848&height=480&m=bitstampUSD&SubmitButton=Draw&r=2&i=5-min&c=0&s=&e=&Prev=&Next=&t=C&b=&a1=&m1=10&a2=&m2=25&x=0&i1=&i2=&i3=&i4=&v=1&cv=0&ps=0&l=0&p=0&
+          telegram_url: http://bitcoincharts.com/charts/chart.png?width=848&height=480&m=bitstampUSD&SubmitButton=Draw&r=7&i=5-min&c=0&s=&e=&Prev=&Next=&t=C&b=&a1=&m1=10&a2=&m2=25&x=0&i1=&i2=&i3=&i4=&v=1&cv=0&ps=0&l=0&p=0&
           flood_color: "cyan"
           blink_color: "gold"
           blink_color2: "green"
           chromecast_entity_id: media_player.vtv_chromecast
-          chromecast_link: http://bitcoincharts.com/charts/chart.png?width=848&height=480&m=bitstampUSD&SubmitButton=Draw&r=2&i=5-min&c=0&s=&e=&Prev=&Next=&t=C&b=&a1=&m1=10&a2=&m2=25&x=0&i1=&i2=&i3=&i4=&v=1&cv=0&ps=0&l=0&p=0&
+          chromecast_link: http://bitcoincharts.com/charts/chart.png?width=848&height=480&m=bitstampUSD&SubmitButton=Draw&r=7&i=5-min&c=0&s=&e=&Prev=&Next=&t=C&b=&a1=&m1=10&a2=&m2=25&x=0&i1=&i2=&i3=&i4=&v=1&cv=0&ps=0&l=0&p=0&
           tts_entity_id: group.config_tts_devices
           tts_sound: 'other/smb_coin.wav'
-          tts_message: "Bitcoin's up! The current bitcoin price is ${{ states.sensor.bitcoin.state | round(0) }}"
+          tts_message: "Bitcoin's up! The current bitcoin price is ${{ (states.sensor.bitcoin.state | int /25 ) | round() * 25  }}"
           tts_pause_delay: "00:00:07"
       - service: input_number.set_value
         data_template:
@@ -105,15 +105,15 @@ automation:
             *Bitcoin: ${{ states.sensor.bitcoin.state | round(2) }}*
             24h: {{ states.sensor.bitcoin_percent_change_24h.state | round(1) }}%
             7d:  {{ states.sensor.bitcoin_percent_change_7d.state | round(1) }}%
-          telegram_url: http://bitcoincharts.com/charts/chart.png?width=848&height=480&m=bitstampUSD&SubmitButton=Draw&r=2&i=5-min&c=0&s=&e=&Prev=&Next=&t=C&b=&a1=&m1=10&a2=&m2=25&x=0&i1=&i2=&i3=&i4=&v=1&cv=0&ps=0&l=0&p=0&
+          telegram_url: http://bitcoincharts.com/charts/chart.png?width=848&height=480&m=bitstampUSD&SubmitButton=Draw&r=7&i=5-min&c=0&s=&e=&Prev=&Next=&t=C&b=&a1=&m1=10&a2=&m2=25&x=0&i1=&i2=&i3=&i4=&v=1&cv=0&ps=0&l=0&p=0&
           flood_color: "cyan"
           blink_color: "gold"
           blink_color2: "red"
           chromecast_entity_id: media_player.vtv_chromecast
-          chromecast_link: http://bitcoincharts.com/charts/chart.png?width=848&height=480&m=bitstampUSD&SubmitButton=Draw&r=2&i=5-min&c=0&s=&e=&Prev=&Next=&t=C&b=&a1=&m1=10&a2=&m2=25&x=0&i1=&i2=&i3=&i4=&v=1&cv=0&ps=0&l=0&p=0&
+          chromecast_link: http://bitcoincharts.com/charts/chart.png?width=848&height=480&m=bitstampUSD&SubmitButton=Draw&r=7&i=5-min&c=0&s=&e=&Prev=&Next=&t=C&b=&a1=&m1=10&a2=&m2=25&x=0&i1=&i2=&i3=&i4=&v=1&cv=0&ps=0&l=0&p=0&
           tts_entity_id: group.config_tts_devices
           tts_sound: 'other/smb_coin.wav'
-          tts_message: "Bitcoin's down! The current bitcoin price is ${{ states.sensor.bitcoin.state | round(0) }}"
+          tts_message: "Bitcoin's down! The current bitcoin price is ${{ (states.sensor.bitcoin.state | int /25 ) | round() * 25  }}"
           tts_pause_delay: "00:00:07"
       - service: input_number.set_value
         data_template:
@@ -135,10 +135,10 @@ script:
     - service: script.notify2
       data_template:
         chromecast_entity_id: media_player.vtv_chromecast
-        chromecast_link: http://bitcoincharts.com/charts/chart.png?width=848&height=480&m=bitstampUSD&SubmitButton=Draw&r=2&i=5-min&c=0&s=&e=&Prev=&Next=&t=C&b=&a1=&m1=10&a2=&m2=25&x=0&i1=&i2=&i3=&i4=&v=1&cv=0&ps=0&l=0&p=0&
+        chromecast_link: http://bitcoincharts.com/charts/chart.png?width=848&height=480&m=bitstampUSD&SubmitButton=Draw&r=7&i=5-min&c=0&s=&e=&Prev=&Next=&t=C&b=&a1=&m1=10&a2=&m2=25&x=0&i1=&i2=&i3=&i4=&v=1&cv=0&ps=0&l=0&p=0&
         tts_entity_id: group.config_tts_devices
         tts_sound: 'other/smb_coin.wav'
-        tts_message: "The current bitcoin price is ${{ states.sensor.bitcoin.state | round(0) }}"
+        tts_message: "The current bitcoin price is ${{ (states.sensor.bitcoin.state | int /25 ) | round() * 25  }}"
         tts_pause_delay: "00:00:07"
 
   coinmarketcap_summary:
@@ -193,6 +193,7 @@ input_number:
     min: 0
     max: 999999
     step: 1
+    mode: box
 
 ##########################################
 ########## OPTIONS #######################
@@ -215,11 +216,11 @@ homeassistant:
 
 #-----------------------------------------------------#
 
-# group:
+group:
 ##########################################
 ############### GROUPS ###################
 ##########################################
-  coinmarketcap:
+  coinmarketcap: # Used in automations
     entities:
       - sensor.bitcoin
       - sensor.ethereum
@@ -237,13 +238,6 @@ homeassistant:
       - sensor.potcoin
       - sensor.peerplays
 
-  bitcoin:
-    name: "Bitcoin"
-    entities:
-      - sensor.bitcoin
-      - sensor.bitcoin_percent_change_24h
-      - sensor.bitcoin_percent_change_7d
-
 ##########################################
 ############### AUTO-GROUPS ##############
 ##########################################
@@ -255,11 +249,6 @@ homeassistant:
   backend_bitcoin:
     entities:
       - input_number.var_last_known_bitcoin_price
-      - input_select.config_array_favorite_cyptos
-
-#   config_bitcoin:
-#     entities:
-#       - input_boolean.
 
 #   hidden_bitcoin:
 #     entities:
@@ -274,3 +263,23 @@ homeassistant:
       - script.chromecast_bitcoin_chart
       - script.coinmarketcap_summary
       - script.coinmarketcap_favorites_summary
+
+  sensor_bitcoin:
+    entities:
+      - sensor.bitcoin
+      - sensor.bitcoin_percent_change_24h
+      - sensor.bitcoin_percent_change_7d
+      - sensor.ethereum
+      - sensor.ripple
+      - sensor.litecoin
+      - sensor.ethereum_classic
+      - sensor.dash
+      - sensor.bitshares
+      - sensor.monero
+      - sensor.stratis
+      - sensor.siacoin
+      - sensor.steem
+      - sensor.factom
+      - sensor.counterparty
+      - sensor.potcoin
+      - sensor.peerplays

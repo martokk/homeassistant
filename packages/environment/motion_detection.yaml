@@ -105,21 +105,14 @@ group:
       - automation.var_entertainment_center_motion_off
 
   backend_motion_detection:
+    control: hidden
     entities:
       - input_boolean.var_kitchen_motion_on
       - input_boolean.var_entertainment_center_motion_on
 
-#   config_motion_detection:
-#     entities:
-#       - input_boolean.
+  # hidden_motion_detection:
+  #   entities:
 
-  hidden_motion_detection:
-    entities:
-      - binary_sensor.kitchen_motion_sensor
-      - binary_sensor.sink_motion_sensor
-      - binary_sensor.entertainment_center_motion_sensor
-      - binary_sensor.bedroom_motion_sensor
-      - binary_sensor.office_motion_sensor
 
 #   options_motion_detection:
 #     entities:
@@ -128,3 +121,11 @@ group:
 #   script_motion_detection:
 #     entities:
 #       - script.
+
+  sensor_motion_detection:
+    entities:
+      - binary_sensor.kitchen_motion_sensor
+      - binary_sensor.sink_motion_sensor
+      - binary_sensor.entertainment_center_motion_sensor
+      - binary_sensor.bedroom_motion_sensor
+      - binary_sensor.office_motion_sensor

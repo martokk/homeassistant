@@ -304,11 +304,13 @@ group:
 ############### GROUPS ###################
 ##########################################
   tools_test_scene2:
+    name: "Test - Scene2"
     entities:
       - script.scene2_test
 
-  scenes:
+  scene2_scenes:
     name: "Scenes"
+    control: hidden
     entities:
     - script.timebased_scene
     - script.call_last_known_scene
@@ -331,6 +333,15 @@ group:
     - script.scene2_prework_red
     - script.scene2_prework_t10m
     - script.scene2_off
+
+  scene2_rooms:
+    name: "Room Lights"
+    control: hidden
+    entities:
+      - input_boolean.var_livingroom_on
+      - input_boolean.var_office_on
+      - input_boolean.var_kitchen_on
+      - input_boolean.var_bedroom_on
 
 ##########################################
 ############### AUTO-GROUPS ##############
@@ -360,10 +371,6 @@ group:
       - input_boolean.var_bedroom_on
       - input_select.var_lks_bedroom
 
-#   config_scene2:
-#     entities:
-#       - input_boolean.
-
 #   hidden_scene2:
 #     entities:
 #       - input_boolean.
@@ -374,7 +381,13 @@ group:
 
   script_scene2:
     entities:
+      - script.scene2
+      - script.scene2_do_nothing
       - script.scene2_on_day_lights
       - script.scene2_on_night_lights
       - script.scene2_on_normal_lights
       - script.turn_on_all_room_light
+
+#   sensor_scene2:
+#     entities:
+#       - sensor.

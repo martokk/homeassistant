@@ -227,13 +227,9 @@ group:
       - automation.kitchen_leds_animation_speed
       - automation.mqtt_button_setMax_var_kitchen_delay
 
-#   backend_vcore_kitchen:
-#     entities:
-#       - input_boolean.
-
-  config_vcore_kitchen:
+  backend_vcore_kitchen:
     entities:
-      - input_number.kitchen_leds_animation_speed
+      - input_number.kitchen_animation_speed
       - input_select.kitchen_led_effect
 
 #   hidden_vcore_kitchen:
@@ -247,3 +243,12 @@ group:
 #   script_vcore_kitchen:
 #     entities:
 #       - script.
+
+  sensor_vcore_kitchen:
+    entities:
+      - light.kitchen_led_strip
+      - binary_sensor.kitchen_motion_sensor
+      - binary_sensor.sink_motion_sensor
+      - binary_sensor.kitchen_mqtt_button
+      - sensor.kitchen_temperature
+      - sensor.kitchen_humidity

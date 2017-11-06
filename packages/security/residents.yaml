@@ -119,10 +119,6 @@ group:
 #     entities:
 #       - input_boolean.
 
-#   config_residents:
-#     entities:
-#       - input_boolean.
-
 #   hidden_residents:
 #     entities:
 #       - input_boolean.
@@ -134,3 +130,7 @@ group:
 #   script_residents:
 #     entities:
 #       - script.
+
+#   sensor_residents:
+#     entities:
+#       - sensor.

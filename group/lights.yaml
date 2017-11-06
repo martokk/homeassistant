@@ -1,0 +1,19 @@
+##########################################
+########## VIEW ##########################
+##########################################
+  lights_view:
+    icon: mdi:lightbulb
+    view: yes
+    entities:
+      - group.scene2_scenes
+      - group.scene2_rooms
+      - group.lights
+      - group.lights_vcore_all
+
+##########################################
+########## GROUPS ########################
+##########################################
+  lights_vcore_all:
+    entities:
+      - input_number.all_leds_animation_speed
+      - input_select.all_led_effect

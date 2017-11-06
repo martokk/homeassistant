@@ -176,13 +176,9 @@ group:
       - automation.tables_leds_input_effect
       - automation.tables_leds_animation_speed
 
-#   backend_vcore_tables:
-#     entities:
-#       - input_boolean.
-
-  config_vcore_tables:
+  backend_vcore_tables:
     entities:
-      - input_number.tables_leds_animation_speed
+      - input_number.tables_animation_speed
       - input_select.tables_led_effect
 
 #   hidden_vcore_tables:
@@ -196,3 +192,9 @@ group:
 #   script_vcore_tables:
 #     entities:
 #       - script.
+
+  sensor_vcore_tables:
+    entities:
+      - light.tables_led_strip
+      - sensor.tables_temperature
+      - sensor.tables_humidity

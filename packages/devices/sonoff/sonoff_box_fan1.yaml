@@ -10,7 +10,7 @@ switch:
     payload_on: "ON"
     payload_off: "OFF"
     retain: true
-    
+
 #-----------------------------------------------------#
 
 # automation:
@@ -65,22 +65,25 @@ switch:
 ##########################################
 ############### AUTO-GROUPS ##############
 ##########################################
-#   automation_change_me:
+#   automation_sonoff_box_fan1:
 #     entities:
 #       - automation.
 
-#   backend_change_me:
+#   backend_sonoff_box_fan1:
 #     entities:
 #       - input_boolean.
 
-#   hidden_change_me:
+#   hidden_sonoff_box_fan1:
 #     entities:
 #       - input_boolean.
 
-#   options_change_me:
+#   options_sonoff_box_fan1:
 #     entities:
 #       - input_boolean.
 
-#   script_change_me:
+#   script_sonoff_box_fan1:
 #     entities:
 #       - script.
+
+  # sensor_sonoff_box_fan1:
+  #   entities:

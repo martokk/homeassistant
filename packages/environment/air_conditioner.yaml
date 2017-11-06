@@ -347,10 +347,6 @@ group:
       - input_boolean.override_turn_on_air_conditioner
       - input_boolean.override_turn_off_air_conditioner
 
-#   config_air_conditioner:
-#     entities:
-#       - input_boolean.
-
 #   hidden_air_conditioner:
 #     entities:
 #       - input_boolean.
@@ -365,3 +361,7 @@ group:
       - script.fix_air_conditioner_sync
       - script.override_turn_on_air_conditioner
       - script.override_turn_off_air_conditioner
+
+  sensor_air_conditioner:
+    entities:
+      - switch.air_conditioner

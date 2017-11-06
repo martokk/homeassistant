@@ -197,7 +197,7 @@ automation:
   - alias: bedroom_temperature_cold_after_9pm
     trigger:
       - platform: template
-        value_template: "{% if states.sensor.bedroom_temperature.state | int < states.input_number.var_indoor_temp_cool.state | int and states.sensor.bedroom_temperature.state | int > 1 %}true{%endif%}"
+        value_template: "{% if states.sensor.bedroom_temperature.state | int < states.input_text.var_indoor_temp_cool.state | int and states.sensor.bedroom_temperature.state | int > 1 %}true{%endif%}"
     condition:
       - condition: state
         entity_id: input_boolean.var_mike_home
@@ -319,26 +319,10 @@ group:
 #     entities:
 #       - input_boolean.
 
-#   config_indoor_temperature:
+#   hidden_indoor_temperature:
 #     entities:
 #       - input_boolean.
 
-  hidden_indoor_temperature:
-    entities:
-      - sensor.dark_sky_temperature
-      - sensor.indoor_temperature
-      - sensor.kitchen_temperature
-      - sensor.tables_temperature
-      - sensor.entertainment_center_temperature
-      - sensor.office_temperature
-      - sensor.bedroom_temperature
-      - sensor.dark_sky_humidity
-      - sensor.indoor_humidity
-      - sensor.kitchen_humidity
-      - sensor.tables_humidity
-      - sensor.office_humidity
-      - sensor.entertainment_center_humidity
-      - sensor.bedroom_humidity
 #   options_indoor_temperature:
 #     entities:
 #       - input_boolean.
@@ -346,3 +330,19 @@ group:
 #   script_indoor_temperature:
 #     entities:
 #       - script.
+
+  sensor_indoor_temperature:
+    entities:
+      - sensor.indoor_temperature
+      - sensor.kitchen_temperature
+      - sensor.tables_temperature
+      - sensor.entertainment_center_temperature
+      - sensor.office_temperature
+      - sensor.bedroom_temperature
+
+      - sensor.indoor_humidity
+      - sensor.kitchen_humidity
+      - sensor.tables_humidity
+      - sensor.office_humidity
+      - sensor.entertainment_center_humidity
+      - sensor.bedroom_humidity

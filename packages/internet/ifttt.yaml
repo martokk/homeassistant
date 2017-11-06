@@ -15,21 +15,31 @@ ifttt:
 
 sensor:
   - platform: dweet
-    name: dweet_vhome
-    device: vhome
+    name: !secret dweet_name
+    device: !secret dweet_device
     value_template: '{{ value_json.message }}'
-    scan_interval: 15
 
   - platform: template
     sensors:
       dweet_vhome_topic:
         value_template: "{% set dweet_vhome = states.sensor.dweet_vhome.state.split('::') %}{{ dweet_vhome[0] }}"
-      dweet_vhome_message:
+      dweet_vhome_tts_message:
         value_template: >
-          {% set dweet_vhome = states.sensor.dweet_vhome.state.split('::') %}
-          {% set dweet_vhome_modified = dweet_vhome[1].split("—") %}
-          {% set dweet_vhome_cleaned = dweet_vhome_modified[0].split('http') %}
-          {{ dweet_vhome_cleaned[0] }}
+          {# Strip HTML Tags #}
+          {% set dweet_vhome = states.sensor.dweet_vhome.state | string | striptags %}
+          {% set dweet_vhome = dweet_vhome + ":: " %}
+
+          {# Split Topic #}
+          {% set dweet_vhome_split1 = dweet_vhome.split('::') %}
+          {% set dweet_vhome_split2 = dweet_vhome_split1[1].split("http") %}
+
+          {{ dweet_vhome_split2[0] }}
+      dweet_vhome_notify_message:
+        value_template: >
+          {% set dweet_vhome = states.sensor.dweet_vhome.state | string | replace("https","http") %}
+          {% set dweet_vhome = dweet_vhome + ":: " %}
+          {% set dweet_vhome_split1 = dweet_vhome.split('::') %}
+          {{ dweet_vhome_split1[1] }}
 
 #-----------------------------------------------------#
 
@@ -45,7 +55,7 @@ automation:
   - alias: nfl_game_start
     trigger:
       platform: state
-      entity_id: sensor.dweet_vhome_topic
+      entity_id: sensor.dweet_vhome_notify_message
     condition:
       - condition: state
         entity_id: sensor.dweet_vhome_topic
@@ -55,20 +65,20 @@ automation:
         data_template:
           telegram_message: |
             *NFL GAME START:*
-            {{ states.sensor.dweet_vhome_message.state }}
+            {{ states.sensor.dweet_vhome_notify_message.state }}
           tts_entity_id: group.config_tts_devices
           tts_sound: 'other/espn_alert.m4a'
           tts_pause_delay: "00:00:03"
           tts_message: |
             NFL Game Started! <break time=".9s" />
-            {% set message = states.sensor.dweet_vhome_message.state | replace('"','') %}
+            {% set message = states.sensor.dweet_vhome_tts_message.state | replace('"','') %}
             {% set sentence = message.split('.') %}
             {{ sentence[0] }}
 
   - alias: nfl_game_update
     trigger:
       platform: state
-      entity_id: sensor.dweet_vhome_topic
+      entity_id: sensor.dweet_vhome_notify_message
     condition:
       condition: state
       entity_id: sensor.dweet_vhome_topic
@@ -78,19 +88,19 @@ automation:
         data_template:
           telegram_message: |
             *NFL GAME UPDATE:*
-            {{ states.sensor.dweet_vhome_message.state }}
+            {{ states.sensor.dweet_vhome_notify_message.state }}
           tts_entity_id: group.config_tts_devices
           tts_sound: 'other/espn_alert.m4a'
           tts_pause_delay: "00:00:03"
           tts_message: |
-            {% set message = states.sensor.dweet_vhome_message.state | replace('"','') %}
+            {% set message = states.sensor.dweet_vhome_tts_message.state | replace('"','') %}
             {% set sentence = message.split('.') %}
             {{ sentence[0] }}
 
   - alias: nfl_game_end
     trigger:
       platform: state
-      entity_id: sensor.dweet_vhome_topic
+      entity_id: sensor.dweet_vhome_notify_message
     condition:
       condition: state
       entity_id: sensor.dweet_vhome_topic
@@ -100,12 +110,12 @@ automation:
         data_template:
           telegram_message: |
             *NFL GAME ENDED:*
-            {{ states.sensor.dweet_vhome_message.state }}
+            {{ states.sensor.dweet_vhome_notify_message.state }}
           tts_entity_id: group.config_tts_devices
           tts_sound: 'other/espn_alert.m4a'
           tts_pause_delay: "00:00:03"
           tts_message: |
-            {% set message = states.sensor.dweet_vhome_message.state | replace('"','') %}
+            {% set message = states.sensor.dweet_vhome_tts_message.state | replace('"','') %}
             {% set sentence = message.split('.') %}
             {{ sentence[0] }}
 
@@ -116,32 +126,32 @@ automation:
   - alias: breaking_news
     trigger:
       platform: state
-      entity_id: sensor.dweet_vhome_topic
+      entity_id: sensor.dweet_vhome_notify_message
     condition:
       - condition: state
         entity_id: sensor.dweet_vhome_topic
         state: 'breaking_news'
       - condition: template
-        value_template: '{% set msg = states.sensor.dweet_vhome_message.state %}{{ "BREAKING:" in msg or "JUST IN:" in msg or "UPDATE:" in msg or "HAPPENING NOW:" in msg or "BREAKING NEWS:" in msg}}'
+        value_template: >
+          {% set msg = states.sensor.dweet_vhome_notify_message.state | lower %}
+          {{ "breaking:" in msg or "just in:" in msg or "update:" in msg or "happening now:" in msg or "breaking news:" in msg or "president trump:" in msg or "trump:" in msg or "shooting:" in msg or "attack:" in msg }}
     action:
       - service: script.notify2
         data_template:
           telegram_message: |
             *BREAKING NEWS:*
-            {{ states.sensor.dweet_vhome_message.state }}
+            {{ states.sensor.dweet_vhome_notify_message.state }}
           tts_entity_id: group.config_tts_devices
           tts_sound: 'other/breaking_news.m4a'
           tts_pause_delay: "00:00:03"
           tts_message: |
-            {% set dweet_vhome_message = states.sensor.dweet_vhome_message.state.split(":") %}
-            {% set headline = dweet_vhome_message[0] | replace('"','') %}
-            {% set message = dweet_vhome_message[1] | replace('"','') %}
-            {{ headline }}: <break time=".9s" /> {{ message }}
+            {{ states.sensor.dweet_vhome_tts_message.state }}
+
 
   - alias: trump_tweet
     trigger:
       platform: state
-      entity_id: sensor.dweet_vhome_topic
+      entity_id: sensor.dweet_vhome_notify_message
     condition:
       condition: state
       entity_id: sensor.dweet_vhome_topic
@@ -151,12 +161,12 @@ automation:
         data_template:
           telegram_message: |
             *TRUMP:*
-            {{ states.sensor.dweet_vhome_message.state }}
+            {{ states.sensor.dweet_vhome_notify_message.state }}
           tts_entity_id: group.config_tts_devices
           tts_sound: 'other/hailt_to_the_chief.m4a'
           tts_pause_delay: "00:00:03"
           tts_message: |
-            President Trump just tweeted... <break time=".9s" /> {{ states.sensor.dweet_vhome_message.state | replace('"','') }}
+            President Trump just tweeted... <break time=".9s" /> {{ states.sensor.dweet_vhome_tts_message.state  }}
 
 ##########################################
 ########## AUTOMATIONS ###################
@@ -229,14 +239,8 @@ group:
       - automation.nfl_game_end
       - automation.trump_tweet
 
-  backend_ifttt:
-    entities:
-      - sensor.dweet_vhome
-      - sensor.dweet_vhome_topic
-      - sensor.dweet_vhome_message
-
-#   config_ifttt:
-#     entities:
+  # backend_ifttt:
+  #   entities:
 #       - input_boolean.
 
 #   hidden_ifttt:
@@ -250,3 +254,10 @@ group:
   script_ifttt:
     entities:
       - script.find_my_phone
+
+  sensor_ifttt:
+    entities:
+      - sensor.dweet_vhome
+      - sensor.dweet_vhome_topic
+      - sensor.dweet_vhome_tts_message
+      - sensor.dweet_vhome_notify_message

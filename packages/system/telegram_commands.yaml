@@ -4,10 +4,8 @@
 telegram_bot:
   platform: polling
   api_key: !secret telegram_api_key
-  allowed_chat_ids:
-    - 343498992 # @liberty_minded user
-    - 240044026 # IFTTT
-    - -296159061 # @ vHome group
+  allowed_chat_ids: !secret telegram_allowed_chat_ids
+
 
 #-----------------------------------------------------#
 
@@ -36,12 +34,35 @@ automation:
 ########## AUTOMATIONS ###################
 ##########################################
 
+  - alias: telegram_command_restart
+    trigger:
+      - platform: event
+        event_type: telegram_command
+        event_data:
+          command: '/restart'
+    action:
+      - service: shell_command.restart_all
+
+  - alias: telegram_command_all_automations
+    trigger:
+      - platform: event
+        event_type: telegram_command
+        event_data:
+          command: '/all_automations'
+      - platform: event
+        event_type: telegram_command
+        event_data:
+          command: '/aa'
+    action:
+      - service: script.turn_on_all_automations
+
 #-----------------------------------------------------#
 
 # script:
 ##########################################
 ########## SCRIPTS #######################
 ##########################################
+
 
 #-----------------------------------------------------#
 
@@ -82,12 +103,10 @@ group:
   automation_telegram_commands:
     entities:
       - automation.telegram_command_notify2_tts
+      - automation.telegram_command_restart
+      - automation.telegram_command_all_automations
 
 #   backend_telegram_commands:
-#     entities:
-#       - input_boolean.
-
-#   config_telegram_commands:
 #     entities:
 #       - input_boolean.
 
@@ -102,3 +121,7 @@ group:
 #   script_telegram_commands:
 #     entities:
 #       - script.
+
+#   sensor_telegram_commands:
+#     entities:
+#       - sensor.

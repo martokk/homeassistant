@@ -439,16 +439,13 @@ group:
       - input_boolean.override_turn_on_fans
       - input_boolean.override_turn_off_fans
 
-#   config_fans:
-#     entities:
-#       - input_boolean.
-
 #   hidden_fans:
 #     entities:
 #       - input_boolean.
 
   options_fans:
     name: "Fans"
+    control: hidden
     entities:
       - input_boolean.option_fans_circulate_air
       - input_boolean.option_fans_temperature_controlled
@@ -457,3 +454,7 @@ group:
     entities:
       - script.override_turn_off_fans
       - script.override_turn_on_fans
+
+#   sensor_fans:
+#     entities:
+#       - sensor.

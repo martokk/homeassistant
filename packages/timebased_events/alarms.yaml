@@ -255,15 +255,14 @@ group:
     entities:
       - input_boolean.var_morning_alarm_on
 
-#   config_alarm:
-#     entities:
-#       - input_boolean.
-
 #   hidden_alarm:
 #     entities:
 #       - input_boolean.
 
   options_alarms:
+    name: "Alarms"
+    control: hidden
+    entities:
       - input_boolean.option_morning_alarm
       - input_boolean.option_morning_alarm2
       - input_select.option_morning_alarm_time
@@ -273,3 +272,7 @@ group:
     entities:
       - script.morning_alarm_turn_on
       - script.morning_alarm_turn_off
+
+#   sensor_alarms:
+#     entities:
+#       - sensor.

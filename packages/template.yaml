@@ -65,10 +65,6 @@
 #     entities:
 #       - input_boolean.
 
-#   config_change_me:
-#     entities:
-#       - input_boolean.
-
 #   hidden_change_me:
 #     entities:
 #       - input_boolean.
@@ -80,3 +76,7 @@
 #   script_change_me:
 #     entities:
 #       - script.
+
+#   sensor_change_me:
+#     entities:
+#       - sensor.

@@ -431,15 +431,13 @@ group:
 #     entities:
 #       - input_boolean.
 
-#   config_modes:
-#     entities:
-#       - input_boolean.
-
 #   hidden_modes:
 #     entities:
 #       - input_boolean.
 
   options_modes:
+    name: "Modes"
+    control: hidden
     entities:
       - input_boolean.option_mode_normal
       - input_boolean.option_mode_silent
@@ -454,3 +452,7 @@ group:
 #   script_modes:
 #     entities:
 #       - script.
+
+#   sensor_modes:
+#     entities:
+#       - sensor.

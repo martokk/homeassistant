@@ -3,7 +3,7 @@
 ##########################################
 light:
   - platform: mqtt
-    name: "Entertainment Center LED Strip"
+    name: entertainment_center_led_strip
     command_topic: "device/entertainment_center/led1/power"
     state_topic: "device/entertainment_center/led1/power/pub"
     rgb_command_topic: "device/entertainment_center/led1/color"
@@ -17,7 +17,7 @@ light:
 
 binary_sensor:
   - platform: mqtt
-    name: "Entertainment Center Motion Sensor"
+    name: entertainment_center_motion_sensor
     state_topic: "device/entertainment_center/pir1"
     device_class: motion
     payload_on: "1"
@@ -25,14 +25,14 @@ binary_sensor:
 
 sensor:
   - platform: mqtt
-    name: "Entertainment Center Temperature"
+    name: entertainment_center_temperature
     state_topic: "device/entertainment_center/temperature"
     qos: 0
     unit_of_measurement: "ºF"
     expire_after: 900
 
   - platform: mqtt
-    name: "Entertainment Center Humidity"
+    name: entertainment_center_humidity
     state_topic: "device/entertainment_center/humidity"
     qos: 0
     unit_of_measurement: "%"
@@ -182,13 +182,9 @@ group:
       - automation.entertainment_center_leds_input_effect
       - automation.entertainment_center_leds_animation_speed
 
-#   backend_vcore_entertainment_center:
-#     entities:
-#       - input_boolean.
-
-  config_vcore_entertainment_center:
+  backend_vcore_entertainment_center:
     entities:
-      - input_number.entertainment_center_leds_animation_speed
+      - input_number.entertainment_center_animation_speed
       - input_select.entertainment_center_led_effect
 
 #   hidden_vcore_entertainment_center:
@@ -202,3 +198,10 @@ group:
 #   script_vcore_entertainment_center:
 #     entities:
 #       - script.
+
+  sensor_vcore_entertainment_center:
+    entities:
+      - light.entertainment_center_led_strip
+      - binary_sensor.entertainment_center_motion_sensor
+      - sensor.entertainment_center_temperature
+      - sensor.entertainment_center_humidity

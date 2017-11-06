@@ -170,13 +170,8 @@ group:
     entities:
       - automation.timebased_summary
 
-  backend_timebased_summary:
-    entities:
-      - input_select.config_array_timebased_summary_times
-
-#   config_timebased_summary:
-#     entities:
-#       - input_boolean.
+  # backend_timebased_summary:
+  #   entities:
 
 #   hidden_timebased_summary:
 #     entities:
@@ -191,3 +186,7 @@ group:
       - script.timebased_summary
       - script.timebased_tts_summary
       - script.timebased_telegram_summary
+
+#   sensor_timebased_summary:
+#     entities:
+#       - sensor.

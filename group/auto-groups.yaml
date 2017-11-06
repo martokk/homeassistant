@@ -1,52 +1,7 @@
 ##########################################
-########## MAIN TABS #####################
-##########################################
-
-  main:
-    view: yes
-    icon: mdi:speedometer
-    entities:
-      - group.scenes
-      - group.options_modes
-
-  status:
-    icon: mdi:lan
-    view: yes
-    entities:
-      - group.devices
-      - group.batteries
-      - group.weather_current
-      - group.bitcoin
-      - group.status_alert
-
-  lights:
-    icon: mdi:lightbulb
-    view: yes
-    entities:
-      - group.scenes
-
-  # enviroment:
-  #   icon: mdi:thermometer-lines
-  #   view: yes
-  #   entities:
-  #
-  # media:
-  #   icon: mdi:television-classic
-  #   view: yes
-  #   entities:
-
-  tools:
-    icon: mdi:settings
-    view: yes
-    entities:
-      - group.tools_test_light_effects
-      - group.tools_test_tts
-      - group.tools_test_scene2
-
-##########################################
 ########## AUTO-GROUPS ###################
 ##########################################
-  options:
+  options_view:
     icon: mdi:settings
     view: yes
     entities:
@@ -95,58 +50,8 @@
       - group.options_weather
       - group.options_work
 
-  config:
-    icon: mdi:settings
-    view: yes
-    entities:
-      - group.config_air_conditioner
-      - group.config_alarms
-      - group.config_all_vcore_devices
-      - group.config_bitcoin
-      - group.config_bose_remote
-      - group.config_calender
-      - group.config_devices
-      - group.config_entertainment_center
-      - group.config_environment
-      - group.config_fans
-      - group.config_ifttt
-      - group.config_indoor_temperature
-      - group.config_last_known_scene
-      - group.config_light_effects
-      - group.config_lights
-      - group.config_logbook
-      - group.config_media_player
-      - group.config_modes
-      - group.config_motion_detection
-      - group.config_notify2
-      - group.config_residents
-      - group.config_scene2
-      - group.config_server
-      - group.config_system
-      - group.config_silver_lamp
-      - group.config_small_desk_fan1
-      - group.config_sonoff_box_fan1
-      - group.config_sonoff_entertainment_center
-      - group.config_sonoff_silver_lamp
-      - group.config_sonoff_small_desk_fan1
-      - group.config_telegram_commands
-      - group.config_temperature_range_mode
-      - group.config_timebased
-      - group.config_timebased_summary
-      - group.config_tts
-      - group.config_user_presence
-      - group.config_vcore_bedroom
-      - group.config_vcore_entertainment_center
-      - group.config_vcore_kitchen
-      - group.config_vcore_office
-      - group.config_vcore_tables
-      - group.config_volume_control
-      - group.config_weather
-      - group.config_work
-
-
-  automations:
-    icon: mdi:timetable
+  automations_view:
+    icon: mdi:brightness-auto
     view: yes
     entities:
       - group.automation_air_conditioner
@@ -194,8 +99,8 @@
       - group.automation_weather
       - group.automation_work
 
-  backend:
-    icon: mdi:database
+  backend_view:
+    icon: mdi:bootstrap
     view: yes
     entities:
       - group.backend_air_conditioner
@@ -244,57 +149,58 @@
       - group.backend_weather
       - group.backend_work
 
-  hidden:
-    icon: mdi:database
-    view: yes
-    entities:
-      - group.hidden_air_conditioner
-      - group.hidden_alarms
-      - group.hidden_all_vcore_devices
-      - group.hidden_bitcoin
-      - group.hidden_bose_remote
-      - group.hidden_calender
-      - group.hidden_devices
-      - group.hidden_entertainment_center
-      - group.hidden_environment
-      - group.hidden_fans
-      - group.hidden_ifttt
-      - group.hidden_indoor_temperature
-      - group.hidden_last_known_scene
-      - group.hidden_light_effects
-      - group.hidden_lights
-      - group.hidden_logbook
-      - group.hidden_media_player
-      - group.hidden_modes
-      - group.hidden_motion_detection
-      - group.hidden_notify2
-      - group.hidden_residents
-      - group.hidden_scene2
-      - group.hidden_server
-      - group.hidden_system
-      - group.hidden_silver_lamp
-      - group.hidden_small_desk_fan1
-      - group.hidden_sonoff_box_fan1
-      - group.hidden_sonoff_entertainment_center
-      - group.hidden_sonoff_silver_lamp
-      - group.hidden_sonoff_small_desk_fan1
-      - group.hidden_telegram_commands
-      - group.hidden_temperature_range_mode
-      - group.hidden_timebased
-      - group.hidden_timebased_summary
-      - group.hidden_tts
-      - group.hidden_user_presence
-      - group.hidden_vcore_bedroom
-      - group.hidden_vcore_entertainment_center
-      - group.hidden_vcore_kitchen
-      - group.hidden_vcore_office
-      - group.hidden_vcore_tables
-      - group.hidden_volume_control
-      - group.hidden_weather
-      - group.hidden_work
+  # hidden_view:
+  #   icon: mdi:eye-off
+  #   view: yes
+  #   entities:
+  #     - group.hidden_air_conditioner
+  #     - group.hidden_alarms
+  #     - group.hidden_all_vcore_devices
+  #     - group.hidden_bitcoin
+  #     - group.hidden_bose_remote
+  #     - group.hidden_calender
+  #     - group.hidden_config
+  #     - group.hidden_devices
+  #     - group.hidden_entertainment_center
+  #     - group.hidden_environment
+  #     - group.hidden_fans
+  #     - group.hidden_ifttt
+  #     - group.hidden_indoor_temperature
+  #     - group.hidden_last_known_scene
+  #     - group.hidden_light_effects
+  #     - group.hidden_lights
+  #     - group.hidden_logbook
+  #     - group.hidden_media_player
+  #     - group.hidden_modes
+  #     - group.hidden_motion_detection
+  #     - group.hidden_notify2
+  #     - group.hidden_residents
+  #     - group.hidden_scene2
+  #     - group.hidden_server
+  #     - group.hidden_system
+  #     - group.hidden_silver_lamp
+  #     - group.hidden_small_desk_fan1
+  #     - group.hidden_sonoff_box_fan1
+  #     - group.hidden_sonoff_entertainment_center
+  #     - group.hidden_sonoff_silver_lamp
+  #     - group.hidden_sonoff_small_desk_fan1
+  #     - group.hidden_telegram_commands
+  #     - group.hidden_temperature_range_mode
+  #     - group.hidden_timebased
+  #     - group.hidden_timebased_summary
+  #     - group.hidden_tts
+  #     - group.hidden_user_presence
+  #     - group.hidden_vcore_bedroom
+  #     - group.hidden_vcore_entertainment_center
+  #     - group.hidden_vcore_kitchen
+  #     - group.hidden_vcore_office
+  #     - group.hidden_vcore_tables
+  #     - group.hidden_volume_control
+  #     - group.hidden_weather
+  #     - group.hidden_work
 
-  scripts:
-    icon: mdi:script
+  scripts_view:
+    icon: mdi:code-string
     view: yes
     entities:
       - group.script_air_conditioner
@@ -341,3 +247,53 @@
       - group.script_volume_control
       - group.script_weather
       - group.script_work
+
+  sensors_view:
+    icon: mdi:speedometer
+    view: yes
+    entities:
+      - group.sensor_air_conditioner
+      - group.sensor_alarms
+      - group.sensor_all_vcore_devices
+      - group.sensor_bitcoin
+      - group.sensor_bose_remote
+      - group.sensor_calender
+      - group.sensor_config
+      - group.sensor_devices
+      - group.sensor_entertainment_center
+      - group.sensor_environment
+      - group.sensor_fans
+      - group.sensor_ifttt
+      - group.sensor_indoor_temperature
+      - group.sensor_last_known_scene
+      - group.sensor_light_effects
+      - group.sensor_lights
+      - group.sensor_logbook
+      - group.sensor_media_player
+      - group.sensor_modes
+      - group.sensor_motion_detection
+      - group.sensor_notify2
+      - group.sensor_residents
+      - group.sensor_scene2
+      - group.sensor_server
+      - group.sensor_system
+      - group.sensor_silver_lamp
+      - group.sensor_small_desk_fan1
+      - group.sensor_sonoff_box_fan1
+      - group.sensor_sonoff_entertainment_center
+      - group.sensor_sonoff_silver_lamp
+      - group.sensor_sonoff_small_desk_fan1
+      - group.sensor_telegram_commands
+      - group.sensor_temperature_range_mode
+      - group.sensor_timebased
+      - group.sensor_timebased_summary
+      - group.sensor_tts
+      - group.sensor_user_presence
+      - group.sensor_vcore_bedroom
+      - group.sensor_vcore_entertainment_center
+      - group.sensor_vcore_kitchen
+      - group.sensor_vcore_office
+      - group.sensor_vcore_tables
+      - group.sensor_volume_control
+      - group.sensor_weather
+      - group.sensor_work

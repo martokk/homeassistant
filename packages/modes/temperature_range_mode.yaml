@@ -1,7 +1,26 @@
 ##########################################
 ########## COMPONENTS ####################
 ##########################################
-# sensor:
+sensor:
+  - platform: template
+    sensors:
+      indoor_temp_very_hot_level:
+        value_template: '{{ states.input_text.var_indoor_temp_very_hot.state | float + states.input_number.option_target_temperature_offset.state | float + states.input_number.var_indoor_temp_time_of_day.state | float + states.input_number.var_indoor_temp_mike_at_work.state | float }}'
+      indoor_temp_hot_level:
+        value_template: '{{ states.input_text.var_indoor_temp_hot.state | float + states.input_number.option_target_temperature_offset.state | float + states.input_number.var_indoor_temp_time_of_day.state | float + states.input_number.var_indoor_temp_mike_at_work.state | float }}'
+      indoor_temp_very_warm_level:
+        value_template: '{{ states.input_text.var_indoor_temp_very_warm.state | float + states.input_number.option_target_temperature_offset.state | float + states.input_number.var_indoor_temp_time_of_day.state | float + states.input_number.var_indoor_temp_mike_at_work.state | float }}'
+      indoor_temp_warm_level:
+        value_template: '{{ states.input_text.var_indoor_temp_warm.state | float + states.input_number.option_target_temperature_offset.state | float + states.input_number.var_indoor_temp_time_of_day.state | float + states.input_number.var_indoor_temp_mike_at_work.state | float }}'
+      indoor_temp_ok_level:
+        value_template: '{{ states.input_text.var_indoor_temp_ok.state | float + states.input_number.option_target_temperature_offset.state | float + states.input_number.var_indoor_temp_time_of_day.state | float + states.input_number.var_indoor_temp_mike_at_work.state | float }}'
+      indoor_temp_cool_level:
+        value_template: '{{ states.input_text.var_indoor_temp_cool.state | float + states.input_number.option_target_temperature_offset.state | float + states.input_number.var_indoor_temp_time_of_day.state | float + states.input_number.var_indoor_temp_mike_at_work.state | float }}'
+      indoor_temp_time_of_day_offset:
+        value_template: '{{ states.input_number.var_indoor_temp_time_of_day.state | float  }}'
+      indoor_temp_mike_at_work_offset:
+        value_template: '{{ states.input_number.var_indoor_temp_mike_at_work.state | float  }}'
+
 
 #-----------------------------------------------------#
 
@@ -449,29 +468,29 @@ automation:
         entity_id: input_boolean.option_indoor_temp_range_reduced
         to: 'off'
     action:
-      - service: input_number.set_value
+      - service: input_text.set_value
         data:
-          entity_id: input_number.var_indoor_temp_very_hot
+          entity_id: input_text.var_indoor_temp_very_hot
           value: 81
-      - service: input_number.set_value
+      - service: input_text.set_value
         data:
-          entity_id: input_number.var_indoor_temp_hot
+          entity_id: input_text.var_indoor_temp_hot
           value: 79
-      - service: input_number.set_value
+      - service: input_text.set_value
         data:
-          entity_id: input_number.var_indoor_temp_very_warm
+          entity_id: input_text.var_indoor_temp_very_warm
           value: 77
-      - service: input_number.set_value
+      - service: input_text.set_value
         data:
-          entity_id: input_number.var_indoor_temp_warm
+          entity_id: input_text.var_indoor_temp_warm
           value: 75
-      - service: input_number.set_value
+      - service: input_text.set_value
         data:
-          entity_id: input_number.var_indoor_temp_ok
+          entity_id: input_text.var_indoor_temp_ok
           value: 73
-      - service: input_number.set_value
+      - service: input_text.set_value
         data:
-          entity_id: input_number.var_indoor_temp_cool
+          entity_id: input_text.var_indoor_temp_cool
           value: 71
 
 
@@ -481,29 +500,29 @@ automation:
         entity_id: input_boolean.option_indoor_temp_range_reduced
         to: 'on'
     action:
-      - service: input_number.set_value
+      - service: input_text.set_value
         data:
-          entity_id: input_number.var_indoor_temp_very_hot
+          entity_id: input_text.var_indoor_temp_very_hot
           value: 78
-      - service: input_number.set_value
+      - service: input_text.set_value
         data:
-          entity_id: input_number.var_indoor_temp_hot
+          entity_id: input_text.var_indoor_temp_hot
           value: 77
-      - service: input_number.set_value
+      - service: input_text.set_value
         data:
-          entity_id: input_number.var_indoor_temp_very_warm
+          entity_id: input_text.var_indoor_temp_very_warm
           value: 76
-      - service: input_number.set_value
+      - service: input_text.set_value
         data:
-          entity_id: input_number.var_indoor_temp_warm
+          entity_id: input_text.var_indoor_temp_warm
           value: 75
-      - service: input_number.set_value
+      - service: input_text.set_value
         data:
-          entity_id: input_number.var_indoor_temp_ok
+          entity_id: input_text.var_indoor_temp_ok
           value: 74
-      - service: input_number.set_value
+      - service: input_text.set_value
         data:
-          entity_id: input_number.var_indoor_temp_cool
+          entity_id: input_text.var_indoor_temp_cool
           value: 73
 
 #-----------------------------------------------------#
@@ -547,68 +566,49 @@ input_boolean:
   option_indoor_humidity_low:
 
 #********** Temperature Input Sliders ***********#
-input_number:
-
-  var_indoor_temp_time_of_day:
-    min: -3
-    max: 2
-    step: 1
-
-  var_indoor_temp_mike_at_work:
-    min: -1
-    max: 4
-    step: 1
-
+input_text:
   var_indoor_temp_very_hot:
     name: Indoor Temp (VERY HOT)
     initial: 81
-    min: 65
-    max: 85
-    step: 1
 
   var_indoor_temp_hot:
     name: Indoor Temp (HOT)
     initial: 79
-    min: 65
-    max: 85
-    step: 1
 
   var_indoor_temp_very_warm:
     name: Indoor Temp (VERY WARM)
     initial: 77
-    min: 65
-    max: 85
-    step: 1
 
   var_indoor_temp_warm:
     name: Indoor Temp (WARM)
-    initial: 75
-    min: 65
-    max: 85
-    step: 1
 
   var_indoor_temp_ok:
     name: Indoor Temp (OK)
     initial: 73
-    min: 65
-    max: 85
-    step: 1
 
   var_indoor_temp_cool:
     name: Indoor Temp (COOL)
     initial: 71
-    min: 65
-    max: 85
-    step: 1
+
+input_number:
+  var_indoor_temp_time_of_day:
+    min: -3
+    max: 2
+    mode: box
+
+  var_indoor_temp_mike_at_work:
+    min: -1
+    max: 4
+    mode: box
 
 ##########################################
 ########## OPTIONS #######################
 ##########################################
   option_target_temperature_offset:
-    name: Target Temperature Offset
+    name: "Temp Range: Target Temp Offset"
+    initial: 0
     min: -5
     max: 5
-    step: 1
 
 ##########################################
 ########## CONFIG ########################
@@ -673,29 +673,14 @@ group:
 
   backend_temperature_range_mode:
     entities:
-      - input_number.var_indoor_temp_very_hot
-      - input_number.var_indoor_temp_hot
-      - input_number.var_indoor_temp_very_warm
-      - input_number.var_indoor_temp_warm
-      - input_number.var_indoor_temp_ok
-      - input_number.var_indoor_temp_cool
+      - input_text.var_indoor_temp_very_hot
+      - input_text.var_indoor_temp_hot
+      - input_text.var_indoor_temp_very_warm
+      - input_text.var_indoor_temp_warm
+      - input_text.var_indoor_temp_ok
+      - input_text.var_indoor_temp_cool
       - input_number.var_indoor_temp_time_of_day
       - input_number.var_indoor_temp_mike_at_work
-      - input_boolean.option_indoor_temp_range_reduced
-      - input_boolean.option_indoor_temp_very_hot
-      - input_boolean.option_indoor_temp_hot
-      - input_boolean.option_indoor_temp_very_warm
-      - input_boolean.option_indoor_temp_warm
-      - input_boolean.option_indoor_temp_ok
-      - input_boolean.option_indoor_temp_cool
-      - input_boolean.option_indoor_temp_cold
-      - input_boolean.option_indoor_humidity_high
-      - input_boolean.option_indoor_humidity_ok
-      - input_boolean.option_indoor_humidity_low
-
-  config_temperature_range_mode:
-    entities:
-      - input_number.option_target_temperature_offset
 
   hidden_temperature_range_mode:
     entities:
@@ -708,12 +693,28 @@ group:
       - sensor.indoor_temp_time_of_day_offset
       - sensor.indoor_temp_mike_at_work_offset
 
-  # options_temperature_range_mode:
-  #   name: "Temperature Range Mode"
-  #   entities:
-
+  options_temperature_range_mode:
+    name: "Temperature Range Mode"
+    control: hidden
+    entities:
+      - input_number.option_target_temperature_offset
+      - input_boolean.option_indoor_temp_range_reduced
+      - input_boolean.option_indoor_temp_very_hot
+      - input_boolean.option_indoor_temp_hot
+      - input_boolean.option_indoor_temp_very_warm
+      - input_boolean.option_indoor_temp_warm
+      - input_boolean.option_indoor_temp_ok
+      - input_boolean.option_indoor_temp_cool
+      - input_boolean.option_indoor_temp_cold
+      - input_boolean.option_indoor_humidity_high
+      - input_boolean.option_indoor_humidity_ok
+      - input_boolean.option_indoor_humidity_low
 
   script_temperature_range_mode:
     entities:
       - script.target_temperature_offset_up
       - script.target_temperature_offset_down
+
+#   sensor_temperature_range_mode:
+#     entities:
+#       - sensor.

@@ -1,0 +1,22 @@
+##########################################
+########## VIEW ##########################
+##########################################
+  default_view:
+    view: yes
+    icon: mdi:star
+    entities:
+      - group.main_today
+      - group.scene2_scenes
+      - group.scene2_rooms
+      - group.options_modes
+
+##########################################
+########## GROUPS ########################
+##########################################
+
+  main_today:
+    name: "Today"
+    entities:
+      - sensor.dark_sky_summary
+      - sensor.dark_sky_temperature
+      - sensor.indoor_temperature

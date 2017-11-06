@@ -317,18 +317,21 @@ shell_command:
 ########## BACKEND #######################
 ##########################################
 input_number:
-  var_tv_entertainment_center_volume: #in Seconds
+  var_tv_entertainment_center_volume:
     min: 0
     max: 70
+    mode: box
 
-  var_tv_entertainment_center_volume_set: #in Seconds
+  var_tv_entertainment_center_volume_set:
     min: 0
     max: 70
+    mode: box
 
-  var_tv_entertainment_center_volume_stored: #in Seconds
+  var_tv_entertainment_center_volume_stored:
     min: 0
     max: 70
-
+    mode: box
+    
 ##########################################
 ########## OPTIONS #######################
 ##########################################
@@ -372,10 +375,6 @@ group:
       - input_number.var_tv_entertainment_center_volume_set
       - input_number.var_tv_entertainment_center_volume_stored
 
-#   config_volume_control:
-#     entities:
-#       - input_boolean.
-
 #   hidden_volume_control:
 #     entities:
 #       - input_boolean.
@@ -400,3 +399,7 @@ group:
       - script.set_computers_volume_up
       - script.set_computers_volume_down
       - script.set_computers_volume_mute_toggle
+
+#   sensor_volume_control:
+#     entities:
+#       - sensor.

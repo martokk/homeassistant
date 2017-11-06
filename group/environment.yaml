@@ -1,0 +1,29 @@
+##########################################
+########## VIEW ##########################
+##########################################
+  environment_view:
+    icon: mdi:thermometer-lines
+    view: yes
+    entities:
+      - group.environment_motion_detection
+      - group.environment_weather
+
+##########################################
+########## GROUPS ########################
+##########################################
+
+  environment_motion_detection:
+    name: "Motion Detection"
+    entities:
+    - group.backend_motion_detection
+
+  environment_weather:
+    name: "Weather"
+    entities:
+      - sensor.dark_sky_minutely_summary
+      - sensor.dark_sky_hourly_summary
+      - sensor.dark_sky_daily_summary
+      - sensor.dark_sky_temperature
+      - sensor.dark_sky_apparent_temperature
+      - sensor.dark_sky_humidity
+      - sensor.weather_alert_message

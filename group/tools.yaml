@@ -1,0 +1,20 @@
+##########################################
+########## VIEW ##########################
+##########################################
+  tools_view:
+    icon: mdi:screwdriver
+    view: yes
+    entities:
+      - group.tools_test_light_effects
+      - group.tools_test_tts
+      - group.tools_test_scene2
+      - group.tools_other
+
+##########################################
+########## GROUPS ########################
+##########################################
+
+  tools_other:
+    name: "Other Tools"
+    entities:
+      - script.turn_on_all_automations

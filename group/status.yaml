@@ -1,0 +1,37 @@
+##########################################
+########## VIEW ##########################
+##########################################
+  status_view:
+    icon: mdi:format-list-bulleted
+    view: yes
+    entities:
+      - group.status_batteries
+      - group.weather_current
+      - group.status_bitcoin
+      - group.status_status_alerts
+      - group.environment_weather
+
+##########################################
+########## GROUPS ########################
+##########################################
+
+  status_batteries:
+    name: "Batteries"
+    entities:
+      - sensor.iphone6s_battery
+      - sensor.watch_battery
+      - sensor.ipad_battery
+
+  status_bitcoin:
+    name: "Bitcoin"
+    entities:
+      - sensor.bitcoin
+      - sensor.bitcoin_percent_change_24h
+      - sensor.bitcoin_percent_change_7d
+
+  status_status_alerts:
+    name: "Status Alerts"
+    entities:
+      - sensor.cloud_status_alert
+      - sensor.server_status_alert
+      - sensor.iot_status_alert

@@ -84,3 +84,7 @@ switch:
 #   script_change_me:
 #     entities:
 #       - script.
+
+#   sensor_change_me:
+#     entities:
+#       - sensor.

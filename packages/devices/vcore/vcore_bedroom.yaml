@@ -178,13 +178,9 @@ group:
       - automation.bedroom_leds_input_effect
       - automation.bedroom_leds_animation_speed
 
-#   backend_vcore_bedroom:
-#     entities:
-#       - input_boolean.
-
-  config_vcore_bedroom:
+  backend_vcore_bedroom:
     entities:
-      - input_number.bedroom_leds_animation_speed
+      - input_number.bedroom_animation_speed
       - input_select.bedroom_led_effect
 
 #   hidden_vcore_bedroom:
@@ -198,3 +194,10 @@ group:
 #   script_vcore_bedroom:
 #     entities:
 #       - script.
+
+  sensor_vcore_bedroom:
+    entities:
+      - light.bedroom_led_strip
+      - binary_sensor.bedroom_motion_sensor
+      - sensor.bedroom_temperature
+      - sensor.bedroom_humidity

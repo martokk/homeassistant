@@ -1,9 +1,9 @@
 ##########################################
 ########## COMPONENTS ####################
 ##########################################
-# google:
-#   client_id: !secret google_client_id
-#   client_secret: !secret google_client_secret
+google:
+  client_id: !secret google_client_id
+  client_secret: !secret google_client_secret
 
 
 #-----------------------------------------------------#
@@ -41,6 +41,21 @@ automation:
           tts_entity_id: group.config_tts_devices
           tts_sound: 'other/fox_football.m4a'
           tts_pause_delay: "00:00:07"
+
+
+  - alias: nascar_race_started
+    trigger:
+      - platform: state
+        entity_id: calendar.official_nascar_2017_schedule___monster_energy_nascar_cup_series
+        to: 'on'
+    action:
+      - service: script.notify2
+        data_template:
+          telegram_message: |
+            *NASCAR RACE STARTED*
+          tts_entity_id: group.config_tts_devices
+          tts_sound: 'other/nascar_boogity_boogity_boogity.m4a'
+          tts_pause_delay: "00:00:16"
 
 ##########################################
 ########## AUTOMATIONS ###################
@@ -92,12 +107,9 @@ group:
   automation_calender:
     entities:
       - automation.nfl_sunday_reminder
+      - automation.nascar_race_started
 
 #   backend_calender:
-#     entities:
-#       - input_boolean.
-
-#   config_calender:
 #     entities:
 #       - input_boolean.
 
@@ -112,3 +124,14 @@ group:
 #   script_calender:
 #     entities:
 #       - script.
+
+  sensor_calender:
+    entities:
+      - calendar.chicago_bears
+      - calendar.default
+      - calendar.green_bay_packers
+      - calendar.official_nascar_2017_schedule___monster_energy_nascar_cup_series
+      - calendar.rev20
+      - calendar.stardates
+      - calendar.subspace_radio
+      - calendar.twit_live_schedule

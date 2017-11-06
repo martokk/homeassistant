@@ -105,7 +105,7 @@ automation:
           blink_color: "blueviolet"
           blink_color2: "red"
           tts_entity_id: group.config_tts_devices
-          tts_sound: 'intercom_ds9.mp3'
+          tts_sound: 'st_notifications/intercom_ds9.mp3'
           tts_message: >
             Battery low!
             {% if states("sensor.iphone6s_battery") | int < 50 and states('sensor.iphone6s_battery') | int > 0 %}iPhone: {{ states("sensor.iphone6s_battery") | int }}%{% endif %}
@@ -253,36 +253,11 @@ homeassistant:
 
 #-----------------------------------------------------#
 
-# group:
+group:
 ##########################################
 ############### GROUPS ###################
 ##########################################
-  devices:
-    name: "Devices"
-    entities:
-    - device_tracker.iphone6s
-    - device_tracker.watch
-    - device_tracker.echo_dot
-    - device_tracker.esp8266_kitchen
-    - device_tracker.esp8266_office
-    - device_tracker.esp8266_office_air_freshener
-    - device_tracker.esp8266_tables
-    - device_tracker.esp8266_entertainment_center
-    - device_tracker.esp8266_bedroom
-    - device_tracker.sonoff_small_desk_fan1
-    - device_tracker.sonoff_box_fan1
-    - device_tracker.sonoff_entertainment_center
-    - device_tracker.sonoff_silver_lamp
-    - device_tracker.ipad
-    - binary_sensor.desktop_computer
-    - device_tracker.dans_iphone6
 
-  batteries:
-    name: "Batteries"
-    entities:
-    - sensor.iphone6s_battery
-    - sensor.watch_battery
-    - sensor.ipad_battery
 ##########################################
 ############### AUTO-GROUPS ##############
 ##########################################
@@ -293,10 +268,6 @@ homeassistant:
       - automation.new_device_found
 
 #   backend_devices:
-#     entities:
-#       - input_boolean.
-
-#   config_devices:
 #     entities:
 #       - input_boolean.
 
@@ -313,3 +284,29 @@ homeassistant:
       - script.computer_monitors_turn_off
       - script.tts_battery_levels
       - script.turn_off_everything
+
+  sensor_devices:
+    entities:
+      - switch.sonoff_box_fan1
+      - switch.sonoff_entertainment_center
+      - switch.sonoff_silver_lamp
+      - switch.sonoff_small_desk_fan1
+      - sensor.iphone6s_battery
+      - sensor.ipad_battery
+      - sensor.watch_battery
+      - device_tracker.iphone6s
+      - device_tracker.watch
+      - device_tracker.echo_dot
+      - device_tracker.esp8266_kitchen
+      - device_tracker.esp8266_office
+      - device_tracker.esp8266_office_air_freshener
+      - device_tracker.esp8266_tables
+      - device_tracker.esp8266_entertainment_center
+      - device_tracker.esp8266_bedroom
+      - device_tracker.sonoff_small_desk_fan1
+      - device_tracker.sonoff_box_fan1
+      - device_tracker.sonoff_entertainment_center
+      - device_tracker.sonoff_silver_lamp
+      - device_tracker.ipad
+      - binary_sensor.desktop_computer
+      - device_tracker.dans_iphone6

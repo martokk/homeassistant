@@ -144,14 +144,14 @@ input_boolean:
 ##########################################
 input_number:
   all_leds_animation_speed:
-    name: All LEDs Animation Speed
+    name: 'All LEDs: Animation Speed'
     min: 0
     max: 255
     step: 5
 
 input_select:
   all_led_effect:
-    name: All LED Effect
+    name: 'All LEDs: Light Effect'
     options:
       - "Static"
       - "Blink"
@@ -232,18 +232,18 @@ group:
       - automation.all_leds_input_effect
       - automation.all_leds_animation_speed
 
-#   backend_vcore_all:
-#     entities:
-#       - input_boolean.
+  backend_vcore_all:
+    entities:
+      - input_number.all_leds_animation_speed
+      - input_select.all_led_effect
 
 #   hidden_vcore_all:
 #     entities:
 #       - input_boolean.
 
-  config_vcore_all:
-    entities:
-      - input_number.all_leds_animation_speed
-      - input_select.all_led_effect
+  # config_vcore_all:
+  #   entities:
+
 
   options_vcore_all:
     entities:
@@ -252,3 +252,6 @@ group:
 #   script_vcore_all:
 #     entities:
 #       - script.
+
+  # sensor_devices:
+  #   entities:

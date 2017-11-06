@@ -44,7 +44,7 @@ automation:
       # Time - After 12:00pm, Before 9:00pm
       - condition: template
         value_template: >
-          {% if states.sensor.dark_sky_daily_high_apparent_temperature.state | float > states.input_number.var_indoor_temp_ok.state | float %}
+          {% if states.sensor.dark_sky_daily_high_apparent_temperature.state | float > states.input_text.var_indoor_temp_ok.state | float %}
             {% set on_hour = 18 %}
           {% else %}
             {% set on_hour = 12 %}
@@ -468,10 +468,6 @@ group:
       - input_boolean.var_ps3_on
       - input_boolean.var_steam_on
 
-#   config_entertainment_center:
-#     entities:
-#       - input_boolean.
-
 #   hidden_entertainment_center:
 #     entities:
 #       - input_boolean.
@@ -488,3 +484,8 @@ group:
       - script.chromecast_turn_on
       - script.override_turn_on_tv
       - script.override_turn_off_tv
+
+  sensor_entertainment_center:
+    entities:
+      - switch.ambivision
+      - binary_sensor.ps3

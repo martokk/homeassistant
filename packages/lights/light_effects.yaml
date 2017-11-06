@@ -514,6 +514,7 @@ group:
 
   tools_test_light_effects:
     name: "Test - Light Effects"
+    control: hidden
     entities:
       - script.breathe_light_test
       - script.flash_light_test

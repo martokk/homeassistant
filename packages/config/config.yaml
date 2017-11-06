@@ -29,7 +29,7 @@ input_text:
 ########## BITCOIN #######################
 ##########################################
   config_bitcoin_notification_price_threshold:
-    initial: 150
+    initial: 250
 
 input_select:
   config_array_favorite_cyptos:
@@ -122,8 +122,8 @@ group:
 ##########################################
 ########## AUTO-GROUPS ###################
 ##########################################
-  backend_config:
-    entitites:
+  hidden_config:
+    entities:
       - input_text.config_mike_leave_for_work_hour
       - input_text.config_mike_leave_for_work_minute
       - input_text.config_mike_work_start_hour

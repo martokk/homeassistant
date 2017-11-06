@@ -442,24 +442,11 @@ group:
 
   backend_work:
     entities:
-      - sensor.mike_at_work
-      - sensor.mike_work_day
       - input_boolean.var_mike_leave_for_work_timebased_lights_on
 
-#   config_work:
-#     entities:
-#       - input_boolean.
+  # hidden_work:
+  #   entities:
 
-  hidden_work:
-    entities:
-      - input_text.config_mike_leave_for_work_hour
-      - input_text.config_mike_leave_for_work_minute
-      - input_text.config_mike_work_start_hour
-      - input_text.config_mike_work_end_hour
-      - input_text.config_mike_work_week_third_shift
-      - input_text.config_mike_work_week
-      - input_text.config_mike_work_week_third_shift_first_day
-      - input_text.config_mike_work_week_third_shift_last_day
 
 #   options_work:
 #     entities:
@@ -468,3 +455,8 @@ group:
 #   script_work:
 #     entities:
 #       - script.
+
+  sensor_work:
+    entities:
+      - sensor.mike_at_work
+      - sensor.mike_work_day

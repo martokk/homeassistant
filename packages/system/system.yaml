@@ -59,7 +59,7 @@ automation:
   #           Home Assistant updated to v{{ states.updater.updater.state}}
   #           {{ states.updater.updater.attributes.release_notes }}
   #         tts_entity_id: group.config_tts_devices
-  #         tts_sound: 'intercom_ds9.mp3'
+  #         tts_sound: 'st_notifications/intercom_ds9.mp3'
   #         tts_message: "FYI: There is a new update for Home Assistant available!"
   #         mlo_message: "Update Home Assistant to {{ states.updater.updater.state}}.  {{ states.updater.updater.attributes.release_notes }}"
 
@@ -74,7 +74,7 @@ automation:
           telegram_message: |
             Home Assistant updated to v{{ states.sensor.hass_version_latest.state }}
           tts_entity_id: group.config_tts_devices
-          tts_sound: 'intercom_ds9.mp3'
+          tts_sound: 'st_notifications/intercom_ds9.mp3'
           tts_message: "FYI: There is a new update for Home Assistant available! The latest update is version {{ states.sensor.hass_version_latest.state }}"
           tts_pause_delay: "00:00:09"
 
@@ -144,6 +144,26 @@ automation:
 ##########################################
 ########## AUTOMATIONS ###################
 ##########################################
+
+  #********** NavBar Option On/Off ***********#
+  - alias: option_navbar_on
+    trigger:
+      - platform: state
+        entity_id: input_boolean.option_show_all_navtabs
+        to: 'on'
+    action:
+      - service: script.navbar_show
+
+  - alias: option_navbar_off
+    trigger:
+      - platform: state
+        entity_id: input_boolean.option_show_all_navtabs
+        to: 'off'
+      - platform: homeassistant
+        event: start
+    action:
+      - service: script.navbar_hide
+
   #********** Logger ***************************************#
   - alias: log_level
     trigger:
@@ -188,6 +208,35 @@ script: # IMPORTANT! Used in MANY automations
           - input_boolean.override_turn_off_air_conditioner
           - input_boolean.var_override_home
 
+  navbar_hide:
+    sequence:
+      - service: group.set_visibility
+        entity_id:
+          - group.automations_view
+          - group.backend_view
+          - group.hidden_view
+          - group.scripts_view
+          - group.sensors_view
+          - group.default_view
+        data:
+          visible: False
+
+  navbar_show:
+    sequence:
+      - service: group.set_visibility
+        entity_id:
+          - group.automations
+          - group.backend
+          - group.hidden
+          - group.scripts
+          - group.sensors
+          - group.default_view
+        data:
+          visible: True
+
+shell_command: 
+  restart_all: docker restart mosquitto && docker restart influxdb && systemctl restart home-assistant
+
 #-----------------------------------------------------#
 
 input_boolean:
@@ -202,6 +251,9 @@ input_boolean:
 ########## OPTIONS #######################
 ##########################################
   option_homeassistant_restart_sound:
+
+  option_show_all_navtabs:
+    initial: off
 
 input_select:
   option_log_level:
@@ -253,32 +305,38 @@ group:
       - automation.log_level
       - automation.failed_login_attempt
       - automation.reset_overrides_5am
+      - automation.option_navbar_on
+      - automation.option_navbar_off
 
   backend_system:
     entities:
       - input_boolean.var_startup
 
-#   config_system:
-#     entities:
-#       - input_boolean.
+  # hidden_system:
+  #   entities:
 
-  hidden_system:
-    entities:
-      - sensor.time
-      - sensor.date
-      - sensor.now_day
-      - sensor.now_hour
-      - sensor.now_minute
 
   options_system:
     name: "System"
+    control: hidden
     entities:
       - input_select.option_log_level
       - input_boolean.option_send_device_reconnect_notification
       - input_boolean.option_homeassistant_restart_sound
+      - input_boolean.option_show_all_navtabs
 
   script_system:
     entities:
       - script.do_nothing
       - script.turn_on_all_automations
       - script.reset_overrides
+      - script.navbar_show
+      - script.navbar_hide
+
+  sensor_system:
+    entities:
+      - sensor.time
+      - sensor.date
+      - sensor.now_day
+      - sensor.now_hour
+      - sensor.now_minute

@@ -183,13 +183,9 @@ group:
       - automation.office_leds_input_effect
       - automation.office_leds_animation_speed
 
-#   backend_vcore_office:
-#     entities:
-#       - input_boolean.
-
-  config_vcore_office:
+  backend_vcore_office:
     entities:
-      - input_number.office_leds_animation_speed
+      - input_number.office_animation_speed
       - input_select.office_led_effect
 
 #   hidden_vcore_office:
@@ -203,3 +199,10 @@ group:
 #   script_vcore_office:
 #     entities:
 #       - script.
+
+  sensor_vcore_office:
+    entities:
+      - light.office_led_strip
+      - binary_sensor.office_motion_sensor
+      - sensor.office_temperature
+      - sensor.office_humidity

@@ -4,12 +4,12 @@
 panel_iframe:
   modem:
     title: 'Modem'
-    url: 'http://192.168.1.1'
+    url: !secret modem_url
     icon: mdi:wan
 
   router:
     title: 'Router'
-    url: 'http://192.168.1.2'
+    url: !secret router_url
     icon: mdi:access-point-network
 
 binary_sensor:
@@ -417,7 +417,7 @@ automation:
   #         flood_color: "red"
   #         blink_color: "magenta"
   #         tts_entity_id: group.config_tts_devices
-  #         tts_sound: 'intercom_ds9.mp3'
+  #         tts_sound: 'st_notifications/intercom_ds9.mp3'
   #         tts_message: "Warning Disk Space Low! There is only {{ states.sensor.sabnzbd_disk_free.state | int | round(0) }} gigs free on Dell Laptop's V drive."
 
 
@@ -583,12 +583,6 @@ group:
 ##########################################
 ############### GROUPS ###################
 ##########################################
-  status_alert:
-    name: "Status Alert"
-    entities:
-    # - sensor.cloud_status_alert
-    - sensor.server_status_alert
-    - sensor.iot_status_alert
 
 ##########################################
 ############### AUTO-GROUPS ##############
@@ -611,12 +605,24 @@ group:
       - input_boolean.var_desktop_computer_on
       - input_boolean.var_eventghost_mqtt_request_state_sent
 
-#   config_server:
+  # hidden_server:
+  #   entities:
+
+
+#   options_server:
 #     entities:
 #       - input_boolean.
 
-  hidden_server:
+  script_server:
     entities:
+      - script.restart_eventghost
+
+  sensor_server:
+    entities:
+    - sensor.cloud_status_alert
+    - sensor.server_status_alert
+    - sensor.iot_status_alert
+
     - sensor.iot_echo_dot
     - sensor.iot_esp8266_kitchen
     - sensor.iot_esp8266_office
@@ -669,11 +675,3 @@ group:
     - sensor.pihole_queries_today
     - sensor.pihole_percentage_today
     - sensor.pihole_domains_blocked
-
-#   options_server:
-#     entities:
-#       - input_boolean.
-
-  script_server:
-    entities:
-      - script.restart_eventghost

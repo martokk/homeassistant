@@ -223,7 +223,7 @@ homeassistant:
 
 #-----------------------------------------------------#
 
-# group:
+group:
 ##########################################
 ############### GROUPS ###################
 ##########################################
@@ -243,10 +243,6 @@ homeassistant:
       - input_select.var_lks_bedroom
       - input_select.var_lks_timebased
 
-#   config_last_known_scene:
-#     entities:
-#       - input_boolean.
-
 #   hidden_last_known_scene:
 #     entities:
 #       - input_boolean.
@@ -258,3 +254,7 @@ homeassistant:
   script_last_known_scene:
     entities:
       - script.call_last_known_scene
+
+#   sensor_last_known_scene:
+#     entities:
+#       - sensor.

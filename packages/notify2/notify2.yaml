@@ -6,36 +6,36 @@ notify:
     platform: smtp
     server: smtp.gmail.com
     port: 587
-    sender: "vhome.notifications@gmail.com"
+    sender: !secret gmail_email
     starttls: true
-    username: vhome.notifications@gmail.com
+    username: !secret gmail_email
     password: !secret gmail_password
-    recipient: "vhome.notifications@gmail.com"
+    recipient: !secret gmail_email
 
   - name: sms
     platform: smtp
     server: smtp.gmail.com
     port: 587
-    sender: "vhome.notifications@gmail.com"
+    sender: !secret gmail_email
     starttls: true
-    username: vhome.notifications@gmail.com
+    username: !secret gmail_email
     password: !secret gmail_password
-    recipient: "2622206437@mms.att.net"
+    recipient: !secret sms_email_address
 
   - name: mlo
     platform: smtp
     server: smtp.gmail.com
     port: 587
-    sender: "vhome.notifications@gmail.com"
+    sender: !secret gmail_email
     starttls: true
-    username: vhome.notifications@gmail.com
+    username: !secret gmail_email
     password: !secret gmail_password
-    recipient: "vill022@sync.mylifeorganized.net"
+    recipient: !secret mlo_email_address
 
   - name: telegram
     platform: telegram
     api_key: !secret telegram_api_key
-    chat_id: 343498992
+    chat_id: !secret telegram_notify_chat_id
 
   # - name: ios_iphone6s
   #   platform: ios
@@ -417,7 +417,7 @@ script:
       data_template:
         entity_id: "{% if tts_entity_id %} {{ tts_entity_id }} {% else %} media_player.vlc {% endif %}"
         media_content_type: music
-        media_content_id: "{% if tts_sound %}http://192.168.1.3:8123/local/sounds/{{ tts_sound }}{% else %} http://192.168.1.3:8123/local/sounds/intercom_ds9.mp3 {% endif %}"
+        media_content_id: "{% if tts_sound %}http://192.168.1.3:8123/local/sounds/{{ tts_sound }}{% else %} http://192.168.1.3:8123/local/sounds/st_notifications/intercom_ds9.mp3 {% endif %}"
     - delay: "{% if tts_sound_delay %}{{ tts_sound_delay }}{% else %}{% if tts_sound %}00:00:03{% else %}00:00:00{% endif %}{% endif %}"
 
     #*--------- TTS Notificaiton --------------*#
@@ -568,6 +568,7 @@ group:
 
   options_notify2:
     name: "Notify2 Notifications"
+    control: hidden
     entities:
       - input_boolean.option_notify2_sms
       - input_boolean.option_notify2_email
@@ -595,3 +596,7 @@ group:
       - script.notify2_tts_resume
       - script.notify2_tts_resume_after_wait
       - script.repeat_last_message
+
+  sensor_notify2:
+    entities:
+      - sensor.last_tts_message

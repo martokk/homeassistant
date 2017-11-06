@@ -407,16 +407,20 @@ input_number:
     min: 1
     max: 900
     step: 1
+    mode: box
 
-  var_kitchen_brightness: #in Seconds
+
+  var_kitchen_brightness:
     min: 1
     max: 255
     step: 1
+    mode: box
 
-  var_kitchen_color_temp: #in Seconds
+  var_kitchen_color_temp: 
     min: 1
     max: 1000
     step: 1
+    mode: box
 
 ##########################################
 ########## OPTIONS #######################
@@ -443,65 +447,91 @@ group:
 ##########################################
 ############### GROUPS ###################
 ##########################################
+  lights:
+    name: "Lights"
+    entities:
+      - light.living_room_overhead
+      - light.end_table_left
+      - light.end_table_right
+      - light.tables_led_strip
+
+      - light.tv_floor_left
+      - light.tv_floor_right
+      - light.tv_overhead_left
+      - light.tv_overhead_right
+      - light.entertainment_center_led_strip
+
+      - light.office_left
+      - light.office_center
+      - light.office_right
+      - light.office_led_strip
+
+      - light.kitchen_left
+      - light.kitchen_right
+      - light.kitchen_led_strip
+
+      - light.sonoff_silver_lamp
+      - light.bedroom_led_strip
+
   ambient_lights:
     name: "Ambient"
     entities:
-    - light.end_table_left
-    - light.end_table_right
-    - light.tv_floor_left
-    - light.tv_floor_right
-    - light.office_led_strip
-    - light.tables_led_strip
-    - light.entertainment_center_led_strip
-    - light.bedroom_led_strip
+      - light.end_table_left
+      - light.end_table_right
+      - light.tv_floor_left
+      - light.tv_floor_right
+      - light.office_led_strip
+      - light.tables_led_strip
+      - light.entertainment_center_led_strip
+      - light.bedroom_led_strip
 
   tv_lights:
     name: "TV Lights"
     entities:
-    - light.tv_overhead_left
-    - light.tv_overhead_right
-    - light.tv_floor_left
-    - light.tv_floor_right
-    - light.entertainment_center_led_strip
+      - light.tv_overhead_left
+      - light.tv_overhead_right
+      - light.tv_floor_left
+      - light.tv_floor_right
+      - light.entertainment_center_led_strip
 
   overhead_lights:
     name: "Overhead"
     entities:
-    - light.living_room_overhead
-    - light.tv_overhead_left
-    - light.tv_overhead_right
-    - light.office_left
-    - light.office_center
-    - light.office_right
+      - light.living_room_overhead
+      - light.tv_overhead_left
+      - light.tv_overhead_right
+      - light.office_left
+      - light.office_center
+      - light.office_right
 
   timebased_hourly_flash_lights:
     name: "Timebased - Hourly Flash Lights"
     entities:
-    - light.living_room_overhead
-    - light.tv_overhead_left
-    - light.tv_overhead_right
-    - light.office_left
-    - light.office_center
-    - light.office_right
-    - light.bedroom_led_strip
+      - light.living_room_overhead
+      - light.tv_overhead_left
+      - light.tv_overhead_right
+      - light.office_left
+      - light.office_center
+      - light.office_right
+      - light.bedroom_led_strip
 
   timebased_flood_lights:
     name: "Timebased - Hourly Flash Lights"
     entities:
-    - light.living_room_overhead
-    - light.tv_overhead_left
-    - light.tv_overhead_right
-    - light.office_left
-    - light.office_center
-    - light.office_right
-    - light.bedroom_led_strip
-    - light.end_table_left
-    - light.end_table_right
-    - light.tv_floor_left
-    - light.tv_floor_right
-    - light.tables_led_strip
-    - light.entertainment_center_led_strip
-    - light.office_led_strip
+      - light.living_room_overhead
+      - light.tv_overhead_left
+      - light.tv_overhead_right
+      - light.office_left
+      - light.office_center
+      - light.office_right
+      - light.bedroom_led_strip
+      - light.end_table_left
+      - light.end_table_right
+      - light.tv_floor_left
+      - light.tv_floor_right
+      - light.tables_led_strip
+      - light.entertainment_center_led_strip
+      - light.office_led_strip
 
 ##########################################
 ############### AUTO-GROUPS ##############
@@ -525,19 +555,8 @@ group:
       - input_number.var_kitchen_color_temp
       - input_number.var_kitchen_delay
 
-#   config_lights:
-#     entities:
-#       - input_boolean.
-
-  hidden_lights:
-    entities:
-      - script.kitchen_lights_timer_on
-      - script.kitchen_lights_timer_off
-      - script.kitchen_lights_timer_warm
-      - script.kitchen_lights_timer_bright
-      - script.kitchen_lights_timer_bright_dynamic
-      - script.kitchen_lights_timer_bright_long
-      - script.kitchen_lights_timer_day
+  # hidden_lights:
+  #   entities:
 
 #   options_lights:
 #     entities:
@@ -553,3 +572,8 @@ group:
       - script.kitchen_lights_timer_day
       - script.kitchen_lights_timer_bright_dynamic
       - script.kitchen_lights_timer_bright_long
+      - script.kitchen_lights_timer_bright
+
+#   sensor_lights:
+#     entities:
+#       - sensor.
