@@ -71,6 +71,28 @@ automation:
       - service: input_boolean.turn_on
         entity_id: input_boolean.option_mode_smoking
 
+#********** Night Mode  ***********#
+  - alias: mode_night
+    trigger:
+      - platform: state
+        entity_id: input_boolean.option_mode_night
+        to: 'on'
+    action:
+      # Turn Off - Normal Mode
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.option_mode_normal
+      # Turn Off - Light Notifications
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.option_notify2_lights
+      # Turn Off - Chromecast Notifications
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.option_notify2_chromecast
+      # Turn On - Scene2 - Night Computer Red
+      - service: script.scene2
+        data_template:
+          scene_name: 'night_computer_red'
+          transition: 600
+
 #********** Away Mode  ***********#
   - alias: mode_away
     trigger:
@@ -210,6 +232,9 @@ automation:
       # Turn Off - Chill Mode
       - service: input_boolean.turn_off
         entity_id: input_boolean.option_mode_chill
+      # Turn Off - Night Mode
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.option_mode_night
       # Turn Off - Guest Mode
       - service: input_boolean.turn_off
         entity_id: input_boolean.option_mode_guest
@@ -240,6 +265,9 @@ automation:
         to: 'off'
       - platform: state
         entity_id: input_boolean.option_mode_chill
+        to: 'off'
+      - platform: state
+        entity_id: input_boolean.option_mode_night
         to: 'off'
       - platform: state
         entity_id: input_boolean.option_mode_smoking
@@ -274,7 +302,7 @@ automation:
     action:
       # Turn On - Normal Mode
       - service: input_boolean.turn_on
-        entity_id: input_boolean.option_mode_normal
+        entity_id: input_boolean.option_mode_night
 
 ##########################################
 ########## AUTOMATIONS ###################
@@ -337,6 +365,10 @@ input_boolean:
     initial: 'off'
     name: "Chill Mode"
 
+  option_mode_night:
+    initial: 'off'
+    name: "Night Mode"
+
   option_mode_guest:
     initial: 'off'
     name: "Guest Mode"
@@ -388,6 +420,9 @@ homeassistant:
     input_boolean.option_mode_chill:
       emulated_hue: true
       emulated_hue_name: "Chill Mode"
+    input_boolean.option_mode_night:
+      emulated_hue: true
+      emulated_hue_name: "Night Mode"
     input_boolean.option_mode_guest:
       emulated_hue: true
       emulated_hue_name: "Guests Mode"
@@ -416,6 +451,7 @@ group:
       - automation.mode_guest
       - automation.mode_movie
       - automation.mode_chill
+      - automation.mode_night
       - automation.mode_away
       - automation.mode_smoking
       - automation.mode_silent
