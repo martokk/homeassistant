@@ -61,7 +61,7 @@ script:
               You should open the windows and let the fresh air in.
             {% endif %}
             {% if "close" in states.sensor.open_close_window_guide.state | lower and "cold" in states.sensor.open_close_window_guide.state | lower  %}
-              It's probably best to keep your windows closed today.
+              
             {% endif %}
 
             <break time=".9s" />
@@ -76,7 +76,7 @@ script:
             {% endif %}
 
             <break time=".9s" />
-            The current bitcoin price is ${{ states.sensor.bitcoin.state | round(0) }}
+            The current bitcoin price is ${{ (states.sensor.bitcoin.state | int /25 ) | round() * 25  }}
           tts_pause_delay: '00:00:17'
 
   timebased_telegram_summary:

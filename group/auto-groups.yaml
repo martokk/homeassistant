@@ -50,55 +50,6 @@
       - group.options_weather
       - group.options_work
 
-  automations_view:
-    icon: mdi:brightness-auto
-    view: yes
-    entities:
-      - group.automation_air_conditioner
-      - group.automation_alarms
-      - group.automation_all_vcore_devices
-      - group.automation_bitcoin
-      - group.automation_bose_remote
-      - group.automation_calender
-      - group.automation_devices
-      - group.automation_entertainment_center
-      - group.automation_environment
-      - group.automation_fans
-      - group.automation_ifttt
-      - group.automation_indoor_temperature
-      - group.automation_last_known_scene
-      - group.automation_light_effects
-      - group.automation_lights
-      - group.automation_logbook
-      - group.automation_media_player
-      - group.automation_modes
-      - group.automation_motion_detection
-      - group.automation_notify2
-      - group.automation_residents
-      - group.automation_scene2
-      - group.automation_server
-      - group.automation_system
-      - group.automation_silver_lamp
-      - group.automation_small_desk_fan1
-      - group.automation_sonoff_box_fan1
-      - group.automation_sonoff_entertainment_center
-      - group.automation_sonoff_silver_lamp
-      - group.automation_sonoff_small_desk_fan1
-      - group.automation_telegram_commands
-      - group.automation_temperature_range_mode
-      - group.automation_timebased
-      - group.automation_timebased_summary
-      - group.automation_tts
-      - group.automation_user_presence
-      - group.automation_vcore_bedroom
-      - group.automation_vcore_entertainment_center
-      - group.automation_vcore_kitchen
-      - group.automation_vcore_office
-      - group.automation_vcore_tables
-      - group.automation_volume_control
-      - group.automation_weather
-      - group.automation_work
-
   backend_view:
     icon: mdi:bootstrap
     view: yes
@@ -198,102 +149,152 @@
   #     - group.hidden_volume_control
   #     - group.hidden_weather
   #     - group.hidden_work
-
-  scripts_view:
-    icon: mdi:code-string
-    view: yes
-    entities:
-      - group.script_air_conditioner
-      - group.script_alarms
-      - group.script_all_vcore_devices
-      - group.script_bitcoin
-      - group.script_bose_remote
-      - group.script_calender
-      - group.script_devices
-      - group.script_entertainment_center
-      - group.script_environment
-      - group.script_fans
-      - group.script_ifttt
-      - group.script_indoor_temperature
-      - group.script_last_known_scene
-      - group.script_light_effects
-      - group.script_lights
-      - group.script_logbook
-      - group.script_media_player
-      - group.script_modes
-      - group.script_motion_detection
-      - group.script_notify2
-      - group.script_residents
-      - group.script_scene2
-      - group.script_server
-      - group.script_system
-      - group.script_silver_lamp
-      - group.script_small_desk_fan1
-      - group.script_sonoff_box_fan1
-      - group.script_sonoff_entertainment_center
-      - group.script_sonoff_silver_lamp
-      - group.script_sonoff_small_desk_fan1
-      - group.script_telegram_commands
-      - group.script_temperature_range_mode
-      - group.script_timebased
-      - group.script_timebased_summary
-      - group.script_tts
-      - group.script_user_presence
-      - group.script_vcore_bedroom
-      - group.script_vcore_entertainment_center
-      - group.script_vcore_kitchen
-      - group.script_vcore_office
-      - group.script_vcore_tables
-      - group.script_volume_control
-      - group.script_weather
-      - group.script_work
-
-  sensors_view:
-    icon: mdi:speedometer
-    view: yes
-    entities:
-      - group.sensor_air_conditioner
-      - group.sensor_alarms
-      - group.sensor_all_vcore_devices
-      - group.sensor_bitcoin
-      - group.sensor_bose_remote
-      - group.sensor_calender
-      - group.sensor_config
-      - group.sensor_devices
-      - group.sensor_entertainment_center
-      - group.sensor_environment
-      - group.sensor_fans
-      - group.sensor_ifttt
-      - group.sensor_indoor_temperature
-      - group.sensor_last_known_scene
-      - group.sensor_light_effects
-      - group.sensor_lights
-      - group.sensor_logbook
-      - group.sensor_media_player
-      - group.sensor_modes
-      - group.sensor_motion_detection
-      - group.sensor_notify2
-      - group.sensor_residents
-      - group.sensor_scene2
-      - group.sensor_server
-      - group.sensor_system
-      - group.sensor_silver_lamp
-      - group.sensor_small_desk_fan1
-      - group.sensor_sonoff_box_fan1
-      - group.sensor_sonoff_entertainment_center
-      - group.sensor_sonoff_silver_lamp
-      - group.sensor_sonoff_small_desk_fan1
-      - group.sensor_telegram_commands
-      - group.sensor_temperature_range_mode
-      - group.sensor_timebased
-      - group.sensor_timebased_summary
-      - group.sensor_tts
-      - group.sensor_user_presence
-      - group.sensor_vcore_bedroom
-      - group.sensor_vcore_entertainment_center
-      - group.sensor_vcore_kitchen
-      - group.sensor_vcore_office
-      - group.sensor_vcore_tables
-      - group.sensor_volume_control
-      - group.sensor_weather
-      - group.sensor_work
+  #
+  # scripts_view:
+  #   icon: mdi:code-string
+  #   view: yes
+  #   entities:
+  #     - group.script_air_conditioner
+  #     - group.script_alarms
+  #     - group.script_all_vcore_devices
+  #     - group.script_bitcoin
+  #     - group.script_bose_remote
+  #     - group.script_calender
+  #     - group.script_devices
+  #     - group.script_entertainment_center
+  #     - group.script_environment
+  #     - group.script_fans
+  #     - group.script_ifttt
+  #     - group.script_indoor_temperature
+  #     - group.script_last_known_scene
+  #     - group.script_light_effects
+  #     - group.script_lights
+  #     - group.script_logbook
+  #     - group.script_media_player
+  #     - group.script_modes
+  #     - group.script_motion_detection
+  #     - group.script_notify2
+  #     - group.script_residents
+  #     - group.script_scene2
+  #     - group.script_server
+  #     - group.script_system
+  #     - group.script_silver_lamp
+  #     - group.script_small_desk_fan1
+  #     - group.script_sonoff_box_fan1
+  #     - group.script_sonoff_entertainment_center
+  #     - group.script_sonoff_silver_lamp
+  #     - group.script_sonoff_small_desk_fan1
+  #     - group.script_telegram_commands
+  #     - group.script_temperature_range_mode
+  #     - group.script_timebased
+  #     - group.script_timebased_summary
+  #     - group.script_tts
+  #     - group.script_user_presence
+  #     - group.script_vcore_bedroom
+  #     - group.script_vcore_entertainment_center
+  #     - group.script_vcore_kitchen
+  #     - group.script_vcore_office
+  #     - group.script_vcore_tables
+  #     - group.script_volume_control
+  #     - group.script_weather
+  #     - group.script_work
+  #
+  # sensors_view:
+  #   icon: mdi:speedometer
+  #   view: yes
+  #   entities:
+  #     - group.sensor_air_conditioner
+  #     - group.sensor_alarms
+  #     - group.sensor_all_vcore_devices
+  #     - group.sensor_bitcoin
+  #     - group.sensor_bose_remote
+  #     - group.sensor_calender
+  #     - group.sensor_config
+  #     - group.sensor_devices
+  #     - group.sensor_entertainment_center
+  #     - group.sensor_environment
+  #     - group.sensor_fans
+  #     - group.sensor_ifttt
+  #     - group.sensor_indoor_temperature
+  #     - group.sensor_last_known_scene
+  #     - group.sensor_light_effects
+  #     - group.sensor_lights
+  #     - group.sensor_logbook
+  #     - group.sensor_media_player
+  #     - group.sensor_modes
+  #     - group.sensor_motion_detection
+  #     - group.sensor_notify2
+  #     - group.sensor_residents
+  #     - group.sensor_scene2
+  #     - group.sensor_server
+  #     - group.sensor_system
+  #     - group.sensor_silver_lamp
+  #     - group.sensor_small_desk_fan1
+  #     - group.sensor_sonoff_box_fan1
+  #     - group.sensor_sonoff_entertainment_center
+  #     - group.sensor_sonoff_silver_lamp
+  #     - group.sensor_sonoff_small_desk_fan1
+  #     - group.sensor_telegram_commands
+  #     - group.sensor_temperature_range_mode
+  #     - group.sensor_timebased
+  #     - group.sensor_timebased_summary
+  #     - group.sensor_tts
+  #     - group.sensor_user_presence
+  #     - group.sensor_vcore_bedroom
+  #     - group.sensor_vcore_entertainment_center
+  #     - group.sensor_vcore_kitchen
+  #     - group.sensor_vcore_office
+  #     - group.sensor_vcore_tables
+  #     - group.sensor_volume_control
+  #     - group.sensor_weather
+  #     - group.sensor_work
+  #
+  #
+  # automations_view:
+  #   icon: mdi:brightness-auto
+  #   view: yes
+  #   entities:
+  #     - group.automation_air_conditioner
+  #     - group.automation_alarms
+  #     - group.automation_all_vcore_devices
+  #     - group.automation_bitcoin
+  #     - group.automation_bose_remote
+  #     - group.automation_calender
+  #     - group.automation_devices
+  #     - group.automation_entertainment_center
+  #     - group.automation_environment
+  #     - group.automation_fans
+  #     - group.automation_ifttt
+  #     - group.automation_indoor_temperature
+  #     - group.automation_last_known_scene
+  #     - group.automation_light_effects
+  #     - group.automation_lights
+  #     - group.automation_logbook
+  #     - group.automation_media_player
+  #     - group.automation_modes
+  #     - group.automation_motion_detection
+  #     - group.automation_notify2
+  #     - group.automation_residents
+  #     - group.automation_scene2
+  #     - group.automation_server
+  #     - group.automation_system
+  #     - group.automation_silver_lamp
+  #     - group.automation_small_desk_fan1
+  #     - group.automation_sonoff_box_fan1
+  #     - group.automation_sonoff_entertainment_center
+  #     - group.automation_sonoff_silver_lamp
+  #     - group.automation_sonoff_small_desk_fan1
+  #     - group.automation_telegram_commands
+  #     - group.automation_temperature_range_mode
+  #     - group.automation_timebased
+  #     - group.automation_timebased_summary
+  #     - group.automation_tts
+  #     - group.automation_user_presence
+  #     - group.automation_vcore_bedroom
+  #     - group.automation_vcore_entertainment_center
+  #     - group.automation_vcore_kitchen
+  #     - group.automation_vcore_office
+  #     - group.automation_vcore_tables
+  #     - group.automation_volume_control
+  #     - group.automation_weather
+  #     - group.automation_work

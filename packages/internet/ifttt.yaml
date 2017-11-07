@@ -23,23 +23,29 @@ sensor:
     sensors:
       dweet_vhome_topic:
         value_template: "{% set dweet_vhome = states.sensor.dweet_vhome.state.split('::') %}{{ dweet_vhome[0] }}"
-      dweet_vhome_tts_message:
-        value_template: >
-          {# Strip HTML Tags #}
-          {% set dweet_vhome = states.sensor.dweet_vhome.state | string | striptags %}
-          {% set dweet_vhome = dweet_vhome + ":: " %}
 
-          {# Split Topic #}
-          {% set dweet_vhome_split1 = dweet_vhome.split('::') %}
-          {% set dweet_vhome_split2 = dweet_vhome_split1[1].split("http") %}
-
-          {{ dweet_vhome_split2[0] }}
-      dweet_vhome_notify_message:
+      dweet_vhome_message:
         value_template: >
           {% set dweet_vhome = states.sensor.dweet_vhome.state | string | replace("https","http") %}
-          {% set dweet_vhome = dweet_vhome + ":: " %}
-          {% set dweet_vhome_split1 = dweet_vhome.split('::') %}
-          {{ dweet_vhome_split1[1] }}
+          {% set dweet_vhome = dweet_vhome + ":: :: " %}
+          {% set dweet_vhome_split = dweet_vhome.split('::') %}
+          {% set dweet_vhome_message = dweet_vhome_split[1] %}
+          {{ dweet_vhome_message }}
+
+      dweet_vhome_message2:
+        value_template: >
+          {% set dweet_vhome = states.sensor.dweet_vhome.state | string | replace("https","http") %}
+          {% set dweet_vhome = dweet_vhome + ":: :: " %}
+          {% set dweet_vhome_split = dweet_vhome.split('::') %}
+          {% set dweet_vhome_message2 = dweet_vhome_split[2] %}
+          {{ dweet_vhome_message2 }}
+
+      dweet_vhome_tts_message:
+        value_template: >
+          {% set dweet_vhome_message = states.sensor.dweet_vhome_message.state | string | striptags | replace("RT @", "Retweet from ") %}
+          {% set dweet_vhome_split = dweet_vhome_message.split("http") %}
+          {% set dweet_vhome_tts_message = dweet_vhome_split[0] %}
+          {{ dweet_vhome_tts_message }}
 
 #-----------------------------------------------------#
 
@@ -55,7 +61,7 @@ automation:
   - alias: nfl_game_start
     trigger:
       platform: state
-      entity_id: sensor.dweet_vhome_notify_message
+      entity_id: sensor.dweet_vhome_message
     condition:
       - condition: state
         entity_id: sensor.dweet_vhome_topic
@@ -65,12 +71,12 @@ automation:
         data_template:
           telegram_message: |
             *NFL GAME START:*
-            {{ states.sensor.dweet_vhome_notify_message.state }}
+            {{ states.sensor.dweet_vhome_message.state }}
           tts_entity_id: group.config_tts_devices
-          tts_sound: 'other/espn_alert.m4a'
+          tts_sound: 'other/fox_football.m4a'
           tts_pause_delay: "00:00:03"
           tts_message: |
-            NFL Game Started! <break time=".9s" />
+            The {% if states.sensor.dweet_vhome_message2.state %}{{ states.sensor.dweet_vhome_message2.state }}{% else %}NFL{% endif %} game has started! <break time=".9s" />
             {% set message = states.sensor.dweet_vhome_tts_message.state | replace('"','') %}
             {% set sentence = message.split('.') %}
             {{ sentence[0] }}
@@ -78,7 +84,7 @@ automation:
   - alias: nfl_game_update
     trigger:
       platform: state
-      entity_id: sensor.dweet_vhome_notify_message
+      entity_id: sensor.dweet_vhome_message
     condition:
       condition: state
       entity_id: sensor.dweet_vhome_topic
@@ -88,11 +94,12 @@ automation:
         data_template:
           telegram_message: |
             *NFL GAME UPDATE:*
-            {{ states.sensor.dweet_vhome_notify_message.state }}
+            {{ states.sensor.dweet_vhome_message.state }}
           tts_entity_id: group.config_tts_devices
           tts_sound: 'other/espn_alert.m4a'
           tts_pause_delay: "00:00:03"
           tts_message: |
+            {% if states.sensor.dweet_vhome_message2.state %}{{ states.sensor.dweet_vhome_message2.state }}{% else %}NFL{% endif %} Game Update:
             {% set message = states.sensor.dweet_vhome_tts_message.state | replace('"','') %}
             {% set sentence = message.split('.') %}
             {{ sentence[0] }}
@@ -100,7 +107,7 @@ automation:
   - alias: nfl_game_end
     trigger:
       platform: state
-      entity_id: sensor.dweet_vhome_notify_message
+      entity_id: sensor.dweet_vhome_message
     condition:
       condition: state
       entity_id: sensor.dweet_vhome_topic
@@ -110,14 +117,32 @@ automation:
         data_template:
           telegram_message: |
             *NFL GAME ENDED:*
-            {{ states.sensor.dweet_vhome_notify_message.state }}
+            {{ states.sensor.dweet_vhome_message.state }}
           tts_entity_id: group.config_tts_devices
           tts_sound: 'other/espn_alert.m4a'
           tts_pause_delay: "00:00:03"
           tts_message: |
-            {% set message = states.sensor.dweet_vhome_tts_message.state | replace('"','') %}
+            {% set message = states.sensor.dweet_vhome_tts_message.state | replace('"','') | replace("Final: ","") %}
             {% set sentence = message.split('.') %}
-            {{ sentence[0] }}
+            {% set words = sentence[0].split(' ') %}
+            {% set team1 = words[0] %}
+            {% set team1_score = words[1] %}
+            {% set team2 = words[2] %}
+            {% set team2_score = words[3] %}
+
+            The {% if states.sensor.dweet_vhome_message2.state %}{{ states.sensor.dweet_vhome_message2.state }}{% else %}NFL{% endif %} game has ended with. the {{ team1 }}, winning over  the {{ team2 }},  {{ team1_score }} to {{ team2_score }}.
+      - condition: template
+        value_template: >
+            {% set message = states.sensor.dweet_vhome_tts_message.state | replace('"','') | replace("Final: ","") %}
+            {% set sentence = message.split('.') %}
+            {% set words = sentence[0].split(' ') %}
+            {% set team1 = words[0] %}
+            {{ team1 == "Packers" }}
+      - delay: '00:00:01'
+      - service: script.notify2
+        data_template:
+          flood_color: 'green'
+          blink_color: 'gold'
 
 # ##########################################
 # ########## TWITTER NOTIFICATIONS #########
@@ -126,21 +151,21 @@ automation:
   - alias: breaking_news
     trigger:
       platform: state
-      entity_id: sensor.dweet_vhome_notify_message
+      entity_id: sensor.dweet_vhome_message
     condition:
       - condition: state
         entity_id: sensor.dweet_vhome_topic
         state: 'breaking_news'
       - condition: template
         value_template: >
-          {% set msg = states.sensor.dweet_vhome_notify_message.state | lower %}
+          {% set msg = states.sensor.dweet_vhome_message.state | lower %}
           {{ "breaking:" in msg or "just in:" in msg or "update:" in msg or "happening now:" in msg or "breaking news:" in msg or "president trump:" in msg or "trump:" in msg or "shooting:" in msg or "attack:" in msg }}
     action:
       - service: script.notify2
         data_template:
           telegram_message: |
             *BREAKING NEWS:*
-            {{ states.sensor.dweet_vhome_notify_message.state }}
+            {{ states.sensor.dweet_vhome_message.state }}
           tts_entity_id: group.config_tts_devices
           tts_sound: 'other/breaking_news.m4a'
           tts_pause_delay: "00:00:03"
@@ -151,7 +176,7 @@ automation:
   - alias: trump_tweet
     trigger:
       platform: state
-      entity_id: sensor.dweet_vhome_notify_message
+      entity_id: sensor.dweet_vhome_message
     condition:
       condition: state
       entity_id: sensor.dweet_vhome_topic
@@ -161,7 +186,7 @@ automation:
         data_template:
           telegram_message: |
             *TRUMP:*
-            {{ states.sensor.dweet_vhome_notify_message.state }}
+            {{ states.sensor.dweet_vhome_message.state }}
           tts_entity_id: group.config_tts_devices
           tts_sound: 'other/hailt_to_the_chief.m4a'
           tts_pause_delay: "00:00:03"
@@ -260,4 +285,4 @@ group:
       - sensor.dweet_vhome
       - sensor.dweet_vhome_topic
       - sensor.dweet_vhome_tts_message
-      - sensor.dweet_vhome_notify_message
+      - sensor.dweet_vhome_message
