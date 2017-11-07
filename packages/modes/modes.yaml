@@ -87,6 +87,9 @@ automation:
       # Turn Off - Chromecast Notifications
       - service: input_boolean.turn_off
         entity_id: input_boolean.option_notify2_chromecast
+      # Turn On - Option - TTS Whisper
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.option_notify2_tts_whisper
       # Turn On - Scene2 - Night Computer Red
       - service: script.scene2
         data_template:
@@ -214,7 +217,9 @@ automation:
       # Turn Off - Temperature Range Mode Reduced
       - service: input_boolean.turn_off
         entity_id: input_boolean.option_indoor_temp_range_reduced
-
+      # Turn Off - Option - TTS Whisper
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.option_notify2_tts_whisper
 
   # Mode - Normal Mode
   - alias: mode_normal_set_other_modes

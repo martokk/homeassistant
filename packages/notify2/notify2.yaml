@@ -417,8 +417,17 @@ script:
       data_template:
         entity_id: "{% if tts_entity_id %} {{ tts_entity_id }} {% else %} media_player.vlc {% endif %}"
         media_content_type: music
-        media_content_id: "{% if tts_sound %}http://192.168.1.3:8123/local/sounds/{{ tts_sound }}{% else %} http://192.168.1.3:8123/local/sounds/st_notifications/intercom_ds9.mp3 {% endif %}"
-    - delay: "{% if tts_sound_delay %}{{ tts_sound_delay }}{% else %}{% if tts_sound %}00:00:03{% else %}00:00:00{% endif %}{% endif %}"
+        media_content_id: >
+          {% if states.input_boolean.option_notify2_tts_whisper.state == 'on' %}
+            http://192.168.1.3:8123/local/sounds/other/soft1.mp3
+          {% else %}
+            {% if tts_sound %}
+              http://192.168.1.3:8123/local/sounds/{{ tts_sound }}
+            {% else %}
+              http://192.168.1.3:8123/local/sounds/st_notifications/intercom_ds9.mp3
+            {% endif %}
+          {% endif %}
+    - delay: "{% if tts_sound_delay %}{{ tts_sound_delay }}{% else %}{% if tts_sound or states.input_boolean.option_notify2_tts_whisper.state == 'on' %}00:00:03{% else %}00:00:00{% endif %}{% endif %}"
 
     #*--------- TTS Notificaiton --------------*#
     - service_template: >
@@ -433,7 +442,28 @@ script:
         {% endif %}
       data_template:
         entity_id: "{% if tts_entity_id %} {{ tts_entity_id }} {% else %} media_player.vlc {% endif %}"
-        message: '{% set speak = "<speak>" in tts_message %}{% if speak == false %}<speak>{% endif %}{{ tts_message }}{% if speak == false %}</speak>{% endif %}'
+        message: >
+          {% set speak = "<speak>" in tts_message %}
+          {% set whisper = states.input_boolean.option_notify2_tts_whisper.state %}
+
+          {### OPENING TAGS ###}
+          {% if speak == false %}
+            <speak>
+          {% endif %}
+          {% if whisper == 'on' %}
+            <amazon:effect name="whispered">
+          {% endif %}
+
+          {### MESSAGE ###}
+          {{ tts_message }}
+
+          {### CLOSING TAGS ###}
+          {% if whisper == 'on' %}
+            </amazon:effect>
+          {% endif %}
+          {% if speak == false %}
+            </speak>
+          {% endif %}
     - service: mqtt.publish
       data_template:
         topic: "device/tts/last_message"
@@ -523,6 +553,9 @@ input_boolean:
   option_notify2_prework_timebased_lights:
     initial: on
 
+  option_notify2_tts_whisper:
+    initial: off
+
 ##########################################
 ########## CONFIG ########################
 ##########################################
@@ -575,6 +608,7 @@ group:
       - input_boolean.option_notify2_mlo
       - input_boolean.option_notify2_telegram
       - input_boolean.option_notify2_tts
+      - input_boolean.option_notify2_tts_whisper
       - input_boolean.option_notify2_chromecast
       - input_boolean.option_notify2_lights
       - input_boolean.option_notify2_timebased_lights
