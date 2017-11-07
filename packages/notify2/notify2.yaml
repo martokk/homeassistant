@@ -130,6 +130,7 @@ script:
       entity_id: input_boolean.var_residents_home
       state: 'on'
 
+    ### Resident is Home: Continue Notifications:
     - service: script.notify2_chromecast
       data_template:
         chromecast_link: "{{ chromecast_link }}"

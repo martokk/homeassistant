@@ -153,7 +153,7 @@ automation:
       condition: or
       conditions:
         - condition: template
-          value_template: '{% if states.input_select.var_lks_livingroom.state == "off" %} true {%endif%}'
+          value_template: '{% if states.input_text.var_lks_livingroom.state == "off" %} true {%endif%}'
     action:
     - service: input_select.select_option
       data:
@@ -189,7 +189,7 @@ automation:
       condition: or
       conditions:
         - condition: template
-          value_template: '{% if states.input_select.var_lks_livingroom.state == "off" %} true {%endif%}'
+          value_template: '{% if states.input_text.var_lks_livingroom.state == "off" %} true {%endif%}'
     action:
     - service: light.turn_off
       entity_id: light.entertainment_center_led_strip
@@ -227,9 +227,9 @@ script:
       data_template:
         entity_id: >-
 
-          {% if states.input_select.var_lks_kitchen.state in states.input_select.array_day_scenes.attributes.options %}
+          {% if states.input_text.var_lks_kitchen.state in states.input_select.array_day_scenes.attributes.options %}
             script.kitchen_lights_timer_day
-          {% elif states.input_select.var_lks_kitchen.state in states.input_select.array_low_light_scenes.attributes.options  %}
+          {% elif states.input_text.var_lks_kitchen.state in states.input_select.array_low_light_scenes.attributes.options  %}
             script.kitchen_lights_timer_low_light
           {%else%}
             {% if states.automation.turn_off_kitchen_lights_no_movement_7sec.attributes.last_triggered %}

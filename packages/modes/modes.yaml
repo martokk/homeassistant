@@ -66,7 +66,7 @@ automation:
       - service: script.scene2
         data_template:
           scene_name: 'chill_2'
-          transition: 30
+          transition: 10
       # Turn On - Smoking Mode
       - service: input_boolean.turn_on
         entity_id: input_boolean.option_mode_smoking
@@ -467,7 +467,7 @@ group:
       - automation.mode_normal_from_other_modes
       - automation.mode_sleep_to_mode_normal
       - automation.reset_modes
-      - automation.timebased_11pm_quiet_mode
+      - automation.timebased_1am_quiet_mode
 
 #   backend_modes:
 #     entities:
@@ -485,6 +485,7 @@ group:
       - input_boolean.option_mode_silent
       - input_boolean.option_mode_smoking
       - input_boolean.option_mode_chill
+      - input_boolean.option_mode_night
       - input_boolean.option_mode_guest
       - input_boolean.option_mode_movie
       - input_boolean.option_mode_away

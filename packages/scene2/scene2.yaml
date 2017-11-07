@@ -239,6 +239,8 @@ input_boolean:
 input_select:
   array_low_light_scenes:
     options:
+      - "night"
+      - "night_red"
       - "night_computer"
       - "night_computer_red"
       - "night_computer_blue"
@@ -359,21 +361,17 @@ group:
 
   backend_scene2:
     entities:
-      - input_select.array_low_light_scenes
-      - input_select.array_day_scenes
       - input_text.var_timebased_scene
       - input_boolean.var_livingroom_on
-      - input_select.var_lks_livingroom
       - input_boolean.var_office_on
-      - input_select.var_lks_office
       - input_boolean.var_kitchen_on
-      - input_select.var_lks_kitchen
       - input_boolean.var_bedroom_on
-      - input_select.var_lks_bedroom
 
-#   hidden_scene2:
-#     entities:
-#       - input_boolean.
+
+  hidden_scene2:
+    entities:
+      - input_select.array_low_light_scenes
+      - input_select.array_day_scenes
 
 #   options_scene2:
 #     entities:

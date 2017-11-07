@@ -182,7 +182,7 @@ script:
 
 #********** All Devices Off ***********#
 
-  turn_off_everything:
+  turn_off_everything: # Used in 'Sleep' Mode
     sequence:
       # PS3 Off
       - service: input_boolean.turn_off
@@ -215,6 +215,27 @@ script:
 
       # Computer Screens Off
       - service: script.computer_monitors_turn_off
+
+  all_off:
+    sequence:
+      # TTS Confrimation
+      - service: script.notify2
+        data_template:
+          flash_color: "red"
+          entity_id: group.hourly_flash_lights
+          tts_message: >
+            OK. The lights will fade off in 3 minutes, and all other devices, have been turned off!
+            {% if states.input_boolean.option_morning_alarm.state == 'on' %}
+              Your morning alarm is set for {{ states.input_text.config_option_morning_alarm_time.state[:2] | int }}
+              {% if states.input_text.config_option_morning_alarm_time.state[3:] | int > 1 -%}
+                {{ states.input_text.config_option_morning_alarm_time.state[3:] }}
+              {%- endif -%}
+            {%- endif %}
+             am.
+            Good night!
+      # Turn Off - All Devices (TV, PS3, etc.)
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.option_mode_sleep
 
 ##########################################
 ########## SHELL COMMANDS ################
@@ -250,7 +271,9 @@ homeassistant:
     script.tts_battery_levels:
       emulated_hue: true
       emulated_hue_name: "Device battery levels"
-
+    script.all_off:
+      emulated_hue: true
+      emulated_hue_name: "Everything"
 #-----------------------------------------------------#
 
 group:
@@ -284,6 +307,7 @@ group:
       - script.computer_monitors_turn_off
       - script.tts_battery_levels
       - script.turn_off_everything
+      - script.all_off
 
   sensor_devices:
     entities:

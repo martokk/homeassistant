@@ -66,6 +66,8 @@ automation:
       - condition: state
         entity_id: sensor.dweet_vhome_topic
         state: 'nfl_game_start'
+      - condition: template
+        value_template: '{{ trigger.from_state.state != "" }}'
     action:
       - service: script.notify2
         data_template:
@@ -86,9 +88,11 @@ automation:
       platform: state
       entity_id: sensor.dweet_vhome_message
     condition:
-      condition: state
-      entity_id: sensor.dweet_vhome_topic
-      state: 'nfl_game_update'
+      - condition: state
+        entity_id: sensor.dweet_vhome_topic
+        state: 'nfl_game_update'
+      - condition: template
+        value_template: '{{ trigger.from_state.state != "" }}'
     action:
       - service: script.notify2
         data_template:
@@ -109,9 +113,11 @@ automation:
       platform: state
       entity_id: sensor.dweet_vhome_message
     condition:
-      condition: state
-      entity_id: sensor.dweet_vhome_topic
-      state: 'nfl_game_end'
+      - condition: state
+        entity_id: sensor.dweet_vhome_topic
+        state: 'nfl_game_end'
+      - condition: template
+        value_template: '{{ trigger.from_state.state != "" }}'
     action:
       - service: script.notify2
         data_template:
@@ -157,6 +163,8 @@ automation:
         entity_id: sensor.dweet_vhome_topic
         state: 'breaking_news'
       - condition: template
+        value_template: '{{ trigger.from_state.state != "" }}'
+      - condition: template
         value_template: >
           {% set msg = states.sensor.dweet_vhome_message.state | lower %}
           {{ "breaking:" in msg or "just in:" in msg or "update:" in msg or "happening now:" in msg or "breaking news:" in msg or "president trump:" in msg or "trump:" in msg or "shooting:" in msg or "attack:" in msg }}
@@ -178,9 +186,11 @@ automation:
       platform: state
       entity_id: sensor.dweet_vhome_message
     condition:
-      condition: state
-      entity_id: sensor.dweet_vhome_topic
-      state: 'trump_tweet'
+      - condition: state
+        entity_id: sensor.dweet_vhome_topic
+        state: 'trump_tweet'
+      - condition: template
+        value_template: '{{ trigger.from_state.state != "" }}'
     action:
       - service: script.notify2
         data_template:
@@ -286,3 +296,4 @@ group:
       - sensor.dweet_vhome_topic
       - sensor.dweet_vhome_tts_message
       - sensor.dweet_vhome_message
+      - sensor.dweet_vhome_message2

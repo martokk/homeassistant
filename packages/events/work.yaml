@@ -188,7 +188,8 @@ automation:
           tts_sound_delay: '00:00:04'
           tts_message: "Leave for work in. T minus 30 minutes."
           tts_pause_delay: '00:00:00'
-
+      - delay: '00:00:15'
+      - service: script.timebased_tts_summary
 
 # T-10m
   - alias: leave_for_work_t10m
@@ -258,6 +259,8 @@ automation:
           tts_message: "Leave for work in. T minus 5 minutes."
           tts_pause_delay: '00:00:00'
       - service: script.entertainment_center_turn_off
+      - delay: '00:00:15'
+      - service: script.timebased_tts_summary
 
 # T-0m
   - alias: leave_for_work_t0m

@@ -97,7 +97,8 @@ automation:
         entity_id: group.ambient_lights
         delay: "00:00:02"
         tts_entity_id: group.config_tts_devices
-        tts_sound: 'st_notifications/intercom_tos.mp3'
+        tts_sound: 'other/juggalo_whoop_whoop1.mp3'
+        tts_sound_delay: "00:00:05"
         tts_message: "Dan's is here!"
         tts_pause_delay: "00:00:09"
     - delay: "00:00:03"
@@ -106,15 +107,22 @@ automation:
         chromecast_volume_level: '18'
         chromecast_entity_id: media_player.vtv_chromecast
         chromecast_link: http://192.168.1.3:8123/local/video/user_theme_songs/bushes_of_love.mp4
-    - delay: "00:00:57"
+    - delay: "00:00:59"
     - service: script.notify2
       data_template:
         tts_entity_id: group.config_tts_devices
         tts_message: >-
           {% macro greeting() -%}
             {{ [
-              "<phoneme alphabet='ipa' ph='kɑˈplɑʔ'>Qapla'!</phoneme> Commander Gappin.",
+              "<phoneme alphabet='ipa' ph='kuhˈplɑʔ'>Qapla'!</phoneme> , petaQ!.",
               "Live long, and prosper Commander Gappin."
+            ] | random }}
+          {%- endmacro %}
+
+          {% macro closing() -%}
+            {{ [
+              "Please enjoy your visit aboard the U S S Von Me Sees.",
+              "You are dismissed. Now frack off!"
             ] | random }}
           {%- endmacro %}
 
@@ -126,7 +134,7 @@ automation:
             <break time='.4s' />
             Dear Leader Vill-a-real!
             <break time='.4s' />
-            Failure to do so may result in, arrest for crimes against the state per-su-ent to Article 14 Section 31, of the Starfleet Charter.",
+            Failure to do so may result in: arrest, and detainment at Federation Holding Facility, 4 0 2 8. for crimes against the state. persuent to Article 14 Section 31, of the Starfleet Charter.",
 
             "Please note that we will no longer be serving Klingon
               Rakta-jinos,<break time='.2s' />
@@ -134,20 +142,28 @@ automation:
               Heart of Targh,<break time='.2s' />
               or Blood wine <break time='.2s' />
             due to accusations of culture appropreation of the Klingon race. Starfleet would like to remind you that we believe...<break time='.2s' />
-            Klingon lives matter!<break time='.4s' />"
+            Klingon lives matter!<break time='.4s' />",
+
+            "Alert! Coms systems tampering has been detected! Playing the message now: <break time='1.2s' />
+            <prosody pitch='high'>
+            Come to Qwarks.
+            Qwarks is fun!
+            Come right now.
+            Don't walk... Run!
+            </prosody><break time='0.9s' />",
 
             ] | random }}
           {%- endmacro %}
 
           <p>
-            {{ greeting }}
+            {{ greeting() }}
             Welcome aboard the U S S Von Me Sees, a Defiant Class Starfleet warship, under the most honourable, Captain Vill-a-real.
           </p>
           <p>
-          	{{ random_phrase }}
+          	{{ random_phrase() }}
           </p>
           <p>
-            Please enjoy your visit aboard the U S S Von Me Sees.
+            {{ closing() }}
           </p>
 
   - alias: dan_here_filler_task_reminder

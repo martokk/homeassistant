@@ -25,7 +25,7 @@ script:
       # Living Room
       - service_template: >
           {% if not rooms or "all" in rooms or "livingroom" in rooms %}
-            script.scene2_{{ states.input_select.var_lks_livingroom.state }}_livingroom
+            script.scene2_{{ states.input_text.var_lks_livingroom.state }}_livingroom
           {% else %}
             script.scene2_do_nothing
           {% endif %}
@@ -35,7 +35,7 @@ script:
       # Office
       - service_template: >
           {% if not rooms or "all" in rooms or "office" in rooms %}
-            script.scene2_{{ states.input_select.var_lks_office.state }}_office
+            script.scene2_{{ states.input_text.var_lks_office.state }}_office
           {% else %}
             script.scene2_do_nothing
           {% endif %}
@@ -45,7 +45,7 @@ script:
       # Kitchen
       - service_template: >
           {% if not rooms or "all" in rooms or "kitchen" in rooms %}
-            script.scene2_{{ states.input_select.var_lks_kitchen.state }}_kitchen
+            script.scene2_{{ states.input_text.var_lks_kitchen.state }}_kitchen
           {% else %}
             script.scene2_do_nothing
           {% endif %}
@@ -83,7 +83,7 @@ script:
       # Bedroom
       - service_template: >
           {% if not rooms or "all" in rooms or "bedroom" in rooms %}
-            script.scene2_{{ states.input_select.var_lks_bedroom.state }}_bedroom
+            script.scene2_{{ states.input_text.var_lks_bedroom.state }}_bedroom
           {% else %}
             script.scene2_do_nothing
           {% endif %}
@@ -96,90 +96,18 @@ script:
 ##########################################
 ########## BACKEND #######################
 ##########################################
-input_select:
+input_text:
   var_lks_livingroom:
-    options:
-      - "chill"
-      - "chill_2"
-      - "day"
-      - "day_le"
-      - "day_bright"
-      - "night_blue"
-      - "night_cyan"
-      - "night_red"
-      - "night"
-      - "night_computer"
-      - "night_computer_blue"
-      - "night_computer_red"
-      - "prework_blue"
-      - "prework_cyan"
-      - "prework_purple"
-      - "prework_red"
-      - "prework_t10m"
-      - "off"
+    initial: ""
 
   var_lks_office:
-    options:
-      - "chill"
-      - "chill_2"
-      - "day"
-      - "day_le"
-      - "day_bright"
-      - "night_blue"
-      - "night_cyan"
-      - "night_red"
-      - "night"
-      - "night_computer"
-      - "night_computer_blue"
-      - "night_computer_red"
-      - "prework_blue"
-      - "prework_cyan"
-      - "prework_purple"
-      - "prework_red"
-      - "prework_t10m"
-      - "off"
+    initial: ""
 
   var_lks_kitchen:
-    options:
-      - "chill"
-      - "chill_2"
-      - "day"
-      - "day_le"
-      - "day_bright"
-      - "night_blue"
-      - "night_cyan"
-      - "night_red"
-      - "night"
-      - "night_computer"
-      - "night_computer_blue"
-      - "night_computer_red"
-      - "prework_blue"
-      - "prework_cyan"
-      - "prework_purple"
-      - "prework_red"
-      - "prework_t10m"
-      - "off"
+    initial: ""
 
   var_lks_bedroom:
-    options:
-      - "chill"
-      - "chill_2"
-      - "day"
-      - "day_le"
-      - "day_bright"
-      - "night_blue"
-      - "night_cyan"
-      - "night_red"
-      - "night"
-      - "night_computer"
-      - "night_computer_blue"
-      - "night_computer_red"
-      - "prework_blue"
-      - "prework_cyan"
-      - "prework_purple"
-      - "prework_red"
-      - "prework_t10m"
-      - "off"
+    initial: ""
 
 ##########################################
 ########## OPTIONS #######################
@@ -216,10 +144,10 @@ group:
 
   backend_last_known_scene:
     entities:
-      - input_select.var_lks_livingroom
-      - input_select.var_lks_office
-      - input_select.var_lks_kitchen
-      - input_select.var_lks_bedroom
+      - input_text.var_lks_livingroom
+      - input_text.var_lks_office
+      - input_text.var_lks_kitchen
+      - input_text.var_lks_bedroom
 
 #   hidden_last_known_scene:
 #     entities:

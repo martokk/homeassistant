@@ -57,10 +57,10 @@ script:
             - input_select.entertainment_center_led_effect
           option: 'Static'
 
-      - service: input_select.select_option
+      - service: input_text.set_value
         data:
-          entity_id: input_select.var_lks_livingroom
-          option: 'night_red'
+          entity_id: input_text.var_lks_livingroom
+          value: 'night_red'
 
 
 ##########################################
@@ -96,10 +96,10 @@ script:
           entity_id: input_select.office_led_effect
           option: 'Static'
 
-      - service: input_select.select_option
+      - service: input_text.set_value
         data:
-          entity_id: input_select.var_lks_office
-          option: 'night_red'
+          entity_id: input_text.var_lks_office
+          value: 'night_red'
 
 
 ##########################################
@@ -107,10 +107,10 @@ script:
 ##########################################
   scene2_night_red_kitchen:
     sequence:
-      - service: input_select.select_option
+      - service: input_text.set_value
         data:
-          entity_id: input_select.var_lks_kitchen
-          option: 'night_red'
+          entity_id: input_text.var_lks_kitchen
+          value: 'night_red'
 
       # Kitchen Light Motion On
       - service_template: >
@@ -167,10 +167,10 @@ script:
           entity_id: input_select.bedroom_led_effect
           option: 'Static'
 
-      - service: input_select.select_option
+      - service: input_text.set_value
         data:
-          entity_id: input_select.var_lks_bedroom
-          option: 'night_red'
+          entity_id: input_text.var_lks_bedroom
+          value: 'night_red'
 
 ##########################################
 ############### GROUPS ###################

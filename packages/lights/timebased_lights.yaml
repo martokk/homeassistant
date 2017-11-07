@@ -56,7 +56,22 @@ automation:
           next_scene: '{{ states.input_text.var_timebased_scene.state }}'
           tts_entity_id: group.config_tts_devices
           tts_sound: 'st_notifications/st_notification2.wav'
-          tts_message: "The time, is {{ states.sensor.now_hour.state | int }} {% if states.sensor.now_hour.state | int > 11 %}pm{% else %}am{% endif %}."
+          tts_message: "The time, is {% if states.sensor.now_hour.state | int > 12 %}{{ states.sensor.now_hour.state | int - 12 }}{% else %}{{ states.sensor.now_hour.state | int }}{% endif %} {% if states.sensor.now_hour.state | int > 11 %}pm{% else %}am{% endif %}."
+
+    # NOTE: Since input_text doesn't yet have restore functionality, we have to call scene2 in order to initally set the LKS.
+    # TODO: When restore is added, ONLY run this if any of the room LKS are null/empty so that we can use the restored value instead.
+  - alias: startup_timebased_scene
+    trigger:
+      - platform: state
+        entity_id: input_text.var_timebased_scene
+    condition:
+      - condition: template
+        value_template: '{{ trigger.from_state.state == "" }}'
+    action:
+    - service: script.scene2
+      data_template:
+        scene_name: '{{ states.input_text.var_timebased_scene.state }}'
+        transition: 1
 
 ##########################################
 ########## NOTIFICATIONS #################
@@ -65,13 +80,16 @@ automation:
     trigger:
     - platform: time
       minutes: 00
-      seconds: 00
+      seconds: 02
     condition:
     - condition: state
       entity_id: script.flood_and_change_scene
       state: 'off'
     - condition: state
       entity_id: script.flood_light
+      state: 'off'
+    - condition: state
+      entity_id: script.notify2
       state: 'off'
     action:
     - service: script.notify2
@@ -91,7 +109,7 @@ automation:
         at: "23:59:58"
     action:
       - service: script.notify2
-        data:
+        data_template:
           timebased_lights: "true"
           flood_color: "red"
           entity_id: group.timebased_flood_lights
@@ -194,6 +212,7 @@ group:
       - automation.timebased_flood_lights_and_change_scene
       - automation.timebased_flood_lights_red
       - automation.timebased_scene_sunrise_transition
+      - automation.startup_timebased_scene
 
   backend_timebased_lights:
     entities:

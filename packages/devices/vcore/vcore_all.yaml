@@ -40,13 +40,13 @@ automation:
             {% set topic = trigger.topic.split('/')[-2] %}
 
             {% if "tables" in topic or "entertainment_center" in topic %}
-              {{ states.input_select.var_lks_livingroom.state }}
+              {{ states.input_text.var_lks_livingroom.state }}
             {% elif "office" in topic %}
-              {{ states.input_select.var_lks_office.state }}
+              {{ states.input_text.var_lks_office.state }}
             {% elif "kitchen" in topic %}
-              {{ states.input_select.var_lks_kitchen.state }}
+              {{ states.input_text.var_lks_kitchen.state }}
             {% elif "bedroom" in topic %}
-              {{ states.input_select.var_lks_bedroom.state }}
+              {{ states.input_text.var_lks_bedroom.state }}
             {% else %}
               {{ states.input_text.var_timebased_scene.state }}
             {% endif %}

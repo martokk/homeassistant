@@ -57,10 +57,10 @@ script:
             - input_select.entertainment_center_led_effect
           option: 'Rainbow Cycle'
 
-      - service: input_select.select_option
+      - service: input_text.set_value
         data:
-          entity_id: input_select.var_lks_livingroom
-          option: 'prework_t10m'
+          entity_id: input_text.var_lks_livingroom
+          value: 'prework_t10m'
 
 
 ##########################################
@@ -90,10 +90,10 @@ script:
           entity_id: input_select.office_led_effect
           option: 'Rainbow Cycle'
 
-      - service: input_select.select_option
+      - service: input_text.set_value
         data:
-          entity_id: input_select.var_lks_office
-          option: 'prework_t10m'
+          entity_id: input_text.var_lks_office
+          value: 'prework_t10m'
 
 
 ##########################################
@@ -101,10 +101,10 @@ script:
 ##########################################
   scene2_prework_t10m_kitchen:
     sequence:
-      - service: input_select.select_option
+      - service: input_text.set_value
         data:
-          entity_id: input_select.var_lks_kitchen
-          option: 'prework_t10m'
+          entity_id: input_text.var_lks_kitchen
+          value: 'prework_t10m'
 
       # Kitchen Light Motion On
       - service_template: >
@@ -163,10 +163,10 @@ script:
           entity_id: input_select.bedroom_led_effect
           option: 'Rainbow Cycle'
 
-      - service: input_select.select_option
+      - service: input_text.set_value
         data:
-          entity_id: input_select.var_lks_bedroom
-          option: 'prework_t10m'
+          entity_id: input_text.var_lks_bedroom
+          value: 'prework_t10m'
 
 
 ##########################################

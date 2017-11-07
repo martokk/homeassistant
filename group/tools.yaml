@@ -9,6 +9,7 @@
       - group.tools_test_tts
       - group.tools_test_scene2
       - group.tools_other
+      - group.tools_test_media_center
 
 ##########################################
 ########## GROUPS ########################

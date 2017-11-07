@@ -74,10 +74,10 @@ script:
             - input_select.entertainment_center_led_effect
           option: 'Static'
 
-      - service: input_select.select_option
+      - service: input_text.set_value
         data:
-          entity_id: input_select.var_lks_livingroom
-          option: 'night_cyan'
+          entity_id: input_text.var_lks_livingroom
+          value: 'night_cyan'
 
 
 ##########################################
@@ -112,10 +112,10 @@ script:
           entity_id: input_select.office_led_effect
           option: 'Static'
 
-      - service: input_select.select_option
+      - service: input_text.set_value
         data:
-          entity_id: input_select.var_lks_office
-          option: 'night_cyan'
+          entity_id: input_text.var_lks_office
+          value: 'night_cyan'
 
 
 ##########################################
@@ -123,10 +123,10 @@ script:
 ##########################################
   scene2_night_cyan_kitchen:
     sequence:
-      - service: input_select.select_option
+      - service: input_text.set_value
         data:
-          entity_id: input_select.var_lks_kitchen
-          option: 'night_cyan'
+          entity_id: input_text.var_lks_kitchen
+          value: 'night_cyan'
 
       # Kitchen Light Motion On
       - service_template: >
@@ -186,10 +186,10 @@ script:
           entity_id: input_select.bedroom_led_effect
           option: 'Static'
 
-      - service: input_select.select_option
+      - service: input_text.set_value
         data:
-          entity_id: input_select.var_lks_bedroom
-          option: 'night_cyan'
+          entity_id: input_text.var_lks_bedroom
+          value: 'night_cyan'
 
 ##########################################
 ############### GROUPS ###################

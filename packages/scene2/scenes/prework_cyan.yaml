@@ -55,10 +55,10 @@ script:
             - input_select.entertainment_center_led_effect
           option: 'Static'
 
-      - service: input_select.select_option
+      - service: input_text.set_value
         data:
-          entity_id: input_select.var_lks_livingroom
-          option: 'prework_cyan'
+          entity_id: input_text.var_lks_livingroom
+          value: 'prework_cyan'
 
 
 ##########################################
@@ -88,10 +88,10 @@ script:
           entity_id: input_select.office_led_effect
           option: 'Static'
 
-      - service: input_select.select_option
+      - service: input_text.set_value
         data:
-          entity_id: input_select.var_lks_office
-          option: 'prework_cyan'
+          entity_id: input_text.var_lks_office
+          value: 'prework_cyan'
 
 
 ##########################################
@@ -99,10 +99,10 @@ script:
 ##########################################
   scene2_prework_cyan_kitchen:
     sequence:
-      - service: input_select.select_option
+      - service: input_text.set_value
         data:
-          entity_id: input_select.var_lks_kitchen
-          option: 'prework_cyan'
+          entity_id: input_text.var_lks_kitchen
+          value: 'prework_cyan'
 
       # Kitchen Light Motion On
       - service_template: >
@@ -161,10 +161,10 @@ script:
           entity_id: input_select.bedroom_led_effect
           option: 'Static'
 
-      - service: input_select.select_option
+      - service: input_text.set_value
         data:
-          entity_id: input_select.var_lks_bedroom
-          option: 'prework_cyan'
+          entity_id: input_text.var_lks_bedroom
+          value: 'prework_cyan'
 
 
 ##########################################

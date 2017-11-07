@@ -4,8 +4,8 @@
 sensor:
   - platform: template
     sensors:
-      chromecast_playing_app:
-        friendly_name: "Chromecast Playing App"
+      vtv_chromecast_playing_app:
+        friendly_name: "vTV Chromecast: Playing App"
         value_template: '{% if states.media_player.vtv_chromecast.attributes.app_name %}{{ states.media_player.vtv_chromecast.attributes.app_name | lower }}{% else %}off{% endif %}'
 
 media_player:
@@ -15,7 +15,7 @@ media_player:
   - platform: cast
     host: 192.168.1.99
 
-  - platform: plex
+  # - platform: plex
 
   # - platform: spotify
   #   client_id: !secret spotify_client_id
@@ -33,7 +33,7 @@ automation:
 ##########################################
 
   #********** Screen Saver ***************************************#
-  - alias: chromecast_screen_saver_mark_as_ready
+  - alias: vtv_chromecast_screensaver_mark_as_ready
     trigger:
       - platform: state
         entity_id: media_player.vtv_chromecast
@@ -70,10 +70,10 @@ automation:
         state: 'on'
     action:
       - service: homeassistant.turn_on
-        entity_id: input_boolean.var_chromecast_screensaver_ready
+        entity_id: input_boolean.var_vtv_chromecast_screensaver_ready
 
 
-  - alias: chromecast_screen_saver_mark_as_not_ready
+  - alias: vtv_chromecast_screensaver_mark_as_not_ready
     trigger:
       - platform: state
         entity_id: media_player.vtv_chromecast
@@ -88,13 +88,13 @@ automation:
         event: start
     action:
       - service: homeassistant.turn_off
-        entity_id: input_boolean.var_chromecast_screensaver_ready
+        entity_id: input_boolean.var_vtv_chromecast_screensaver_ready
 
 
-  - alias: chromecast_screen_saver
+  - alias: vtv_chromecast_play_screensaver
     trigger:
       - platform: state
-        entity_id: input_boolean.var_chromecast_screensaver_ready
+        entity_id: input_boolean.var_vtv_chromecast_screensaver_ready
         to: 'on'
       - platform: state
         entity_id: sensor.now_hour
@@ -115,7 +115,7 @@ automation:
         entity_id: input_boolean.option_chromecast_screensaver
         state: 'on'
       - condition: state
-        entity_id: input_boolean.var_chromecast_screensaver_ready
+        entity_id: input_boolean.var_vtv_chromecast_screensaver_ready
         state: 'on'
     action:
       - service: script.set_entertainment_center_tv_volume
@@ -153,7 +153,7 @@ automation:
 
 
   #********** Default Media Player ***************************************#
-  - alias: default_media_player_turn_off
+  - alias: vtv_chromecast_idle_to_off
     trigger:
       - platform: state
         entity_id: media_player.vtv_chromecast
@@ -170,7 +170,7 @@ automation:
 
 
   #********** Source Change ***************************************#
-  - alias: chromecast_pause_video_on_source_change
+  - alias: vtv_chromecast_pause_video_on_source_change
     trigger:
       - platform: state
         entity_id: input_boolean.var_ps3_on
@@ -194,7 +194,7 @@ automation:
       - service: media_player.media_pause
         entity_id: media_player.vtv_chromecast
 
-  - alias: chromecast_resume_video_on_source_change
+  - alias: vtv_chromecast_resume_video_on_source_change
     trigger:
       - platform: state
         entity_id: input_boolean.var_ps3_on
@@ -218,42 +218,9 @@ automation:
       - service: media_player.media_play
         entity_id: media_player.vtv_chromecast
 
-  #********** TTS Interupt ***************************************#
-  # - alias: tts_started_pause_video
-  #   trigger:
-  #     - platform: state
-  #       entity_id: media_player.vlc
-  #       to: 'playing'
-  #   condition:
-  #     - condition: state
-  #       entity_id: media_player.vtv_chromecast
-  #       state: 'playing'
-  #     - condition: state
-  #       entity_id: input_boolean.var_tts_interupt
-  #       state: 'off'
-  #   action:
-  #     - service: input_boolean.turn_on
-  #       entity_id: input_boolean.var_tts_interupt
-  #
-  # - alias: tts_complete_resume_video
-  #   trigger:
-  #     - platform: state
-  #       entity_id: media_player.vlc
-  #       from: 'playing'
-  #       to: 'idle'
-  #   condition:
-  #     - condition: state
-  #       entity_id: media_player.vtv_chromecast
-  #       state: 'paused'
-  #     - condition: state
-  #       entity_id: input_boolean.var_tts_interupt
-  #       state: 'on'
-  #   action:
-  #     - service: input_boolean.turn_off
-  #       entity_id: input_boolean.var_tts_interupt
 
   #********** TTS Interupt ***************************************#
-  - alias: tts_interupt_pause_video
+  - alias: vtv_chromecast_tts_interupt_pause_video
     trigger:
       - platform: state
         entity_id: input_boolean.var_tts_interupt
@@ -267,7 +234,7 @@ automation:
       - service: media_player.media_pause
         entity_id: media_player.vtv_chromecast
 
-  - alias: tts_interupt_resume_video
+  - alias: vtv_chromecast_tts_interupt_resume_video
     trigger:
       - platform: state
         entity_id: input_boolean.var_tts_interupt
@@ -384,7 +351,7 @@ input_boolean:
 ##########################################
   var_tts_interupt: #Activated when TTS is playing, turns off when TTS is idle
     initial: off
-  var_chromecast_screensaver_ready:
+  var_vtv_chromecast_screensaver_ready:
 
 input_select:
   array_chromecast_playing_apps:
@@ -422,33 +389,37 @@ group:
 ##########################################
 ############### GROUPS ###################
 ##########################################
+  tools_test_media_center:
+    name: "Test - Media Center"
+    control: hidden
+    entities:
+      - script.test_spotify
 
 ##########################################
 ############### AUTO-GROUPS ##############
 ##########################################
   automation_media_player:
     entities:
-      - automation.chromecast_screen_saver_mark_as_ready
-      - automation.chromecast_screen_saver_mark_as_not_ready
-      - automation.chromecast_screen_saver
-      - automation.default_media_player_turn_off
-      - automation.chromecast_pause_video_on_source_change
-      - automation.chromecast_resume_video_on_source_change
+      - automation.vtv_chromecast_screensaver_mark_as_ready
+      - automation.vtv_chromecast_screensaver_mark_as_not_ready
+      - automation.vtv_chromecast_play_screensaver
+      - automation.vtv_chromecast_idle_to_off
+      - automation.vtv_chromecast_pause_video_on_source_change
+      - automation.vtv_chromecast_resume_video_on_source_change
       - automation.tts_started_pause_video
       - automation.tts_complete_resume_video
-      - automation.tts_interupt_pause_video
-      - automation.tts_interupt_resume_video
+      - automation.vtv_chromecast_tts_interupt_pause_video
+      - automation.vtv_chromecast_tts_interupt_resume_video
 
   backend_media_player:
     entities:
-      - input_boolean.var_chromecast_screensaver_ready
+      - input_boolean.var_vtv_chromecast_screensaver_ready
       - input_boolean.var_tts_interupt
+
+  hidden_media_player:
+    entities:
       - input_select.array_chromecast_playing_apps
       - input_select.array_chromecast_idle_apps
-
-#   hidden_media_player:
-#     entities:
-#       - input_boolean.
 
   options_media_player:
     name: "Media Player"
@@ -457,7 +428,6 @@ group:
 
   script_media_player:
     entities:
-      - script.test_spotify
       - script.media_scene_battlestar_galactica_intro
       - script.media_scene_bushes_of_love
       - script.media_scene_whats_up_bitches
@@ -468,4 +438,4 @@ group:
 
   sensor_media_player:
     entities:
-      - sensor.chromecast_playing_app
+      - sensor.vtv_chromecast_playing_app

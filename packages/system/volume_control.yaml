@@ -74,7 +74,7 @@ automation:
         to: 'playing'
     condition:
       - condition: template
-        value_template: '{% if states.sensor.chromecast_playing_app.state | lower in states.input_select.array_chromecast_playing_apps | lower %}true{%else%}false{%endif%}'
+        value_template: '{% if states.sensor.vtv_chromecast_playing_app.state | lower in states.input_select.array_chromecast_playing_apps | lower %}true{%else%}false{%endif%}'
       - condition: template
         value_template: '{{ states.input_number.var_tv_entertainment_center_volume.state | int < 6 }}'
     action:
