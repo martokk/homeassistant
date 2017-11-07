@@ -24,7 +24,7 @@ automation:
       - service: script.scene2
         data_template:
           rooms: 'livingroom'
-          scene_name: '{{ states.input_select.var_lks_timebased.state }}'
+          scene_name: '{{ states.input_text.var_timebased_scene.state }}'
           transition: 1
 
   - alias: livingroom_turn_off
@@ -51,7 +51,7 @@ automation:
       - service: script.scene2
         data_template:
           rooms: 'office'
-          scene_name: '{{ states.input_select.var_lks_timebased.state }}'
+          scene_name: '{{ states.input_text.var_timebased_scene.state }}'
           transition: 1
 
   - alias: office_turn_off
@@ -78,7 +78,7 @@ automation:
       - service: script.scene2
         data_template:
           rooms: 'kitchen'
-          scene_name: '{{ states.input_select.var_lks_timebased.state }}'
+          scene_name: '{{ states.input_text.var_timebased_scene.state }}'
           transition: 1
 
   - alias: kitchen_turn_off
@@ -105,7 +105,7 @@ automation:
       - service: script.scene2
         data_template:
           rooms: 'bedroom'
-          scene_name: '{{ states.input_select.var_lks_timebased.state }}'
+          scene_name: '{{ states.input_text.var_timebased_scene.state }}'
           transition: 1
 
   - alias: bedroom_turn_off
@@ -361,7 +361,7 @@ group:
     entities:
       - input_select.array_low_light_scenes
       - input_select.array_day_scenes
-      - input_select.var_lks_timebased
+      - input_text.var_timebased_scene
       - input_boolean.var_livingroom_on
       - input_select.var_lks_livingroom
       - input_boolean.var_office_on

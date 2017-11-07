@@ -174,11 +174,15 @@ automation:
       data_template:
         homeassistant.components: "{{ trigger.to_state.state }}"
 
-  #********** Reset Override Input Booleans at 5am ***********#
-  - alias: reset_overrides_5am
+  #********** Reset Overrides ***********#
+  - alias: reset_overrides
     trigger:
       - platform: time
-        at: '05:00:00'
+        minutes: 00
+        seconds: 15
+    condition:
+      - condition: template
+        value_template: '{{ states.sensor.now_hour.state | int == states.input_text.config_reset_hour.state | int }}'
     action:
       - service: script.reset_overrides
 #-----------------------------------------------------#
@@ -234,7 +238,7 @@ script: # IMPORTANT! Used in MANY automations
         data:
           visible: True
 
-shell_command: 
+shell_command:
   restart_all: docker restart mosquitto && docker restart influxdb && systemctl restart home-assistant
 
 #-----------------------------------------------------#
@@ -304,7 +308,7 @@ group:
       - automation.home_assistant_update_notification2
       - automation.log_level
       - automation.failed_login_attempt
-      - automation.reset_overrides_5am
+      - automation.reset_overrides
       - automation.option_navbar_on
       - automation.option_navbar_off
 

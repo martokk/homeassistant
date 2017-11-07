@@ -1,8 +1,14 @@
 input_text:
 ##########################################
+########## RESET TIMES ####################
+##########################################
+  # The hour to reset (back to defaults) Modes and Overrides every day.
+  config_reset_hour:
+    initial: 5
+
+##########################################
 ########## WORK SHIFT ####################
 ##########################################
-
   # Exact time I leave the house for work
   config_mike_leave_for_work_hour:
     initial: 17
@@ -25,6 +31,8 @@ input_text:
   config_mike_work_week_third_shift_last_day:
     initial: "fri"
 
+
+
 ##########################################
 ########## BITCOIN #######################
 ##########################################
@@ -39,6 +47,8 @@ input_select:
       - "steem"
       - "siacoin"
 
+
+
 ##########################################
 ########## TIMEBASED SUMMARY #############
 ##########################################
@@ -50,6 +60,27 @@ input_select:
       - "17:00"
       - "22:30"
       - "23:20"
+
+
+
+##########################################
+########## TIMEBASED SCENES ##############
+##########################################
+  config_array_timebased_scene_times:
+    # Format: "hour[24h]:min, scene_name"
+    # Note: '-1' & '25' = should equal the last entry for overnight continuation.
+    options:
+      - "-1, night_red"
+
+      - "5, day"
+      - '12, day'
+      - "17, night_cyan"
+      - "19, night_blue"
+      - "21, night_red"
+
+      - "25, night_red"
+
+
 
 ##########################################
 ########## PREWORK CHECKLISTS ############
@@ -92,6 +123,8 @@ input_select:
       - "Apple Watch"
       - "Keys"
 
+
+
 group:
 ##########################################
 ########## TTS ###########################
@@ -101,6 +134,8 @@ group:
     name: "TTS Devices"
     entities:
       - media_player.vlc
+
+
 
 ##########################################
 ########## USER PRESENCE #################
@@ -124,6 +159,7 @@ group:
 ##########################################
   hidden_config:
     entities:
+      - input_text.config_reset_hour
       - input_text.config_mike_leave_for_work_hour
       - input_text.config_mike_leave_for_work_minute
       - input_text.config_mike_work_start_hour
@@ -135,6 +171,7 @@ group:
       - input_text.config_bitcoin_notification_price_threshold
       - input_select.config_array_favorite_cyptos
       - input_select.config_array_timebased_summary_times
+      - input_select.config_array_timebased_scene_times
       - input_select.config_array_prework_checklist_t2h
       - input_select.config_array_prework_checklist_t1h
       - input_select.config_array_prework_checklist_dont_forget

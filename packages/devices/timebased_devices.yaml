@@ -1,0 +1,183 @@
+##########################################
+########## COMPONENTS ####################
+##########################################
+# sensor:
+
+#-----------------------------------------------------#
+
+automation:
+##########################################
+########## NOTIFICATIONS #################
+##########################################
+
+##########################################
+########## AUTOMATIONS ###################
+##########################################
+### SLEEP MODE: Turn on after 12am when no activity detected.
+  - alias: timebased_turn_on_sleep_mode
+    trigger:
+      - platform: time
+        minutes: '/15'
+        seconds: 35
+    condition:
+      # SLEEP MODE is currently off
+      - condition: state
+        entity_id: input_boolean.option_mode_sleep
+        state: 'off'
+      # After Midnight
+      - condition: time
+        after: "00:00:00"
+        before: "05:00:00"
+      # Dan NOT home
+      - condition: state
+        entity_id: input_boolean.var_dan_home
+        state: 'off'
+      # Computer Off
+      - condition: state
+        entity_id: input_boolean.var_desktop_computer_on
+        state: 'off'
+      # PS3 Off
+      - condition: state
+        entity_id: input_boolean.var_ps3_on
+        state: 'off'
+      # Steam Off
+      - condition: state
+        entity_id: input_boolean.var_steam_on
+        state: 'off'
+      # Chromecast Off/Idle/Screensaver
+      - condition: template
+        value_template: >-
+          {% if states.media_player.vtv_chromecast.state != "playing" %}
+            true
+          {%else%}
+            {% if states.media_player.vtv_chromecast.attributes.app_name | lower in states.input_select.array_chromecast_idle_apps | lower %}
+              true
+            {%else%}
+              false
+            {%endif%}
+          {%endif%}
+      # NO motion detected at Entertainment Center
+      - condition: state
+        entity_id: input_boolean.var_entertainment_center_motion_on
+        state: 'off'
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.option_mode_sleep
+
+
+### NIGHT MODE: Turn on after 11pm when no activity detected.
+  - alias: timebased_turn_on_night_mode
+    trigger:
+      - platform: time
+        at: "23:00:15"
+      - platform: time
+        minutes: '/30'
+        seconds: 00
+    condition:
+      # After 11pm
+      - condition: time
+        after: "23:00:14"
+        before: "05:00:00"
+      # Dan NOT home
+      - condition: state
+        entity_id: input_boolean.var_dan_home
+        state: 'off'
+      # PS3 is off
+      - condition: state
+        entity_id: input_boolean.var_ps3_on
+        state: 'off'
+      # Steam is off
+      - condition: state
+        entity_id: input_boolean.var_steam_on
+        state: 'off'
+      # NO motion detected at Entertainment Center
+      - condition: state
+        entity_id: input_boolean.var_entertainment_center_motion_on
+        state: 'off'
+      # Chromecast Off/Idle/Screensaver
+      - condition: template
+        value_template: >-
+          {% if states.media_player.vtv_chromecast.state != "playing" %}
+            true
+          {%else%}
+            {% if states.media_player.vtv_chromecast.attributes.app_name | lower in states.input_select.array_chromecast_idle_apps | lower %}
+              true
+            {%else%}
+              false
+            {%endif%}
+          {%endif%}
+      # TODO: - condition: NIGHT MODE = "Off"
+    action:
+      # TODO: rewrite/rework with actual Night Mode code
+      - service: script.entertainment_center_turn_off
+      - delay: "00:00:30"
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.option_mode_night
+
+#-----------------------------------------------------#
+
+# script:
+##########################################
+########## SCRIPTS #######################
+##########################################
+
+#-----------------------------------------------------#
+
+# input_boolean:
+##########################################
+########## BACKEND #######################
+##########################################
+
+##########################################
+########## OPTIONS #######################
+##########################################
+
+##########################################
+########## CONFIG ########################
+##########################################
+
+#-----------------------------------------------------#
+
+# homeassistant:
+#   customize:
+##########################################
+########## EMULATED HUE ##################
+##########################################
+    # input_boolean.template:
+    #   emulated_hue: true
+    #   emulated_hue_name: "Template Name"
+
+#-----------------------------------------------------#
+
+group:
+##########################################
+############### GROUPS ###################
+##########################################
+
+##########################################
+############### AUTO-GROUPS ##############
+##########################################
+  automation_timebased_devices:
+    entities:
+      - automation.timebased_turn_on_sleep_mode
+      - automation.timebased_turn_on_night_mode
+
+#   backend_timebased_devices:
+#     entities:
+#       - input_boolean.
+
+#   hidden_timebased_devices:
+#     entities:
+#       - input_boolean.
+
+#   options_timebased_devices:
+#     entities:
+#       - input_boolean.
+
+#   script_timebased_devices:
+#     entities:
+#       - script.
+
+#   sensor_timebased_devices:
+#     entities:
+#       - sensor.

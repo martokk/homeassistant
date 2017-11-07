@@ -48,7 +48,7 @@ automation:
             {% elif "bedroom" in topic %}
               {{ states.input_select.var_lks_bedroom.state }}
             {% else %}
-              {{ states.input_select.var_lks_timebased.state }}
+              {{ states.input_text.var_timebased_scene.state }}
             {% endif %}
           transition: 1
 
