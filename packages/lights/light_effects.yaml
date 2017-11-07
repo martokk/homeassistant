@@ -86,7 +86,7 @@ script:
       data_template:
         color_name: '{{ flood_color }}'
         entity_id: "{% if entity_id %}{{entity_id}}{% else %}group.all_lights{% endif %}"
-        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        brightness: "{% if states('input_text.var_timebased_scene') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
         transition: 1
     - delay: "{% if delay %}{{delay}}{% else %}00:00:05{% endif %}"
     - service: script.call_last_known_scene
@@ -101,7 +101,7 @@ script:
   #   - service: input_select.select_option
   #     data_template:
   #       entity_id: input_select.var_last_known_scene_helper
-  #       option: '{{ states.input_select.var_lks_timebased.state }}'
+  #       option: '{{ states.input_text.var_timebased_scene.state }}'
   #   - service: script.scene2
   #     data_template:
   #       rooms: 'all'
@@ -110,7 +110,7 @@ script:
   #   - delay: "{% if delay %}{{delay}}{% else %}00:00:05{% endif %}"
   #   - service: input_select.select_option
   #     data_template:
-  #       entity_id: input_select.var_lks_timebased
+  #       entity_id: input_text.var_timebased_scene
   #       option: '{{ states.input_select.var_last_known_scene_helper.state }}'
   #   - service: script.call_last_known_scene
   #   - condition: template
@@ -142,7 +142,7 @@ script:
       data_template:
         color_name: '{{ flood_color }}'
         entity_id: "{% if entity_id %}{{entity_id}}{% else %}group.all_lights{% endif %}"
-        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        brightness: "{% if states('input_text.var_timebased_scene') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
         transition: 1
     - delay: "{% if delay %}{{delay}}{% else %}00:00:05{% endif %}"
     - service: script.scene2
@@ -161,7 +161,7 @@ script:
       data_template:
         color_name: '{{ breathe_color }}'
         entity_id: "{% if entity_id %}{{entity_id}}{% else %}group.all_lights{% endif %}"
-        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        brightness: "{% if states('input_text.var_timebased_scene') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
         transition: 1
     - delay: "00:00:00"
     - service: script.call_last_known_scene
@@ -177,7 +177,7 @@ script:
       data_template:
         entity_id: "{% if entity_id %}{{entity_id}}{% else %}group.all_lights{% endif %}"
         color_name: '{{ flash_color }}'
-        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        brightness: "{% if states('input_text.var_timebased_scene') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
         transition: 0
     - delay:
         milliseconds: 200
@@ -196,7 +196,7 @@ script:
       data_template:
         entity_id: "{% if entity_id %}{{entity_id}}{% else %}group.all_lights{% endif %}"
         color_name: '{{ blink_color }}'
-        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        brightness: "{% if states('input_text.var_timebased_scene') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
         transition: 0
     - delay: "00:00:00"
     - service: script.call_last_known_scene
@@ -207,7 +207,7 @@ script:
       data_template:
         entity_id: "{% if entity_id %}{{entity_id}}{% else %}group.all_lights{% endif %}"
         color_name: '{{ blink_color }}'
-        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        brightness: "{% if states('input_text.var_timebased_scene') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
         transition: 0
     - delay: "00:00:00"
     - service: script.call_last_known_scene
@@ -218,7 +218,7 @@ script:
       data_template:
         entity_id: "{% if entity_id %}{{entity_id}}{% else %}group.all_lights{% endif %}"
         color_name: '{{ blink_color }}'
-        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        brightness: "{% if states('input_text.var_timebased_scene') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
         transition: 0
     - delay: "00:00:00"
     - service: script.call_last_known_scene
@@ -229,7 +229,7 @@ script:
       data_template:
         entity_id: "{% if entity_id %}{{entity_id}}{% else %}group.all_lights{% endif %}"
         color_name: '{{ blink_color }}'
-        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        brightness: "{% if states('input_text.var_timebased_scene') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
         transition: 0
     - delay: "00:00:00"
     - service: script.call_last_known_scene
@@ -247,42 +247,42 @@ script:
       data_template:
         entity_id: "{% if entity_id %}{{entity_id}}{% else %}group.all_lights{% endif %}"
         color_name: '{{ blink_color }}'
-        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        brightness: "{% if states('input_text.var_timebased_scene') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
         transition: 0
     - delay: "00:00:00"
     - service: light.turn_on
       data_template:
         entity_id: "{% if entity_id %}{{entity_id}}{% else %}group.all_lights{% endif %}"
         color_name: '{{ blink_color2 }}'
-        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        brightness: "{% if states('input_text.var_timebased_scene') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
         transition: 0
     - delay: "00:00:00"
     - service: light.turn_on
       data_template:
         entity_id: "{% if entity_id %}{{entity_id}}{% else %}group.all_lights{% endif %}"
         color_name: '{{ blink_color }}'
-        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        brightness: "{% if states('input_text.var_timebased_scene') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
         transition: 0
     - delay: "00:00:00"
     - service: light.turn_on
       data_template:
         entity_id: "{% if entity_id %}{{entity_id}}{% else %}group.all_lights{% endif %}"
         color_name: '{{ blink_color2 }}'
-        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        brightness: "{% if states('input_text.var_timebased_scene') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
         transition: 0
     - delay: "00:00:00"
     - service: light.turn_on
       data_template:
         entity_id: "{% if entity_id %}{{entity_id}}{% else %}group.all_lights{% endif %}"
         color_name: '{{ blink_color }}'
-        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        brightness: "{% if states('input_text.var_timebased_scene') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
         transition: 0
     - delay: "00:00:00"
     - service: light.turn_on
       data_template:
         entity_id: "{% if entity_id %}{{entity_id}}{% else %}group.all_lights{% endif %}"
         color_name: '{{ blink_color2 }}'
-        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        brightness: "{% if states('input_text.var_timebased_scene') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
         transition: 0
     - delay: "00:00:00"
     - service: script.call_last_known_scene
@@ -300,7 +300,7 @@ script:
       data_template:
         entity_id: group.overhead_lights
         color_name: '{{ flood_color }}'
-        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        brightness: "{% if states('input_text.var_timebased_scene') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
         transition: 1
     - service: light.turn_off
       data_template:
@@ -312,7 +312,7 @@ script:
       data_template:
         entity_id: group.ambient_lights
         color_name: '{{ blink_color }}'
-        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        brightness: "{% if states('input_text.var_timebased_scene') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
         transition: 0
     - delay: "00:00:00"
     #*--------- Blink Off --------------*#
@@ -320,7 +320,7 @@ script:
       data_template:
         entity_id: group.overhead_lights
         color_name: '{{ flood_color }}'
-        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        brightness: "{% if states('input_text.var_timebased_scene') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
         transition: 0
     - service: light.turn_off
       data_template:
@@ -332,7 +332,7 @@ script:
       data_template:
         entity_id: group.ambient_lights
         color_name: '{{ blink_color }}'
-        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        brightness: "{% if states('input_text.var_timebased_scene') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
         transition: 0
     - delay: "00:00:00"
     #*--------- Blink Off --------------*#
@@ -340,7 +340,7 @@ script:
       data_template:
         entity_id: group.overhead_lights
         color_name: '{{ flood_color }}'
-        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        brightness: "{% if states('input_text.var_timebased_scene') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
         transition: 0
     - service: light.turn_off
       data_template:
@@ -352,7 +352,7 @@ script:
       data_template:
         entity_id: group.ambient_lights
         color_name: '{{ blink_color }}'
-        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        brightness: "{% if states('input_text.var_timebased_scene') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
         transition: 0
     - delay: "00:00:00"
     #*--------- Blink Off --------------*#
@@ -360,7 +360,7 @@ script:
       data_template:
         entity_id: group.overhead_lights
         color_name: '{{ flood_color }}'
-        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        brightness: "{% if states('input_text.var_timebased_scene') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
         transition: 0
     - service: light.turn_off
       data_template:
@@ -372,7 +372,7 @@ script:
       data_template:
         entity_id: group.overhead_lights
         color_name: '{{ flood_color }}'
-        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        brightness: "{% if states('input_text.var_timebased_scene') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
         transition: 0
     - service: light.turn_off
       data_template:
@@ -392,7 +392,7 @@ script:
       data_template:
         entity_id: group.overhead_lights
         color_name: '{{ flood_color }}'
-        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        brightness: "{% if states('input_text.var_timebased_scene') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
         transition: 0
     - service: light.turn_off
       data_template:
@@ -403,49 +403,49 @@ script:
       data_template:
         entity_id: group.ambient_lights
         color_name: '{{ blink_color }}'
-        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        brightness: "{% if states('input_text.var_timebased_scene') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
         transition: 0
     - delay: "00:00:00"
     - service: light.turn_on
       data_template:
         entity_id: group.ambient_lights
         color_name: '{{ blink_color2 }}'
-        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        brightness: "{% if states('input_text.var_timebased_scene') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
         transition: 0
     - delay: "00:00:00"
     - service: light.turn_on
       data_template:
         entity_id: group.ambient_lights
         color_name: '{{ blink_color }}'
-        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        brightness: "{% if states('input_text.var_timebased_scene') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
         transition: 0
     - delay: "00:00:00"
     - service: light.turn_on
       data_template:
         entity_id: group.ambient_lights
         color_name: '{{ blink_color2 }}'
-        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        brightness: "{% if states('input_text.var_timebased_scene') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
         transition: 0
     - delay: "00:00:00"
     - service: light.turn_on
       data_template:
         entity_id: group.ambient_lights
         color_name: '{{ blink_color }}'
-        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        brightness: "{% if states('input_text.var_timebased_scene') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
         transition: 0
     - delay: "00:00:00"
     - service: light.turn_on
       data_template:
         entity_id: group.ambient_lights
         color_name: '{{ blink_color2 }}'
-        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        brightness: "{% if states('input_text.var_timebased_scene') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
         transition: 0
     - delay: "00:00:00"
     - service: light.turn_on
       data_template:
         entity_id: group.overhead_lights
         color_name: '{{ flood_color }}'
-        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        brightness: "{% if states('input_text.var_timebased_scene') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
         transition: 0
     - service: light.turn_off
       data_template:
@@ -463,33 +463,33 @@ script:
     - service: light.turn_on
       data_template:
         color_name: '{{ flood_color }}'
-        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        brightness: "{% if states('input_text.var_timebased_scene') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
         transition: 1
     - delay: "00:00:01"
     - service: light.turn_on
       data_template:
         color_name: '{{ breathe_color }}'
         entity_id: group.ambient_lights
-        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        brightness: "{% if states('input_text.var_timebased_scene') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
         transition: 1
     - delay: "00:00:00"
     - service: light.turn_on
       data_template:
         color_name: '{{ flood_color }}'
-        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        brightness: "{% if states('input_text.var_timebased_scene') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
         transition: 1
     - delay: "00:00:00"
     - service: light.turn_on
       data_template:
         color_name: '{{ breathe_color }}'
         entity_id: group.ambient_lights
-        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        brightness: "{% if states('input_text.var_timebased_scene') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
         transition: 1
     - delay: "00:00:00"
     - service: light.turn_on
       data_template:
         color_name: '{{ flood_color }}'
-        brightness: "{% if states('input_select.var_lks_timebased') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
+        brightness: "{% if states('input_text.var_timebased_scene') in states.input_select.array_low_light_scenes.attributes.options %}85{%else%}200{% endif %}"
         transition: 1
     - delay: "00:00:01"
     - service: script.call_last_known_scene

@@ -37,7 +37,7 @@
       - group.options_sonoff_small_desk_fan1
       - group.options_telegram_commands
       - group.options_temperature_range_mode
-      - group.options_timebased
+      - group.options_timebased_devices
       - group.options_timebased_summary
       - group.options_tts
       - group.options_user_presence
@@ -87,7 +87,7 @@
       - group.backend_sonoff_small_desk_fan1
       - group.backend_telegram_commands
       - group.backend_temperature_range_mode
-      - group.backend_timebased
+      - group.backend_timebased_devices
       - group.backend_timebased_summary
       - group.backend_tts
       - group.backend_user_presence
@@ -137,7 +137,7 @@
   #     - group.hidden_sonoff_small_desk_fan1
   #     - group.hidden_telegram_commands
   #     - group.hidden_temperature_range_mode
-  #     - group.hidden_timebased
+  #     - group.hidden_timebased_devices
   #     - group.hidden_timebased_summary
   #     - group.hidden_tts
   #     - group.hidden_user_presence
@@ -186,7 +186,7 @@
   #     - group.script_sonoff_small_desk_fan1
   #     - group.script_telegram_commands
   #     - group.script_temperature_range_mode
-  #     - group.script_timebased
+  #     - group.script_timebased_devices
   #     - group.script_timebased_summary
   #     - group.script_tts
   #     - group.script_user_presence
@@ -236,7 +236,7 @@
   #     - group.sensor_sonoff_small_desk_fan1
   #     - group.sensor_telegram_commands
   #     - group.sensor_temperature_range_mode
-  #     - group.sensor_timebased
+  #     - group.sensor_timebased_devices
   #     - group.sensor_timebased_summary
   #     - group.sensor_tts
   #     - group.sensor_user_presence
@@ -286,7 +286,7 @@
   #     - group.automation_sonoff_small_desk_fan1
   #     - group.automation_telegram_commands
   #     - group.automation_temperature_range_mode
-  #     - group.automation_timebased
+  #     - group.automation_timebased_devices
   #     - group.automation_timebased_summary
   #     - group.automation_tts
   #     - group.automation_user_presence

@@ -63,7 +63,7 @@ automation:
     - service: script.scene2
       data_template:
         rooms: 'all'
-        scene_name: '{{ states.input_select.var_lks_timebased.state }}'
+        scene_name: '{{ states.input_text.var_timebased_scene.state }}'
         transition: 5
 
 #-----------------------------------------------------#

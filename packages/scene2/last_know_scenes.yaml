@@ -181,27 +181,6 @@ input_select:
       - "prework_t10m"
       - "off"
 
-  var_lks_timebased:
-    options:
-      - "chill"
-      - "chill_2"
-      - "day"
-      - "day_le"
-      - "day_bright"
-      - "night_blue"
-      - "night_cyan"
-      - "night_red"
-      - "night"
-      - "night_computer"
-      - "night_computer_blue"
-      - "night_computer_red"
-      - "prework_blue"
-      - "prework_cyan"
-      - "prework_purple"
-      - "prework_red"
-      - "prework_t10m"
-      - "off"
-
 ##########################################
 ########## OPTIONS #######################
 ##########################################
@@ -241,7 +220,6 @@ group:
       - input_select.var_lks_office
       - input_select.var_lks_kitchen
       - input_select.var_lks_bedroom
-      - input_select.var_lks_timebased
 
 #   hidden_last_known_scene:
 #     entities:
