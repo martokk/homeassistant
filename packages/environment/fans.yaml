@@ -13,25 +13,25 @@ automation:
 ##########################################
 ########## OVERRIDES #####################
 ##########################################
-  - alias: fans_override
-    trigger:
-      - platform: event
-        event_type: call_service
-        event_data:
-          service_data:
-            entity_id: input_boolean.override_fans_helper
-    action:
-      # - service: script.notify2
-      #   data_template:
-      #     telegram_message: '{{ trigger | string }}'
-      - service: script.turn_on
-        data_template:
-          entity_id: >
-            {% if "turn_off" in trigger.event | string %}
-              script.override_turn_off_fans
-            {% else %}
-              script.override_turn_on_fans
-            {% endif %}
+  # - alias: fans_override
+  #   trigger:
+  #     - platform: event
+  #       event_type: call_service
+  #       event_data:
+  #         service_data:
+  #           entity_id: input_boolean.override_fans_helper
+  #   action:
+  #     # - service: script.notify2
+  #     #   data_template:
+  #     #     telegram_message: '{{ trigger | string }}'
+  #     - service: script.turn_on
+  #       data_template:
+  #         entity_id: >
+  #           {% if "turn_off" in trigger.event | string %}
+  #             script.override_turn_off_fans
+  #           {% else %}
+  #             script.override_turn_on_fans
+  #           {% endif %}
 
   - alias: fans_override_turn_on
     trigger:
