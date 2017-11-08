@@ -1,0 +1,136 @@
+https://github.com/skalavala/smarthome/tree/master/jinja_helpers
+https://github.com/CCOSTAN/Home-AssistantConfig/blob/master/shell_scripts/Jinja%20Code.py
+
+
+
+#########################################################
+########## JINJA2 SNIPPETS ##############################
+#########################################################
+{% set trigger = {'entity_id':'sensor.downstairs_thermostat_hvac_state','to_state':'cooling'} %}
+
+
+#########################################################
+########## CREATES CUSTOMIZE ############################
+#########################################################
+{% for state in states.sensor -%}
+  {% if loop.first %}
+{% elif loop.last %}
+{% else %}
+{% endif %}
+{{- state.entity_id }}:
+  friendly_name: '{{ state.attributes.friendly_name|replace("_"," ",)|title() if state.attributes.friendly_name is defined else state.name|replace("_"," ",)|title() }}'
+  emulated_hue_hidden: {{state.attributes.emulated_hue_hidden if state.attributes.emulated_hue_hidden is defined else 'False' }}
+  hidden: {{state.attributes.hidden if state.attributes.hidden is defined else "False"}}
+  homebridge_hidden: {{state.attributes.homebridge_hidden if state.attributes.homebridge_hidden is defined else "true"}}
+  {{'icon: '+ state.attributes.icon if state.attributes.icon is defined}}
+  {{'homebridge_cover_type: '+ state.attributes.homebridge_cover_type if state.attributes.homebridge_cover_type is defined}}
+  {{'assumed_state: '+ state.attributes.assumed_state if state.attributes.assumed_state is defined}}
+{% endfor -%}
+
+
+#########################################################
+########## LIST ALL ENTITIES & ATTR #####################
+#########################################################
+{{ "_".ljust(90, "_") }}
+{%- set domains = [states.light, states.switch, states.automation, states.device_tracker, states.group, states.media_player, states.proximity, states.script, states.zone, states.zwave, states.sensor, states.calendar ] %}
+{{ "Entity ID".ljust(50) }}{{ "Entity Name" }}
+{%- for domain in domains -%}
+{% for item in domain %}
+{{ "_".ljust(90, "_") }}
+{{ item.entity_id.ljust(50) }}{{ item.name }}
+{% for attrib in item.attributes %}
+{%- if attrib is defined %}
+  {{attrib.ljust(50)}}: {{ item.attributes[attrib] }}
+{%- endif %}
+{%- endfor %}
+{%- endfor %}
+{%- endfor %}
+
+#########################################################
+########## LIST ALL ENTITIES & ATTR 2 ###################
+#########################################################
+{ "_".ljust(90, "_") }}
+{%- set domains = [states.light, states.switch, states.automation, states.device_tracker, states.group, states.media_player, states.proximity, states.script, states.zone, states.zwave, states.sensor, states.calendar ] %}
+{{ "Attribute Name"}}: {{ "Attribute Value" }}
+{%- for domain in domains -%}
+{% for item in domain %}
+{{ "_".ljust(90, "_") }}
+{{ item.entity_id.ljust(50) }}
+  {{ "State"}}: {{ item.state}}
+  {{ "Domain"}}: {{ item.domain}}
+  {{ "Object ID"}}: {{ item.object_id}}
+  {{ "Last Updated"}}: {{ item.last_updated}}
+  {{ "Last Changed"}}: {{ item.last_changed}}
+{%- for attrib in item.attributes|sort() %}
+{%- if attrib is defined %}
+  {{attrib}}: {{ item.attributes[attrib] }}
+{%- endif %}
+{%- endfor %}
+{%- endfor %}
+{%- endfor %}
+
+#########################################################
+########## LIST EMULATED HUE ENTITIES ###################
+#########################################################
+{{ "-".ljust(50, '-') }} {{ "-".ljust(30, '-') }}
+{{ "Entity ID".ljust(50, ' ') }} {{ "Name".ljust(30, ' ') }}
+{{ "-".ljust(50, '-') }} {{ "-".ljust(30, '-') }}
+{%- for item in states-%}
+{%- if item.attributes.emulated_hue %}
+{{ item.entity_id.ljust(50, ' ') }} {{ item.name }}
+{%- endif -%}
+{%- endfor %}
+{{ "-".ljust(50, '-') }} {{ "-".ljust(30, '-') }}
+
+
+#########################################################
+########## CONVERT TEMPERATURE ##########################
+#########################################################
+{%- macro F2C(temperature) -%}
+{% set tmp = (((temperature - 32) *5)/9) %}
+{{- " %0.2f" % tmp }}
+{%- endmacro -%}
+
+{%- macro C2F(temperature) -%}
+{% set tmp = (((temperature *9) /5) + 32) %}
+{{- " %0.2f" % tmp -}}
+{%- endmacro -%}
+
+75.00 degrees of Fahrenheit is equal to: {{- F2C(75.00) }} Centigrade
+23.89 degrees of Centigrade is equal to: {{- C2F(23.89) }} Fahrenheit
+
+
+#########################################################
+########## CONVERT TO HUMAN TIME ########################
+#########################################################
+{% macro human_time(seconds) -%}
+  {%- set seconds = seconds|int -%}
+  {%- set comma = joiner(', ') -%}
+  {%- set intervals = {
+    'weeks': 60 * 60 * 24 * 7,
+    'days': 60 * 60 * 24,
+    'hours': 60 * 60,
+    'minutes': 60,
+    'seconds': 1,
+  } -%}
+
+  {%- set weeks = seconds // intervals.weeks -%}
+  {%- set seconds = seconds % intervals.weeks -%}
+  {{- comma() ~ weeks ~ ' week' ~ ('s' if weeks != 1) if weeks -}}
+
+  {%- set days = seconds // intervals.days -%}
+  {%- set seconds = seconds % intervals.days -%}
+  {{- comma() ~ days ~ ' day' ~ ('s' if days != 1) if days -}}
+
+  {%- set hours = seconds // intervals.hours -%}
+  {%- set seconds = seconds % intervals.hours -%}
+  {{- comma() ~ hours ~ ' hour' ~ ('s' if hours != 1) if hours -}}
+
+  {%- set minutes = seconds // intervals.minutes -%}
+  {{- comma() ~ minutes ~ ' minute' ~ ('s' if minutes != 1) if minutes -}}
+
+  {%- set seconds = seconds % intervals.minutes -%}
+  {{- comma() ~ seconds ~ ' second' ~ ('s' if seconds != 1) if seconds -}}
+{%- endmacro %}
+
+59251 seconds in readable format: {{ human_time(59251) }}
